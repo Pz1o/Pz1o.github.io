@@ -63,7 +63,7 @@
     
   <div class="cover-frame">
     <div class="bg-box">
-      <img src="/images/cover10.jpg" alt="image frame" />
+      <img src="/images/cover11.jpg" alt="image frame" />
     </div>
     <div class="cover-inner text-center text-white">
       <h1><a href="/">Pz1o</a></h1>
@@ -92,12 +92,12 @@
   <script>
     try {
       var typed = new Typed("#subtitle", {
-        strings: ['等风来不如追风去', '愿你一生努力 一生被爱', '想要的都拥有 得不到的都释怀'],
+        strings: ['等风来不如追风去', '', ''],
         startDelay: 0,
         typeSpeed: 200,
         loop: true,
         backSpeed: 100,
-        showCursor: false
+        showCursor: true
       });
     } catch (err) {
       console.log(err)
@@ -779,6 +779,22 @@
 </style>
     
   </div>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<!-- <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 </body>
 
 </html>

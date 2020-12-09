@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+
+
+<html lang="en">
+
+
+<head>
+  <meta charset="utf-8" />
+   
+  <meta name="keywords" content="CTF" />
+   
+  <meta name="description" content="CTFer,CUMT" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>
+    计网 |  Pz1o
+  </title>
+  <meta name="generator" content="hexo-theme-ayer">
+  
+  <link rel="shortcut icon" href="/favicon.ico" />
+  
+  
+<link rel="stylesheet" href="/dist/main.css">
+
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/css/remixicon.min.css">
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+  
+  
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+  
+  
+
+  
+
+<link rel="alternate" href="/atom.xml" title="Pz1o" type="application/atom+xml">
+</head>
+
+</html>
+
+<body>
+  <div id="app">
+    
+      <canvas class="fireworks"></canvas>
+      <style>
+        .fireworks {
+          position: fixed;
+          left: 0;
+          top: 0;
+          z-index: 99999;
+          pointer-events: none;
+        }
+      </style>
+      
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-计网"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  计网
+</h1>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2020/12/09/%E8%AE%A1%E7%BD%91/" class="article-date">
+  <time datetime="2020-12-09T15:29:40.000Z" itemprop="datePublished">2020-12-09</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E8%AE%A1%E7%BD%91/">计网</a>
+  </div>
+  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> Word count:</span>
+            <span class="post-count">2.2k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> Reading time≈</span>
+            <span class="post-count">7 min</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <p>这个只有这一部分了</p>
+<p>后面学了但好像丢了</p>
+<p>看多会学到计网时，再来补这一篇</p>
+<h1 id="计网初学"><a href="#计网初学" class="headerlink" title="计网初学"></a>计网初学</h1><h2 id="TCP-IP分层模型"><a href="#TCP-IP分层模型" class="headerlink" title="TCP/IP分层模型"></a><strong>TCP/IP分层模型</strong></h2><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>应用层（第五层)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>传输层（第四层）</strong></td>
+</tr>
+<tr>
+<td><strong>互联网层（第三层）</strong></td>
+</tr>
+<tr>
+<td><strong>网路接口层（第二层）</strong></td>
+</tr>
+<tr>
+<td><strong>物理层（第一层）</strong></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>物理层：对应于网络的基本硬件，即我们可以看得见的硬件设备。</p>
+<p>网络接口层：定义了将数据组成正确帧的规程和在网络中传输帧的规程。</p>
+<p>互联网层：本层定义了互联网中传输的信息包的格式，以及从一个用户通过一个或多个路由器到最终目标的信息包转发机制。</p>
+<p>传输层：为两个用户进程之间建立，管理和拆除可靠而又有效的端到端的连接。</p>
+<p>应用层：定义了应用程序使用互联网的规程。</p>
+<h2 id="IP地址"><a href="#IP地址" class="headerlink" title="IP地址"></a>IP地址</h2><p>ip地址分为两部分：网络标识和主机标识</p>
+<p>网络标识：用以标明具体的网络段</p>
+<p>主机标识：某个网络中待定的计算机号码</p>
+<p>网络标识：210.73.140.0</p>
+<p>主机标识：                    2</p>
+<p>合起来写：210.73.140.2</p>
+<p>人们按照网络规模的大小，把32为地址信息设成3种定位的划分方式，三种划分方法分别对应于A，B，C类IP地址，IP地址分为网络号和主机号两部分</p>
+<p>（1）A类IP地址（1-126）</p>
+<p>该地址由1字节网络地址和3字节主机地址组成，网络地址最高位必须是0。</p>
+<p>（2）B类IP地址（128-191）</p>
+<p>该地址由2字节网络地址和2字节主机地址组成，网络地址最高位必须是10。</p>
+<p>（3）C类IP地址（192-223）</p>
+<p>该地址由3字节网络地址和1字节主机地址组成，网络地址最高位必须是110。</p>
+<p>（4）D类IP地址（224-239）</p>
+<p>多点广播地址，用于IP组播。</p>
+<p>（5）E类IP地址（240-225）</p>
+<p>保留地址，用作特殊用途。</p>
+<p>（0.0.0.0）对应当前主机，（255.255.255.255）是当前子网的传播地址。</p>
+<h2 id="域名"><a href="#域名" class="headerlink" title="域名"></a>域名</h2><p>顶级域名 .com</p>
+<p>二级域名 test.com</p>
+<p>三级域名 test.cn.com</p>
+<p><img src="/2020/12/09/%E8%AE%A1%E7%BD%91/image-20200609213455144.png" alt="image-20200609213455144"></p>
+<p><img src="/2020/12/09/%E8%AE%A1%E7%BD%91/image-20200609214339970.png" alt="image-20200609214339970"></p>
+<h2 id="DNS服务器"><a href="#DNS服务器" class="headerlink" title="DNS服务器"></a>DNS服务器</h2><p><img src="/2020/12/09/%E8%AE%A1%E7%BD%91/image-20200609214938548.png" alt="image-20200609214938548"></p>
+<h1 id="计网学习"><a href="#计网学习" class="headerlink" title="计网学习"></a>计网学习</h1><h2 id="第一章-计算机网络概述"><a href="#第一章-计算机网络概述" class="headerlink" title="第一章 计算机网络概述"></a>第一章 计算机网络概述</h2><p>局域网：覆盖范围小  自己花钱买设备  带宽固定</p>
+<p>广域网：距离远 花钱买服务</p>
+<p>Internet ：有自己的机房  对网民提供连接。</p>
+<p>IP地址：网络中的地址。</p>
+<p>物理地址：Mac地址，电脑出厂时已固定。</p>
+<p>网关：下图中的G就是网关，相当于网络中的一个关卡。网关地址为G的IP地址。</p>
+<p><img src="/2020/12/09/%E8%AE%A1%E7%BD%91/image-20200609224145835.png" alt="image-20200609224145835"></p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>本机ip</th>
+<th>访问ip</th>
+<th>本机mac</th>
+<th>下次访问mac</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>15.0.0.2</td>
+<td>13.0.0.2</td>
+<td>m4</td>
+<td>m5</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>OSI参考模型</strong></p>
+<ul>
+<li>应用层：能产生网络流量的程序</li>
+<li>表示层：在传输之前是否加密或压缩处理</li>
+<li>会话层：查正在进行会话的程序 netstat -nb</li>
+<li>传输层：可靠传输（TCP）和流量控制 不可靠传输（UDP）</li>
+<li>网络层：选择最佳路径 规划IP地址</li>
+<li>数据链路层：帧的开始和结束。差错检查。</li>
+<li>物理层：接口标准和电器标准</li>
+</ul>
+<p><strong>OSI参考模型网络排错指导</strong></p>
+<ol>
+<li>物理层故障：查看连接状态，发送和接受的数据包</li>
+<li>数据链路层：MAC地址冲突、网速协商不一致、计算机VLAN错误</li>
+<li>网络层故障：配置错误的IP地址 子网掩码和错误的网关</li>
+<li>应用层故障：应用错误代理。</li>
+</ol>
+<p>检查网络是否通畅：ping一个网址</p>
+<p><strong>OSI参考模型和网络安全</strong></p>
+<ol>
+<li>物理层安全</li>
+<li>数据链路层安全：登录需要账号和密码</li>
+<li>网络层安全：路由器限制数据包流量</li>
+<li>应用层安全：开发程序有没有漏洞<img src="/2020/12/09/%E8%AE%A1%E7%BD%91/image-20200610122326325.png" alt="image-20200610122326325"></li>
+</ol>
+<p><img src="/2020/12/09/%E8%AE%A1%E7%BD%91/image-20200610122957433.png" alt="image-20200610122957433"></p>
+<h2 id="第二章-物理层"><a href="#第二章-物理层" class="headerlink" title="第二章 物理层"></a>第二章 物理层</h2><h3 id="0x01物理层的基本概念"><a href="#0x01物理层的基本概念" class="headerlink" title="0x01物理层的基本概念"></a>0x01物理层的基本概念</h3><p>物理层解决如何连接在各种计算机的<strong>传输媒体上</strong>传输<strong>数据比特流</strong>，不是指具体的传输媒体。</p>
+<p>物理层主要是确定传输媒体的接口的一些特性。有机械，电器，功能，过程特性。</p>
+<h3 id="0x02数据通信知识"><a href="#0x02数据通信知识" class="headerlink" title="0x02数据通信知识"></a>0x02数据通信知识</h3><p><strong>数据通信模型</strong>：</p>
+<p><img src="/2020/12/09/%E8%AE%A1%E7%BD%91/image-20200611101252348.png" alt="image-20200611101252348"></p>
+<p>数据：运送消息的实体。</p>
+<p>信号：数据电气或电磁的表现。</p>
+<p>信道：表示一个方向传送信息的媒体。</p>
+<p>单向通信，双向交替通信，双向同时通信。</p>
+<p><img src="/2020/12/09/%E8%AE%A1%E7%BD%91/image-20200611103259080.png" alt="image-20200611103259080"></p>
+<h3 id="0x03物理层下面的传输媒体"><a href="#0x03物理层下面的传输媒体" class="headerlink" title="0x03物理层下面的传输媒体"></a>0x03物理层下面的传输媒体</h3><p>无屏蔽双绞线UTP</p>
+<p>屏蔽双绞线STP</p>
+<p>同轴电缆</p>
+<p>光纤</p>
+<p>微波传输</p>
+<p>物理层设备—集线器</p>
+<h3 id="0x04信道复用技术"><a href="#0x04信道复用技术" class="headerlink" title="0x04信道复用技术"></a>0x04信道复用技术</h3><p><img src="/2020/12/09/%E8%AE%A1%E7%BD%91/image-20200611121924344.png" alt="image-20200611121924344"></p>
+<h3 id="0x05数字传输系统"><a href="#0x05数字传输系统" class="headerlink" title="0x05数字传输系统"></a>0x05数字传输系统</h3><h3 id="0x06宽带接入技术"><a href="#0x06宽带接入技术" class="headerlink" title="0x06宽带接入技术"></a>0x06宽带接入技术</h3><p>ADSL</p>
+<p><img src="/2020/12/09/%E8%AE%A1%E7%BD%91/image-20200611122852820.png" alt="image-20200611122852820"></p>
+<p><img src="/2020/12/09/%E8%AE%A1%E7%BD%91/image-20200611123214486.png" alt="image-20200611123214486"></p>
+<p>光纤</p>
+<p><img src="/2020/12/09/%E8%AE%A1%E7%BD%91/image-20200611123435591.png" alt="image-20200611123435591"></p>
+<p><img src="/2020/12/09/%E8%AE%A1%E7%BD%91/image-20200611123546821.png" alt="image-20200611123546821"></p>
+<h2 id="第三章数据链路层"><a href="#第三章数据链路层" class="headerlink" title="第三章数据链路层"></a>第三章数据链路层</h2><h3 id="0x01数据链路层基本概念"><a href="#0x01数据链路层基本概念" class="headerlink" title="0x01数据链路层基本概念"></a>0x01数据链路层基本概念</h3><p><img src="/2020/12/09/%E8%AE%A1%E7%BD%91/image-20200615185534103.png" alt="image-20200615185534103"></p>
+<p>数据链路层信道类型：点到点和广播。</p>
+<p>链路：是一条点到点的物理线路段。</p>
+<p>数据链路：除了物理线路外，还必须有通信协议来控制这些数据的传输。</p>
+<p>帧：帧头 帧尾 mac地址 校验码</p>
+<p><img src="/2020/12/09/%E8%AE%A1%E7%BD%91/image-20200615190949900.png" alt="image-20200615190949900"></p>
+<h3 id="0x02数据链路层的三个基本问题"><a href="#0x02数据链路层的三个基本问题" class="headerlink" title="0x02数据链路层的三个基本问题"></a>0x02数据链路层的三个基本问题</h3><p>1.封装成帧</p>
+<p>2.透明传输（将转义字符转义）</p>
+<p>3.差错控制</p>
+<p><img src="/2020/12/09/%E8%AE%A1%E7%BD%91/image-20200615194723467.png" alt="image-20200615194723467"></p>
+<p>传的数据为<strong>101001001</strong>/1101余数为0就会接受。</p>
+<p><img src="/2020/12/09/%E8%AE%A1%E7%BD%91/image-20200615195101214.png" alt="image-20200615195101214"></p>
+<h3 id="0x03两种情况下的数据链路层"><a href="#0x03两种情况下的数据链路层" class="headerlink" title="0x03两种情况下的数据链路层"></a>0x03两种情况下的数据链路层</h3><p><strong>点到点信道的数据链路层</strong>（广域网）</p>
+<p>PPP协议</p>
+<p><img src="/2020/12/09/%E8%AE%A1%E7%BD%91/image-20200615195355465.png" alt="image-20200615195355465"></p>
+<p><img src="/2020/12/09/%E8%AE%A1%E7%BD%91/image-20200615201603443.png" alt="image-20200615201603443"></p>
+<p><img src="/2020/12/09/%E8%AE%A1%E7%BD%91/image-20200615195843590.png" alt="image-20200615195843590"></p>
+<p><strong>广播信道的数据链路层</strong>（集线器）</p>
+<p><img src="/2020/12/09/%E8%AE%A1%E7%BD%91/image-20200615205445679.png" alt="image-20200615205445679"></p>
+<h3 id="0x04以太网"><a href="#0x04以太网" class="headerlink" title="0x04以太网"></a>0x04以太网</h3><p>以太网是一种CSMA/CD的局域网</p>
+<p><strong>媒体接入控制层</strong>（MAC ）</p>
+<p><img src="/2020/12/09/%E8%AE%A1%E7%BD%91/image-20200615211139871.png" alt="image-20200615211139871"></p>
+<p><img src="/2020/12/09/%E8%AE%A1%E7%BD%91/image-20200615211817436.png" alt="image-20200615211817436"></p>
+<p><img src="/2020/12/09/%E8%AE%A1%E7%BD%91/image-20200615212131635.png" alt="image-20200615212131635"></p>
+<p>FCS抓包之后会删掉。</p>
+<h3 id="0x05扩展以太网"><a href="#0x05扩展以太网" class="headerlink" title="0x05扩展以太网"></a>0x05扩展以太网</h3><p>集线器级联，会使网络中计算机数量增加，但会使冲突域增大，如何优化呢？</p>
+<p><strong>网桥</strong><img src="/2020/12/09/%E8%AE%A1%E7%BD%91/image-20200615214530777.png" alt="image-20200615214530777"></p>
+<p>网桥就是交换机的前身，交换机相当于网桥和集线器。</p>
+<h3 id="0x06高速以太网"><a href="#0x06高速以太网" class="headerlink" title="0x06高速以太网"></a>0x06高速以太网</h3><h2 id="第四章-网络层"><a href="#第四章-网络层" class="headerlink" title="第四章 网络层"></a>第四章 网络层</h2><h3 id="0x01网络层提供的服务"><a href="#0x01网络层提供的服务" class="headerlink" title="0x01网络层提供的服务"></a>0x01网络层提供的服务</h3><p><img src="/2020/12/09/%E8%AE%A1%E7%BD%91/image-20200616110826298.png" alt="image-20200616110826298"></p>
+<p><img src="/2020/12/09/%E8%AE%A1%E7%BD%91/image-20200616111607056.png" alt="image-20200616111607056"></p>
+<p>（路由器是网络层设备）</p>
+<p>网络地址相同就可以看成一个<strong>网段</strong>，怎么看网络地址呢？可以看子网掩码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">ip:10.0.0.1</span><br><span class="line">子网掩码:255.0.0.0</span><br><span class="line">&#x2F;&#x2F;此时，我们可以看出子网掩码是255，那表明ip地址中10就是网络地址。</span><br><span class="line"></span><br><span class="line">ip:12.0.0.1</span><br><span class="line">子网掩码255.255.0.0</span><br><span class="line">&#x2F;&#x2F;255.255.0.0说明在这个网段中12.0是网络地址</span><br><span class="line"></span><br><span class="line">网关：路由器上配置，一般为该网段中的第一个地址，实际上任意一个地址都可以。</span><br><span class="line"></span><br><span class="line">路由器：路由器是无法知道它具体网段的位置，需要添加路由表。</span><br></pre></td></tr></table></figure>
+<p><img src="/2020/12/09/%E8%AE%A1%E7%BD%91/image-20200616114228562.png" alt="image-20200616114228562"></p>
+<h3 id="0x02网络设备和OSI参考模型"><a href="#0x02网络设备和OSI参考模型" class="headerlink" title="0x02网络设备和OSI参考模型"></a>0x02网络设备和OSI参考模型</h3><p>发送端：</p>
+<ol>
+<li><p>应用层 程序准备要传输的文件</p>
+</li>
+<li><p>传输层 将文件编号</p>
+</li>
+<li><p>网络层 添加IP地址</p>
+</li>
+<li><p>数据链路层  有两种情况 </p>
+<p>第一种 通过子网掩码 ，判断是否是同一个网段。如果是，利用ARP协议广播解析目标ip地址的MAC地址</p>
+<p>第二种</p>
+</li>
+</ol>
+<p><img src="/2020/12/09/%E8%AE%A1%E7%BD%91/image-20200617112108377.png" alt="image-20200617112108377"></p>
+<h3 id="0x03网络层协议"><a href="#0x03网络层协议" class="headerlink" title="0x03网络层协议"></a>0x03网络层协议</h3><h4 id="ARP协议"><a href="#ARP协议" class="headerlink" title="ARP协议"></a><strong>ARP协议</strong></h4><p><img src="/2020/12/09/%E8%AE%A1%E7%BD%91/image-20200617113421057.png" alt="image-20200617113421057"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">arp -a  &#x2F;&#x2F;查询mac地址</span><br><span class="line">arp -s ip地址 mac地址   &#x2F;&#x2F;配置IP地址的MAC地址</span><br></pre></td></tr></table></figure>
+<p>arp协议:将ip地址通过广播 目标MAC地址是FF-FF-FF-FF-FF-FF<strong>解析目标ip地址的MAC地址</strong></p>
+<p>arp欺骗: 数据链路层故障，缓存了错误的MAC地址</p>
+<h4 id="网际控制报文协议（ICMP）"><a href="#网际控制报文协议（ICMP）" class="headerlink" title="网际控制报文协议（ICMP）"></a><strong>网际控制报文协议</strong>（ICMP）</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">ping      ttl&#x3D;64 linux</span><br><span class="line">							128 windows</span><br><span class="line">							255 unix</span><br><span class="line">ping www.baidu.com -t    一直ping</span><br><span class="line">ping www.baidu.com -l 200   定义数据包的大小</span><br><span class="line">&#x2F;&#x2F;查看路由器的地址</span><br><span class="line">ping 8.8.8.8 -i 1 更改数据包ttl时间，可以跟踪途经的路由器</span><br><span class="line">pathping   跟踪ping的路径</span><br><span class="line">tracert    直接跟踪路由</span><br></pre></td></tr></table></figure>
+<h4 id="IGMP"><a href="#IGMP" class="headerlink" title="IGMP"></a>IGMP</h4><p>配置在路由器上扫描多播地址的协议</p>
+<p>广播：目标ip地址是全ff，目标mac地址是255，向局域网内所有计算机发出广播</p>
+<p>点到点：从一个点到另一个点</p>
+<p>组播：一对多</p>
+<h3 id="0x04数据包"><a href="#0x04数据包" class="headerlink" title="0x04数据包"></a>0x04数据包</h3><p><img src="/2020/12/09/%E8%AE%A1%E7%BD%91/image-20200619111139014.png" alt="image-20200619111139014"></p>
+<p>版本：用来表示TCP/IP协议的版本 v4 v6</p>
+<p>区分服务：看谁的优先级高</p>
+<p>标识：100 100 100就为一个数据包</p>
+<p>标志：看数据包是否分片<img src="/2020/12/09/%E8%AE%A1%E7%BD%91/image-20200619112943227.png" alt="image-20200619112943227"></p>
+<p>生存时间（TTL）：每过一个路由器，生存时间会修改。</p>
+<p>协议号：交给哪个协议进行处理</p>
+<p>（ICMP 1      IGMP  2       TCP  6        UDP  17  IPv6   41       OSPF   89）</p>
+<p>数据链路层支持数据包1500字节</p>
+<p>IP层支持数据包是65535字节，所以需要分片传输，但一般不会超过1500字节。</p>
+<p><img src="/2020/12/09/%E8%AE%A1%E7%BD%91/image-20200619111512690.png" alt="image-20200619111512690"></p>
+<h1 id="FTP"><a href="#FTP" class="headerlink" title="FTP"></a>FTP</h1><p><img src="/2020/12/09/%E8%AE%A1%E7%BD%91/image-20200807090006669.png" alt="image-20200807090006669"></p>
+<p><img src="/2020/12/09/%E8%AE%A1%E7%BD%91/image-20200807090512480.png" alt="image-20200807090512480"></p>
+<p><strong>Active Mode</strong></p>
+<p>第二信道是服务器主动发起的。</p>
+<p>第一信道是21端口</p>
+<p>第二信道是20端口</p>
+<p><img src="/2020/12/09/%E8%AE%A1%E7%BD%91/image-20200807100649933.png" alt="image-20200807100649933"></p>
+<p><strong>Passive</strong></p>
+<p>第一信道是21端口</p>
+<p>第二信道是随机端口</p>
+<p><img src="/2020/12/09/%E8%AE%A1%E7%BD%91/image-20200807100800469.png" alt="image-20200807100800469"></p>
+<h1 id="Telnet"><a href="#Telnet" class="headerlink" title="Telnet"></a>Telnet</h1><p><img src="/2020/12/09/%E8%AE%A1%E7%BD%91/image-20200807145634367.png" alt="image-20200807145634367"></p>
+<p><strong>telnet</strong>的端口是23端口</p>
+<h1 id="SSH"><a href="#SSH" class="headerlink" title="SSH"></a>SSH</h1><p><img src="/2020/12/09/%E8%AE%A1%E7%BD%91/image-20200811154248708.png" alt="image-20200811154248708"></p>
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>Copyright： </strong>
+          
+          Copyright is owned by the author. For commercial reprints, please contact the author for authorization. For non-commercial reprints, please indicate the source.
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://pz1o.top/2020/12/09/%E8%AE%A1%E7%BD%91/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%AE%A1%E7%BD%91/" rel="tag">计网</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+      <a href="/2020/12/09/xss/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            xss
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2020/12/09/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">文件上传</div>
+      </a>
+    
+  </nav>
+
+   
+<!-- valine评论 -->
+<div id="vcomments-box">
+  <div id="vcomments"></div>
+</div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js"></script>
+<script>
+  new Valine({
+    el: "#vcomments",
+    app_id: "KLWvKGPeSIyoEo4k6j3v37wy-gzGzoHsz",
+    app_key: "FL93w3BBbF9lxiR8X1HI58En",
+    path: window.location.pathname,
+    avatar: "monsterid",
+    placeholder: "给我的文章加点评论吧~",
+    recordIP: true,
+  });
+  const infoEle = document.querySelector("#vcomments .info");
+  if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0) {
+    infoEle.childNodes.forEach(function (item) {
+      item.parentNode.removeChild(item);
+    });
+  }
+</script>
+<style>
+  #vcomments-box {
+    padding: 5px 30px;
+  }
+
+  @media screen and (max-width: 800px) {
+    #vcomments-box {
+      padding: 5px 0px;
+    }
+  }
+
+  #vcomments-box #vcomments {
+    background-color: #fff;
+  }
+
+  .v .vlist .vcard .vh {
+    padding-right: 20px;
+  }
+
+  .v .vlist .vcard {
+    padding-left: 10px;
+  }
+</style>
+
+ 
+     
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2020
+        <i class="ri-heart-fill heart_icon"></i> Pz1o
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        
+        Powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+        <span class="division">|</span>
+        Theme - <a href="https://github.com/Shen-Yu/hexo-theme-ayer" target="_blank">Ayer</a>
+        
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        <span>
+  <span><i class="ri-user-3-fill"></i>Visitors:<span id="busuanzi_value_site_uv"></span></s>
+  <span class="division">|</span>
+  <span><i class="ri-eye-fill"></i>Views:<span id="busuanzi_value_page_pv"></span></span>
+</span>
+        
+      </li>
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+      </li>
+    </ul>
+  </div>
+</footer>
+      <div class="float_btns">
+        <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+      </div>
+    </main>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/avatar.jpg" alt="Pz1o"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">Home</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">Archive</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">Catego</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">Tags</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about">About</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="Search">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+      <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+        <i class="ri-rss-line"></i>
+      </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <script>
+      if (window.matchMedia("(max-width: 768px)").matches) {
+        document.querySelector('.content').classList.remove('on');
+        document.querySelector('.sidebar').classList.remove('on');
+      }
+    </script>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/img/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/img/wechat.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: 'main',
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto'
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script>
+
+<!-- MathJax -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+      tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+  });
+
+  MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for(i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.6/unpacked/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+  var ayerConfig = {
+    mathjax: true
+  }
+</script>
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<script src="https://cdn.jsdelivr.net/npm/animejs@latest/anime.min.js"></script>
+
+<script src="/js/clickBoom1.js"></script>
+
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+
+
+<link rel="stylesheet" href="/css/clipboard.css">
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+<!-- CanvasBackground -->
+
+
+<script src="/js/dz.js"></script>
+
+
+
+    
+    <div id="music">
+    
+    
+    
+    <iframe frameborder="no" border="1" marginwidth="0" marginheight="0" width="200" height="52"
+        src="//music.163.com/outchain/player?type=2&id=22707008&auto=0&height=32"></iframe>
+</div>
+
+<style>
+    #music {
+        position: fixed;
+        right: 15px;
+        bottom: 0;
+        z-index: 998;
+    }
+</style>
+    
+  </div>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<!-- <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+</body>
+
+</html>

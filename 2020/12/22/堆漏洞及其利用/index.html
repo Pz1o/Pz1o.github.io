@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+
+
+<html lang="en">
+
+
+<head>
+  <meta charset="utf-8" />
+   
+  <meta name="keywords" content="CTF" />
+   
+  <meta name="description" content="CTFer,CUMT" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>
+    堆漏洞及其利用 |  Pz1o
+  </title>
+  <meta name="generator" content="hexo-theme-ayer">
+  
+  <link rel="shortcut icon" href="/favicon.ico" />
+  
+  
+<link rel="stylesheet" href="/dist/main.css">
+
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/css/remixicon.min.css">
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+  
+  
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+  
+  
+
+  
+
+<link rel="alternate" href="/atom.xml" title="Pz1o" type="application/atom+xml">
+</head>
+
+</html>
+
+<body>
+  <div id="app">
+    
+      <canvas class="fireworks"></canvas>
+      <style>
+        .fireworks {
+          position: fixed;
+          left: 0;
+          top: 0;
+          z-index: 99999;
+          pointer-events: none;
+        }
+      </style>
+      
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-堆漏洞及其利用"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  堆漏洞及其利用
+</h1>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2020/12/22/%E5%A0%86%E6%BC%8F%E6%B4%9E%E5%8F%8A%E5%85%B6%E5%88%A9%E7%94%A8/" class="article-date">
+  <time datetime="2020-12-22T13:17:06.000Z" itemprop="datePublished">2020-12-22</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/PWN/">PWN</a>
+  </div>
+  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> Word count:</span>
+            <span class="post-count">2.7k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> Reading time≈</span>
+            <span class="post-count">12 min</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <p>堆基础和堆漏洞还是分开比较好</p>
+<p>这样看着也比较整齐</p>
+<h1 id="堆漏洞"><a href="#堆漏洞" class="headerlink" title="堆漏洞"></a>堆漏洞</h1><h2 id="0x01-Off-By-One"><a href="#0x01-Off-By-One" class="headerlink" title="0x01 Off By One"></a>0x01 Off By One</h2><h3 id="1-概念"><a href="#1-概念" class="headerlink" title="1.概念"></a>1.概念</h3><p>off-by-one 是指单字节缓冲区溢出，这种漏洞的产生往往与边界验证不严和字符串操作有关，当然也不排除写入的 size 正好就只多了一个字节的情况。</p>
+<h3 id="2-利用思路"><a href="#2-利用思路" class="headerlink" title="2.利用思路"></a>2.利用思路</h3><p>(1) 溢出字节为可控制任意字节：通过修改大小造成块结构之间出现重叠，从而泄露其他块数据，或是覆盖其他块数据。</p>
+<p>(2) 溢出字节为 NULL 字节：溢出的一个字节恰好覆盖下一堆块的size域的最低位，将PREV_INUSE位置0，这样前块会被认为是 free 块。这时可以选择使用 unlink 方法进行处理(后面将详细介绍)，这时 prev_size 域就会启用，就可以伪造 prev_size ，从而造成块之间发生重叠。</p>
+<h3 id="3-演示"><a href="#3-演示" class="headerlink" title="3.演示"></a>3.演示</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">char</span> <span class="built_in">buffer</span>[<span class="number">40</span>]=<span class="string">""</span>;</span><br><span class="line">    <span class="keyword">void</span> *chunk1;</span><br><span class="line">    chunk1=<span class="built_in">malloc</span>(<span class="number">24</span>);</span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">"Get Input"</span>);</span><br><span class="line">    sleep(<span class="number">0</span>);<span class="comment">//断点</span></span><br><span class="line">    gets(<span class="built_in">buffer</span>);</span><br><span class="line">    <span class="keyword">if</span>(<span class="built_in">strlen</span>(<span class="built_in">buffer</span>)==<span class="number">24</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">strcpy</span>(chunk1,<span class="built_in">buffer</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>这个程序的问题在于strlen 在计算长度的时候不会把结束符 ‘\x00’ 计算在内，但strcpy 在拷贝的时候会把 ‘\x00’ 也算上，所以就会造成 off by one。</p>
+<p>我们先来调试一下</p>
+<p><img src="/2020/12/22/%E5%A0%86%E6%BC%8F%E6%B4%9E%E5%8F%8A%E5%85%B6%E5%88%A9%E7%94%A8/image-20201219141904042.png" alt="image-20201219141904042"></p>
+<p>直接看堆情况 分配24字节上面为什么堆size为0x21也就是33字节 这个可以看上面的</p>
+<p>因为它会把下面一个pre_size占用</p>
+<p>输入24个A</p>
+<p><img src="/2020/12/22/%E5%A0%86%E6%BC%8F%E6%B4%9E%E5%8F%8A%E5%85%B6%E5%88%A9%E7%94%A8/image-20201219142302977.png" alt="image-20201219142302977"></p>
+<p>可以很直观的看到确实是溢出了一个字节</p>
+</blockquote>
+<h2 id="0x02-Use-After-Free"><a href="#0x02-Use-After-Free" class="headerlink" title="0x02 Use After Free"></a>0x02 Use After Free</h2><h3 id="1-概念-1"><a href="#1-概念-1" class="headerlink" title="1.概念"></a>1.概念</h3><p>Use After Free(UAF)即释放后使用漏洞。若堆指针在释放后未置空，形成悬挂指针，当下次访问该指针时，依然能够访问原指针所指向的堆内容，形成漏洞。</p>
+<h3 id="2-利用条件"><a href="#2-利用条件" class="headerlink" title="2.利用条件"></a>2.利用条件</h3><ul>
+<li>内存块被释放后，其对应的指针没有被设置为 NULL ，然后在它下一次被使用之前，没有代码对这块内存块进行修改，那么<strong>程序很有可能可以正常运转</strong>。</li>
+<li>内存块被释放后，其对应的指针没有被设置为 NULL，但是在它下一次使用之前，有代码对这块内存进行了修改，那么当程序再次使用这块内存时，<strong>就很有可能会出现奇怪的问题</strong>。</li>
+</ul>
+<h3 id="3-演示-1"><a href="#3-演示-1" class="headerlink" title="3.演示"></a>3.演示</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">typedef</span> <span class="title">void</span> <span class="params">(*func_ptr)</span><span class="params">(<span class="keyword">char</span> *)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">sys1</span><span class="params">(<span class="keyword">char</span> command[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">system(command);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">echo</span><span class="params">(<span class="keyword">char</span> content[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"%s"</span>,content);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    func_ptr *p1=(func_ptr*)<span class="built_in">malloc</span>(<span class="number">4</span>*<span class="keyword">sizeof</span>(<span class="keyword">int</span>));<span class="comment">//申请了4个int大小的内存</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"malloc addr: %p\n"</span>,p1);<span class="comment">//因为前2个也就是0x10是用来管理chunk的</span></span><br><span class="line">    p1[<span class="number">2</span>]=echo;<span class="comment">//所以从第三个开始</span></span><br><span class="line">    p1[<span class="number">2</span>](<span class="string">"hello world\n"</span>);</span><br><span class="line">    <span class="built_in">free</span>(p1); <span class="comment">//在这里free了p1,但并未将p1置空,导致后续可以再使用p1指针</span></span><br><span class="line">    p1[<span class="number">2</span>](<span class="string">"hello again\n"</span>); <span class="comment">//p1指针未被置空,虽然free了,但仍可使用.</span></span><br><span class="line">    func_ptr *p2=(func_ptr*)<span class="built_in">malloc</span>(<span class="number">4</span>*<span class="keyword">sizeof</span>(<span class="keyword">int</span>));</span><br><span class="line">    <span class="comment">//free一块内存后,再次申请同样大小的指针会把刚刚释放的内存分配出来</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"malloc addr: %p\n"</span>,p2);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"malloc addr: %p\n"</span>,p1);<span class="comment">//p2与p1指针指向的内存为同一地址</span></span><br><span class="line">    p2[<span class="number">2</span>]=sys1; <span class="comment">//在这里将p1指针里面保存的echo函数指针覆盖成为了sys1指针.</span></span><br><span class="line">    p1[<span class="number">2</span>](<span class="string">"/bin/sh"</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>我们可以看到这个p1和p2的地址是相同的</p>
+<p><img src="/2020/12/22/%E5%A0%86%E6%BC%8F%E6%B4%9E%E5%8F%8A%E5%85%B6%E5%88%A9%E7%94%A8/image-20201219145625345.png" alt="image-20201219145625345"></p>
+</blockquote>
+<h2 id="0x03-Double-Free"><a href="#0x03-Double-Free" class="headerlink" title="0x03 Double Free"></a>0x03 Double Free</h2><h3 id="1-概念-2"><a href="#1-概念-2" class="headerlink" title="1.概念"></a>1.概念</h3><p>Double Free是UAF较为特殊的一种</p>
+<h3 id="2-演示"><a href="#2-演示" class="headerlink" title="2.演示"></a>2.演示</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"Allocating 3 buffers.\n"</span>);</span><br><span class="line">    <span class="keyword">char</span> *a = <span class="built_in">malloc</span>(<span class="number">9</span>);</span><br><span class="line">    <span class="keyword">char</span> *b = <span class="built_in">malloc</span>(<span class="number">9</span>);</span><br><span class="line">    <span class="keyword">char</span> *c = <span class="built_in">malloc</span>(<span class="number">9</span>);</span><br><span class="line">    <span class="built_in">strcpy</span>(a, <span class="string">"AAAAAAAA"</span>);</span><br><span class="line">    <span class="built_in">strcpy</span>(b, <span class="string">"BBBBBBBB"</span>);</span><br><span class="line">    <span class="built_in">strcpy</span>(c, <span class="string">"CCCCCCCC"</span>);</span><br><span class="line">    <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"1st malloc(9) %p points to %s\n"</span>, a, a);</span><br><span class="line">    <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"2nd malloc(9) %p points to %s\n"</span>, b, b);</span><br><span class="line">    <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"3rd malloc(9) %p points to %s\n"</span>, c, c);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"Freeing the first one %p.\n"</span>, a);</span><br><span class="line">    <span class="built_in">free</span>(a);</span><br><span class="line">    <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"Then freeing another one %p.\n"</span>, b);</span><br><span class="line">    <span class="built_in">free</span>(b);</span><br><span class="line">    <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"Freeing the first one %p again.\n"</span>, a);</span><br><span class="line">    <span class="built_in">free</span>(a);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"Allocating 3 buffers.\n"</span>);</span><br><span class="line">    <span class="keyword">char</span> *d = <span class="built_in">malloc</span>(<span class="number">9</span>);</span><br><span class="line">    <span class="keyword">char</span> *e = <span class="built_in">malloc</span>(<span class="number">9</span>);</span><br><span class="line">    <span class="keyword">char</span> *f = <span class="built_in">malloc</span>(<span class="number">9</span>);</span><br><span class="line">    <span class="built_in">strcpy</span>(d, <span class="string">"DDDDDDDD"</span>);</span><br><span class="line">    <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"4st malloc(9) %p points to %s the first time\n"</span>, d, d);</span><br><span class="line">    <span class="built_in">strcpy</span>(e, <span class="string">"EEEEEEEE"</span>);</span><br><span class="line">    <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"5nd malloc(9) %p points to %s\n"</span>, e, e);</span><br><span class="line">    <span class="built_in">strcpy</span>(f, <span class="string">"FFFFFFFF"</span>);</span><br><span class="line">    <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"6rd malloc(9) %p points to %s the second time\n"</span>, f, f);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><img src="/2020/12/22/%E5%A0%86%E6%BC%8F%E6%B4%9E%E5%8F%8A%E5%85%B6%E5%88%A9%E7%94%A8/image-20201219160532780.png" alt="image-20201219160532780"></p>
+<p>直接根据输出理解其中的原理 也就是我上面画的这个图</p>
+<p><img src="/2020/12/22/%E5%A0%86%E6%BC%8F%E6%B4%9E%E5%8F%8A%E5%85%B6%E5%88%A9%E7%94%A8/image-20201219160630662.png" alt="image-20201219160630662"></p>
+</blockquote>
+<h2 id="0x04-overlap"><a href="#0x04-overlap" class="headerlink" title="0x04 overlap"></a>0x04 overlap</h2><h3 id="1-概念-3"><a href="#1-概念-3" class="headerlink" title="1.概念"></a>1.概念</h3><p>chunk extend 是堆漏洞的一种常见利用手法，通过 extend 可以实现 chunk overlapping 的效果。</p>
+<h3 id="2-利用条件-1"><a href="#2-利用条件-1" class="headerlink" title="2.利用条件"></a>2.利用条件</h3><ul>
+<li>程序中存在基于堆的漏洞</li>
+<li>漏洞可以控制 chunk header 中的数据</li>
+</ul>
+<h3 id="3-演示1（fastbin）"><a href="#3-演示1（fastbin）" class="headerlink" title="3.演示1（fastbin）"></a>3.演示1（fastbin）</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">void</span> *ptr,*ptr1;</span><br><span class="line"></span><br><span class="line">    ptr=<span class="built_in">malloc</span>(<span class="number">0x10</span>);<span class="comment">//分配第一个0x10的chunk</span></span><br><span class="line">    <span class="built_in">malloc</span>(<span class="number">0x10</span>);<span class="comment">//分配第二个0x10的chunk</span></span><br><span class="line">    sleep(<span class="number">0</span>); <span class="comment">//斷點</span></span><br><span class="line">    *(<span class="keyword">long</span> <span class="keyword">long</span> *)((<span class="keyword">long</span> <span class="keyword">long</span>)ptr<span class="number">-0x8</span>)=<span class="number">0x41</span>;<span class="comment">// 修改第一个块的size域</span></span><br><span class="line"></span><br><span class="line">    <span class="built_in">free</span>(ptr);</span><br><span class="line">    ptr1=<span class="built_in">malloc</span>(<span class="number">0x30</span>);<span class="comment">// 实现 extend，控制了第二个块的内容</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>直接打断点</p>
+<p><img src="/2020/12/22/%E5%A0%86%E6%BC%8F%E6%B4%9E%E5%8F%8A%E5%85%B6%E5%88%A9%E7%94%A8/image-20201219214608484.png" alt="image-20201219214608484"></p>
+<p>可以看到分配了两个</p>
+<p>这时我们把p1的size位改变再进行释放，就会进入fastbin中</p>
+<p>继续分配我们就可以把p2的数据改变</p>
+<p><img src="/2020/12/22/%E5%A0%86%E6%BC%8F%E6%B4%9E%E5%8F%8A%E5%85%B6%E5%88%A9%E7%94%A8/image-20201219214801301.png" alt="image-20201219214801301"></p>
+<p>fastbin如我们所料</p>
+<p><img src="/2020/12/22/%E5%A0%86%E6%BC%8F%E6%B4%9E%E5%8F%8A%E5%85%B6%E5%88%A9%E7%94%A8/image-20201219214832357.png" alt="image-20201219214832357"></p>
+<p>演示完成 这时我们就可以改变p2的数据</p>
+</blockquote>
+<h3 id="4-演示2（smallbin）"><a href="#4-演示2（smallbin）" class="headerlink" title="4.演示2（smallbin）"></a>4.演示2（smallbin）</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">void</span> *ptr,*ptr1;</span><br><span class="line"></span><br><span class="line">    ptr=<span class="built_in">malloc</span>(<span class="number">0x80</span>);<span class="comment">//分配第一个 0x80 的chunk1</span></span><br><span class="line">    <span class="built_in">malloc</span>(<span class="number">0x10</span>); <span class="comment">//分配第二个 0x10 的chunk2</span></span><br><span class="line">    <span class="built_in">malloc</span>(<span class="number">0x10</span>); <span class="comment">//防止与top chunk合并</span></span><br><span class="line"></span><br><span class="line">    *(<span class="keyword">int</span> *)((<span class="keyword">int</span>)ptr<span class="number">-0x8</span>)=<span class="number">0xb1</span>;</span><br><span class="line">    <span class="built_in">free</span>(ptr);</span><br><span class="line">    ptr1=<span class="built_in">malloc</span>(<span class="number">0xa0</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>直接断点</p>
+<p><img src="/2020/12/22/%E5%A0%86%E6%BC%8F%E6%B4%9E%E5%8F%8A%E5%85%B6%E5%88%A9%E7%94%A8/image-20201219215247031.png" alt="image-20201219215247031"></p>
+<p>修改size值之后 释放 进入unsortedbin中</p>
+<p><img src="/2020/12/22/%E5%A0%86%E6%BC%8F%E6%B4%9E%E5%8F%8A%E5%85%B6%E5%88%A9%E7%94%A8/image-20201219215357168.png" alt="image-20201219215357168"></p>
+<p>继续分配</p>
+<p><img src="/2020/12/22/%E5%A0%86%E6%BC%8F%E6%B4%9E%E5%8F%8A%E5%85%B6%E5%88%A9%E7%94%A8/image-20201219215517292.png" alt="image-20201219215517292"></p>
+<p>我们这样就可以直接修改数据了</p>
+</blockquote>
+<h3 id="5-演示3（向前overlap）"><a href="#5-演示3（向前overlap）" class="headerlink" title="5.演示3（向前overlap）"></a>5.演示3（向前overlap）</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">void</span> *ptr1,*ptr2,*ptr3,*ptr4;</span><br><span class="line">    ptr1=<span class="built_in">malloc</span>(<span class="number">128</span>);<span class="comment">//smallbin1</span></span><br><span class="line">    ptr2=<span class="built_in">malloc</span>(<span class="number">0x10</span>);<span class="comment">//fastbin1</span></span><br><span class="line">    ptr3=<span class="built_in">malloc</span>(<span class="number">0x10</span>);<span class="comment">//fastbin2</span></span><br><span class="line">    ptr4=<span class="built_in">malloc</span>(<span class="number">128</span>);<span class="comment">//smallbin2</span></span><br><span class="line">    <span class="built_in">malloc</span>(<span class="number">0x10</span>);<span class="comment">//防止与top合并</span></span><br><span class="line">    <span class="built_in">free</span>(ptr1);</span><br><span class="line">    *(<span class="keyword">int</span> *)((<span class="keyword">long</span> <span class="keyword">long</span>)ptr4<span class="number">-0x8</span>)=<span class="number">0x90</span>;<span class="comment">//修改pre_inuse域</span></span><br><span class="line">    *(<span class="keyword">int</span> *)((<span class="keyword">long</span> <span class="keyword">long</span>)ptr4<span class="number">-0x10</span>)=<span class="number">0xd0</span>;<span class="comment">//修改pre_size域</span></span><br><span class="line">    <span class="built_in">free</span>(ptr4);<span class="comment">//unlink进行前向extend</span></span><br><span class="line">    <span class="built_in">malloc</span>(<span class="number">0x150</span>);<span class="comment">//占位块</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>断点</p>
+<p><img src="/2020/12/22/%E5%A0%86%E6%BC%8F%E6%B4%9E%E5%8F%8A%E5%85%B6%E5%88%A9%E7%94%A8/image-20201219220938551.png" alt="image-20201219220938551"></p>
+<p>修改指针后</p>
+<p><img src="/2020/12/22/%E5%A0%86%E6%BC%8F%E6%B4%9E%E5%8F%8A%E5%85%B6%E5%88%A9%E7%94%A8/image-20201219221233429.png" alt="image-20201219221233429"></p>
+<p>此时释放p4  进入unsortedbin中 如果进行分配 那么我们就可以向前overlap</p>
+<p><img src="/2020/12/22/%E5%A0%86%E6%BC%8F%E6%B4%9E%E5%8F%8A%E5%85%B6%E5%88%A9%E7%94%A8/image-20201219221322641.png" alt="image-20201219221322641"></p>
+<p>我们最后来分配一下</p>
+<p><img src="/2020/12/22/%E5%A0%86%E6%BC%8F%E6%B4%9E%E5%8F%8A%E5%85%B6%E5%88%A9%E7%94%A8/image-20201219221445409.png" alt="image-20201219221445409"></p>
+</blockquote>
+<h2 id="0x05-unlink"><a href="#0x05-unlink" class="headerlink" title="0x05 unlink"></a>0x05 unlink</h2><h3 id="1-概念-4"><a href="#1-概念-4" class="headerlink" title="1.概念"></a>1.概念</h3><ul>
+<li>双向链表中移除/添加一个chunk时，会发生断链的操作，这个断链的过程就叫做unlink</li>
+<li>注意事项：unlink不发生在fastbin和smallbin中，所以fastbin和smallbin容易产生漏洞</li>
+</ul>
+<h3 id="2-发生场景"><a href="#2-发生场景" class="headerlink" title="2.发生场景"></a>2.发生场景</h3><p><strong>malloc时：</strong></p>
+<ul>
+<li>从恰好大小合适的largebin中获取chunk，发生unlink</li>
+<li>从比malloc要求大的largebin中取chunk，发生unlink</li>
+</ul>
+<p><strong>free时：</strong></p>
+<ul>
+<li>free之后，与前后空闲的chunk进行合并</li>
+</ul>
+<p><strong>malloc consolidate时：</strong></p>
+<ul>
+<li>consolidate时，chunk之间的unlink</li>
+</ul>
+<p><strong>realloc时：</strong></p>
+<ul>
+<li>向前扩展，合并物理相邻高地址空闲chunk</li>
+</ul>
+<h3 id="3-古老的unlink"><a href="#3-古老的unlink" class="headerlink" title="3.古老的unlink"></a>3.古老的unlink</h3><p>其中P为需要释放/添加的chunk</p>
+<p><img src="/2020/12/22/%E5%A0%86%E6%BC%8F%E6%B4%9E%E5%8F%8A%E5%85%B6%E5%88%A9%E7%94%A8/unlink_smallbin_intro.png" alt="img"></p>
+<p>unlink的代码</p>
+<p><img src="/2020/12/22/%E5%A0%86%E6%BC%8F%E6%B4%9E%E5%8F%8A%E5%85%B6%E5%88%A9%E7%94%A8/JgR9imeK6YMQ2rZ.png" alt="image-20200723164353967"></p>
+<blockquote>
+<p>(1)将前一个chunk占用的内存合并到当前chunk;</p>
+<p>(2)修改指向当前chunk的指针，改为指向前一个chunk。</p>
+<p>(3)使用unlink宏，将前一个free chunk从双向循环链表中移除</p>
+</blockquote>
+<p>此例来自ctf-wiki</p>
+<p><img src="/2020/12/22/%E5%A0%86%E6%BC%8F%E6%B4%9E%E5%8F%8A%E5%85%B6%E5%88%A9%E7%94%A8/old_unlink_vul.png" alt="img"></p>
+<p>现在有物理空间连续的两个 chunk（Q，Nextchunk），其中 Q 处于使用状态、Nextchunk 处于释放状态。那么如果我们通过某种方式（<strong>比如溢出</strong>）将 Nextchunk 的 fd 和 bk 指针修改为指定的值。则当我们 free(Q) 时</p>
+<ul>
+<li>glibc 判断这个块是 small chunk</li>
+<li>判断前向合并，发现前一个 chunk 处于使用状态，不需要前向合并</li>
+<li>判断后向合并，发现后一个 chunk 处于空闲状态，需要合并</li>
+<li>继而对 Nextchunk 采取 unlink 操作</li>
+</ul>
+<p>那么 unlink 具体执行的效果是什么样子呢？我们可以来分析一下</p>
+<p><strong>以下12和8都是对于32位来说的</strong></p>
+<ul>
+<li>FD=P-&gt;fd = target addr -12</li>
+<li>BK=P-&gt;bk = expect value</li>
+<li>FD-&gt;bk = BK，即 *(target addr-12+12)=BK=expect value</li>
+<li>BK-&gt;fd = FD，即 *(expect value +8) = FD = target addr-12</li>
+</ul>
+<p>这张图片应该更好理解</p>
+<p><img src="/2020/12/22/%E5%A0%86%E6%BC%8F%E6%B4%9E%E5%8F%8A%E5%85%B6%E5%88%A9%E7%94%A8/BTQOKLG2XSyHqge.png" alt="image-20200723165236574"></p>
+<h3 id="4-新的unlink"><a href="#4-新的unlink" class="headerlink" title="4.新的unlink"></a>4.新的unlink</h3><p>新版的unlink加入了下面这部分代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; fd bk</span><br><span class="line">if (__builtin_expect (FD-&gt;bk !&#x3D; P || BK-&gt;fd !&#x3D; P, 0))                      \</span><br><span class="line">  malloc_printerr (check_action, &quot;corrupted double-linked list&quot;, P, AV);  \</span><br></pre></td></tr></table></figure>
+<p>如果不指向P，那么就出现了问题</p>
+<p>那如何利用呢？</p>
+<p>首先我们通过覆盖，将 nextchunk 的 FD 指针指向了 fakeFD，将 nextchunk 的 BK 指针指向了 fakeBK 。那么为了通过验证，我们需要</p>
+<ul>
+<li><code>fakeFD -&gt; bk == P</code> &lt;=&gt; <code>*(fakeFD + 12) == P</code></li>
+<li><code>fakeBK -&gt; fd == P</code> &lt;=&gt; <code>*(fakeBK + 8) == P</code></li>
+</ul>
+<p>当满足上述两式时，可以进入 Unlink 的环节，进行如下操作：</p>
+<ul>
+<li><code>fakeFD -&gt; bk = fakeBK</code> &lt;=&gt; <code>*(fakeFD + 12) = fakeBK</code></li>
+<li><code>fakeBK -&gt; fd = fakeFD</code> &lt;=&gt; <code>*(fakeBK + 8) = fakeFD</code></li>
+</ul>
+<p>如果让 fakeFD + 12 和 fakeBK + 8 指向同一个指向 P 的指针，那么：</p>
+<ul>
+<li><code>*P = P - 8</code></li>
+<li><code>*P = P - 12</code></li>
+</ul>
+<p>即通过此方式，P 的指针指向了比自己低 12 的地址处。此方法虽然不可以实现任意地址写，但是可以修改指向 chunk 的指针，这样的修改是可以达到一定的效果的。</p>
+<h3 id="5-利用条件"><a href="#5-利用条件" class="headerlink" title="5.利用条件"></a>5.利用条件</h3><ol>
+<li>UAF ，可修改 free 状态下 smallbin 或是 unsorted bin 的 fd 和 bk 指针</li>
+<li>已知位置存在一个指针指向可进行 UAF 的 chunk</li>
+</ol>
+<h3 id="6-效果"><a href="#6-效果" class="headerlink" title="6.效果"></a>6.效果</h3><p>使得已指向 UAF chunk 的指针 ptr 变为 ptr - 0x18</p>
+<h2 id="0x06-unsorted-bin-attack"><a href="#0x06-unsorted-bin-attack" class="headerlink" title="0x06 unsorted bin attack"></a>0x06 unsorted bin attack</h2><h3 id="1-概念-5"><a href="#1-概念-5" class="headerlink" title="1.概念"></a>1.概念</h3><p>Unsorted Bin Attack 被利用的前提是控制 Unsorted Bin Chunk 的 bk 指针。Unsorted Bin Attack 可以达到的效果是实现修改任意地址值为一个较大的数值。</p>
+<h3 id="2-使用情况"><a href="#2-使用情况" class="headerlink" title="2.使用情况"></a>2.使用情况</h3><ol>
+<li>Unsorted Bin 在使用的过程中，采用的遍历顺序是 FIFO，<strong>即插入的时候插入到 unsorted bin 的头部，取出的时候从链表尾获取</strong>。</li>
+<li>在程序 malloc 时，如果在 fastbin，small bin 中找不到对应大小的 chunk，就会尝试从 Unsorted Bin 中寻找 chunk。如果取出来的 chunk 大小刚好满足，就会直接返回给用户，否则就会把这些 chunk 分别插入到对应的 bin 中。</li>
+</ol>
+<h3 id="3-原理解释"><a href="#3-原理解释" class="headerlink" title="3.原理解释"></a>3.原理解释</h3><h3 id="4-演示"><a href="#4-演示" class="headerlink" title="4.演示"></a>4.演示</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"This file demonstrates unsorted bin attack by write a large "</span></span><br><span class="line">                  <span class="string">"unsigned long value into stack\n"</span>);</span><br><span class="line">  <span class="built_in">fprintf</span>(</span><br><span class="line">      <span class="built_in">stderr</span>,</span><br><span class="line">      <span class="string">"In practice, unsorted bin attack is generally prepared for further "</span></span><br><span class="line">      <span class="string">"attacks, such as rewriting the "</span></span><br><span class="line">      <span class="string">"global variable global_max_fast in libc for further fastbin attack\n\n"</span>);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">unsigned</span> <span class="keyword">long</span> target_var = <span class="number">0</span>;</span><br><span class="line">  <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>,</span><br><span class="line">          <span class="string">"Let's first look at the target we want to rewrite on stack:\n"</span>);</span><br><span class="line">  <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"%p: %ld\n\n"</span>, &amp;target_var, target_var);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">unsigned</span> <span class="keyword">long</span> *p = <span class="built_in">malloc</span>(<span class="number">400</span>);</span><br><span class="line">  <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"Now, we allocate first normal chunk on the heap at: %p\n"</span>,</span><br><span class="line">          p);</span><br><span class="line">  <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"And allocate another normal chunk in order to avoid "</span></span><br><span class="line">                  <span class="string">"consolidating the top chunk with"</span></span><br><span class="line">                  <span class="string">"the first one during the free()\n\n"</span>);</span><br><span class="line">  <span class="built_in">malloc</span>(<span class="number">500</span>);</span><br><span class="line"></span><br><span class="line">  <span class="built_in">free</span>(p);</span><br><span class="line">  <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"We free the first chunk now and it will be inserted in the "</span></span><br><span class="line">                  <span class="string">"unsorted bin with its bk pointer "</span></span><br><span class="line">                  <span class="string">"point to %p\n"</span>,</span><br><span class="line">          (<span class="keyword">void</span> *)p[<span class="number">1</span>]);</span><br><span class="line"></span><br><span class="line">  <span class="comment">/*------------VULNERABILITY-----------*/</span></span><br><span class="line"></span><br><span class="line">  p[<span class="number">1</span>] = (<span class="keyword">unsigned</span> <span class="keyword">long</span>)(&amp;target_var - <span class="number">2</span>);</span><br><span class="line">  <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"Now emulating a vulnerability that can overwrite the "</span></span><br><span class="line">                  <span class="string">"victim-&gt;bk pointer\n"</span>);</span><br><span class="line">  <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"And we write it with the target address-16 (in 32-bits "</span></span><br><span class="line">                  <span class="string">"machine, it should be target address-8):%p\n\n"</span>,</span><br><span class="line">          (<span class="keyword">void</span> *)p[<span class="number">1</span>]);</span><br><span class="line"></span><br><span class="line">  <span class="comment">//------------------------------------</span></span><br><span class="line"></span><br><span class="line">  <span class="built_in">malloc</span>(<span class="number">400</span>);</span><br><span class="line">  <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"Let's malloc again to get the chunk we just free. During "</span></span><br><span class="line">                  <span class="string">"this time, target should has already been "</span></span><br><span class="line">                  <span class="string">"rewrite:\n"</span>);</span><br><span class="line">  <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"%p: %p\n"</span>, &amp;target_var, (<span class="keyword">void</span> *)target_var);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><img src="/2020/12/22/%E5%A0%86%E6%BC%8F%E6%B4%9E%E5%8F%8A%E5%85%B6%E5%88%A9%E7%94%A8/image-20201222164945226.png" alt="image-20201222164945226"></p>
+<p><img src="/2020/12/22/%E5%A0%86%E6%BC%8F%E6%B4%9E%E5%8F%8A%E5%85%B6%E5%88%A9%E7%94%A8/unsorted_bin_attack_order.png" alt="img"></p>
+<ol>
+<li></li>
+</ol>
+</blockquote>
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>Copyright： </strong>
+          
+          Copyright is owned by the author. For commercial reprints, please contact the author for authorization. For non-commercial reprints, please indicate the source.
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://pz1o.top/2020/12/22/%E5%A0%86%E6%BC%8F%E6%B4%9E%E5%8F%8A%E5%85%B6%E5%88%A9%E7%94%A8/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/PWN/" rel="tag">PWN</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%A0%86/" rel="tag">堆</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+      <a href="/2099/09/27/Flag/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            Flag
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2020/12/16/plt%E8%A1%A8%E5%92%8Cgot%E8%A1%A8/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">plt表和got表</div>
+      </a>
+    
+  </nav>
+
+   
+<!-- valine评论 -->
+<div id="vcomments-box">
+  <div id="vcomments"></div>
+</div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js"></script>
+<script>
+  new Valine({
+    el: "#vcomments",
+    app_id: "KLWvKGPeSIyoEo4k6j3v37wy-gzGzoHsz",
+    app_key: "FL93w3BBbF9lxiR8X1HI58En",
+    path: window.location.pathname,
+    avatar: "monsterid",
+    placeholder: "给我的文章加点评论吧~",
+    recordIP: true,
+  });
+  const infoEle = document.querySelector("#vcomments .info");
+  if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0) {
+    infoEle.childNodes.forEach(function (item) {
+      item.parentNode.removeChild(item);
+    });
+  }
+</script>
+<style>
+  #vcomments-box {
+    padding: 5px 30px;
+  }
+
+  @media screen and (max-width: 800px) {
+    #vcomments-box {
+      padding: 5px 0px;
+    }
+  }
+
+  #vcomments-box #vcomments {
+    background-color: #fff;
+  }
+
+  .v .vlist .vcard .vh {
+    padding-right: 20px;
+  }
+
+  .v .vlist .vcard {
+    padding-left: 10px;
+  }
+</style>
+
+ 
+     
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2020
+        <i class="ri-heart-fill heart_icon"></i> Pz1o
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        
+        Powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+        <span class="division">|</span>
+        Theme - <a href="https://github.com/Shen-Yu/hexo-theme-ayer" target="_blank">Ayer</a>
+        
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        <span>
+  <span><i class="ri-user-3-fill"></i>Visitors:<span id="busuanzi_value_site_uv"></span></s>
+  <span class="division">|</span>
+  <span><i class="ri-eye-fill"></i>Views:<span id="busuanzi_value_page_pv"></span></span>
+</span>
+        
+      </li>
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+      </li>
+    </ul>
+  </div>
+</footer>
+      <div class="float_btns">
+        <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+      </div>
+    </main>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/avatar.jpg" alt="Pz1o"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">Home</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">Archive</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">Catego</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">Tags</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about">About</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="Search">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+      <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+        <i class="ri-rss-line"></i>
+      </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <script>
+      if (window.matchMedia("(max-width: 768px)").matches) {
+        document.querySelector('.content').classList.remove('on');
+        document.querySelector('.sidebar').classList.remove('on');
+      }
+    </script>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/img/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/img/wechat.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: 'main',
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto'
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script>
+
+<!-- MathJax -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+      tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+  });
+
+  MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for(i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.6/unpacked/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+  var ayerConfig = {
+    mathjax: true
+  }
+</script>
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<script src="https://cdn.jsdelivr.net/npm/animejs@latest/anime.min.js"></script>
+
+<script src="/js/clickBoom1.js"></script>
+
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+
+
+<link rel="stylesheet" href="/css/clipboard.css">
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+<!-- CanvasBackground -->
+
+
+<script src="/js/dz.js"></script>
+
+
+
+    
+    <div id="music">
+    
+    
+    
+    <iframe frameborder="no" border="1" marginwidth="0" marginheight="0" width="200" height="52"
+        src="//music.163.com/outchain/player?type=2&id=22707008&auto=0&height=32"></iframe>
+</div>
+
+<style>
+    #music {
+        position: fixed;
+        right: 15px;
+        bottom: 0;
+        z-index: 998;
+    }
+</style>
+    
+  </div>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<!-- <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+</body>
+
+</html>

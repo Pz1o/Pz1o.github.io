@@ -90,7 +90,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">3.1k</span>
+            <span class="post-count">3.2k</span>
         </span>
     </span>
 
@@ -265,6 +265,13 @@
 <li>②将topchunk的size成员变为一个非常大的数，这样topchunk就会超出内存中的堆段，从而访问到其他段的内存地址（got表的地址）</li>
 <li>③此时通过malloc申请内存的时候，申请的就是got的内存地址，就可以更改got内存的内容</li>
 </ul>
+<h2 id="0x07-fastbin-attack"><a href="#0x07-fastbin-attack" class="headerlink" title="0x07 fastbin attack"></a>0x07 fastbin attack</h2><ul>
+<li>Fastbin Double Free</li>
+<li>House of Spirit</li>
+<li>Alloc to Stack</li>
+<li>Arbitrary Alloc</li>
+</ul>
+<p>其中，前两种主要漏洞侧重于利用 <code>free</code> 函数释放<strong>真的 chunk 或伪造的 chunk</strong>，然后再次申请 chunk 进行攻击，后两种侧重于故意修改 <code>fd</code> 指针，直接利用 <code>malloc</code> 申请指定位置 chunk 进行攻击。</p>
 <h2 id="0x08-unsorted-bin-attack"><a href="#0x08-unsorted-bin-attack" class="headerlink" title="0x08 unsorted bin attack"></a>0x08 unsorted bin attack</h2><h3 id="1-概念-5"><a href="#1-概念-5" class="headerlink" title="1.概念"></a>1.概念</h3><p>Unsorted Bin Attack 被利用的前提是控制 Unsorted Bin Chunk 的 bk 指针。Unsorted Bin Attack 可以达到的效果是实现修改任意地址值为一个较大的数值。</p>
 <h3 id="2-使用情况"><a href="#2-使用情况" class="headerlink" title="2.使用情况"></a>2.使用情况</h3><ol>
 <li>Unsorted Bin 在使用的过程中，采用的遍历顺序是 FIFO，<strong>即插入的时候插入到 unsorted bin 的头部，取出的时候从链表尾获取</strong>。</li>

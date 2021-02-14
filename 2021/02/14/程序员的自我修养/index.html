@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+
+
+<html lang="en">
+
+
+<head>
+  <meta charset="utf-8" />
+   
+  <meta name="keywords" content="CTF" />
+   
+  <meta name="description" content="CTFer,CUMT" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>
+    程序员的自我修养 |  pz1o
+  </title>
+  <meta name="generator" content="hexo-theme-ayer">
+  
+  <link rel="shortcut icon" href="/favicon.ico" />
+  
+  
+<link rel="stylesheet" href="/dist/main.css">
+
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/css/remixicon.min.css">
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+  
+  
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+  
+  
+
+  
+
+<link rel="alternate" href="/atom.xml" title="pz1o" type="application/atom+xml">
+</head>
+
+</html>
+
+<body>
+  <div id="app">
+    
+      <canvas class="fireworks"></canvas>
+      <style>
+        .fireworks {
+          position: fixed;
+          left: 0;
+          top: 0;
+          z-index: 99999;
+          pointer-events: none;
+        }
+      </style>
+      
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-程序员的自我修养"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  程序员的自我修养
+</h1>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2021/02/14/%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E8%87%AA%E6%88%91%E4%BF%AE%E5%85%BB/" class="article-date">
+  <time datetime="2021-02-14T08:54:16.000Z" itemprop="datePublished">2021-02-14</time>
+</a>   
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> Word count:</span>
+            <span class="post-count">4.8k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> Reading time≈</span>
+            <span class="post-count">18 min</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h1 id="0x01-编译和链接"><a href="#0x01-编译和链接" class="headerlink" title="0x01 编译和链接"></a>0x01 编译和链接</h1><h2 id="1-被隐藏了的过程"><a href="#1-被隐藏了的过程" class="headerlink" title="1.被隐藏了的过程"></a>1.被隐藏了的过程</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gcc a.c</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>有四个过程</p>
+<p>预处理—&gt;编译—&gt;汇编—&gt;链接</p>
+</blockquote>
+<h3 id="1-1-预编译"><a href="#1-1-预编译" class="headerlink" title="1.1 预编译"></a>1.1 预编译</h3><p>预编译主要来处理那些源代码文件中的以”#”开头的预编译指令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">gcc -E a.c -o a.i</span><br><span class="line">cpp a.c &gt; a.i</span><br></pre></td></tr></table></figure>
+<h3 id="1-2-编译"><a href="#1-2-编译" class="headerlink" title="1.2 编译"></a>1.2 编译</h3><p>编译就是把预处理完的文件转化成相应的汇编代码文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gcc -S a.i -o a.s</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>c编译器使用cc1</p>
+<p>c++是cc1plus</p>
+</blockquote>
+<h3 id="1-3-汇编"><a href="#1-3-汇编" class="headerlink" title="1.3 汇编"></a>1.3 汇编</h3><p>汇编器是将汇编代码转变成机器可执行的指令</p>
+<p>简单来说就是翻译，将汇编代码与机器指令一一对照翻译</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">as a.s -o a.o</span><br><span class="line">gcc -c a.s -o a.o</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>汇编器是as</p>
+</blockquote>
+<p>从源文件开始，预编译，编译，汇编输出的文件叫做目标文件。</p>
+<h3 id="1-4-链接"><a href="#1-4-链接" class="headerlink" title="1.4 链接"></a>1.4 链接</h3><p>链接可以说是最难以理解的一个过程</p>
+<p>接下来会说</p>
+<h2 id="2-编译器在做什么"><a href="#2-编译器在做什么" class="headerlink" title="2.编译器在做什么"></a>2.编译器在做什么</h2><p>也就是上面我们说的第二步</p>
+<p>它通常有6个过程</p>
+<ol>
+<li>扫描</li>
+<li>语法分析</li>
+<li>语义分析</li>
+<li>源代码优化</li>
+<li>代码生成</li>
+<li>目标代码优化</li>
+</ol>
+<h3 id="2-1-词法分析"><a href="#2-1-词法分析" class="headerlink" title="2.1 词法分析"></a>2.1 词法分析</h3><p>首先源代码会被输入到扫描器中，扫描器简单地进行词法分析，运用一种类似于<strong>有限状态机</strong>地算法将源代码地字符序列分割成一系列地记号。</p>
+<p>记号一般为：关键字、识别符、字面量（数字和字符串等）和特殊符号（加号和等号）。</p>
+<h3 id="2-2-语法分析"><a href="#2-2-语法分析" class="headerlink" title="2.2 语法分析"></a>2.2 语法分析</h3><p><strong>语法分析器</strong>将对由扫描器产生的记号进行语法分析，<strong>从而产生语法树</strong></p>
+<p>简单来说，语法分析器产生的语法树就是以<strong>表达式</strong>为节点的树</p>
+<p>具体图可以看书</p>
+<h3 id="2-3-语义分析"><a href="#2-3-语义分析" class="headerlink" title="2.3 语义分析"></a>2.3 语义分析</h3><p><strong>语义分析器</strong>进行语义分析</p>
+<p>编译器所能分析的只是<strong>静态语义</strong>，与之所对应的<strong>动态语义</strong>，只有在运行过程中才可以确定</p>
+<p>静态语义通常包括声明和类型的匹配，类型转换。</p>
+<p>例如将浮点数赋值给指针很明显就是类型不匹配的。</p>
+<p>经过语义分析之后，语法树上的表达式会被标识类型。</p>
+<h3 id="2-4-中间语言生成"><a href="#2-4-中间语言生成" class="headerlink" title="2.4 中间语言生成"></a>2.4 中间语言生成</h3><p><strong>源码级优化器</strong>在不同编译器中会有所差别。</p>
+<p>但作用是一样的，都是将整个语法树转换成中间代码。</p>
+<p>中间代码·使得编译器生成前端和后端。前端负责产生机器无关的中间代码，编译器后端将中间代码转换成目标机器代码。</p>
+<h3 id="2-5-目标代码生成与优化"><a href="#2-5-目标代码生成与优化" class="headerlink" title="2.5 目标代码生成与优化"></a>2.5 目标代码生成与优化</h3><p>编译器后端主要包括<strong>代码生成器</strong>和<strong>目标代码优化器</strong></p>
+<p>代码生成器：将中间代码转换成机器代码，不同机器的不同字长、寄存器、整数数据类型、浮点数数据类型都会影响代码生成器。</p>
+<p>我们经过以上步骤生成的代码全都是<strong>未经链接的目标代码</strong>，最终都需要通过链接器将目标文件链接起来产生可执行文件。</p>
+<h2 id="3-链接器"><a href="#3-链接器" class="headerlink" title="3.链接器"></a>3.链接器</h2><p><strong>重定位</strong>：重新计算各个目标地址过程</p>
+<p><strong>符号</strong>：用来表示一个地址，可能是一段子程序的起始地址，或一个变量的起始地址</p>
+<h2 id="4-静态链接"><a href="#4-静态链接" class="headerlink" title="4.静态链接"></a>4.静态链接</h2><p>每个源码独立地编译，然后按照需要将他们组装起来，组装模块的过程叫做<strong>链接</strong>。</p>
+<p>链接过程包括<strong>地址空间分配（Address and Storage Allocation）、符号决议（Symbol Resolution）和重定位（Relocation）</strong></p>
+<blockquote>
+<p>符号决议和符号绑定大体是差不多的，但决议用于静态链接，绑定用于动态链接</p>
+</blockquote>
+<p><img src="/2021/02/14/%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E8%87%AA%E6%88%91%E4%BF%AE%E5%85%BB/image-20210207155541582.png" alt="image-20210207155541582"></p>
+<p>如图所示，源代码文件编译成目标文件，<strong>目标文件和库一起链接成可执行文件</strong>。</p>
+<blockquote>
+<p>举个例子</p>
+<p>在main.c中需要其他模块fun.c中的foo()</p>
+<p>所以我们在main.c中每一处调用foo的时候都必须知道foo这个函数的地址，但由于是单独编译的</p>
+<p>我们并不知道这个地址，若无链接器，我们需要手动修正地址</p>
+<p>通过链接器我们可以直接引用foo而无需知道它的地址，因为链接器在链接的时候，会根据所引用的符号foo，自动去相应的模块查找foo的地址，并将main中foo的地址重新修正</p>
+</blockquote>
+<h1 id="0x02-目标文件"><a href="#0x02-目标文件" class="headerlink" title="0x02 目标文件"></a>0x02 目标文件</h1><p>我们上面已经知道源代码经过预处理，编译，汇编产生的文件就叫<strong>目标文件</strong>。</p>
+<p>目标文件其实是已经编译后的可执行文件，只是有些符号和地址未被调整，本身就是按照可执行文件格式存储的，但和真正可执行文件还有所不同。</p>
+<p>可以先来看一下</p>
+<p><img src="/2021/02/14/%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E8%87%AA%E6%88%91%E4%BF%AE%E5%85%BB/image-20210207161220722.png" alt="image-20210207161220722"></p>
+<p>下面我们将讲这个文件到底是什么</p>
+<h2 id="1-目标文件的格式"><a href="#1-目标文件的格式" class="headerlink" title="1.目标文件的格式"></a>1.目标文件的格式</h2><p>我们熟知的windows下的PE（Portable Executable）和Linux的ELF（Executable Linkable Format）的是可执行文件</p>
+<p>目标文件就是源代码编译后但未进行链接的中间文件。它与可执行文件的内容和结构很相似，所以一般跟可执行文件格式一起用一种格式存储。</p>
+<p>此外，还有其他可执行文件格式OMF（Object Module Format）和Unix a.out格式和MS-DOS.COM格式等。</p>
+<p><strong>动态链接库</strong>（Dynamic Linking Library）（windows下的dll和linux中的so）及<strong>静态链接库</strong>（Static Linking Libary）（windows下的lib和Linux中的a）都按照可执行文件格式存储</p>
+<p>静态链接库是一个包含有很多目标文件的文件包</p>
+<p>文件格式如下</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:left">ELF文件类型</th>
+<th>说明</th>
+<th>实例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">重定位文件(Relocatable File)</td>
+<td>包含代码和数据，可以被链接成可执行文件或目标文件</td>
+<td>Linux中.o Win下的obj</td>
+</tr>
+<tr>
+<td style="text-align:left">可执行文件(Executable File)</td>
+<td>可以执行的程序,通常无扩展名</td>
+<td>Linux中.out Win下的.exe</td>
+</tr>
+<tr>
+<td style="text-align:left">共享目标文件(Shared Object File)</td>
+<td>包含代码和数据，有两种情况。第一种是链接器可以使用这种文件跟其他的重定位文件和共享目标文件进行链接产生<strong>新的目标文件</strong>。第二种事动态链接器可以将几个共享目标文件与可执行文件结合，作为进程映像的一部分来运行</td>
+<td>Linux中.so和Win中DLL</td>
+</tr>
+<tr>
+<td style="text-align:left">核心转储文件(Core Dump File)</td>
+<td>当进程意外终止时，系统可以将该进程的地址空间的内容及终止时的一些其他信息转储到核心转储文件</td>
+<td>Linux中的Core Dump</td>
+</tr>
+</tbody>
+</table>
+</div>
+<blockquote>
+<p><img src="/2021/02/14/%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E8%87%AA%E6%88%91%E4%BF%AE%E5%85%BB/image-20210208204903438.png" alt="image-20210208204903438"></p>
+</blockquote>
+<h2 id="2-目标文件是什么样的"><a href="#2-目标文件是什么样的" class="headerlink" title="2.目标文件是什么样的"></a>2.目标文件是什么样的</h2><p>目标文件除了机器指令代码、数据，还包括了链接时所需要的一些信息，比如符号表、调试信息和符号串等。</p>
+<p>目标文件通常将这些信息按不同的属性，以<strong>节</strong>（Section）来存储，也叫<strong>段</strong>（Segment）</p>
+<p>我们熟知的代码段、数据段就是这个东西</p>
+<p><strong>代码段</strong>存储代码叫<code>.code</code>或<code>.text</code></p>
+<p><strong>数据段</strong>存储全局变量和局部静态变量叫<code>.data</code></p>
+<p><img src="/2021/02/14/%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E8%87%AA%E6%88%91%E4%BF%AE%E5%85%BB/image-20210208205643721.png" alt="image-20210208205643721"></p>
+<blockquote>
+<p>从这个图中可以看到，ELF文件的开头是一个文件头，<strong>它描述了整个文件的文件属性，包括文件是否可执行、是静态链接还是动态链接、目标硬件、目标操作系统等各种信息</strong></p>
+<p>此外，文件头还有一个<strong>段表</strong>，</p>
+<p>段表是一个描述<strong>文件中各个段的数组</strong>。段表描述了文件中各个段在文件中的偏移位置以及段的属性等，从段里面可以得到每个段的所有信息。</p>
+<p>文件头之后就是各个段的内容</p>
+</blockquote>
+<p><code>.text</code>：存储c语言编译后的执行语句编译成的机器代码</p>
+<p><code>.data</code>：存储已初始化的全局变量和局部静态变量</p>
+<p><code>.bss</code>：存储未初始化的全局变量和局部静态变量</p>
+<blockquote>
+<p>那么为什么要设置bss段呢？</p>
+<p>在程序中，未初始化的变量是0，如果把他们放在data段并分配空间赋值0是完全浪费空间的一种做法，</p>
+<p>所以可执行文件为了记录所有未初始化的全局变量和局部静态变量的大小总和，记做bss段</p>
+<p><strong>bss段只是为未初始化的全局变量和局部静态变量预留位置而已，并没有内容，在文件中也不占空间</strong></p>
+</blockquote>
+<p><strong>总体来说，程序源代码被编译以后主要分成两种段：程序指令和程序数据。代码段属于程序指令，而数据段和bss段属于程序数据。</strong></p>
+<h2 id="3-挖掘SimpleSection-o"><a href="#3-挖掘SimpleSection-o" class="headerlink" title="3.挖掘SimpleSection.o"></a>3.挖掘SimpleSection.o</h2><p>这里我们换成a.o</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> global_init_var = <span class="number">84</span>;</span><br><span class="line"><span class="keyword">int</span> global_uninit_var;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">func1</span><span class="params">(<span class="keyword">int</span> i)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"%d\n"</span>,i);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">static</span> <span class="keyword">int</span> static_var = <span class="number">85</span>;</span><br><span class="line">	<span class="keyword">static</span> <span class="keyword">int</span> static_var2;</span><br><span class="line">	<span class="keyword">int</span> a = <span class="number">1</span>;</span><br><span class="line">	<span class="keyword">int</span> b;</span><br><span class="line">	func1(static_var + static_var2 + a + b);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>编译一下</p>
+<p><img src="/2021/02/14/%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E8%87%AA%E6%88%91%E4%BF%AE%E5%85%BB/image-20210209161901015.png" alt="image-20210209161901015"></p>
+<p>现在我们来具体分析一下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ objdump -h a.o</span><br><span class="line">&#x2F;&#x2F;-h将基本信息打印出来</span><br><span class="line">&#x2F;&#x2F;-x打印更多信息</span><br></pre></td></tr></table></figure>
+<p><img src="/2021/02/14/%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E8%87%AA%E6%88%91%E4%BF%AE%E5%85%BB/image-20210209162052499.png" alt="image-20210209162052499"></p>
+<blockquote>
+<p>代码段，数据段，bss段我们已经知道了</p>
+<p>可以看到还有<strong>只读数据段</strong><code>.rodata</code> <strong>注释段</strong><code>.comment</code> <strong>堆栈提示段</strong><code>.note.GNU-stack</code>段</p>
+<p>下面第二行CONTENTS ALLOC表示段的各种属性，CONTENTS表示该段在文件中存在</p>
+<p>看到BSS段是没有CONTENTS表示它实际在ELF文件中不存在内容</p>
+<p>下面我们就来看一下各个段的分布</p>
+</blockquote>
+<p>这里和书上不同的是<code>.note.GNU-stack</code>占了内容，那么我们也把他写上</p>
+<p><img src="/2021/02/14/%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E8%87%AA%E6%88%91%E4%BF%AE%E5%85%BB/image-20210209163804417.png" alt="image-20210209163804417"></p>
+<h3 id="3-1-代码段"><a href="#3-1-代码段" class="headerlink" title="3.1 代码段"></a>3.1 代码段</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ objdump -s -d a.o</span><br><span class="line">&#x2F;&#x2F;-s 将段内容按照16进制打印</span><br><span class="line">&#x2F;&#x2F;-d 可以将所有包含指令的段反汇编</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line">a.o：     文件格式 elf32-i386</span><br><span class="line"></span><br><span class="line">Contents of section .text:</span><br><span class="line"> 0000 5589e583 ec0883ec 08ff7508 68000000  U.........u.h...</span><br><span class="line"> 0010 00e8fcff ffff83c4 1090c9c3 8d4c2404  .............L$.</span><br><span class="line"> 0020 83e4f0ff 71fc5589 e55183ec 14c745f0  ....q.U..Q....E.</span><br><span class="line"> 0030 01000000 8b150400 0000a100 00000001  ................</span><br><span class="line"> 0040 c28b45f0 01c28b45 f401d083 ec0c50e8  ..E....E......P.</span><br><span class="line"> 0050 fcffffff 83c410b8 00000000 8b4dfcc9  .............M..</span><br><span class="line"> 0060 8d61fcc3                             .a..            </span><br><span class="line">Contents of section .data:</span><br><span class="line"> 0000 54000000 55000000                    T...U...        </span><br><span class="line">Contents of section .rodata:</span><br><span class="line"> 0000 25640a00                             %d..            </span><br><span class="line">Contents of section .comment:</span><br><span class="line"> 0000 00474343 3a202855 62756e74 7520352e  .GCC: (Ubuntu 5.</span><br><span class="line"> 0010 342e302d 36756275 6e747531 7e31362e  4.0-6ubuntu1~16.</span><br><span class="line"> 0020 30342e31 32292035 2e342e30 20323031  04.12) 5.4.0 201</span><br><span class="line"> 0030 36303630 3900                        60609.          </span><br><span class="line">Contents of section .eh_frame:</span><br><span class="line"> 0000 14000000 00000000 017a5200 017c0801  .........zR..|..</span><br><span class="line"> 0010 1b0c0404 88010000 1c000000 1c000000  ................</span><br><span class="line"> 0020 00000000 1c000000 00410e08 8502420d  .........A....B.</span><br><span class="line"> 0030 0558c50c 04040000 28000000 3c000000  .X......(...&lt;...</span><br><span class="line"> 0040 1c000000 48000000 00440c01 00471005  ....H....D...G..</span><br><span class="line"> 0050 02750043 0f03757c 06750c01 0041c543  .u.C..u|.u...A.C</span><br><span class="line"> 0060 0c040400                             ....            </span><br><span class="line"></span><br><span class="line">Disassembly of section .text:</span><br><span class="line"></span><br><span class="line">00000000 &lt;func1&gt;:</span><br><span class="line">   0:	55                   	push   %ebp</span><br><span class="line">   1:	89 e5                	mov    %esp,%ebp</span><br><span class="line">   3:	83 ec 08             	sub    $0x8,%esp</span><br><span class="line">   6:	83 ec 08             	sub    $0x8,%esp</span><br><span class="line">   9:	ff 75 08             	pushl  0x8(%ebp)</span><br><span class="line">   c:	68 00 00 00 00       	push   $0x0</span><br><span class="line">  11:	e8 fc ff ff ff       	call   12 &lt;func1+0x12&gt;</span><br><span class="line">  16:	83 c4 10             	add    $0x10,%esp</span><br><span class="line">  19:	90                   	nop</span><br><span class="line">  1a:	c9                   	leave  </span><br><span class="line">  1b:	c3                   	ret    </span><br><span class="line"></span><br><span class="line">0000001c &lt;main&gt;:</span><br><span class="line">  1c:	8d 4c 24 04          	lea    0x4(%esp),%ecx</span><br><span class="line">  20:	83 e4 f0             	and    $0xfffffff0,%esp</span><br><span class="line">  23:	ff 71 fc             	pushl  -0x4(%ecx)</span><br><span class="line">  26:	55                   	push   %ebp</span><br><span class="line">  27:	89 e5                	mov    %esp,%ebp</span><br><span class="line">  29:	51                   	push   %ecx</span><br><span class="line">  2a:	83 ec 14             	sub    $0x14,%esp</span><br><span class="line">  2d:	c7 45 f0 01 00 00 00 	movl   $0x1,-0x10(%ebp)</span><br><span class="line">  34:	8b 15 04 00 00 00    	mov    0x4,%edx</span><br><span class="line">  3a:	a1 00 00 00 00       	mov    0x0,%eax</span><br><span class="line">  3f:	01 c2                	add    %eax,%edx</span><br><span class="line">  41:	8b 45 f0             	mov    -0x10(%ebp),%eax</span><br><span class="line">  44:	01 c2                	add    %eax,%edx</span><br><span class="line">  46:	8b 45 f4             	mov    -0xc(%ebp),%eax</span><br><span class="line">  49:	01 d0                	add    %edx,%eax</span><br><span class="line">  4b:	83 ec 0c             	sub    $0xc,%esp</span><br><span class="line">  4e:	50                   	push   %eax</span><br><span class="line">  4f:	e8 fc ff ff ff       	call   50 &lt;main+0x34&gt;</span><br><span class="line">  54:	83 c4 10             	add    $0x10,%esp</span><br><span class="line">  57:	b8 00 00 00 00       	mov    $0x0,%eax</span><br><span class="line">  5c:	8b 4d fc             	mov    -0x4(%ebp),%ecx</span><br><span class="line">  5f:	c9                   	leave  </span><br><span class="line">  60:	8d 61 fc             	lea    -0x4(%ecx),%esp</span><br><span class="line">  63:	c3                   	ret</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>通过上面这段代码</p>
+<p>我们对文件内容有了更深入的了解</p>
+<p>最左面是偏移量，中间是16进制内容，右面是ascii形式</p>
+<p>反汇编结果我们也很熟悉</p>
+</blockquote>
+<h3 id="3-2-数据段和只读数据段"><a href="#3-2-数据段和只读数据段" class="headerlink" title="3.2 数据段和只读数据段"></a>3.2 数据段和只读数据段</h3><p><code>.data</code>段保存<strong>已经初始化了的全局静态变量和局部静态变量</strong>,所以上面程序中<code>.data</code>是八个字节</p>
+<p><code>.rodata</code>存放只读数据，一般是程序里面的只读变量和字符串常量，例如上面中<code>printf</code>的参数<code>%d\n\0</code>是四个字节</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Contents of section .data:</span><br><span class="line"> 0000 54000000 55000000                    T...U...        </span><br><span class="line">Contents of section .rodata:</span><br><span class="line"> 0000 25640a00                             %d..</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>也可以看出<code>.data</code>是84 85从低到高是0x54 0x00 0x00 0x00</p>
+<p><code>.rodata</code>是%d\n\0</p>
+</blockquote>
+<h3 id="3-3-BSS段"><a href="#3-3-BSS段" class="headerlink" title="3.3 BSS段"></a>3.3 BSS段</h3><p><code>.bss</code>段存储<strong>未初始化的全局变量和局部静态变量</strong>。</p>
+<h3 id="3-4-其他段"><a href="#3-4-其他段" class="headerlink" title="3.4 其他段"></a>3.4 其他段</h3><p><img src="/2021/02/14/%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E8%87%AA%E6%88%91%E4%BF%AE%E5%85%BB/image-20210210140348425.png" alt="image-20210210140348425"></p>
+<p>这些段都是由.来做前缀，说明这些表的名字是系统保留的。我们可以自定义段名，并在文件中插入这个段，达到自己想干的事情。</p>
+<blockquote>
+<p>将一个二进制文件如图片，音乐作为目标文件的一个段</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">objcopy -I binary -O elf32-i386 -B i386 image.jpg image.o</span><br><span class="line">objdump -ht image.o</span><br></pre></td></tr></table></figure>
+<h2 id="4-ELF文件结构描述"><a href="#4-ELF文件结构描述" class="headerlink" title="4.ELF文件结构描述"></a>4.ELF文件结构描述</h2><p><img src="/2021/02/14/%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E8%87%AA%E6%88%91%E4%BF%AE%E5%85%BB/image-20210210141207866.png" alt="image-20210210141207866"></p>
+<p>ELF目标文件格式最前面是<strong>ELF文件头</strong>，包含整个文件的基本属性，如ELF文件版本、目标机器型号、程序入口地址等。</p>
+<p>在ELF文件中与段有关的重要结构就是段表(Section Hearder Table)，该表描述了ELF文件包含的所有段的信息，如每个段的段名、段的长度、在文件中的偏移和读写权限等。</p>
+<h3 id="4-1-文件头"><a href="#4-1-文件头" class="headerlink" title="4.1 文件头"></a>4.1 文件头</h3><p>查看ELF文件</p>
+<p><img src="/2021/02/14/%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E8%87%AA%E6%88%91%E4%BF%AE%E5%85%BB/image-20210210141759681.png" alt="image-20210210141759681"></p>
+<p>ELF头中包括了<strong>魔数，文件机器字节长度、数据存储方式、版本、运行平台、ABI版本、重定位类型、硬件平台、平台版本、入口地址、程序头入口和长度、段表位置和长度及段的数量</strong></p>
+<p>为了更好定义各个成员大小、elf.h有一套自己变量体系</p>
+<p><img src="/2021/02/14/%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E8%87%AA%E6%88%91%E4%BF%AE%E5%85%BB/image-20210210142310041.png" alt="image-20210210142310041"></p>
+<p>下面来看一下“Elf32_Ehdr”这个结构体</p>
+<p><img src="/2021/02/14/%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E8%87%AA%E6%88%91%E4%BF%AE%E5%85%BB/image-20210210142459097.png" alt="image-20210210142459097"></p>
+<p><img src="/2021/02/14/%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E8%87%AA%E6%88%91%E4%BF%AE%E5%85%BB/image-20210210142507074.png" alt="image-20210210142507074"></p>
+<p>之后我们来对照一下</p>
+<p><img src="/2021/02/14/%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E8%87%AA%E6%88%91%E4%BF%AE%E5%85%BB/image-20210210142536099.png" alt="image-20210210142536099"></p>
+<p><img src="/2021/02/14/%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E8%87%AA%E6%88%91%E4%BF%AE%E5%85%BB/image-20210210142548337.png" alt="image-20210210142548337"></p>
+<p>这里具体来说一下魔数</p>
+<p><strong>魔数</strong>：</p>
+<p>ELF的魔数上面我们可以看到是16字节，也就是对应的16个数组</p>
+<p><img src="/2021/02/14/%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E8%87%AA%E6%88%91%E4%BF%AE%E5%85%BB/image-20210210142844872.png" alt="image-20210210142844872"></p>
+<p>最开始的4个字节是ELF文件必须相同的标识码</p>
+<p>为0x7F 0x45 0x4C 0x46 7F是ascii中的DEL控制符，45 4c 46分别是ascii中的ELF。几乎所有可执行文件格式开始都是魔数，如a.out的0x01 0x07，PE中的0x4d 0x5a。</p>
+<p>那么魔数是来干什么的？模式是用来确认文件的类型，操作系统在加载可执行文件的时候会确认魔数是否正确，如果不正确将会拒绝加载。</p>
+<p>下一个字节是0x01表示32位 0x02表示64位 </p>
+<p>第6个字节序 规定是大端还是小端</p>
+<p>第7个是主版本号，一般为1。后面的9个一般填0</p>
+<p><strong>文件类型</strong></p>
+<p>e_type成员表示文件类型，就是前面说的三种文件类型。</p>
+<p>操作系统通过这个来判断ELF文件类型，而不是通过后缀名。</p>
+<p><img src="/2021/02/14/%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E8%87%AA%E6%88%91%E4%BF%AE%E5%85%BB/image-20210210143702078.png" alt="image-20210210143702078"></p>
+<h3 id="4-2-段表"><a href="#4-2-段表" class="headerlink" title="4.2 段表"></a>4.2 段表</h3><p><strong>段表（Section Header Table）</strong>是保存这些段的基本属性的结构。</p>
+<p>可以说，ELF文件的段结构就是由段表来决定的，编译器、链接器、和装载器都是依靠段表来定位和访问各个段的属性的。</p>
+<p>段表由ELF文件头的<code>e_shoff</code>成员决定。</p>
+<p>下面我们来看一下真正的段</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ readelf -S a.o</span><br><span class="line">&#x2F;&#x2F;各个段</span><br></pre></td></tr></table></figure>
+<p><img src="/2021/02/14/%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E8%87%AA%E6%88%91%E4%BF%AE%E5%85%BB/image-20210210144604296.png" alt="image-20210210144604296"></p>
+<p>每个段都是以<code>Elf32_Shdr</code>结构体，因此<code>Elf32_Shdr</code>又叫做<strong>段描述符</strong></p>
+<p>所以上面就是有13个结构体，此外第一个是无用的，所以只有12个有效段。</p>
+<p>可以来看一下<code>Elf32_Shdr</code></p>
+<p><img src="/2021/02/14/%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E8%87%AA%E6%88%91%E4%BF%AE%E5%85%BB/image-20210210144945550.png" alt="image-20210210144945550"></p>
+<p><img src="/2021/02/14/%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E8%87%AA%E6%88%91%E4%BF%AE%E5%85%BB/image-20210210145159772.png" alt="image-20210210145159772"></p>
+<p><strong>段的类型</strong></p>
+<p>段的名字只在链接和编译中有意义，但不能真正表示段的类型。</p>
+<p>对于编译器和链接器来说，<strong>主要决定段的属性是段的类型（sh_type）和段的标志位(sh_flags)</strong></p>
+<p><img src="/2021/02/14/%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E8%87%AA%E6%88%91%E4%BF%AE%E5%85%BB/image-20210210145930584.png" alt="image-20210210145930584"></p>
+<p><img src="/2021/02/14/%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E8%87%AA%E6%88%91%E4%BF%AE%E5%85%BB/image-20210210145922440.png" alt="image-20210210145922440"></p>
+<p><strong>段的标志位</strong></p>
+<p>段的标志位表示该段在进程虚拟地址空间中的属性，如是否可写可执行等。</p>
+<p><img src="/2021/02/14/%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E8%87%AA%E6%88%91%E4%BF%AE%E5%85%BB/image-20210210150400718.png" alt="image-20210210150400718"></p>
+<p><img src="/2021/02/14/%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E8%87%AA%E6%88%91%E4%BF%AE%E5%85%BB/image-20210210150408040.png" alt="image-20210210150408040"></p>
+<p><img src="/2021/02/14/%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E8%87%AA%E6%88%91%E4%BF%AE%E5%85%BB/image-20210210150429555.png" alt="image-20210210150429555"></p>
+<p><strong>段的链接信息</strong></p>
+<p>如果段类型是与链接相关的，如重定位表、符号表等，那么sh_link和sh_info是有意义的</p>
+<p><img src="/2021/02/14/%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E8%87%AA%E6%88%91%E4%BF%AE%E5%85%BB/image-20210210150637999.png" alt="image-20210210150637999"></p>
+<h3 id="4-3-重定位表"><a href="#4-3-重定位表" class="headerlink" title="4.3 重定位表"></a>4.3 重定位表</h3><p>链接器在处理目标文件时，需要对目标文件中某些部位进行重定位，即代码段和数据段中那些对绝对地址引用的位置。这些重定位记录都会记录在重定位表里。</p>
+<p><code>.rel.text</code>就是一个重定位表。</p>
+<p><strong>每个重定位的段都会有一个相应的重定位的表</strong>。</p>
+<p>如<code>.text</code>中有<code>printf</code>的调用，所以就会有<code>.rel.text</code>而<code>.data</code>就没有重定位的。</p>
+<p>重定位表同时也是ELF的一个段，所以这个段的类型就是<code>SHT_REL</code>类型。<code>sh_link</code>就是符号表的下标，<code>sh_info</code>就是作用于哪个段。</p>
+<hr>
+<h3 id="4-4-字符串表"><a href="#4-4-字符串表" class="headerlink" title="4.4 字符串表"></a>4.4 字符串表</h3><p>字符串由于比较复杂，所以把字符串集中在一个表里就很简便，然后用偏移来表示字符串。</p>
+<h2 id="5-符号"><a href="#5-符号" class="headerlink" title="5.符号"></a>5.符号</h2><p>在链接中，目标文件中间相互拼合实际上是目标文件之间对地址的引用。即对函数和变量的地址的引用。</p>
+<p>如目标文件B用目标文件A中foo函数，那么就是目标文件A<strong>定义了foo</strong>，目标文件B<strong>引用了foo</strong>。</p>
+<p>在链接中，我们将函数和变量统称为<strong>符号</strong>，函数名和变量名为<strong>符号名</strong></p>
+<p><strong>在链接过程中很关键就是符号的管理，每一个目标文件都会有一个相应的符号表，这个表里面记录了目标文件用到的所有符号。每个定义的符号有一个对应的值叫符号值，符号值就是地址。</strong></p>
+<p>具体符号有下面几种类型</p>
+<p><img src="/2021/02/14/%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E8%87%AA%E6%88%91%E4%BF%AE%E5%85%BB/image-20210210153736035.png" alt="image-20210210153736035"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ nm a.o</span><br><span class="line">&#x2F;&#x2F;看符号</span><br></pre></td></tr></table></figure>
+<p><img src="/2021/02/14/%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E8%87%AA%E6%88%91%E4%BF%AE%E5%85%BB/image-20210210203929970.png" alt="image-20210210203929970"></p>
+<h3 id="5-1-ELF符号表结构"><a href="#5-1-ELF符号表结构" class="headerlink" title="5.1 ELF符号表结构"></a>5.1 ELF符号表结构</h3><p>ELF文件中符号表往往是一个段，一般叫做<code>.symtab</code>。符号表的结构是一个ELF32_Sym结构的数组，每个结构都是一个符号。</p>
+<p>Elf32_Sym的结构定义</p>
+<p><img src="/2021/02/14/%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E8%87%AA%E6%88%91%E4%BF%AE%E5%85%BB/image-20210210204148472.png" alt="image-20210210204148472"></p>
+<p>成员意义如下图</p>
+<p><img src="/2021/02/14/%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E8%87%AA%E6%88%91%E4%BF%AE%E5%85%BB/image-20210210204233887.png" alt="image-20210210204233887"></p>
+<p><strong>符号类型和绑定信息（st_info）</strong></p>
+<p>成员低4为是符号的类型，高28为表示符号绑定信息</p>
+<p><img src="/2021/02/14/%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E8%87%AA%E6%88%91%E4%BF%AE%E5%85%BB/image-20210210204418983.png" alt="image-20210210204418983"></p>
+<p><strong>符号所在段（st_shndx）</strong></p>
+<p>如果符号定义在本目标文件中，这个成员表示符号所在的段在段表的下标；但如果符号不是定义在本目标文件中，或者对于有些特殊符号，sh_shndx的值会有些特殊</p>
+<p><img src="/2021/02/14/%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E8%87%AA%E6%88%91%E4%BF%AE%E5%85%BB/image-20210210204647740.png" alt="image-20210210204647740"></p>
+<p><strong>符号值</strong></p>
+<p>上文说了，符号值就是每一个符号的变量地址</p>
+<p>具体来说，有以下几种类型</p>
+<p><img src="/2021/02/14/%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E8%87%AA%E6%88%91%E4%BF%AE%E5%85%BB/image-20210210204943554.png" alt="image-20210210204943554"></p>
+<p>看一下我们的符号表</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">readelf -s a.o</span><br></pre></td></tr></table></figure>
+<p><img src="/2021/02/14/%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E8%87%AA%E6%88%91%E4%BF%AE%E5%85%BB/image-20210210205129282.png" alt="image-20210210205129282"></p>
+<blockquote>
+<p>第一列Num就是数组下标，从零开始</p>
+<p>第二列vaule就是符号值，<code>st_value</code></p>
+<p>第三列Size为符号大小<code>st_size</code></p>
+<p>第四列和第五列为符号类型和绑定信息</p>
+<p>第七列就是Ndx即<code>st_shndx</code>表示符号所在的段。</p>
+<p>最后一列就是符号名称</p>
+</blockquote>
+<p>具体解释如下</p>
+<p><img src="/2021/02/14/%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E8%87%AA%E6%88%91%E4%BF%AE%E5%85%BB/image-20210210205708052.png" alt="image-20210210205708052"></p>
+<p><img src="/2021/02/14/%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E8%87%AA%E6%88%91%E4%BF%AE%E5%85%BB/image-20210210205716690.png" alt="image-20210210205716690"></p>
+<h3 id="5-2-特殊符号"><a href="#5-2-特殊符号" class="headerlink" title="5.2 特殊符号"></a>5.2 特殊符号</h3><p>特殊符号就是你无须定义它们，但你可以声明并使用他们。</p>
+<p>并且只有用ld链接器生产最终可执行文件这些符号才会存在，链接器会在将程序最终链接成可执行文件是将其解析成正确的值。</p>
+<p><img src="/2021/02/14/%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E8%87%AA%E6%88%91%E4%BF%AE%E5%85%BB/image-20210210211122171.png" alt="image-20210210211122171"></p>
+<p>后面的签名、强弱就跳过了，需要时继续研究。</p>
+<h1 id="0x03-静态链接"><a href="#0x03-静态链接" class="headerlink" title="0x03 静态链接"></a>0x03 静态链接</h1> 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>Copyright： </strong>
+          
+          Copyright is owned by the author. For commercial reprints, please contact the author for authorization. For non-commercial reprints, please indicate the source.
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://pz1o.top/2021/02/14/%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E8%87%AA%E6%88%91%E4%BF%AE%E5%85%BB/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" rel="tag">读书笔记</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+      <a href="/2099/09/27/Flag/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            Flag
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2021/02/14/%E4%B8%80%E9%81%93%E6%A0%88%E9%A2%98/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">一道栈题</div>
+      </a>
+    
+  </nav>
+
+   
+<!-- valine评论 -->
+<div id="vcomments-box">
+  <div id="vcomments"></div>
+</div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js"></script>
+<script>
+  new Valine({
+    el: "#vcomments",
+    app_id: "KLWvKGPeSIyoEo4k6j3v37wy-gzGzoHsz",
+    app_key: "FL93w3BBbF9lxiR8X1HI58En",
+    path: window.location.pathname,
+    avatar: "monsterid",
+    placeholder: "给我的文章加点评论吧~",
+    recordIP: true,
+  });
+  const infoEle = document.querySelector("#vcomments .info");
+  if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0) {
+    infoEle.childNodes.forEach(function (item) {
+      item.parentNode.removeChild(item);
+    });
+  }
+</script>
+<style>
+  #vcomments-box {
+    padding: 5px 30px;
+  }
+
+  @media screen and (max-width: 800px) {
+    #vcomments-box {
+      padding: 5px 0px;
+    }
+  }
+
+  #vcomments-box #vcomments {
+    background-color: #fff;
+  }
+
+  .v .vlist .vcard .vh {
+    padding-right: 20px;
+  }
+
+  .v .vlist .vcard {
+    padding-left: 10px;
+  }
+</style>
+
+ 
+     
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2020-2021
+        <i class="ri-heart-fill heart_icon"></i> pz1o
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        
+        Powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+        <span class="division">|</span>
+        Theme - <a href="https://github.com/Shen-Yu/hexo-theme-ayer" target="_blank">Ayer</a>
+        
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        <span>
+  <span><i class="ri-user-3-fill"></i>Visitors:<span id="busuanzi_value_site_uv"></span></s>
+  <span class="division">|</span>
+  <span><i class="ri-eye-fill"></i>Views:<span id="busuanzi_value_page_pv"></span></span>
+</span>
+        
+      </li>
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+      </li>
+    </ul>
+  </div>
+</footer>
+      <div class="float_btns">
+        <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+      </div>
+    </main>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/avatar.jpg" alt="pz1o"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">Home</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">Archives</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">Tags</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about">About</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="Search">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+      <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+        <i class="ri-rss-line"></i>
+      </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <script>
+      if (window.matchMedia("(max-width: 768px)").matches) {
+        document.querySelector('.content').classList.remove('on');
+        document.querySelector('.sidebar').classList.remove('on');
+      }
+    </script>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/img/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/img/wechat.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: 'main',
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto'
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script>
+
+<!-- MathJax -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+      tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+  });
+
+  MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for(i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.6/unpacked/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+  var ayerConfig = {
+    mathjax: true
+  }
+</script>
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<script src="https://cdn.jsdelivr.net/npm/animejs@latest/anime.min.js"></script>
+
+<script src="/js/clickBoom1.js"></script>
+
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+
+
+<link rel="stylesheet" href="/css/clipboard.css">
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+<!-- CanvasBackground -->
+
+
+<script src="/js/dz.js"></script>
+
+
+
+    
+    <div id="music">
+    
+    
+    
+    <iframe frameborder="no" border="1" marginwidth="0" marginheight="0" width="200" height="52"
+        src="//music.163.com/outchain/player?type=2&id=22707008&auto=0&height=32"></iframe>
+</div>
+
+<style>
+    #music {
+        position: fixed;
+        right: 15px;
+        bottom: 0;
+        z-index: 998;
+    }
+</style>
+    
+  </div>
+</body>
+
+</html>

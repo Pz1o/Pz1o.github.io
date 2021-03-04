@@ -7,7 +7,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>linux备忘录 | pz1o</title>
+  <title>Linux备忘录 | pz1o</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -17,14 +17,14 @@
 
   <meta name="description" content="主要记录一些基础的linux知识 0x01 安装PWN环境这里主要记录一下从0开始安装pwn环境 1.vmtools先挂载上 123tar zxpf VMwareTools-x.x.x-yyyy.tar.gzcd vmware-tools-distribsudo .&#x2F;vmware-install.pl 安装先输YES 之后直接回车 2.安装git1sudo apt-get install">
 <meta property="og:type" content="article">
-<meta property="og:title" content="linux备忘录">
+<meta property="og:title" content="Linux备忘录">
 <meta property="og:url" content="https://pz1o.top/2021/01/23/linux%E5%A4%87%E5%BF%98%E5%BD%95/index.html">
 <meta property="og:site_name" content="pz1o">
 <meta property="og:description" content="主要记录一些基础的linux知识 0x01 安装PWN环境这里主要记录一下从0开始安装pwn环境 1.vmtools先挂载上 123tar zxpf VMwareTools-x.x.x-yyyy.tar.gzcd vmware-tools-distribsudo .&#x2F;vmware-install.pl 安装先输YES 之后直接回车 2.安装git1sudo apt-get install">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://pz1o.top/2021/01/23/linux%E5%A4%87%E5%BF%98%E5%BD%95/image-20200926113121287.png">
 <meta property="article:published_time" content="2021-01-23T06:22:17.000Z">
-<meta property="article:modified_time" content="2021-03-03T00:46:13.902Z">
+<meta property="article:modified_time" content="2021-03-03T07:59:21.169Z">
 <meta property="article:author" content="pz1o">
 <meta property="article:tag" content="linux">
 <meta name="twitter:card" content="summary">
@@ -165,7 +165,7 @@ ga('send', 'pageview');
 <div class="content content-post LEFT">
    <article id="post-linux备忘录" class="article article-type-post" itemprop="blogPost">
   <header class="article-header">
-    <h1 class="post-title">linux备忘录</h1>
+    <h1 class="post-title">Linux备忘录</h1>
 
     <div class="article-meta">
       <span>
@@ -243,7 +243,8 @@ ga('send', 'pageview');
 <h2 id="find"><a href="#find" class="headerlink" title="find"></a>find</h2><p><a href="https://www.cnblogs.com/Ido-911/p/9638612.html" target="_blank" rel="noopener">https://www.cnblogs.com/Ido-911/p/9638612.html</a></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#根据文件名称查找文件</span></span><br><span class="line"><span class="comment">#查找文件</span></span><br><span class="line">find test.c  //感觉不太常用</span><br><span class="line"><span class="comment">#从主目录下查找test文件</span></span><br><span class="line">find / -name <span class="built_in">test</span></span><br><span class="line"><span class="comment">#从主目录下查找test目录</span></span><br><span class="line">find / -<span class="built_in">type</span> d -name <span class="built_in">test</span></span><br><span class="line"><span class="comment">#从主目录下找flag文件</span></span><br><span class="line">find / -<span class="built_in">type</span> f -name flag.txt</span><br><span class="line">find / -<span class="built_in">type</span> f -name flag.php</span><br><span class="line"><span class="comment">#从主目录下查找所有的txt文件或php文件</span></span><br><span class="line">find / -<span class="built_in">type</span> f -name <span class="string">"*.txt"</span></span><br><span class="line">find / -<span class="built_in">type</span> f -name <span class="string">"*.php"</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#根据文件权限来查找文件</span></span><br><span class="line"><span class="comment">#查找777权限的文件</span></span><br><span class="line">find / -<span class="built_in">type</span> f -perm 0777 -<span class="built_in">print</span></span><br><span class="line"><span class="comment">#查找没有777权限的文件(主要查找当前目录)</span></span><br><span class="line">find -<span class="built_in">type</span> f ! -perm 777</span><br><span class="line"><span class="comment">#查找只读文件</span></span><br><span class="line">find / -perm /u=r</span><br><span class="line"><span class="comment">#查找可执行文件</span></span><br><span class="line">find -perm /a=x</span><br><span class="line"></span><br><span class="line"><span class="comment">#根据日期和时间查找文件和目录</span></span><br><span class="line"><span class="comment">#最近1小时内查找更改的文件</span></span><br><span class="line">find / -cmin -60</span><br><span class="line"><span class="comment">#最近1小时内查找修改的文件</span></span><br><span class="line">find / -mmin -60</span><br><span class="line"><span class="comment">#查找最近1小时内访问的文件</span></span><br><span class="line">find / -amin -60</span><br><span class="line"></span><br><span class="line"><span class="comment">#根据文件大小查找文件</span></span><br><span class="line"><span class="comment">#找到50mb的文件</span></span><br><span class="line">find / -size 50M</span><br><span class="line"><span class="comment">#找到50mb-100mb的文件</span></span><br><span class="line">find / -size +50M -size -100M</span><br></pre></td></tr></table></figure>
 <h2 id="ps"><a href="#ps" class="headerlink" title="ps"></a>ps</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ps aux | grep xx  &#x2F;&#x2F;查看有关进程</span><br><span class="line">pstree  					&#x2F;&#x2F;进程树</span><br><span class="line">pidof xx 					&#x2F;&#x2F;查看相关pid</span><br></pre></td></tr></table></figure>
-<h2 id="grep"><a href="#grep" class="headerlink" title="grep"></a>grep</h2><h1 id="0x03部署pwn题目"><a href="#0x03部署pwn题目" class="headerlink" title="0x03部署pwn题目"></a>0x03部署pwn题目</h1><p><a href="https://github.com/giantbranch/pwn_deploy_chroot" target="_blank" rel="noopener">https://github.com/giantbranch/pwn_deploy_chroot</a></p>
+<h2 id="grep"><a href="#grep" class="headerlink" title="grep"></a>grep</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">grep [options]</span><br><span class="line">    主要参数：  grep --help可查看</span><br><span class="line">        -c：只输出匹配行的计数。</span><br><span class="line">        -i：不区分大小写。</span><br><span class="line">        -h：查询多文件时不显示文件名。</span><br><span class="line">        -l：查询多文件时只输出包含匹配字符的文件名。</span><br><span class="line">        -n：显示匹配行及 行号。</span><br><span class="line">        -s：不显示不存在或无匹配文本的错误信息。</span><br><span class="line">        -v：显示不包含匹配文本的所有行。</span><br><span class="line">        --color&#x3D;auto ：可以将找到的关键词部分加上颜色的显示。</span><br></pre></td></tr></table></figure>
+<h1 id="0x03部署pwn题目"><a href="#0x03部署pwn题目" class="headerlink" title="0x03部署pwn题目"></a>0x03部署pwn题目</h1><p><a href="https://github.com/giantbranch/pwn_deploy_chroot" target="_blank" rel="noopener">https://github.com/giantbranch/pwn_deploy_chroot</a></p>
 <h2 id="pwn-deploy-chroot介绍"><a href="#pwn-deploy-chroot介绍" class="headerlink" title="pwn_deploy_chroot介绍"></a>pwn_deploy_chroot介绍</h2><h3 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h3><blockquote>
 <ol>
 <li>一次可以部署多个题目到一个docker容器中</li>

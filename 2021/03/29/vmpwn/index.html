@@ -15,15 +15,15 @@
     <meta name="keywords" content="pwn," />
   
 
-  <meta name="description" content="自己是个懒狗，而且上次校赛出了vmpwn也不会做，还不思进取。 所以来写一下这个vmpwn 先说点其他的，自己逆向太垃圾，一看见这vm直接劝退，希望通过这篇学到点东西 0x01基础概念1.虚拟机保护技术所谓虚拟机保护技术，是指将代码翻译为机器和人都无法识别的一串伪代码字节流；在具体执行时再对这些伪代码进行一一翻译解释，逐步还原为原始代码并执行。 其中VM就是指翻译伪代码并进行执行的子程序。 2.V">
+  <meta name="description" content="The article has been encrypted, please enter your password to view.">
 <meta property="og:type" content="article">
 <meta property="og:title" content="vmpwn">
 <meta property="og:url" content="https://pz1o.top/2021/03/29/vmpwn/index.html">
 <meta property="og:site_name" content="pz1o">
-<meta property="og:description" content="自己是个懒狗，而且上次校赛出了vmpwn也不会做，还不思进取。 所以来写一下这个vmpwn 先说点其他的，自己逆向太垃圾，一看见这vm直接劝退，希望通过这篇学到点东西 0x01基础概念1.虚拟机保护技术所谓虚拟机保护技术，是指将代码翻译为机器和人都无法识别的一串伪代码字节流；在具体执行时再对这些伪代码进行一一翻译解释，逐步还原为原始代码并执行。 其中VM就是指翻译伪代码并进行执行的子程序。 2.V">
+<meta property="og:description" content="The article has been encrypted, please enter your password to view.">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2021-03-29T10:03:03.000Z">
-<meta property="article:modified_time" content="2021-03-29T11:18:28.735Z">
+<meta property="article:modified_time" content="2021-04-01T09:32:12.092Z">
 <meta property="article:author" content="pz1o">
 <meta property="article:tag" content="pwn">
 <meta name="twitter:card" content="summary">
@@ -155,7 +155,7 @@ ga('send', 'pageview');
 
   <div id="toc" class="toc-article">
     <strong class="toc-title">Posts List</strong>
-    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#0x01基础概念"><span class="toc-text">0x01基础概念</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-虚拟机保护技术"><span class="toc-text">1.虚拟机保护技术</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-VStartVM"><span class="toc-text">2.VStartVM</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-VMDispather"><span class="toc-text">3.VMDispather</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-opcode"><span class="toc-text">4.opcode</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-寄存器"><span class="toc-text">5.寄存器</span></a></li></ol></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#encrypt-message"><span class="toc-text">Please enter the password to read the blog.</span></a></li></ol>
   </div>
 
 
@@ -196,24 +196,7 @@ ga('send', 'pageview');
 
   <div class="article-content">
     
-      <p>自己是个懒狗，而且上次校赛出了vmpwn也不会做，还不思进取。</p>
-<p>所以来写一下这个vmpwn</p>
-<p>先说点其他的，自己逆向太垃圾，一看见这vm直接劝退，希望通过这篇学到点东西</p>
-<h1 id="0x01基础概念"><a href="#0x01基础概念" class="headerlink" title="0x01基础概念"></a>0x01基础概念</h1><h2 id="1-虚拟机保护技术"><a href="#1-虚拟机保护技术" class="headerlink" title="1.虚拟机保护技术"></a>1.虚拟机保护技术</h2><p>所谓虚拟机保护技术，是指将代码翻译为机器和人都无法识别的一串伪代码字节流；在具体执行时再对这些伪代码进行一一翻译解释，逐步还原为原始代码并执行。</p>
-<p>其中VM就是指翻译伪代码并进行执行的子程序。</p>
-<h2 id="2-VStartVM"><a href="#2-VStartVM" class="headerlink" title="2.VStartVM"></a>2.VStartVM</h2><p>虚拟机入口函数</p>
-<h2 id="3-VMDispather"><a href="#3-VMDispather" class="headerlink" title="3.VMDispather"></a>3.VMDispather</h2><p>解释opcode，并选择对应的Handler函数执行，当Handler执行完后会跳回这里，形成一个循环</p>
-<h2 id="4-opcode"><a href="#4-opcode" class="headerlink" title="4.opcode"></a>4.opcode</h2><p>操作码</p>
-<h2 id="5-寄存器"><a href="#5-寄存器" class="headerlink" title="5.寄存器"></a>5.寄存器</h2><ol>
-<li><code>PC</code>程序计数器，存放内存地址，且总存放着下一条指令的地址。类似于RIP或者EIP</li>
-<li><code>SP</code>指针寄存器，指向栈顶</li>
-<li><code>BP</code>指针寄存器，指向栈中的一个地址</li>
-<li><code>AX</code>通用寄存器，存储返回结果</li>
-</ol>
-<blockquote>
-<p>在初始时，PC指向main函数</p>
-</blockquote>
-
+      <script src="/crypto-js.js"></script><script src="/mcommon.js"></script><h3 id="encrypt-message">Please enter the password to read the blog.</h3><link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css"> <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap-theme.min.css"> <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script> <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script> <div id="security"> <div> <div class="input-group"> <input type="text" class="form-control" aria-label="Enter the password." id="pass"/> <div class="input-group-btn"> <button type="button" class="btn btn-default" onclick="decryptAES()">Decrypt</button> </div> </div> </div> </div> <div id="encrypt-blog" style="display:none"> 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 </div>
     
   </div>
 

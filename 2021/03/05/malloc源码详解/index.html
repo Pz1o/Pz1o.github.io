@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+
+
+  <html class="dark page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>malloc源码详解 | pz1o</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="heap," />
+  
+
+  <meta name="description" content="这个地址可以看源码 https:&#x2F;&#x2F;code.woboq.org&#x2F;userspace&#x2F;glibc&#x2F;malloc&#x2F;malloc.c.html#__libc_malloc __libc_malloc 当我们在应用层调用malloc申请堆的时候，在glibc中实际上调用的是_lib_malloc函数，但是_lib_malloc函数只是用来简单的封装_int_malloc函数的，_int_malloc函数">
+<meta property="og:type" content="article">
+<meta property="og:title" content="malloc源码详解">
+<meta property="og:url" content="https://pz1o.top/2021/03/05/malloc%E6%BA%90%E7%A0%81%E8%AF%A6%E8%A7%A3/index.html">
+<meta property="og:site_name" content="pz1o">
+<meta property="og:description" content="这个地址可以看源码 https:&#x2F;&#x2F;code.woboq.org&#x2F;userspace&#x2F;glibc&#x2F;malloc&#x2F;malloc.c.html#__libc_malloc __libc_malloc 当我们在应用层调用malloc申请堆的时候，在glibc中实际上调用的是_lib_malloc函数，但是_lib_malloc函数只是用来简单的封装_int_malloc函数的，_int_malloc函数">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://pz1o.top/2021/03/05/malloc%E6%BA%90%E7%A0%81%E8%AF%A6%E8%A7%A3/image-20210305221308955.png">
+<meta property="og:image" content="https://pz1o.top/2021/03/05/malloc%E6%BA%90%E7%A0%81%E8%AF%A6%E8%A7%A3/image-20210305221522697.png">
+<meta property="og:image" content="https://pz1o.top/2021/03/05/malloc%E6%BA%90%E7%A0%81%E8%AF%A6%E8%A7%A3/image-20210305223801268.png">
+<meta property="og:image" content="https://pz1o.top/2021/03/05/malloc%E6%BA%90%E7%A0%81%E8%AF%A6%E8%A7%A3/image-20210305224245676.png">
+<meta property="og:image" content="https://pz1o.top/2021/03/05/malloc%E6%BA%90%E7%A0%81%E8%AF%A6%E8%A7%A3/image-20210305224935000.png">
+<meta property="og:image" content="https://pz1o.top/2021/03/05/malloc%E6%BA%90%E7%A0%81%E8%AF%A6%E8%A7%A3/image-20210305225057539.png">
+<meta property="og:image" content="https://pz1o.top/2021/03/05/malloc%E6%BA%90%E7%A0%81%E8%AF%A6%E8%A7%A3/image-20210305230030705.png">
+<meta property="article:published_time" content="2021-03-05T13:49:53.000Z">
+<meta property="article:modified_time" content="2021-03-05T15:12:52.279Z">
+<meta property="article:author" content="pz1o">
+<meta property="article:tag" content="heap">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pz1o.top/2021/03/05/malloc%E6%BA%90%E7%A0%81%E8%AF%A6%E8%A7%A3/image-20210305221308955.png">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbeddx" rel="stylesheet">
+
+
+  
+    
+<link rel="stylesheet" href="/css/personal-style.css">
+
+  
+
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-38189205-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?e90b4c8b8c36ca2b3e5798ef67088f84";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="pz1o" type="application/atom+xml">
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">MAP</span>
+  
+
+  <div class="post-header LEFT">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">MAP</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="ROUND_RECT"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            Blog
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="ROUND_RECT"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            Tag
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="ROUND_RECT"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            About
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">Posts List</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#libc-malloc"><span class="toc-text">__libc_malloc</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#0x1-int-malloc"><span class="toc-text">0x1 _int_malloc</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-相关变量"><span class="toc-text">1.相关变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-检查arena"><span class="toc-text">2.检查arena</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-检查fastbins"><span class="toc-text">3.检查fastbins</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-检测smallbins"><span class="toc-text">4.检测smallbins</span></a></li></ol></li></ol></li></ol>
+  </div>
+
+
+
+<div class="content content-post LEFT">
+   <article id="post-malloc源码详解" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">malloc源码详解</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2021.03.05</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>pz1o</span>
+        </span>
+      
+
+      
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <p>这个地址可以看源码</p>
+<p><a href="https://code.woboq.org/userspace/glibc/malloc/malloc.c.html#__libc_malloc" target="_blank" rel="noopener">https://code.woboq.org/userspace/glibc/malloc/malloc.c.html#__libc_malloc</a></p>
+<h1 id="libc-malloc"><a href="#libc-malloc" class="headerlink" title="__libc_malloc"></a>__libc_malloc</h1><ul>
+<li>当我们在应用层调用malloc申请堆的时候，在glibc中实际上调用的是_lib_malloc函数，但是_lib_malloc函数只是用来简单的封装_int_malloc函数的，_int_malloc函数才是申请堆的核心函数</li>
+<li>_int_malloc会根据应用层用户申请的内存块大小，从而分配相应的chunk给用户使用</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (!victim &amp;&amp; ar_ptr != <span class="literal">NULL</span>)</span><br><span class="line">  &#123;</span><br><span class="line">    LIBC_PROBE (memory_malloc_retry, <span class="number">1</span>, bytes);</span><br><span class="line">    ar_ptr = arena_get_retry (ar_ptr, bytes);</span><br><span class="line">    victim = _int_malloc (ar_ptr, bytes);</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p>这里可以看到主要是_int_malloc在分配</p>
+<h2 id="0x1-int-malloc"><a href="#0x1-int-malloc" class="headerlink" title="0x1 _int_malloc"></a>0x1 _int_malloc</h2><h3 id="1-相关变量"><a href="#1-相关变量" class="headerlink" title="1.相关变量"></a>1.相关变量</h3><p><img src="/2021/03/05/malloc%E6%BA%90%E7%A0%81%E8%AF%A6%E8%A7%A3/image-20210305221308955.png" alt="image-20210305221308955"></p>
+<h3 id="2-检查arena"><a href="#2-检查arena" class="headerlink" title="2.检查arena"></a>2.检查arena</h3><p><img src="/2021/03/05/malloc%E6%BA%90%E7%A0%81%E8%AF%A6%E8%A7%A3/image-20210305221522697.png" alt="image-20210305221522697"></p>
+<p>如果没有arena，就去系统调用mmap申请内存</p>
+<h3 id="3-检查fastbins"><a href="#3-检查fastbins" class="headerlink" title="3.检查fastbins"></a>3.检查fastbins</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">  <span class="comment">/*</span></span><br><span class="line"><span class="comment">     If the size qualifies as a fastbin, first check corresponding bin.</span></span><br><span class="line"><span class="comment">     This code is safe to execute even if av is not yet initialized, so we</span></span><br><span class="line"><span class="comment">     can try it without checking, which saves some time on this fast path.</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line"><span class="keyword">if</span> ((<span class="keyword">unsigned</span> <span class="keyword">long</span>) (nb) &lt;= (<span class="keyword">unsigned</span> <span class="keyword">long</span>) (get_max_fast ()))</span><br><span class="line">    &#123;</span><br><span class="line">      idx = fastbin_index (nb);<span class="comment">//获取索引号</span></span><br><span class="line">      mfastbinptr *fb = &amp;fastbin (av, idx);<span class="comment">//取到堆块</span></span><br><span class="line">      mchunkptr pp;</span><br><span class="line">      victim = *fb;<span class="comment">//赋值victim</span></span><br><span class="line">      <span class="keyword">if</span> (victim != <span class="literal">NULL</span>)</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="keyword">if</span> (SINGLE_THREAD_P)</span><br><span class="line">            *fb = victim-&gt;fd;</span><br><span class="line">          <span class="keyword">else</span></span><br><span class="line">            REMOVE_FB (fb, pp, victim);</span><br><span class="line">          <span class="keyword">if</span> (__glibc_likely (victim != <span class="literal">NULL</span>))</span><br><span class="line">            &#123;</span><br><span class="line">              <span class="keyword">size_t</span> victim_idx = fastbin_index (chunksize (victim));</span><br><span class="line">              <span class="keyword">if</span> (__builtin_expect (victim_idx != idx, <span class="number">0</span>))</span><br><span class="line">                malloc_printerr (<span class="string">"malloc(): memory corruption (fast)"</span>);</span><br><span class="line">              check_remalloced_chunk (av, victim, nb);<span class="comment">//检测freechunk的size最低位为1</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">if</span> USE_TCACHE</span></span><br><span class="line">              <span class="comment">/* While we're here, if we see other chunks of the same size,</span></span><br><span class="line"><span class="comment">                 stash them in the tcache.  */</span></span><br><span class="line">              <span class="keyword">size_t</span> tc_idx = csize2tidx (nb);</span><br><span class="line">              <span class="keyword">if</span> (tcache &amp;&amp; tc_idx &lt; mp_.tcache_bins)</span><br><span class="line">                &#123;</span><br><span class="line">                  mchunkptr tc_victim;</span><br><span class="line">                  <span class="comment">/* While bin not empty and tcache not full, copy chunks.  */</span></span><br><span class="line">                  <span class="keyword">while</span> (tcache-&gt;counts[tc_idx] &lt; mp_.tcache_count</span><br><span class="line">                         &amp;&amp; (tc_victim = *fb) != <span class="literal">NULL</span>)</span><br><span class="line">                    &#123;</span><br><span class="line">                      <span class="keyword">if</span> (SINGLE_THREAD_P)</span><br><span class="line">                        *fb = tc_victim-&gt;fd;</span><br><span class="line">                      <span class="keyword">else</span></span><br><span class="line">                        &#123;</span><br><span class="line">                          REMOVE_FB (fb, pp, tc_victim);</span><br><span class="line">                          <span class="keyword">if</span> (__glibc_unlikely (tc_victim == <span class="literal">NULL</span>))</span><br><span class="line">                            <span class="keyword">break</span>;</span><br><span class="line">                        &#125;</span><br><span class="line">                      tcache_put (tc_victim, tc_idx);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line">              <span class="keyword">void</span> *p = chunk2mem (victim);</span><br><span class="line">              alloc_perturb (p, bytes);</span><br><span class="line">              <span class="keyword">return</span> p;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><code>__builtin_expect(EXP, N)</code></p>
+<p>EXP==N的概率很大。通常定义为宏的形式，通过这种方式，编译器在编译过程中，会将可能性更大的代码紧跟着前面的代码，从而减少指令跳转带来的性能上的下降。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt;#define likely(x) __builtin_expect(!!(x), 1) &#x2F;&#x2F;x很可能为真       </span><br><span class="line">&gt;#define unlikely(x) __builtin_expect(!!(x), 0) &#x2F;&#x2F;x很可能为假</span><br><span class="line">&gt;双!!是返回bool值</span><br></pre></td></tr></table></figure>
+<p>使用<code>likely()</code>，执行 if 后面的语句的机会更大，使用 <code>unlikely()</code>，执行 else 后面的语句的机会更大。</p>
+</blockquote>
+<ol>
+<li><p>首先第一步检测malloc大小是否属于fastbin的大小中<img src="/2021/03/05/malloc%E6%BA%90%E7%A0%81%E8%AF%A6%E8%A7%A3/image-20210305223801268.png" alt="image-20210305223801268"></p>
+</li>
+<li><p>寻找可用的freechunk，如果有就获取（REMOVE_FB），如果没有就直接退出<img src="/2021/03/05/malloc%E6%BA%90%E7%A0%81%E8%AF%A6%E8%A7%A3/image-20210305224245676.png" alt="image-20210305224245676"></p>
+</li>
+<li><p>同时这里还会有系统检测<img src="/2021/03/05/malloc%E6%BA%90%E7%A0%81%E8%AF%A6%E8%A7%A3/image-20210305224935000.png" alt="image-20210305224935000"></p>
+<blockquote>
+<p><img src="/2021/03/05/malloc%E6%BA%90%E7%A0%81%E8%AF%A6%E8%A7%A3/image-20210305225057539.png" alt="image-20210305225057539">检测1，这个我们在熟悉不过了，主要看下一个。</p>
+<p><img src="/2021/03/05/malloc%E6%BA%90%E7%A0%81%E8%AF%A6%E8%A7%A3/image-20210305230030705.png" alt="image-20210305230030705">看红圈位置，如果PRE_INUSE为0，程序直接就退出了</p>
+<p><strong>这也是我们进行堆攻击时候很重要的一个点</strong>。</p>
+</blockquote>
+</li>
+</ol>
+<h3 id="4-检测smallbins"><a href="#4-检测smallbins" class="headerlink" title="4.检测smallbins"></a>4.检测smallbins</h3>
+    
+  </div>
+
+</article>
+
+
+   
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2021/03/02/%E6%A0%88%E8%BF%81%E7%A7%BB/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2021/03/06/house-of%E7%B3%BB%E5%88%97/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">Close</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="ROUND_RECT"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              Blog
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="ROUND_RECT"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              Tag
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="ROUND_RECT"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              About
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/valine@latest/dist/Valine.min.js"></script>
+    <div id="comment" class="vcomment" ></div>
+    <script>
+        var notify = 'true' == true ? true : false;
+        var verify = 'true' == true ? true : false;
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+            return GUEST_INFO.indexOf(item) > -1
+        });
+        guest_info = guest_info.length == 0 ? GUEST_INFO :guest_info;
+        window.valine = new Valine({
+            el: '.vcomment',
+            notify: notify,
+            verify: verify,
+            appId: "KLWvKGPeSIyoEo4k6j3v37wy-gzGzoHsz",
+            appKey: "FL93w3BBbF9lxiR8X1HI58En",
+            avatar:'wavatar',
+            placeholder: "Just go go",
+            guest_info:guest_info,
+            pageSize:'6'
+        });
+    </script>
+  
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<!-- <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+</body>
+</html>

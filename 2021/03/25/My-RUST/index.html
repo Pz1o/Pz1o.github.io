@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+
+
+  <html class="dark page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>My RUST | pz1o</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="RUST," />
+  
+
+  <meta name="description" content="学过很多语言，却从来没有一门精通的，所以选择RUST来作为我的第一语言。 先写最基础的知识 0x00 前言首先介绍几个基础知识 rustup：RUST安装器和版本管理工具 常用操作就是rustup update cargo：Rust的构建工具和包管理器 12345cargo build 可以构建项目cargo run 可以运行项目cargo test 可以测试项目cargo doc 可以为项目构建">
+<meta property="og:type" content="article">
+<meta property="og:title" content="My RUST">
+<meta property="og:url" content="https://pz1o.top/2021/03/25/My-RUST/index.html">
+<meta property="og:site_name" content="pz1o">
+<meta property="og:description" content="学过很多语言，却从来没有一门精通的，所以选择RUST来作为我的第一语言。 先写最基础的知识 0x00 前言首先介绍几个基础知识 rustup：RUST安装器和版本管理工具 常用操作就是rustup update cargo：Rust的构建工具和包管理器 12345cargo build 可以构建项目cargo run 可以运行项目cargo test 可以测试项目cargo doc 可以为项目构建">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-03-25T10:03:51.000Z">
+<meta property="article:modified_time" content="2021-03-30T12:56:30.949Z">
+<meta property="article:author" content="pz1o">
+<meta property="article:tag" content="RUST">
+<meta name="twitter:card" content="summary">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbeddx" rel="stylesheet">
+
+
+  
+    
+<link rel="stylesheet" href="/css/personal-style.css">
+
+  
+
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-38189205-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?e90b4c8b8c36ca2b3e5798ef67088f84";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="pz1o" type="application/atom+xml">
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">MAP</span>
+  
+
+  <div class="post-header LEFT">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">MAP</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="ROUND_RECT"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            Blog
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="ROUND_RECT"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            Tag
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="ROUND_RECT"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            About
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">Posts List</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#0x00-前言"><span class="toc-text">0x00 前言</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-新建项目"><span class="toc-text">1.新建项目</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-添加依赖"><span class="toc-text">2.添加依赖</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-直接编译"><span class="toc-text">3. 直接编译</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x01-基础知识"><span class="toc-text">0x01 基础知识</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-注释"><span class="toc-text">1.注释</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-格式化输出"><span class="toc-text">2.格式化输出</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-debug"><span class="toc-text">3.debug</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-美化输出"><span class="toc-text">4.美化输出</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-变量类型和运算符"><span class="toc-text">5.变量类型和运算符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-函数"><span class="toc-text">6.函数</span></a></li></ol></li></ol>
+  </div>
+
+
+
+<div class="content content-post LEFT">
+   <article id="post-My-RUST" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">My RUST</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2021.03.25</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>pz1o</span>
+        </span>
+      
+
+      
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <p>学过很多语言，却从来没有一门精通的，所以选择RUST来作为我的第一语言。</p>
+<p>先写最基础的知识</p>
+<h1 id="0x00-前言"><a href="#0x00-前言" class="headerlink" title="0x00 前言"></a>0x00 前言</h1><p>首先介绍几个基础知识</p>
+<p>rustup：RUST安装器和版本管理工具</p>
+<p>常用操作就是rustup update</p>
+<p>cargo：Rust的构建工具和包管理器</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cargo build 可以构建项目</span><br><span class="line">cargo run 可以运行项目</span><br><span class="line">cargo test 可以测试项目</span><br><span class="line">cargo doc 可以为项目构建文档</span><br><span class="line">cargo publish 可以将库发布到 crates.io。</span><br></pre></td></tr></table></figure>
+<h2 id="1-新建项目"><a href="#1-新建项目" class="headerlink" title="1.新建项目"></a>1.新建项目</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;新建项目</span><br><span class="line">cargo new hello-rust</span><br><span class="line">&#x2F;&#x2F;运行项目</span><br><span class="line">cargo run</span><br></pre></td></tr></table></figure>
+<h2 id="2-添加依赖"><a href="#2-添加依赖" class="headerlink" title="2.添加依赖"></a>2.添加依赖</h2><p>类似于python，cargo也有自己的仓库，但他叫做<a href="https://crates.io/" target="_blank" rel="noopener">crates.io</a></p>
+<p>这里我们来演示一下官网上的教程ferris-says的库</p>
+<p>添加库要去cargo.toml</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[dependencies]</span><br><span class="line">ferris-says &#x3D; &quot;0.2&quot;</span><br></pre></td></tr></table></figure>
+<p>之后构建项目</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cargo build</span><br></pre></td></tr></table></figure>
+<p>cargo.lock记录了本地所用依赖库的精确版本。</p>
+<h2 id="3-直接编译"><a href="#3-直接编译" class="headerlink" title="3. 直接编译"></a>3. 直接编译</h2><p>如果我们不想用项目</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">rustc main.rs</span><br><span class="line">.&#x2F;main.exe</span><br></pre></td></tr></table></figure>
+<h1 id="0x01-基础知识"><a href="#0x01-基础知识" class="headerlink" title="0x01 基础知识"></a>0x01 基础知识</h1><h2 id="1-注释"><a href="#1-注释" class="headerlink" title="1.注释"></a>1.注释</h2><figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fn</span> <span class="title">main</span></span>() &#123;</span><br><span class="line">    <span class="comment">// 调用编译生成的可执行文件时，这里的语句将被运行。</span></span><br><span class="line">	<span class="comment">//行注释</span></span><br><span class="line">	<span class="comment">/* </span></span><br><span class="line"><span class="comment">	块注释</span></span><br><span class="line"><span class="comment">	*/</span></span><br><span class="line">    <span class="comment">// 将文本打印到控制台</span></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">"Hello World!"</span>);<span class="comment">//println!是一个宏</span></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">"I am a Rustacean!"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="2-格式化输出"><a href="#2-格式化输出" class="headerlink" title="2.格式化输出"></a>2.格式化输出</h2><p>打印操作由 <code>std::fmt</code> 里面所定义的一系列 <code>宏</code> 来处理</p>
+<ul>
+<li><p><code>format!</code>：将格式化文本写到 <code>字符串</code>（String）。</p>
+<blockquote>
+<p>  译注：<code>字符串</code> 是返回值不是参数。</p>
+</blockquote>
+</li>
+<li><p><code>print!</code>：与 <code>format!</code> 类似，但将文本输出到控制台（<code>io::stdout</code>）。</p>
+</li>
+<li><p><code>println!</code>: 与 <code>print!</code> 类似，但输出结果追加一个换行符。</p>
+</li>
+<li><p><code>eprint!</code>：与 <code>format!</code> 类似，但将文本输出到标准错误（<code>io::stderr</code>）。</p>
+</li>
+<li><p><code>eprintln!</code>：与 <code>eprint!</code> 类似，但输出结果追加一个换行符。</p>
+</li>
+</ul>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fn</span> <span class="title">main</span></span>() &#123;</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">"&#123;&#125;yyds"</span>,<span class="string">"pz1o"</span>);</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">"&#123;name&#125;yyds"</span>,name=<span class="string">"pz1o"</span>);</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">"&#123;number:&gt;width$&#125;"</span>, number=<span class="number">1</span>, width=<span class="number">6</span>);</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">"&#123;number:&lt;0width$&#125;"</span>, number=<span class="number">1</span>, width=<span class="number">6</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>格式化输出主要有以上几种形式，和python比较类似，但这里数字标准输出还是很有意思的。</p>
+<ul>
+<li><code>fmt::Debug</code>：使用 <code>{:?}</code> 标记。格式化文本以供调试使用。</li>
+<li><code>fmt::Display</code>：使用 <code>{}</code> 标记。以更优雅和友好的风格来格式化文本。</li>
+</ul>
+<h2 id="3-debug"><a href="#3-debug" class="headerlink" title="3.debug"></a>3.debug</h2><p><code>std::fmt</code>只对<strong>特定的类型</strong>实现了标准输出，比如结构体我们是无法直接输出的，这时就需要我们手动实现。</p>
+<p><code>fmt::Debug</code> 这个 <code>trait</code> 使这项工作变得相当简单。所有类型都能推导（<code>derive</code>，即自 动创建）<code>fmt::Debug</code> 的实现。但是 <code>fmt::Display</code> 需要手动实现。</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 推导 `Structure` 的 `fmt::Debug` 实现。</span></span><br><span class="line"><span class="comment">// `Structure` 是一个包含单个 `i32` 的结构体。</span></span><br><span class="line"><span class="meta">#[derive(Debug)]</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Structure</span></span>(<span class="built_in">i32</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 将 `Structure` 放到结构体 `Deep` 中。然后使 `Deep` 也能够打印。</span></span><br><span class="line"><span class="meta">#[derive(Debug)]</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Deep</span></span>(Structure);</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fn</span> <span class="title">main</span></span>() &#123;</span><br><span class="line">    <span class="comment">// 使用 `&#123;:?&#125;` 打印和使用 `&#123;&#125;` 类似。</span></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">"&#123;:?&#125; months in a year."</span>, <span class="number">12</span>);</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">"Now &#123;:?&#125; will print!"</span>, Structure(<span class="number">3</span>));</span><br><span class="line">    <span class="comment">// 使用 `derive` 的一个问题是不能控制输出的形式。</span></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">"Now &#123;:?&#125; will print!"</span>, Deep(Structure(<span class="number">7</span>)));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="4-美化输出"><a href="#4-美化输出" class="headerlink" title="4.美化输出"></a>4.美化输出</h2><p><code>fmt::Display</code>并没有对每个类型都进行标准化输出，这里我们来自定义实现一下</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> std::fmt; <span class="comment">// （使用 `use`）导入 `fmt` 模块使 `fmt::Display` 可用</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 带有两个数字的结构体。推导出 `Debug`，以便与 `Display` 的输出进行比较。</span></span><br><span class="line"><span class="meta">#[derive(Debug)]</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">MinMax</span></span>(<span class="built_in">i64</span>, <span class="built_in">i64</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 实现 `MinMax` 的 `Display`。</span></span><br><span class="line"><span class="keyword">impl</span> fmt::Display <span class="keyword">for</span> MinMax &#123;</span><br><span class="line">    <span class="function"><span class="keyword">fn</span> <span class="title">fmt</span></span>(&amp;<span class="keyword">self</span>, f: &amp;<span class="keyword">mut</span> fmt::Formatter) -&gt; fmt::<span class="built_in">Result</span> &#123;</span><br><span class="line">        <span class="comment">// 使用 `self.number` 来表示各个数据。</span></span><br><span class="line">        <span class="built_in">write!</span>(f, <span class="string">"(&#123;&#125;, &#123;&#125;)"</span>, <span class="keyword">self</span>.<span class="number">0</span>, <span class="keyword">self</span>.<span class="number">1</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 为了比较，定义一个含有具名字段的结构体。</span></span><br><span class="line"><span class="meta">#[derive(Debug)]</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Point2D</span></span> &#123;</span><br><span class="line">    x: <span class="built_in">f64</span>,</span><br><span class="line">    y: <span class="built_in">f64</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 类似地对 `Point2D` 实现 `Display`</span></span><br><span class="line"><span class="keyword">impl</span> fmt::Display <span class="keyword">for</span> Point2D&#123;</span><br><span class="line">    <span class="function"><span class="keyword">fn</span> <span class="title">fmt</span></span>(&amp;<span class="keyword">self</span>,f: &amp;<span class="keyword">mut</span> fmt::Formatter)-&gt;fmt::<span class="built_in">Result</span>&#123;</span><br><span class="line">        <span class="built_in">write!</span>(f,<span class="string">"x:&#123;0&#125;,y:&#123;1&#125;"</span>,<span class="keyword">self</span>.x,<span class="keyword">self</span>.y)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fn</span> <span class="title">main</span></span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> minmax = MinMax(<span class="number">0</span>, <span class="number">14</span>);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">"Compare structures:"</span>);</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">"Display: &#123;&#125;"</span>, minmax);</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">"Debug: &#123;:?&#125;"</span>, minmax);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> big_range =   MinMax(-<span class="number">300</span>, <span class="number">300</span>);</span><br><span class="line">    <span class="keyword">let</span> small_range = MinMax(-<span class="number">3</span>, <span class="number">3</span>);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">"The big range is &#123;big&#125; and the small is &#123;small&#125;"</span>,</span><br><span class="line">             small = small_range,</span><br><span class="line">             big = big_range);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> point = Point2D &#123; x: <span class="number">3.3</span>, y: <span class="number">7.2</span> &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">"Compare points:"</span>);</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">"Display: &#123;&#125;"</span>, point);</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">"Debug: &#123;:?&#125;"</span>, point);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 报错。`Debug` 和 `Display` 都被实现了，但 `&#123;:b&#125;` 需要 `fmt::Binary`</span></span><br><span class="line">    <span class="comment">// 得到实现。这语句不能运行。</span></span><br><span class="line">    <span class="comment">// println!("What does Point2D look like in binary: &#123;:b&#125;?", point);</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="5-变量类型和运算符"><a href="#5-变量类型和运算符" class="headerlink" title="5.变量类型和运算符"></a>5.变量类型和运算符</h2><p><strong>变量</strong></p>
+<ul>
+<li>有符号整型（signed integers）：<code>i8</code>、<code>i16</code>、<code>i32</code>、<code>i64</code> 和 <code>isize</code>（指针宽度）。</li>
+<li>无符号整型（unsigned integers）： <code>u8</code>、<code>u16</code>、<code>u32</code>、<code>u64</code> 和 <code>usize</code>（指针宽 度）。</li>
+<li>浮点类型（floating point）： <code>f32</code>、<code>f64</code>。</li>
+<li><code>char</code>（字符）：单个 Unicode 字符，如 <code>&#39;a&#39;</code>，<code>&#39;α&#39;</code> 和 <code>&#39;∞&#39;</code>（每个都是 4 字节）。</li>
+<li><code>bool</code>（布尔型）：只能是 <code>true</code> 或 <code>false</code>。</li>
+<li>单元类型（unit type）：<code>()</code>。其唯一可能的值就是 <code>()</code> 这个空元组。</li>
+<li>数组（array）：如 <code>[1, 2, 3]</code>通常是同类型的。</li>
+<li>元组（tuple）：如 <code>(1, true)</code>通常是不同类型的。</li>
+</ul>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">rust中支持声明变量后，通过后缀进行指定类型</span><br><span class="line">整型默认为<span class="built_in">i32</span>类型，浮点型默认为<span class="built_in">f64</span>类型</span><br><span class="line"><span class="function"><span class="keyword">fn</span> <span class="title">main</span></span>() &#123;</span><br><span class="line">    <span class="comment">// 变量可以给出类型说明。</span></span><br><span class="line">    <span class="keyword">let</span> logical: <span class="built_in">bool</span> = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> a_float: <span class="built_in">f64</span> = <span class="number">1.0</span>;  <span class="comment">// 常规说明</span></span><br><span class="line">    <span class="keyword">let</span> an_integer   = <span class="number">5i32</span>; <span class="comment">// 后缀说明</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 否则会按默认方式决定类型。</span></span><br><span class="line">    <span class="keyword">let</span> default_float   = <span class="number">3.0</span>; <span class="comment">// `f64`</span></span><br><span class="line">    <span class="keyword">let</span> default_integer = <span class="number">7</span>;   <span class="comment">// `i32`</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 类型也可根据上下文自动推断。</span></span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut</span> inferred_type = <span class="number">12</span>; <span class="comment">// 根据下一行的赋值推断为 i64 类型</span></span><br><span class="line">    inferred_type = <span class="number">4294967296i64</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 可变的（mutable）变量，其值可以改变。</span></span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut</span> mutable = <span class="number">12</span>; <span class="comment">// Mutable `i32`</span></span><br><span class="line">    mutable = <span class="number">21</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 报错！变量的类型并不能改变。</span></span><br><span class="line">    mutable = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 但可以用掩蔽（shadow）来覆盖前面的变量。</span></span><br><span class="line">    <span class="keyword">let</span> mutable = <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>运算符</strong></p>
+<p>这里有字面量的概念，如下所写</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1i32</span> <span class="comment">//1作为有符号整型32位</span></span><br><span class="line"><span class="number">1u32</span> <span class="comment">//1作为无符号整型32位</span></span><br><span class="line"><span class="number">0x1u32</span>  <span class="comment">//十六进制1作为无符号整型32位 </span></span><br><span class="line"><span class="number">0</span>o <span class="comment">//八进制</span></span><br><span class="line"><span class="number">0</span>b <span class="comment">//二进制</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fn</span> <span class="title">main</span></span>() &#123;</span><br><span class="line">    <span class="comment">// 整数相加</span></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">"1 + 2 = &#123;&#125;"</span>, <span class="number">1u32</span> + <span class="number">2</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 整数相减</span></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">"1 - 2 = &#123;&#125;"</span>, <span class="number">1i32</span> - <span class="number">2</span>);</span><br><span class="line">    <span class="comment">// 试一试 ^ 尝试将 `1i32` 改为 `1u32`，体会为什么类型声明这么重要</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 短路求值的布尔逻辑</span></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">"true AND false is &#123;&#125;"</span>, <span class="literal">true</span> &amp;&amp; <span class="literal">false</span>);</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">"true OR false is &#123;&#125;"</span>, <span class="literal">true</span> || <span class="literal">false</span>);</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">"NOT true is &#123;&#125;"</span>, !<span class="literal">true</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 位运算</span></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">"0011 AND 0101 is &#123;:04b&#125;"</span>, <span class="number">0b0011u32</span> &amp; <span class="number">0b0101</span>);</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">"0011 OR 0101 is &#123;:04b&#125;"</span>, <span class="number">0b0011u32</span> | <span class="number">0b0101</span>);</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">"0011 XOR 0101 is &#123;:04b&#125;"</span>, <span class="number">0b0011u32</span> ^ <span class="number">0b0101</span>);</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">"1 &lt;&lt; 5 is &#123;&#125;"</span>, <span class="number">1u32</span> &lt;&lt; <span class="number">5</span>);</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">"0x80 &gt;&gt; 2 is 0x&#123;:x&#125;"</span>, <span class="number">0x80u32</span> &gt;&gt; <span class="number">2</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 使用下划线改善数字的可读性！</span></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">"One million is written as &#123;&#125;"</span>, <span class="number">1_000_000u32</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="6-函数"><a href="#6-函数" class="headerlink" title="6.函数"></a>6.函数</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fn &lt;函数名&gt; ( &lt;参数&gt; ) &lt;函数体&gt;</span><br></pre></td></tr></table></figure>
+<p><strong>函数参数</strong></p>
+<p>rust在声明变量时必须声明参数名称和类型</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fn</span> <span class="title">main</span></span>()</span><br><span class="line">&#123;</span><br><span class="line">	decrypt(<span class="number">5</span>,<span class="number">6</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">fn</span> <span class="title">decrypt</span></span>(<span class="keyword">mut</span> x:<span class="built_in">i32</span>,<span class="keyword">mut</span> y:<span class="built_in">i32</span>)&#123;</span><br><span class="line">	x = x-<span class="number">1</span>;</span><br><span class="line">	y = y+<span class="number">1</span>;</span><br><span class="line">	<span class="built_in">println!</span>(<span class="string">"&#123;0&#125;这是x,\n&#123;1&#125;这是y"</span>,x,y)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>函数体</strong></p>
+<p>这里有一个很新的概念，表达式块</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fn</span> <span class="title">main</span></span>()</span><br><span class="line">&#123;</span><br><span class="line">	decrypt(<span class="number">5</span>,<span class="number">6</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">fn</span> <span class="title">decrypt</span></span>(<span class="keyword">mut</span> x:<span class="built_in">i32</span>,<span class="keyword">mut</span> y:<span class="built_in">i32</span>)&#123;</span><br><span class="line">	x = x-<span class="number">1</span>;</span><br><span class="line">	y = &#123;</span><br><span class="line">        <span class="keyword">let</span> y = <span class="number">1</span>;</span><br><span class="line">        x+<span class="number">1</span></span><br><span class="line">    &#125;;</span><br><span class="line">	<span class="built_in">println!</span>(<span class="string">"&#123;0&#125;这是x,\n&#123;1&#125;这是y"</span>,x,y)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+    
+  </div>
+
+</article>
+
+
+   
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2021/03/25/IO-FILE/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2021/03/29/vmpwn/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">Close</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="ROUND_RECT"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              Blog
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="ROUND_RECT"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              Tag
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="ROUND_RECT"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              About
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/valine@latest/dist/Valine.min.js"></script>
+    <div id="comment" class="vcomment" ></div>
+    <script>
+        var notify = 'true' == true ? true : false;
+        var verify = 'true' == true ? true : false;
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+            return GUEST_INFO.indexOf(item) > -1
+        });
+        guest_info = guest_info.length == 0 ? GUEST_INFO :guest_info;
+        window.valine = new Valine({
+            el: '.vcomment',
+            notify: notify,
+            verify: verify,
+            appId: "KLWvKGPeSIyoEo4k6j3v37wy-gzGzoHsz",
+            appKey: "FL93w3BBbF9lxiR8X1HI58En",
+            avatar:'wavatar',
+            placeholder: "Just go go",
+            guest_info:guest_info,
+            pageSize:'6'
+        });
+    </script>
+  
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<!-- <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+</body>
+</html>

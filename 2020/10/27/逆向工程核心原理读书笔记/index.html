@@ -15,18 +15,55 @@
     <meta name="keywords" content="Book," />
   
 
-  <meta name="description" content="前言预估三个月，但说不定为了赶其他的ddl，也就读不完了，尽力去吧 正文">
+  <meta name="description" content="前言预估三个月，但说不定为了赶其他的ddl，也就读不完了，尽力去吧。只记些重要的 第二章 逆向分析定位方法  直接执行 字符串定位 内存映射  修改字符串  直接缓存区修改，不能修改过长 改变栈地址，到一块空白的字符串  第四章 寄存器寄存器  EAX：累加器（函数返回值） EBX：基址寄存器 ECX：计数器（字符串和循环操作） EDX：数据寄存器  段寄存器  CS：代码段 SS：栈段 DS：">
 <meta property="og:type" content="article">
 <meta property="og:title" content="逆向工程核心原理读书笔记Book">
 <meta property="og:url" content="https://pz1o.top/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/index.html">
 <meta property="og:site_name" content="pz1o">
-<meta property="og:description" content="前言预估三个月，但说不定为了赶其他的ddl，也就读不完了，尽力去吧 正文">
+<meta property="og:description" content="前言预估三个月，但说不定为了赶其他的ddl，也就读不完了，尽力去吧。只记些重要的 第二章 逆向分析定位方法  直接执行 字符串定位 内存映射  修改字符串  直接缓存区修改，不能修改过长 改变栈地址，到一块空白的字符串  第四章 寄存器寄存器  EAX：累加器（函数返回值） EBX：基址寄存器 ECX：计数器（字符串和循环操作） EDX：数据寄存器  段寄存器  CS：代码段 SS：栈段 DS：">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://pz1o.top/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210309173427804.png">
+<meta property="og:image" content="https://pz1o.top/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210309175356181.png">
+<meta property="og:image" content="https://pz1o.top/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210310153153376.png">
+<meta property="og:image" content="https://pz1o.top/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210310153813415.png">
+<meta property="og:image" content="https://pz1o.top/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210310154744199.png">
+<meta property="og:image" content="https://pz1o.top/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210310160306566.png">
+<meta property="og:image" content="https://pz1o.top/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210310160550894.png">
+<meta property="og:image" content="https://pz1o.top/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210310161059662.png">
+<meta property="og:image" content="https://pz1o.top/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210310161449879.png">
+<meta property="og:image" content="https://pz1o.top/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210310161601066.png">
+<meta property="og:image" content="https://pz1o.top/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210310161746973.png">
+<meta property="og:image" content="https://pz1o.top/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210310161849517.png">
+<meta property="og:image" content="https://pz1o.top/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210310162003248.png">
+<meta property="og:image" content="https://pz1o.top/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210310162608891.png">
+<meta property="og:image" content="https://pz1o.top/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210310162827298.png">
+<meta property="og:image" content="https://pz1o.top/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210310163334695.png">
+<meta property="og:image" content="https://pz1o.top/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210310163616650.png">
+<meta property="og:image" content="https://pz1o.top/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210310164312289.png">
+<meta property="og:image" content="https://pz1o.top/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210310164618863.png">
+<meta property="og:image" content="https://pz1o.top/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210310164805130.png">
+<meta property="og:image" content="https://pz1o.top/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210310170851347.png">
+<meta property="og:image" content="https://pz1o.top/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210310170937074.png">
+<meta property="og:image" content="https://pz1o.top/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210310171432320.png">
+<meta property="og:image" content="https://pz1o.top/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210310211021165.png">
+<meta property="og:image" content="https://pz1o.top/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210310201607756.png">
+<meta property="og:image" content="https://pz1o.top/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210310201721746.png">
+<meta property="og:image" content="https://pz1o.top/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210310202126351.png">
+<meta property="og:image" content="https://pz1o.top/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210310202304928.png">
+<meta property="og:image" content="https://pz1o.top/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210310203430738.png">
+<meta property="og:image" content="https://pz1o.top/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210310204231228.png">
+<meta property="og:image" content="https://pz1o.top/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210310204430191.png">
+<meta property="og:image" content="https://pz1o.top/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210310204717043.png">
+<meta property="og:image" content="https://pz1o.top/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210310204835996.png">
+<meta property="og:image" content="https://pz1o.top/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210310205557622.png">
+<meta property="og:image" content="https://pz1o.top/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210310205918229.png">
+<meta property="og:image" content="https://pz1o.top/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210310210426731.png">
 <meta property="article:published_time" content="2020-10-27T08:09:08.000Z">
-<meta property="article:modified_time" content="2021-03-03T07:27:26.523Z">
+<meta property="article:modified_time" content="2021-03-10T13:10:29.759Z">
 <meta property="article:author" content="pz1o">
 <meta property="article:tag" content="Book">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pz1o.top/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210309173427804.png">
 
   
 
@@ -155,7 +192,7 @@ ga('send', 'pageview');
 
   <div id="toc" class="toc-article">
     <strong class="toc-title">Posts List</strong>
-    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#前言"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#正文"><span class="toc-text">正文</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#前言"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#第二章-逆向分析"><span class="toc-text">第二章 逆向分析</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#第四章-寄存器"><span class="toc-text">第四章 寄存器</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#第八章-crackme-2"><span class="toc-text">第八章 crackme#2</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#解密算法分析"><span class="toc-text">解密算法分析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-查找函数开始的部分"><span class="toc-text">1.查找函数开始的部分</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-预测代码"><span class="toc-text">2.预测代码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-定位关键函数"><span class="toc-text">3.定位关键函数</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#第十章-函数调用约定"><span class="toc-text">第十章 函数调用约定</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#10-1-函数调用约定"><span class="toc-text">10.1 函数调用约定</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#cdecl"><span class="toc-text">cdecl</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#stdcall"><span class="toc-text">stdcall</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#fastcall"><span class="toc-text">fastcall</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#第十三章-PE文件格式"><span class="toc-text">第十三章 PE文件格式</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#13-1-介绍"><span class="toc-text">13.1 介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#13-2-PE文件格式"><span class="toc-text">13.2 PE文件格式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-基本结构"><span class="toc-text">1.基本结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-VA-amp-RVA"><span class="toc-text">2.VA&amp;RVA</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#13-3-PE头"><span class="toc-text">13.3 PE头</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-DOS头"><span class="toc-text">1.DOS头</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-DOS存根"><span class="toc-text">2.DOS存根</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-NT头"><span class="toc-text">3.NT头</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-NT头：文件头"><span class="toc-text">4.NT头：文件头</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-可选头"><span class="toc-text">5.可选头</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-节区头"><span class="toc-text">6.节区头</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#13-4-RVAtoRAW"><span class="toc-text">13.4 RVAtoRAW</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#13-5-IAT"><span class="toc-text">13.5 IAT</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-dll"><span class="toc-text">1.dll</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-IMAGE-IMPORT-DESCRIPTOR"><span class="toc-text">2.IMAGE_IMPORT_DESCRIPTOR</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-练习"><span class="toc-text">3.练习</span></a></li></ol></li></ol></li></ol>
   </div>
 
 
@@ -202,8 +239,259 @@ ga('send', 'pageview');
   <div class="article-content">
     
       <a id="more"></a>
-<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>预估三个月，但说不定为了赶其他的ddl，也就读不完了，尽力去吧</p>
-<h1 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h1>
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>预估三个月，但说不定为了赶其他的ddl，也就读不完了，尽力去吧。只记些重要的</p>
+<h1 id="第二章-逆向分析"><a href="#第二章-逆向分析" class="headerlink" title="第二章 逆向分析"></a>第二章 逆向分析</h1><p><strong>定位方法</strong></p>
+<ol>
+<li>直接执行</li>
+<li>字符串定位</li>
+<li>内存映射</li>
+</ol>
+<p><strong>修改字符串</strong></p>
+<ol>
+<li>直接缓存区修改，不能修改过长</li>
+<li>改变栈地址，到一块空白的字符串</li>
+</ol>
+<h1 id="第四章-寄存器"><a href="#第四章-寄存器" class="headerlink" title="第四章 寄存器"></a>第四章 寄存器</h1><p><strong>寄存器</strong><br><img src="/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210309173427804.png" alt="image-20210309173427804"></p>
+<ul>
+<li>EAX：累加器（函数返回值）</li>
+<li>EBX：基址寄存器</li>
+<li>ECX：计数器（字符串和循环操作）</li>
+<li>EDX：数据寄存器</li>
+</ul>
+<p><strong>段寄存器</strong></p>
+<ul>
+<li>CS：代码段</li>
+<li>SS：栈段</li>
+<li>DS：数据段</li>
+<li>ES：附加段</li>
+<li>FS：数据段</li>
+<li>GS：数据段</li>
+</ul>
+<p><strong>标志寄存器</strong></p>
+<p><img src="/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210309175356181.png" alt="image-20210309175356181"></p>
+<h1 id="第八章-crackme-2"><a href="#第八章-crackme-2" class="headerlink" title="第八章 crackme#2"></a>第八章 crackme#2</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">test ax,ax</span><br><span class="line">&#x2F;&#x2F;两个数中一个为0-&gt;ZF&#x3D;1</span><br></pre></td></tr></table></figure>
+<h2 id="解密算法分析"><a href="#解密算法分析" class="headerlink" title="解密算法分析"></a>解密算法分析</h2><h3 id="1-查找函数开始的部分"><a href="#1-查找函数开始的部分" class="headerlink" title="1.查找函数开始的部分"></a>1.查找函数开始的部分</h3><p>寻找有关生成栈帧的部分</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">push ebp</span><br><span class="line">mov ebp,esp</span><br></pre></td></tr></table></figure>
+<h3 id="2-预测代码"><a href="#2-预测代码" class="headerlink" title="2.预测代码"></a>2.预测代码</h3><ul>
+<li>读取name字符串（使用GetWindowText、GetDlgItemText）</li>
+<li>启动循环，对字符串加密（XOR、ADD、SUB）</li>
+</ul>
+<h3 id="3-定位关键函数"><a href="#3-定位关键函数" class="headerlink" title="3.定位关键函数"></a>3.定位关键函数</h3><ul>
+<li>观察每个函数的参数的变化</li>
+<li>反复调试</li>
+<li>要注意栈帧的变化</li>
+<li>同时根据函数名字也可以看出点东西来</li>
+</ul>
+<h1 id="第十章-函数调用约定"><a href="#第十章-函数调用约定" class="headerlink" title="第十章 函数调用约定"></a>第十章 函数调用约定</h1><h2 id="10-1-函数调用约定"><a href="#10-1-函数调用约定" class="headerlink" title="10.1 函数调用约定"></a>10.1 函数调用约定</h2><p>主要有以下几种函数调用约定</p>
+<ol>
+<li>cdecl</li>
+<li>stdcall</li>
+<li>fastcall</li>
+</ol>
+<p>main中调用printf</p>
+<p>则main为调用者，printf为被调用者</p>
+<h3 id="cdecl"><a href="#cdecl" class="headerlink" title="cdecl"></a>cdecl</h3><p>调用者清理栈中的参数，这种叫做cdecl。</p>
+<p>具体表现为就是esp加一定的数值</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">add esp,8</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>可以向被调用的函数传递长度可变的参数。</p>
+</blockquote>
+<h3 id="stdcall"><a href="#stdcall" class="headerlink" title="stdcall"></a>stdcall</h3><p>该方式主要是被调用者清理栈，c语言默认为cdecl。若要用此种方法，则要使用stdcall来编译</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">#include&quot;stdio.h&quot;</span><br><span class="line"></span><br><span class="line">int _stdcall add(int a,int b)</span><br><span class="line">&#123;</span><br><span class="line">	return(a+b);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>具体表现为</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">retn 8</span><br><span class="line">retn+pop 8</span><br></pre></td></tr></table></figure>
+<h3 id="fastcall"><a href="#fastcall" class="headerlink" title="fastcall"></a>fastcall</h3><p>该方式与stdcall方式类似，但这种通常会用寄存器去传递那些需要传递给函数的部分参数。</p>
+<p>举个例子，若一个函数有4个参数，那么前两个参数会使用ecx和edx来传递</p>
+<p>此种方式调用较快，但由于需要用到寄存器。所以需要先备份寄存器里的内容。</p>
+<h1 id="第十三章-PE文件格式"><a href="#第十三章-PE文件格式" class="headerlink" title="第十三章 PE文件格式"></a>第十三章 PE文件格式</h1><h2 id="13-1-介绍"><a href="#13-1-介绍" class="headerlink" title="13.1 介绍"></a>13.1 介绍</h2><p>PE文件是windows操作系统下使用的可执行文件格式</p>
+<p>PE文件是指可执行的32位文件。64位可执行文件称为PE+或PE32+，是PE文件的一种扩展形式</p>
+<h2 id="13-2-PE文件格式"><a href="#13-2-PE文件格式" class="headerlink" title="13.2 PE文件格式"></a>13.2 PE文件格式</h2><p><img src="/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210310153153376.png" alt="image-20210310153153376"></p>
+<p>跟随书上一起分析</p>
+<p><img src="/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210310153813415.png" alt="image-20210310153813415"></p>
+<h3 id="1-基本结构"><a href="#1-基本结构" class="headerlink" title="1.基本结构"></a>1.基本结构</h3><p>PE头：从DOS头到节区头</p>
+<p>PE体：余下部分</p>
+<p>文件中使用偏移，内存中使用虚拟地址来表示位置。</p>
+<p>文件内容一般有代码、数据、资源（.rsrc）节</p>
+<p>各节区头定义了各节区在文件或内存中的大小、位置、属性等。</p>
+<p><strong>这里有一个很重要的概念:最小基本单位。为了使文件/内存中各节区的位置处于最小单位的倍数位置上，我们通常会在其中添加NULL来补充</strong></p>
+<p>如图所示</p>
+<p><img src="/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210310154744199.png" alt="image-20210310154744199"></p>
+<h3 id="2-VA-amp-RVA"><a href="#2-VA-amp-RVA" class="headerlink" title="2.VA&amp;RVA"></a>2.VA&amp;RVA</h3><p>VA：进程虚拟内存的绝对地址</p>
+<p>RVA：从某个基准位置开始的相对地址</p>
+<p>为什么要VA和RVA呢？</p>
+<p>如果一个文件加载了多个dll文件，其VA是相同的，那么就会造成覆盖，导致程序加载不正常。</p>
+<p>使用RVA，只要基址是恰当的，那么最终加载出来的程序也是可以正常运行的。</p>
+<blockquote>
+<p>base+RVA=VA</p>
+</blockquote>
+<h2 id="13-3-PE头"><a href="#13-3-PE头" class="headerlink" title="13.3 PE头"></a>13.3 PE头</h2><p>PE头有许多结构体，这里一一说一下</p>
+<h3 id="1-DOS头"><a href="#1-DOS头" class="headerlink" title="1.DOS头"></a>1.DOS头</h3><p><img src="/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210310160306566.png" alt="image-20210310160306566"></p>
+<blockquote>
+<p>e_magic:DOS签名（4D5A）</p>
+<p>e_lfanew:NT头的偏移</p>
+</blockquote>
+<p>我们看一下notepad的</p>
+<p><img src="/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210310160550894.png" alt="image-20210310160550894"></p>
+<p>这里e_lfanew是：000000E0</p>
+<blockquote>
+<p>Intel的CPU逆序存储，小端存储</p>
+</blockquote>
+<h3 id="2-DOS存根"><a href="#2-DOS存根" class="headerlink" title="2.DOS存根"></a>2.DOS存根</h3><p>DOS存根位于DOS头下方，且大小不固定</p>
+<p><img src="/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210310161059662.png" alt="image-20210310161059662"></p>
+<p>图中红线为汇编代码</p>
+<p><img src="/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210310161449879.png" alt="image-20210310161449879"></p>
+<p>意思也很简单，屏幕上写出一串字符串，然后退出。</p>
+<h3 id="3-NT头"><a href="#3-NT头" class="headerlink" title="3.NT头"></a>3.NT头</h3><p><img src="/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210310161601066.png" alt="image-20210310161601066"></p>
+<blockquote>
+<p>4字节的签名</p>
+<p>文件头</p>
+<p>可选头</p>
+</blockquote>
+<p>notepad如下</p>
+<p><img src="/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210310161746973.png" alt="image-20210310161746973"></p>
+<h3 id="4-NT头：文件头"><a href="#4-NT头：文件头" class="headerlink" title="4.NT头：文件头"></a>4.NT头：文件头</h3><p><img src="/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210310161849517.png" alt="image-20210310161849517"></p>
+<blockquote>
+<p>以下四种如果设置不正确，将无法启动</p>
+<p>1.Machine码</p>
+<p><img src="/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210310162003248.png" alt="image-20210310162003248"></p>
+<p>2.NumberOfSections</p>
+<p>如其名，节区数量。定义节区数应与实际节区数对应</p>
+<p>3.SizeOfOptionalHeader</p>
+<p>可选节区头的大小，windows的PE文件通过查看该值来确定可选节区头的大小</p>
+<p>4.Characteristics</p>
+<p>该字段标识文件的属性、文件是否可运行、是否为dll文件等</p>
+<p><img src="/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210310162608891.png" alt="image-20210310162608891"></p>
+</blockquote>
+<p>notepad的文件头</p>
+<p><img src="/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210310162827298.png" alt="image-20210310162827298"></p>
+<blockquote>
+<p>014C:machine码 intel 386</p>
+<p>0003:节区数</p>
+<p>黄色是时间:48025287</p>
+<p>00000000:offset to symbol table</p>
+<p>00000000:number of symbols</p>
+<p>00E0：可选头的大小</p>
+<p>010F:Characteristics</p>
+</blockquote>
+<h3 id="5-可选头"><a href="#5-可选头" class="headerlink" title="5.可选头"></a>5.可选头</h3><p><img src="/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210310163334695.png" alt="image-20210310163334695"></p>
+<blockquote>
+<p>以下几种也是非常重要的</p>
+<p>1.Magic</p>
+<p>32是10B 64是20B</p>
+<p>2.AddressOfEntryPoint</p>
+<p>RVA值，指出程序最先执行代码的起始地址</p>
+<p>3.ImageBase</p>
+<p><img src="/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210310163616650.png" alt="image-20210310163616650"></p>
+<p>4.SectionAlignment、FileAlignment</p>
+<p>SectionAlignment定义节区在内存中最小单位、FileAlignment定义节区在磁盘中最小单位。</p>
+<p>文件在磁盘和内存中大小必为这两个的整数倍</p>
+<p>5.SizeOfImage</p>
+<p>PE文件加载到内存时，该值定义了PE Image在虚拟内存中所占空间的大小</p>
+<p>6.SizeOfHeaders</p>
+<p>用来指出整个PE头的大小。该值为FileAlignment的整数倍</p>
+<p>第一节区所在位置与SizeOfHeaders距文件开始偏移量相同</p>
+<p>7.Subsystem</p>
+<p>看是什么文件</p>
+<p><img src="/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210310164312289.png" alt="image-20210310164312289"></p>
+<p>8.NumberOfRvaAndSizes</p>
+<p>用来定义最后一个元素的大小，虽说已经定义16，但也有可能不是16</p>
+<p>9.DataDirectory</p>
+<p><img src="/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210310164618863.png" alt="image-20210310164618863"></p>
+<p>主要关注以下4个</p>
+</blockquote>
+<p>notepad的可选头</p>
+<p><img src="/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210310164805130.png" alt="image-20210310164805130"></p>
+<blockquote>
+<p>1.magic:010B</p>
+<p>2.AddressOfEntryPoint：00739D</p>
+<p>3.ImageBase:01000000</p>
+<p>4.SectionAlignment、FileAlignment:00001000 0000200 </p>
+<p>6.SizeOfHeaders:00000400</p>
+</blockquote>
+<h3 id="6-节区头"><a href="#6-节区头" class="headerlink" title="6.节区头"></a>6.节区头</h3><p>节区头定义了节区的属性，不同节区有着不同的节区头。</p>
+<p>各个区权限如下</p>
+<p><img src="/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210310170851347.png" alt="image-20210310170851347"></p>
+<p>节区头</p>
+<p><img src="/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210310170937074.png" alt="image-20210310170937074"></p>
+<p>VitrtualAddress和PointerToRawData不带任何值，分别由SectionAlignment、FileAlignment确定</p>
+<p>VirtualSize和SizeOfRawData是不同的值，即加载大小是不同的。</p>
+<p>Name字段是随意的，想放什么放什么。</p>
+<p>notepad的节区头</p>
+<p><img src="/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210310171432320.png" alt="image-20210310171432320"></p>
+<blockquote>
+<p>Name:2E746578 .text</p>
+<p>PhysicalAddress:74000000</p>
+<p>内存</p>
+<p>VirtualSize 00007748</p>
+<p>VirtualAddress:00001000</p>
+<p>磁盘</p>
+<p>SizeOfRawData:00007800</p>
+<p>PointerToRawData:00000400</p>
+</blockquote>
+<h2 id="13-4-RVAtoRAW"><a href="#13-4-RVAtoRAW" class="headerlink" title="13.4 RVAtoRAW"></a>13.4 RVAtoRAW</h2><p>这里主要是讲一下从磁盘到内存映射的内容</p>
+<p>PE文件加载到内存时，每个节区都要准确地完成内存地址与文件偏移间的映射</p>
+<ol>
+<li>查找RVA所在节区</li>
+<li>计算文件偏移</li>
+</ol>
+<p>RAW=RVA-VirtualAddress+PointerToRawData</p>
+<blockquote>
+<p>RAW:相对文件偏移</p>
+<p>RVA：相对内存偏移</p>
+<p>VirtualAddress：内存中节区起始地址</p>
+<p>PointerToRawData：磁盘中节区起始地址</p>
+</blockquote>
+<p><img src="/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210310211021165.png" alt="image-20210310211021165"></p>
+<h2 id="13-5-IAT"><a href="#13-5-IAT" class="headerlink" title="13.5 IAT"></a>13.5 IAT</h2><p>IAT（Import Address Table）导入地址表</p>
+<p>EAT（Export Address Table）导出地址表</p>
+<h3 id="1-dll"><a href="#1-dll" class="headerlink" title="1.dll"></a>1.dll</h3><p>dll（Dynamic Link Library）</p>
+<ol>
+<li>不需要把库包含到程序中，单独组成dll文件，需要时调用即可</li>
+<li>内存映射技术使加载后的dll代码和资源在多个进程中共享</li>
+<li>更新库时，只需要更新相关的dll文件即可</li>
+</ol>
+<p>显式链接：程序使用dll时加载，使用完毕后释放内存。</p>
+<p>隐式链接：程序开始时就加载，程序终止时才释放内存</p>
+<h3 id="2-IMAGE-IMPORT-DESCRIPTOR"><a href="#2-IMAGE-IMPORT-DESCRIPTOR" class="headerlink" title="2.IMAGE_IMPORT_DESCRIPTOR"></a>2.IMAGE_IMPORT_DESCRIPTOR</h3><p><img src="/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210310201607756.png" alt="image-20210310201607756"></p>
+<p>导入多少库就有多少种这样的结构体，这些结构体形成了数组，且结构体数组最后以NULL结构体结束</p>
+<p>主要看下面三个成员</p>
+<p><img src="/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210310201721746.png" alt="image-20210310201721746"></p>
+<p>这里说一下INT中各元素的值为IMAGE_IMPORT_BY_NAME结构体指针</p>
+<p>我们看一下下面这张图就一目了然了</p>
+<p><img src="/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210310202126351.png" alt="image-20210310202126351"></p>
+<p>PE装载器的顺序：</p>
+<p><img src="/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210310202304928.png" alt="image-20210310202304928"></p>
+<h3 id="3-练习"><a href="#3-练习" class="headerlink" title="3.练习"></a>3.练习</h3><p>IMAGE_IMPORT_DESCRIPTOR在哪里？</p>
+<p>我们还记得前面说过可选头里面有DataDirectory吗？这里面第二个成员就是IMPORT DIRECTORY</p>
+<p>IMAGE_OPTIONAL_HEADER32.DataDirectory[1]:第一个4字节为虚拟地址，第二个四字节为size</p>
+<p><img src="/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210310203430738.png" alt="image-20210310203430738"></p>
+<p>这样我们算出在文件中的偏移：</p>
+<p>7604-1000+400=6A04</p>
+<p>我们来看一下文件中偏移</p>
+<p><img src="/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210310204231228.png" alt="image-20210310204231228"></p>
+<p>就是下图</p>
+<p><img src="/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210310204430191.png" alt="image-20210310204430191"></p>
+<p>接下来就是一个一个看了</p>
+<p>1.Name</p>
+<p>Name是字符串指针，指向导入函数所属库的文件名称。</p>
+<p><img src="/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210310204717043.png" alt="image-20210310204717043"></p>
+<p><strong>2.INT</strong></p>
+<p>INT是一个包含导入函数信息的结构体指针数组。</p>
+<p>只有这些信息才能在加载到进程内存的库中准确求得相应函数的起始地址。</p>
+<p>INT由地址数组形式组成，每个地址值分别指向IMAGE_IMPORT_BY_NAME结构体</p>
+<p><img src="/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210310204835996.png" alt="image-20210310204835996"></p>
+<p><strong>3.IMAGE_IMPORT_BY_NAMEIMAGE_IMPORT_BY_NAME</strong></p>
+<p>7A7A——&gt;6E7A</p>
+<p>前面000F是Ordinal，是库中函数固有编号。</p>
+<p>后面就是字符串</p>
+<p><img src="/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210310205557622.png" alt="image-20210310205557622"></p>
+<p><strong>4.IAT</strong></p>
+<p>IAT同样也是由结构体指针数组组成，且以NULL结尾。</p>
+<p>IAT第一个元素为76344906，这里notepad在加载到内存中会的替换该值。</p>
+<p><img src="/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210310205918229.png" alt="image-20210310205918229"></p>
+<p>但由于该dll文件ImageBase就是10000000，所以76344906就是该函数的地址</p>
+<p><img src="/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210310210426731.png" alt="image-20210310210426731"></p>
+
     
   </div>
 

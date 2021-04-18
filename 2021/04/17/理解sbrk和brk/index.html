@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+
+
+  <html class="dark page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>理解sbrk和brk | pz1o</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="c," />
+  
+
+  <meta name="description" content="0x01 sbrk和brk函数原型123#include &lt;unistd.h&gt;int brk(void *addr);void *sbrk(intptr_t increment);  description:         brk() and sbrk() change the location of the program break, which defines the end">
+<meta property="og:type" content="article">
+<meta property="og:title" content="理解sbrk和brk">
+<meta property="og:url" content="https://pz1o.top/2021/04/17/%E7%90%86%E8%A7%A3sbrk%E5%92%8Cbrk/index.html">
+<meta property="og:site_name" content="pz1o">
+<meta property="og:description" content="0x01 sbrk和brk函数原型123#include &lt;unistd.h&gt;int brk(void *addr);void *sbrk(intptr_t increment);  description:         brk() and sbrk() change the location of the program break, which defines the end">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://pz1o.top/2021/04/17/%E7%90%86%E8%A7%A3sbrk%E5%92%8Cbrk/image-20210418233030728.png">
+<meta property="og:image" content="https://pz1o.top/2021/04/17/%E7%90%86%E8%A7%A3sbrk%E5%92%8Cbrk/image-20210418233136531.png">
+<meta property="article:published_time" content="2021-04-17T08:12:11.000Z">
+<meta property="article:modified_time" content="2021-04-18T15:51:26.800Z">
+<meta property="article:author" content="pz1o">
+<meta property="article:tag" content="c">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pz1o.top/2021/04/17/%E7%90%86%E8%A7%A3sbrk%E5%92%8Cbrk/image-20210418233030728.png">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbeddx" rel="stylesheet">
+
+
+  
+    
+<link rel="stylesheet" href="/css/personal-style.css">
+
+  
+
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-38189205-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?e90b4c8b8c36ca2b3e5798ef67088f84";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="pz1o" type="application/atom+xml">
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">MAP</span>
+  
+
+  <div class="post-header LEFT">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">MAP</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="ROUND_RECT"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            Blog
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="ROUND_RECT"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            Tag
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="ROUND_RECT"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            About
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">Posts List</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#0x01-sbrk和brk函数原型"><span class="toc-text">0x01 sbrk和brk函数原型</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x02-演示"><span class="toc-text">0x02 演示</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x03-堆管理"><span class="toc-text">0x03 堆管理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-malloc小于128k"><span class="toc-text">1. malloc小于128k</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-malloc大于128k"><span class="toc-text">2. malloc大于128k</span></a></li></ol></li></ol>
+  </div>
+
+
+
+<div class="content content-post LEFT">
+   <article id="post-理解sbrk和brk" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">理解sbrk和brk</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2021.04.17</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>pz1o</span>
+        </span>
+      
+
+      
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <h1 id="0x01-sbrk和brk函数原型"><a href="#0x01-sbrk和brk函数原型" class="headerlink" title="0x01 sbrk和brk函数原型"></a>0x01 sbrk和brk函数原型</h1><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">brk</span><span class="params">(<span class="keyword">void</span> *addr)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> *<span class="title">sbrk</span><span class="params">(<span class="keyword">intptr_t</span> increment)</span></span>;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>description:        </p>
+<p>brk() and sbrk() change the location of the program break, which defines the end of the process’s data segment (i.e., the program break is the first location after the end of the uninitialized data segment).  Increasing the program break has the effect of allocating memory to the process; decreasing the break deallocates memory.</p>
+<p>return value:</p>
+<p>On success, brk() returns zero.  On error, -1 is returned, and errno is set to ENOMEM.</p>
+<p>On success, sbrk() returns the previous program break.  (If the break was increased, then this value is a pointer to the start of the newly allocated memory).  On error, (void *) -1 is returned,and errno is set to ENOMEM.</p>
+</blockquote>
+<p>英文解释的很清楚了，主要理解什么是program break和data segment</p>
+<ol>
+<li>program break被定义为程序data segment的结束位置</li>
+<li>data segment应该包含了data segment、bss segment和heap</li>
+</ol>
+<p>此外，我们还需要关注两个函数的返回值</p>
+<ol>
+<li>brk通过传递的addr来重新设置program break，成功则返回0，否则返回-1</li>
+<li>sbrk用来增加heap，增加的大小通过参数increment决定，返回增加大小前的heap的program break，如果increment为0则返回program break。</li>
+</ol>
+<h1 id="0x02-演示"><a href="#0x02-演示" class="headerlink" title="0x02 演示"></a>0x02 演示</h1><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> bss_end;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">void</span>* ret;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"bss is %p\n"</span>,(<span class="keyword">char</span>*)(&amp;bss_end)+<span class="number">4</span>);</span><br><span class="line">	ret = sbrk(<span class="number">0</span>);</span><br><span class="line">	<span class="keyword">if</span>(ret != (<span class="keyword">void</span>*)<span class="number">-1</span>)&#123;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"start %p\n"</span>,ret);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>ASLR开启结果如下</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">pz1o$ ./a</span><br><span class="line">bss is 0x601048</span><br><span class="line">start 0x1056000</span><br><span class="line"> ~/Desktop/mydemo [04:52:59]</span><br><span class="line">pz1o$ ./a</span><br><span class="line">bss is 0x601048</span><br><span class="line">start 0xd28000</span><br><span class="line"> ~/Desktop/mydemo [04:52:59]</span><br><span class="line">pz1o$ ./a</span><br><span class="line">bss is 0x601048</span><br><span class="line">start 0x1f9a000</span><br></pre></td></tr></table></figure>
+<p>不开启ASLR结果如下</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"> ~/Desktop/mydemo [<span class="number">05</span>:<span class="number">04</span>:<span class="number">39</span>]</span><br><span class="line">pz1o$ ./a</span><br><span class="line">bss is <span class="number">0x601048</span></span><br><span class="line">start <span class="number">0x623000</span></span><br><span class="line"> ~/Desktop/mydemo [<span class="number">05</span>:<span class="number">04</span>:<span class="number">40</span>]</span><br><span class="line">pz1o$ ./a            </span><br><span class="line">bss is <span class="number">0x601048</span></span><br><span class="line">start <span class="number">0x623000</span></span><br><span class="line"> ~/Desktop/mydemo [<span class="number">05</span>:<span class="number">04</span>:<span class="number">43</span>]</span><br><span class="line">pz1o$ ./a</span><br><span class="line">bss is <span class="number">0x601048</span></span><br><span class="line">start <span class="number">0x623000</span></span><br></pre></td></tr></table></figure>
+<p>可以看到在不开ASLR情况下，program break是不变的，当然另一种情况就是变化的</p>
+<p>此外srbk返回的是堆结束的地址具体可以看gdb调试</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">pwndbg&gt; vmmap</span><br><span class="line">LEGEND: STACK | HEAP | CODE | DATA | RWX | RODATA</span><br><span class="line">          <span class="number">0x400000</span>           <span class="number">0x401000</span> r-xp     <span class="number">1000</span> <span class="number">0</span>      /<span class="built_in">home</span>/pz1o/Desktop/mydemo/a</span><br><span class="line">          <span class="number">0x600000</span>           <span class="number">0x601000</span> r--p     <span class="number">1000</span> <span class="number">0</span>      /<span class="built_in">home</span>/pz1o/Desktop/mydemo/a</span><br><span class="line">          <span class="number">0x601000</span>           <span class="number">0x602000</span> rw-p     <span class="number">1000</span> <span class="number">1000</span>   /<span class="built_in">home</span>/pz1o/Desktop/mydemo/a</span><br><span class="line">          <span class="number">0x602000</span>           <span class="number">0x623000</span> rw-p    <span class="number">21000</span> <span class="number">0</span>      [heap]</span><br><span class="line">    <span class="number">0x7ffff7a0d000</span>     <span class="number">0x7ffff7bcd000</span> r-xp   <span class="number">1</span>c0000 <span class="number">0</span>      /lib/x86_64-linux-gnu/libc<span class="number">-2.23</span>.so</span><br><span class="line">    <span class="number">0x7ffff7bcd000</span>     <span class="number">0x7ffff7dcd000</span> ---p   <span class="number">200000</span> <span class="number">1</span>c0000 /lib/x86_64-linux-gnu/libc<span class="number">-2.23</span>.so</span><br><span class="line">    <span class="number">0x7ffff7dcd000</span>     <span class="number">0x7ffff7dd1000</span> r--p     <span class="number">4000</span> <span class="number">1</span>c0000 /lib/x86_64-linux-gnu/libc<span class="number">-2.23</span>.so</span><br><span class="line">    <span class="number">0x7ffff7dd1000</span>     <span class="number">0x7ffff7dd3000</span> rw-p     <span class="number">2000</span> <span class="number">1</span>c4000 /lib/x86_64-linux-gnu/libc<span class="number">-2.23</span>.so</span><br><span class="line">    <span class="number">0x7ffff7dd3000</span>     <span class="number">0x7ffff7dd7000</span> rw-p     <span class="number">4000</span> <span class="number">0</span>      </span><br><span class="line">    <span class="number">0x7ffff7dd7000</span>     <span class="number">0x7ffff7dfd000</span> r-xp    <span class="number">26000</span> <span class="number">0</span>      /lib/x86_64-linux-gnu/ld<span class="number">-2.23</span>.so</span><br><span class="line">    <span class="number">0x7ffff7fd3000</span>     <span class="number">0x7ffff7fd6000</span> rw-p     <span class="number">3000</span> <span class="number">0</span>      </span><br><span class="line">    <span class="number">0x7ffff7ff7000</span>     <span class="number">0x7ffff7ffa000</span> r--p     <span class="number">3000</span> <span class="number">0</span>      [vvar]</span><br><span class="line">    <span class="number">0x7ffff7ffa000</span>     <span class="number">0x7ffff7ffc000</span> r-xp     <span class="number">2000</span> <span class="number">0</span>      [vdso]</span><br><span class="line">    <span class="number">0x7ffff7ffc000</span>     <span class="number">0x7ffff7ffd000</span> r--p     <span class="number">1000</span> <span class="number">25000</span>  /lib/x86_64-linux-gnu/ld<span class="number">-2.23</span>.so</span><br><span class="line">    <span class="number">0x7ffff7ffd000</span>     <span class="number">0x7ffff7ffe000</span> rw-p     <span class="number">1000</span> <span class="number">26000</span>  /lib/x86_64-linux-gnu/ld<span class="number">-2.23</span>.so</span><br><span class="line">    <span class="number">0x7ffff7ffe000</span>     <span class="number">0x7ffff7fff000</span> rw-p     <span class="number">1000</span> <span class="number">0</span>      </span><br><span class="line">    <span class="number">0x7ffffffde000</span>     <span class="number">0x7ffffffff000</span> rw-p    <span class="number">21000</span> <span class="number">0</span>      [<span class="built_in">stack</span>]</span><br><span class="line"><span class="number">0xffffffffff600000</span> <span class="number">0xffffffffff601000</span> r-xp     <span class="number">1000</span> <span class="number">0</span>      [vsyscall]</span><br></pre></td></tr></table></figure>
+<p>接下来不是0的</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> bss_end;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">void</span>* ret;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"bss is %p\n"</span>,(<span class="keyword">char</span>*)(&amp;bss_end)+<span class="number">4</span>);</span><br><span class="line">	ret = sbrk(<span class="number">0x1000</span>);</span><br><span class="line">	<span class="keyword">if</span>(ret != (<span class="keyword">void</span>*)<span class="number">-1</span>)&#123;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"start %p\n"</span>,ret);</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">int</span>* a = <span class="built_in">malloc</span>(<span class="number">0x100</span>);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"malloc is %p"</span>,a);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>直接看结果</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">pwndbg&gt; vmmap</span><br><span class="line">LEGEND: STACK | HEAP | CODE | DATA | RWX | RODATA</span><br><span class="line">          <span class="number">0x400000</span>           <span class="number">0x401000</span> r-xp     <span class="number">1000</span> <span class="number">0</span>      /<span class="built_in">home</span>/pz1o/Desktop/mydemo/a</span><br><span class="line">          <span class="number">0x600000</span>           <span class="number">0x601000</span> r--p     <span class="number">1000</span> <span class="number">0</span>      /<span class="built_in">home</span>/pz1o/Desktop/mydemo/a</span><br><span class="line">          <span class="number">0x601000</span>           <span class="number">0x602000</span> rw-p     <span class="number">1000</span> <span class="number">1000</span>   /<span class="built_in">home</span>/pz1o/Desktop/mydemo/a</span><br><span class="line">          <span class="number">0x602000</span>           <span class="number">0x624000</span> rw-p    <span class="number">22000</span> <span class="number">0</span>      [heap]</span><br><span class="line">    <span class="number">0x7ffff7a0d000</span>     <span class="number">0x7ffff7bcd000</span> r-xp   <span class="number">1</span>c0000 <span class="number">0</span>      /lib/x86_64-linux-gnu/libc<span class="number">-2.23</span>.so</span><br><span class="line">    <span class="number">0x7ffff7bcd000</span>     <span class="number">0x7ffff7dcd000</span> ---p   <span class="number">200000</span> <span class="number">1</span>c0000 /lib/x86_64-linux-gnu/libc<span class="number">-2.23</span>.so</span><br><span class="line">    <span class="number">0x7ffff7dcd000</span>     <span class="number">0x7ffff7dd1000</span> r--p     <span class="number">4000</span> <span class="number">1</span>c0000 /lib/x86_64-linux-gnu/libc<span class="number">-2.23</span>.so</span><br><span class="line">    <span class="number">0x7ffff7dd1000</span>     <span class="number">0x7ffff7dd3000</span> rw-p     <span class="number">2000</span> <span class="number">1</span>c4000 /lib/x86_64-linux-gnu/libc<span class="number">-2.23</span>.so</span><br><span class="line">    <span class="number">0x7ffff7dd3000</span>     <span class="number">0x7ffff7dd7000</span> rw-p     <span class="number">4000</span> <span class="number">0</span>      </span><br><span class="line">    <span class="number">0x7ffff7dd7000</span>     <span class="number">0x7ffff7dfd000</span> r-xp    <span class="number">26000</span> <span class="number">0</span>      /lib/x86_64-linux-gnu/ld<span class="number">-2.23</span>.so</span><br><span class="line">    <span class="number">0x7ffff7fd3000</span>     <span class="number">0x7ffff7fd6000</span> rw-p     <span class="number">3000</span> <span class="number">0</span>      </span><br><span class="line">    <span class="number">0x7ffff7ff7000</span>     <span class="number">0x7ffff7ffa000</span> r--p     <span class="number">3000</span> <span class="number">0</span>      [vvar]</span><br><span class="line">    <span class="number">0x7ffff7ffa000</span>     <span class="number">0x7ffff7ffc000</span> r-xp     <span class="number">2000</span> <span class="number">0</span>      [vdso]</span><br><span class="line">    <span class="number">0x7ffff7ffc000</span>     <span class="number">0x7ffff7ffd000</span> r--p     <span class="number">1000</span> <span class="number">25000</span>  /lib/x86_64-linux-gnu/ld<span class="number">-2.23</span>.so</span><br><span class="line">    <span class="number">0x7ffff7ffd000</span>     <span class="number">0x7ffff7ffe000</span> rw-p     <span class="number">1000</span> <span class="number">26000</span>  /lib/x86_64-linux-gnu/ld<span class="number">-2.23</span>.so</span><br><span class="line">    <span class="number">0x7ffff7ffe000</span>     <span class="number">0x7ffff7fff000</span> rw-p     <span class="number">1000</span> <span class="number">0</span>      </span><br><span class="line">    <span class="number">0x7ffffffde000</span>     <span class="number">0x7ffffffff000</span> rw-p    <span class="number">21000</span> <span class="number">0</span>      [<span class="built_in">stack</span>]</span><br><span class="line"><span class="number">0xffffffffff600000</span> <span class="number">0xffffffffff601000</span> r-xp     <span class="number">1000</span> <span class="number">0</span>      [vsyscall]</span><br><span class="line"></span><br><span class="line">bss is <span class="number">0x601050</span></span><br><span class="line">start <span class="number">0x623000</span></span><br></pre></td></tr></table></figure>
+<h1 id="0x03-堆管理"><a href="#0x03-堆管理" class="headerlink" title="0x03 堆管理"></a>0x03 堆管理</h1><p>1）当开辟的空间小于 128K 时，调用 brk（）函数，malloc 的底层实现是系统调用函数 brk（），其主要移动指针program break</p>
+<p>2）当开辟的空间大于 128K 时，mmap（）系统调用函数来在虚拟地址空间中（堆和栈中间，称为“文件映射区域”的地方）找一块空间来开辟。</p>
+<h2 id="1-malloc小于128k"><a href="#1-malloc小于128k" class="headerlink" title="1. malloc小于128k"></a>1. malloc小于128k</h2><p>这时只使用brk分配</p>
+<p><img src="/2021/04/17/%E7%90%86%E8%A7%A3sbrk%E5%92%8Cbrk/image-20210418233030728.png" alt="image-20210418233030728"></p>
+<ol>
+<li>进程启动的时候，其（虚拟）内存空间的初始布局如图所示</li>
+<li>进程调用A=malloc(30K)以后，内存空间如图malloc函数会调用brk系统调用，将program break指针往高地址推30K，就完成虚拟内存分配</li>
+</ol>
+<p>这只是完成虚拟地址的分配，A这块内存现在还是没有物理页与之对应的，等到进程第一次读写A这块内存的时候，发生缺页中断，这个时候，内核才分配A这块内存对应的物理页。<strong>也就是说，如果用malloc分配了A这块内容，然后从来不访问它，那么，A对应的物理页是不会被分配的。</strong></p>
+<h2 id="2-malloc大于128k"><a href="#2-malloc大于128k" class="headerlink" title="2. malloc大于128k"></a>2. malloc大于128k</h2><p>这时使用mmap分配</p>
+<p><img src="/2021/04/17/%E7%90%86%E8%A7%A3sbrk%E5%92%8Cbrk/image-20210418233136531.png" alt="image-20210418233136531"></p>
+<ol>
+<li>进程分配C=malloc(200K),<strong>malloc函数分配内存，如果请求内存大于128K利用mmap系统调用，从堆和栈的中间分配一块虚拟内存</strong>，原因在于<strong>brk分配的内存需要等到高地址内存释放以后才能释放而mmap分配的内存可以单独释放。</strong></li>
+</ol>
+
+    
+  </div>
+
+</article>
+
+
+   
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2021/04/13/char%E7%B1%BB%E5%9E%8B/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2021/04/18/csapp/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">Close</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="ROUND_RECT"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              Blog
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="ROUND_RECT"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              Tag
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="ROUND_RECT"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              About
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/valine@latest/dist/Valine.min.js"></script>
+    <div id="comment" class="vcomment" ></div>
+    <script>
+        var notify = 'true' == true ? true : false;
+        var verify = 'true' == true ? true : false;
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+            return GUEST_INFO.indexOf(item) > -1
+        });
+        guest_info = guest_info.length == 0 ? GUEST_INFO :guest_info;
+        window.valine = new Valine({
+            el: '.vcomment',
+            notify: notify,
+            verify: verify,
+            appId: "KLWvKGPeSIyoEo4k6j3v37wy-gzGzoHsz",
+            appKey: "FL93w3BBbF9lxiR8X1HI58En",
+            avatar:'wavatar',
+            placeholder: "Just go go",
+            guest_info:guest_info,
+            pageSize:'6'
+        });
+    </script>
+  
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<!-- <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+</body>
+</html>

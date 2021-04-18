@@ -12,7 +12,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
   
-    <meta name="keywords" content="PWN,Heap," />
+    <meta name="keywords" content="PWN," />
   
 
   <meta name="description" content="堆基础和堆漏洞还是分开比较好 这样看着也比较整齐 堆漏洞0x01 Off By One1.概念off-by-one 是指单字节缓冲区溢出，这种漏洞的产生往往与边界验证不严和字符串操作有关，当然也不排除写入的 size 正好就只多了一个字节的情况。 2.利用思路(1) 溢出字节为可控制任意字节：通过修改大小造成块结构之间出现重叠，从而泄露其他块数据，或是覆盖其他块数据。 (2) 溢出字节为 NULL">
@@ -48,10 +48,9 @@
 <meta property="og:image" content="https://pz1o.top/2020/12/22/%E5%A0%86%E6%BC%8F%E6%B4%9E%E5%8F%8A%E5%85%B6%E5%88%A9%E7%94%A8/image-20201222164945226.png">
 <meta property="og:image" content="https://pz1o.top/2020/12/22/%E5%A0%86%E6%BC%8F%E6%B4%9E%E5%8F%8A%E5%85%B6%E5%88%A9%E7%94%A8/unsorted_bin_attack_order.png">
 <meta property="article:published_time" content="2020-12-22T13:17:06.000Z">
-<meta property="article:modified_time" content="2021-03-03T07:28:46.689Z">
+<meta property="article:modified_time" content="2021-04-18T15:10:04.034Z">
 <meta property="article:author" content="pz1o">
 <meta property="article:tag" content="PWN">
-<meta property="article:tag" content="Heap">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://pz1o.top/2020/12/22/%E5%A0%86%E6%BC%8F%E6%B4%9E%E5%8F%8A%E5%85%B6%E5%88%A9%E7%94%A8/image-20201219141904042.png">
 

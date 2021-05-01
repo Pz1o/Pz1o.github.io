@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+
+
+  <html class="dark page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>makefile | pz1o</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="c," />
+  
+
+  <meta name="description" content="懒狗必备，makefile 为什么要写makefile，因为懒 0x01 简单makefile编写makefile的基本格式 1234target : dependency_files ##dependency_files是依赖的文件	command #注意是一个TABhello.o:hello.c hello.h	gcc -c hello.c -o hello.o eg： 这里有四个文件 dem">
+<meta property="og:type" content="article">
+<meta property="og:title" content="makefile">
+<meta property="og:url" content="https://pz1o.top/2021/04/30/makefile/index.html">
+<meta property="og:site_name" content="pz1o">
+<meta property="og:description" content="懒狗必备，makefile 为什么要写makefile，因为懒 0x01 简单makefile编写makefile的基本格式 1234target : dependency_files ##dependency_files是依赖的文件	command #注意是一个TABhello.o:hello.c hello.h	gcc -c hello.c -o hello.o eg： 这里有四个文件 dem">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-04-30T09:13:37.000Z">
+<meta property="article:modified_time" content="2021-04-30T10:29:50.433Z">
+<meta property="article:author" content="pz1o">
+<meta property="article:tag" content="c">
+<meta name="twitter:card" content="summary">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbeddx" rel="stylesheet">
+
+
+  
+    
+<link rel="stylesheet" href="/css/personal-style.css">
+
+  
+
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-38189205-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?e90b4c8b8c36ca2b3e5798ef67088f84";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="pz1o" type="application/atom+xml">
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">MAP</span>
+  
+
+  <div class="post-header LEFT">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">MAP</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="ROUND_RECT"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            Blog
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="ROUND_RECT"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            Tag
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="ROUND_RECT"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            About
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">Posts List</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#0x01-简单makefile编写"><span class="toc-text">0x01 简单makefile编写</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x02-变量"><span class="toc-text">0x02 变量</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post LEFT">
+   <article id="post-makefile" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">makefile</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2021.04.30</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>pz1o</span>
+        </span>
+      
+
+      
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <p>懒狗必备，makefile</p>
+<p>为什么要写makefile，因为懒</p>
+<h1 id="0x01-简单makefile编写"><a href="#0x01-简单makefile编写" class="headerlink" title="0x01 简单makefile编写"></a>0x01 简单makefile编写</h1><p><strong>makefile的基本格式</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">target : dependency_files ##dependency_files是依赖的文件</span><br><span class="line">	command #注意是一个TAB</span><br><span class="line">hello.o:hello.c hello.h</span><br><span class="line">	gcc -c hello.c -o hello.o</span><br></pre></td></tr></table></figure>
+<p>eg：</p>
+<p>这里有四个文件 <code>demo1.c</code> <code>demo2.c</code> <code>main.c</code> <code>head.h</code>四个文件</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//demo1.c</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">print1</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"this is demo1"</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//demo2.c</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">print2</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"this is demo2"</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//head.h</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">print1</span><span class="params">()</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">print2</span><span class="params">()</span></span>;</span><br><span class="line"><span class="comment">//main.c</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"head.h"</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    print1();</span><br><span class="line">    print2();</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"it is end"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//makefile</span></span><br><span class="line">demo:demo1.o demo2.o main.o</span><br><span class="line">    gcc demo1.o demo2.o main.o -o demo</span><br><span class="line">demo1.o:demo1.c</span><br><span class="line">    gcc demo1.c -Wall -c -o demo1.o</span><br><span class="line">demo2.o:demo2.c</span><br><span class="line">    gcc demo2.c -Wall -c -o demo2.o</span><br><span class="line">main.o:main.c</span><br><span class="line">   gcc main.c -Wall -c -o main.o</span><br><span class="line">clean:</span><br><span class="line">	rm *.o demo</span><br><span class="line">        </span><br><span class="line">[<span class="number">17</span>:<span class="number">34</span>:<span class="number">25</span>] pz1o:make_demo $ make      </span><br><span class="line">gcc demo1.c -Wall -c -o demo1.o</span><br><span class="line">gcc demo2.c -Wall -c -o demo2.o</span><br><span class="line">gcc main.c -Wall -c -o main.o</span><br><span class="line">gcc demo1.o demo2.o main.o -o demo</span><br><span class="line">[<span class="number">17</span>:<span class="number">34</span>:<span class="number">28</span>] pz1o:make_demo $ ./demo </span><br><span class="line"><span class="keyword">this</span> is demo1</span><br><span class="line"><span class="keyword">this</span> is demo2</span><br><span class="line">it is <span class="built_in">end</span>%</span><br></pre></td></tr></table></figure>
+<h1 id="0x02-变量"><a href="#0x02-变量" class="headerlink" title="0x02 变量"></a>0x02 变量</h1><p>变量的命名字可以包含字符、数字，下划线（可以是数字开头），但不应该含有“:”、“#”、“=”或是空字符（空格、回车等）。变量是区分英文字母大小写的。</p>
+<p>预定义变量</p>
+<ul>
+<li>AR    库文件维护程序名称，默认为ar.AS汇编程序名称，默认值为as。</li>
+<li>CC    C编译器的名称，默认为cc。CPP C预编译器的名称，默认值为$(CC) -E</li>
+<li>CXX    C++编译器的名称，默认为g++</li>
+<li>FC    FORTRAN编译器的缩写，默认值为f77</li>
+<li>RM    文件删除程序名称，默认为rm -f</li>
+</ul>
+<p>自动变量</p>
+<p>变量名    变量含义</p>
+<ul>
+<li>$*    不包含扩展名的目标文件名称</li>
+<li>$+    所有的依赖文件，以空格分开，并以出现后的先后为序，可能包含重复依赖文件</li>
+<li>$&lt;    第一个依赖文件的名称</li>
+<li>$?    所有时间戳比目标文件晚的依赖文件，并以空格分开目标文件的完整名称</li>
+<li>$@    目标文件的完整名称</li>
+<li>$^    所有不重复的目标依赖文件，以空格分开</li>
+<li>$%    如果目标是归档成员，则该变量表示目标的归档成员的目标名称</li>
+</ul>
+<p>makefile编写</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">GCCFLAGS=-c -Wall</span><br><span class="line">OBJS=demo1.o demo2.o main.o</span><br><span class="line"><span class="section">demo:<span class="variable">$(OBJS)</span></span></span><br><span class="line">        gcc  <span class="variable">$^</span> -o <span class="variable">$@</span></span><br><span class="line"><span class="section">demo2.o:demo2.c</span></span><br><span class="line">        gcc <span class="variable">$(GCCFLAGS)</span> <span class="variable">$&lt;</span> -o <span class="variable">$@</span></span><br><span class="line"><span class="section">demo1.o:demo1.c</span></span><br><span class="line">        gcc <span class="variable">$(GCCFLAGS)</span> <span class="variable">$&lt;</span> -o <span class="variable">$@</span></span><br><span class="line"><span class="section">main.o:main.c</span></span><br><span class="line">        gcc <span class="variable">$(GCCFLAGS)</span> <span class="variable">$&lt;</span> -o <span class="variable">$@</span></span><br><span class="line"><span class="meta"><span class="meta-keyword">.PHONY</span>:clean</span></span><br><span class="line"><span class="section">clean:</span></span><br><span class="line">        rm *.o demo</span><br></pre></td></tr></table></figure>
+<p>改进版的makefile</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">GCCFLAGS=-c -Wall</span><br><span class="line">OBJS=demo1.o demo2.o main.o</span><br><span class="line">TARGET=./demo</span><br><span class="line"><span class="section">%.o:%.c</span></span><br><span class="line">        <span class="variable">$(CC)</span> <span class="variable">$(GCCFLAGS)</span> -c <span class="variable">$&lt;</span> -o <span class="variable">$@</span></span><br><span class="line"><span class="variable">$(TARGET)</span>:<span class="variable">$(OBJS)</span></span><br><span class="line">        <span class="variable">$(CC)</span>  <span class="variable">$^</span> -o <span class="variable">$@</span></span><br><span class="line"><span class="section">clean:</span></span><br><span class="line">        <span class="variable">$(RM)</span> *.o demo</span><br></pre></td></tr></table></figure>
+
+    
+  </div>
+
+</article>
+
+
+   
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2021/04/29/arm-pwn/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2099/04/01/PWN%E5%A4%8D%E7%8E%B0/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">Close</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="ROUND_RECT"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              Blog
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="ROUND_RECT"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              Tag
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="ROUND_RECT"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              About
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/valine@latest/dist/Valine.min.js"></script>
+    <div id="comment" class="vcomment" ></div>
+    <script>
+        var notify = 'true' == true ? true : false;
+        var verify = 'true' == true ? true : false;
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+            return GUEST_INFO.indexOf(item) > -1
+        });
+        guest_info = guest_info.length == 0 ? GUEST_INFO :guest_info;
+        window.valine = new Valine({
+            el: '.vcomment',
+            notify: notify,
+            verify: verify,
+            appId: "KLWvKGPeSIyoEo4k6j3v37wy-gzGzoHsz",
+            appKey: "FL93w3BBbF9lxiR8X1HI58En",
+            avatar:'wavatar',
+            placeholder: "Just go go",
+            guest_info:guest_info,
+            pageSize:'6'
+        });
+    </script>
+  
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

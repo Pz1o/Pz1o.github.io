@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+
+
+  <html class="dark page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>static program | pz1o</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="Course," />
+  
+
+  <meta name="description" content="0x01 Static Program Analysis1.introduction 2.sound and complete  3.what is static analysisa view as this draw  4.abstraction and overapproximationfirst,abstraction  next,transfer function  it is simil">
+<meta property="og:type" content="article">
+<meta property="og:title" content="static program">
+<meta property="og:url" content="https://pz1o.top/2021/05/03/static-program/index.html">
+<meta property="og:site_name" content="pz1o">
+<meta property="og:description" content="0x01 Static Program Analysis1.introduction 2.sound and complete  3.what is static analysisa view as this draw  4.abstraction and overapproximationfirst,abstraction  next,transfer function  it is simil">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://pz1o.top/2021/05/03/static-program/image-20210315224533888.png">
+<meta property="og:image" content="https://pz1o.top/2021/05/03/static-program/image-20210315231054502.png">
+<meta property="og:image" content="https://pz1o.top/2021/05/03/static-program/image-20210315231536756.png">
+<meta property="og:image" content="https://pz1o.top/2021/05/03/static-program/image-20210316000124963.png">
+<meta property="og:image" content="https://pz1o.top/2021/05/03/static-program/image-20210316000642671.png">
+<meta property="og:image" content="https://pz1o.top/2021/05/03/static-program/image-20210316001346346.png">
+<meta property="og:image" content="https://pz1o.top/2021/05/03/static-program/image-20210316001430168.png">
+<meta property="og:image" content="https://pz1o.top/2021/05/03/static-program/image-20210316001748641.png">
+<meta property="og:image" content="https://pz1o.top/2021/05/03/static-program/image-20210316010120880.png">
+<meta property="og:image" content="https://pz1o.top/2021/05/03/static-program/image-20210316010715717.png">
+<meta property="og:image" content="https://pz1o.top/2021/05/03/static-program/image-20210316010948812.png">
+<meta property="og:image" content="https://pz1o.top/2021/05/03/static-program/image-20210316012707595.png">
+<meta property="og:image" content="https://pz1o.top/2021/05/03/static-program/image-20210316012632094.png">
+<meta property="og:image" content="https://pz1o.top/2021/05/03/static-program/image-20210316013150012.png">
+<meta property="og:image" content="https://pz1o.top/2021/05/03/static-program/image-20210316125222155.png">
+<meta property="og:image" content="https://pz1o.top/2021/05/03/static-program/image-20210316124211598.png">
+<meta property="og:image" content="https://pz1o.top/2021/05/03/static-program/image-20210316124243765.png">
+<meta property="og:image" content="https://pz1o.top/2021/05/03/static-program/image-20210316125913305.png">
+<meta property="og:image" content="https://pz1o.top/2021/05/03/static-program/image-20210316130354246.png">
+<meta property="og:image" content="https://pz1o.top/2021/05/03/static-program/image-20210316130826596.png">
+<meta property="og:image" content="https://pz1o.top/2021/05/03/static-program/image-20210316131723881.png">
+<meta property="og:image" content="https://pz1o.top/2021/05/03/static-program/image-20210316132039750.png">
+<meta property="og:image" content="https://pz1o.top/2021/05/03/static-program/image-20210316132843680.png">
+<meta property="og:image" content="https://pz1o.top/2021/05/03/static-program/image-20210316133326936.png">
+<meta property="og:image" content="https://pz1o.top/2021/05/03/static-program/image-20210316162556579.png">
+<meta property="og:image" content="https://pz1o.top/2021/05/03/static-program/image-20210316163402058.png">
+<meta property="og:image" content="https://pz1o.top/2021/05/03/static-program/image-20210316164525008.png">
+<meta property="og:image" content="https://pz1o.top/2021/05/03/static-program/image-20210316165009528.png">
+<meta property="og:image" content="https://pz1o.top/2021/05/03/static-program/image-20210316165640682.png">
+<meta property="og:image" content="https://pz1o.top/2021/05/03/static-program/image-20210316171733031.png">
+<meta property="og:image" content="https://pz1o.top/2021/05/03/static-program/image-20210316172331897.png">
+<meta property="og:image" content="https://pz1o.top/2021/05/03/static-program/image-20210316172851109.png">
+<meta property="og:image" content="https://pz1o.top/2021/05/03/static-program/image-20210316173536011.png">
+<meta property="og:image" content="https://pz1o.top/2021/05/03/static-program/image-20210316223814163.png">
+<meta property="og:image" content="https://pz1o.top/2021/05/03/static-program/image-20210316225904275.png">
+<meta property="og:image" content="https://pz1o.top/2021/05/03/static-program/image-20210316230830828.png">
+<meta property="og:image" content="https://pz1o.top/2021/05/03/static-program/image-20210316231409321.png">
+<meta property="og:image" content="https://pz1o.top/2021/05/03/static-program/image-20210317170644795.png">
+<meta property="og:image" content="https://pz1o.top/2021/05/03/static-program/image-20210317171158537.png">
+<meta property="og:image" content="https://pz1o.top/2021/05/03/static-program/image-20210317173026174.png">
+<meta property="og:image" content="https://pz1o.top/2021/05/03/static-program/image-20210317173623458.png">
+<meta property="og:image" content="https://pz1o.top/2021/05/03/static-program/image-20210317174047841.png">
+<meta property="og:image" content="https://pz1o.top/2021/05/03/static-program/image-20210317175430257.png">
+<meta property="og:image" content="https://pz1o.top/2021/05/03/static-program/image-20210317194602113.png">
+<meta property="og:image" content="https://pz1o.top/2021/05/03/static-program/image-20210317195618231.png">
+<meta property="og:image" content="https://pz1o.top/2021/05/03/static-program/image-20210317202238222.png">
+<meta property="og:image" content="https://pz1o.top/2021/05/03/static-program/image-20210317205624533.png">
+<meta property="article:published_time" content="2021-05-03T08:16:11.000Z">
+<meta property="article:modified_time" content="2021-05-03T08:17:52.155Z">
+<meta property="article:author" content="pz1o">
+<meta property="article:tag" content="Course">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pz1o.top/2021/05/03/static-program/image-20210315224533888.png">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbeddx" rel="stylesheet">
+
+
+  
+    
+<link rel="stylesheet" href="/css/personal-style.css">
+
+  
+
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-38189205-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?e90b4c8b8c36ca2b3e5798ef67088f84";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="pz1o" type="application/atom+xml">
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">MAP</span>
+  
+
+  <div class="post-header LEFT">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">MAP</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="ROUND_RECT"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            Blog
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="ROUND_RECT"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            Tag
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="ROUND_RECT"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            About
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">Posts List</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#0x01-Static-Program-Analysis"><span class="toc-text">0x01 Static Program Analysis</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-introduction"><span class="toc-text">1.introduction</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-sound-and-complete"><span class="toc-text">2.sound and complete</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-what-is-static-analysis"><span class="toc-text">3.what is static analysis</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-abstraction-and-overapproximation"><span class="toc-text">4.abstraction and overapproximation</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x02-Intermediate-Representation"><span class="toc-text">0x02 Intermediate Representation</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-Compiler"><span class="toc-text">1.Compiler</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-AST-vs-IR"><span class="toc-text">2.AST vs IR</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-3-Address-Code"><span class="toc-text">3.3-Address Code</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-Soot-‘s-‘Jimple"><span class="toc-text">4.Soot ‘s ‘Jimple</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#for"><span class="toc-text">for</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#do…while"><span class="toc-text">do…while</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#method-call"><span class="toc-text">method call</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#class"><span class="toc-text">class</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-SSA-Static-Single-Assignment"><span class="toc-text">5.SSA(Static Single Assignment)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-Control-Flow-Graph"><span class="toc-text">6.Control Flow Graph</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Basic-Block"><span class="toc-text">Basic Block</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Edge"><span class="toc-text">Edge</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Example"><span class="toc-text">Example</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x03Data-Flow-Analysis-Applications"><span class="toc-text">0x03Data Flow Analysis-Applications</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-Overview"><span class="toc-text">1.Overview</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Transfer-Function"><span class="toc-text">Transfer Function</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Control-Flow"><span class="toc-text">Control Flow</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-Reaching-Definitions-Analysis"><span class="toc-text">2. Reaching Definitions Analysis</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#definition"><span class="toc-text">definition</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#understanding"><span class="toc-text">understanding</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#algorithm"><span class="toc-text">algorithm</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-Live-Variables-Analysis"><span class="toc-text">3. Live Variables Analysis</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#definition-1"><span class="toc-text">definition</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#understanding-1"><span class="toc-text">understanding</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#algorithm-1"><span class="toc-text">algorithm</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-Available-Expressions-Analysis"><span class="toc-text">4. Available Expressions Analysis</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#definition-2"><span class="toc-text">definition</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#understanding-2"><span class="toc-text">understanding</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#algorithm-2"><span class="toc-text">algorithm</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-Analysis-Comparison"><span class="toc-text">5. Analysis Comparison</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x04-Data-Flow-Analysis-Foundations"><span class="toc-text">0x04 Data-Flow-Analysis Foundations</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-Iterative-Algorithm"><span class="toc-text">1. Iterative Algorithm</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-Partial-Order"><span class="toc-text">2. Partial Order</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-Lattice"><span class="toc-text">3. Lattice</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-Data-Flow-Analysis-Framework-via-Lattice"><span class="toc-text">4. Data Flow Analysis Framework via Lattice</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-Relate-Iterative-Algorithm-to-Fixed-Point-Theorem"><span class="toc-text">5. Relate Iterative Algorithm to Fixed-Point Theorem</span></a></li></ol></li></ol>
+  </div>
+
+
+
+<div class="content content-post LEFT">
+   <article id="post-static-program" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">static program</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2021.05.03</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>pz1o</span>
+        </span>
+      
+
+      
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <h1 id="0x01-Static-Program-Analysis"><a href="#0x01-Static-Program-Analysis" class="headerlink" title="0x01 Static Program Analysis"></a>0x01 Static Program Analysis</h1><h2 id="1-introduction"><a href="#1-introduction" class="headerlink" title="1.introduction"></a>1.introduction</h2><p><img src="/2021/05/03/static-program/image-20210315224533888.png" alt="image-20210315224533888"></p>
+<h2 id="2-sound-and-complete"><a href="#2-sound-and-complete" class="headerlink" title="2.sound and complete"></a>2.sound and complete</h2><p><img src="/2021/05/03/static-program/image-20210315231054502.png" alt="image-20210315231054502"></p>
+<p><img src="/2021/05/03/static-program/image-20210315231536756.png" alt="image-20210315231536756"></p>
+<h2 id="3-what-is-static-analysis"><a href="#3-what-is-static-analysis" class="headerlink" title="3.what is static analysis"></a>3.what is static analysis</h2><p>a view as this draw</p>
+<p><img src="/2021/05/03/static-program/image-20210316000124963.png" alt="image-20210316000124963"></p>
+<h2 id="4-abstraction-and-overapproximation"><a href="#4-abstraction-and-overapproximation" class="headerlink" title="4.abstraction and overapproximation"></a>4.abstraction and overapproximation</h2><p>first,abstraction</p>
+<p><img src="/2021/05/03/static-program/image-20210316000642671.png" alt="image-20210316000642671"></p>
+<p>next,transfer function</p>
+<p><img src="/2021/05/03/static-program/image-20210316001346346.png" alt="image-20210316001346346"></p>
+<p>it is similar to Symbolic execution</p>
+<p><img src="/2021/05/03/static-program/image-20210316001430168.png" alt="image-20210316001430168"></p>
+<p>last control flow.</p>
+<p><img src="/2021/05/03/static-program/image-20210316001748641.png" alt="image-20210316001748641"></p>
+<h1 id="0x02-Intermediate-Representation"><a href="#0x02-Intermediate-Representation" class="headerlink" title="0x02 Intermediate Representation"></a>0x02 Intermediate Representation</h1><h2 id="1-Compiler"><a href="#1-Compiler" class="headerlink" title="1.Compiler"></a>1.Compiler</h2><p><img src="/2021/05/03/static-program/image-20210316010120880.png" alt="image-20210316010120880"></p>
+<h2 id="2-AST-vs-IR"><a href="#2-AST-vs-IR" class="headerlink" title="2.AST vs IR"></a>2.AST vs IR</h2><p><img src="/2021/05/03/static-program/image-20210316010715717.png" alt="image-20210316010715717"></p>
+<h2 id="3-3-Address-Code"><a href="#3-3-Address-Code" class="headerlink" title="3.3-Address Code"></a>3.3-Address Code</h2><p><img src="/2021/05/03/static-program/image-20210316010948812.png" alt="image-20210316010948812"></p>
+<p><strong>Forms</strong></p>
+<p><img src="/2021/05/03/static-program/image-20210316012707595.png" alt="image-20210316012707595"></p>
+<h2 id="4-Soot-‘s-‘Jimple"><a href="#4-Soot-‘s-‘Jimple" class="headerlink" title="4.Soot ‘s ‘Jimple"></a>4.Soot ‘s ‘Jimple</h2><h3 id="for"><a href="#for" class="headerlink" title="for"></a>for</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ForLoop3AC</span></span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">		<span class="keyword">int</span> x=<span class="number">0</span>;</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">10</span>;i++)&#123;</span><br><span class="line">			x = x+<span class="number">1</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="/2021/05/03/static-program/image-20210316012632094.png" alt="image-20210316012632094"></p>
+<h3 id="do…while"><a href="#do…while" class="headerlink" title="do…while"></a>do…while</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DoWhileLoop3AC</span></span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">		<span class="keyword">int</span>[] arr = <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">10</span>];</span><br><span class="line">		<span class="keyword">int</span> i=<span class="number">0</span>;</span><br><span class="line">		<span class="keyword">do</span>&#123;</span><br><span class="line">			i = i+<span class="number">1</span>;</span><br><span class="line">		&#125;<span class="keyword">while</span>(arr[i]&lt;<span class="number">10</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="/2021/05/03/static-program/image-20210316013150012.png" alt="image-20210316013150012"></p>
+<blockquote>
+<p>$代表临时变量</p>
+</blockquote>
+<h3 id="method-call"><a href="#method-call" class="headerlink" title="method call"></a>method call</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MethodCall3AC</span></span>&#123;</span><br><span class="line">	<span class="function">String <span class="title">foo</span><span class="params">(String para1, String para2)</span></span>&#123;</span><br><span class="line">		<span class="keyword">return</span> para1 + <span class="string">" "</span> + para2;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String []args)</span></span>&#123;</span><br><span class="line">	MethodCall3AC mc = <span class="keyword">new</span> MethodCall3AC();</span><br><span class="line">    String result = mc.foo(<span class="string">"hello"</span>,<span class="string">"world"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><code>method signature</code>:class name/return type/method name(parameter1 type,parameter2 type…)</p>
+<p><img src="/2021/05/03/static-program/image-20210316125222155.png" alt="image-20210316125222155"></p>
+</blockquote>
+<p><img src="/2021/05/03/static-program/image-20210316124211598.png" alt="image-20210316124211598"></p>
+<p><img src="/2021/05/03/static-program/image-20210316124243765.png" alt="image-20210316124243765"></p>
+<h3 id="class"><a href="#class" class="headerlink" title="class"></a>class</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Class3AC</span></span>&#123;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">double</span> pi = <span class="number">3.14</span>;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">	</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="/2021/05/03/static-program/image-20210316125913305.png" alt="image-20210316125913305"></p>
+<h2 id="5-SSA-Static-Single-Assignment"><a href="#5-SSA-Static-Single-Assignment" class="headerlink" title="5.SSA(Static Single Assignment)"></a>5.SSA(Static Single Assignment)</h2><p>Every variable has exactly one definition</p>
+<p>function to deal with two or many variables</p>
+<p><img src="/2021/05/03/static-program/image-20210316130354246.png" alt="image-20210316130354246"></p>
+<h2 id="6-Control-Flow-Graph"><a href="#6-Control-Flow-Graph" class="headerlink" title="6.Control Flow Graph"></a>6.Control Flow Graph</h2><p>Nodes:BBs</p>
+<p>Edge</p>
+<p><img src="/2021/05/03/static-program/image-20210316130826596.png" alt="image-20210316130826596"></p>
+<h3 id="Basic-Block"><a href="#Basic-Block" class="headerlink" title="Basic Block"></a>Basic Block</h3><p><strong>definition</strong></p>
+<ol>
+<li>It can be entered only at the beginning.</li>
+<li>It can be exited only at the end</li>
+<li>It should be a maximal.</li>
+</ol>
+<p><strong>how to build it</strong></p>
+<p>determine leader </p>
+<p><img src="/2021/05/03/static-program/image-20210316131723881.png" alt="image-20210316131723881"></p>
+<p>eg:</p>
+<p>这个例子太形象了，不得不用中文说一下</p>
+<ol>
+<li>first,determine leader(first instruction/jump target/follow jump)</li>
+<li>build BBs</li>
+</ol>
+<p><img src="/2021/05/03/static-program/image-20210316132039750.png" alt="image-20210316132039750"></p>
+<h3 id="Edge"><a href="#Edge" class="headerlink" title="Edge"></a>Edge</h3><p><strong>how to</strong></p>
+<p>There are two cases</p>
+<p><img src="/2021/05/03/static-program/image-20210316132843680.png" alt="image-20210316132843680"></p>
+<h3 id="Example"><a href="#Example" class="headerlink" title="Example"></a>Example</h3><p><img src="/2021/05/03/static-program/image-20210316133326936.png" alt="image-20210316133326936"></p>
+<h1 id="0x03Data-Flow-Analysis-Applications"><a href="#0x03Data-Flow-Analysis-Applications" class="headerlink" title="0x03Data Flow Analysis-Applications"></a>0x03Data Flow Analysis-Applications</h1><h2 id="1-Overview"><a href="#1-Overview" class="headerlink" title="1.Overview"></a>1.Overview</h2><p><img src="/2021/05/03/static-program/image-20210316162556579.png" alt="image-20210316162556579"></p>
+<p><img src="/2021/05/03/static-program/image-20210316163402058.png" alt="image-20210316163402058"></p>
+<h3 id="Transfer-Function"><a href="#Transfer-Function" class="headerlink" title="Transfer Function"></a>Transfer Function</h3><ul>
+<li>forward</li>
+<li>backward</li>
+</ul>
+<p><img src="/2021/05/03/static-program/image-20210316164525008.png" alt="image-20210316164525008"></p>
+<h3 id="Control-Flow"><a href="#Control-Flow" class="headerlink" title="Control Flow"></a>Control Flow</h3><p><img src="/2021/05/03/static-program/image-20210316165009528.png" alt="image-20210316165009528"></p>
+<h2 id="2-Reaching-Definitions-Analysis"><a href="#2-Reaching-Definitions-Analysis" class="headerlink" title="2. Reaching Definitions Analysis"></a>2. Reaching Definitions Analysis</h2><h3 id="definition"><a href="#definition" class="headerlink" title="definition"></a>definition</h3><p><img src="/2021/05/03/static-program/image-20210316165640682.png" alt="image-20210316165640682"></p>
+<h3 id="understanding"><a href="#understanding" class="headerlink" title="understanding"></a>understanding</h3><p>Focus on definition</p>
+<p>transfer Function</p>
+<ul>
+<li>generate a definition</li>
+<li>kill other definition</li>
+</ul>
+<p>control flow</p>
+<p><img src="/2021/05/03/static-program/image-20210316171733031.png" alt="image-20210316171733031"></p>
+<p><strong>eg</strong></p>
+<p><img src="/2021/05/03/static-program/image-20210316172331897.png" alt="image-20210316172331897"></p>
+<h3 id="algorithm"><a href="#algorithm" class="headerlink" title="algorithm"></a>algorithm</h3><p>这里有两个点需要看一下</p>
+<ol>
+<li>为什么OUT[entry]=空？因为入口处并未定义。此外，为什么不把OUT[entry]放入for循环中？因为要有一个模板生成算法</li>
+<li>下面这个while中for循环的停止条件在哪里？</li>
+</ol>
+<p><img src="/2021/05/03/static-program/image-20210316172851109.png" alt="image-20210316172851109"></p>
+<p><strong>eg</strong></p>
+<p>how  CFG transfer to SourceCode？</p>
+<p><img src="/2021/05/03/static-program/image-20210316173536011.png" alt="image-20210316173536011"></p>
+<p>next,we will see the changes on the OUT[].</p>
+<p>we should focus on two points</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">IN[B] &#x3D; union(p a predecessor of B OUT[P]);</span><br><span class="line">OUT[B] &#x3D; genB(IN[B]-killB);</span><br></pre></td></tr></table></figure>
+<p>until no changes occur on OUT</p>
+<p><img src="/2021/05/03/static-program/image-20210316223814163.png" alt="image-20210316223814163"></p>
+<p>There are two sentences.</p>
+<p>This is very important</p>
+<p>In each data-flow analysis application, we associate with every program point a <strong>data-flow value</strong> that represents an <strong>abstraction</strong> of the set of all possible <strong>program states</strong> that can be observed for the point.</p>
+<p>Data-flow analysis is to <strong>find a solution</strong> to a set of <strong>safe-approximation</strong> directed constraints on the IN’s and OUT’s,for all statements.</p>
+<p>And why this algorithm can stop?</p>
+<p><img src="/2021/05/03/static-program/image-20210316225904275.png" alt="image-20210316225904275"></p>
+<h2 id="3-Live-Variables-Analysis"><a href="#3-Live-Variables-Analysis" class="headerlink" title="3. Live Variables Analysis"></a>3. Live Variables Analysis</h2><h3 id="definition-1"><a href="#definition-1" class="headerlink" title="definition"></a>definition</h3><p><img src="/2021/05/03/static-program/image-20210316230830828.png" alt="image-20210316230830828"></p>
+<h3 id="understanding-1"><a href="#understanding-1" class="headerlink" title="understanding"></a>understanding</h3><p>Focus on variables</p>
+<p><img src="/2021/05/03/static-program/image-20210316231409321.png" alt="image-20210316231409321"></p>
+<p><img src="/2021/05/03/static-program/image-20210317170644795.png" alt="image-20210317170644795"></p>
+<h3 id="algorithm-1"><a href="#algorithm-1" class="headerlink" title="algorithm"></a>algorithm</h3><p><img src="/2021/05/03/static-program/image-20210317171158537.png" alt="image-20210317171158537"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">IN[B] &#x3D; useB union (OUT[B]-defB)</span><br><span class="line">OUT[B] &#x3D; union s a successor of B IN[S]</span><br></pre></td></tr></table></figure>
+<p><img src="/2021/05/03/static-program/image-20210317173026174.png" alt="image-20210317173026174"></p>
+<h2 id="4-Available-Expressions-Analysis"><a href="#4-Available-Expressions-Analysis" class="headerlink" title="4. Available Expressions Analysis"></a>4. Available Expressions Analysis</h2><h3 id="definition-2"><a href="#definition-2" class="headerlink" title="definition"></a>definition</h3><p><img src="/2021/05/03/static-program/image-20210317173623458.png" alt="image-20210317173623458"></p>
+<h3 id="understanding-2"><a href="#understanding-2" class="headerlink" title="understanding"></a>understanding</h3><p>Focus on expressions</p>
+<p><img src="/2021/05/03/static-program/image-20210317174047841.png" alt="image-20210317174047841"></p>
+<p><img src="/2021/05/03/static-program/image-20210317175430257.png" alt="image-20210317175430257"></p>
+<h3 id="algorithm-2"><a href="#algorithm-2" class="headerlink" title="algorithm"></a>algorithm</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">OUT[B] &#x3D; genB union (IN[B]-killB)</span><br><span class="line">IN[B] &#x3D; 交 P a predecessor of B OUT[P]</span><br></pre></td></tr></table></figure>
+<p><img src="/2021/05/03/static-program/image-20210317194602113.png" alt="image-20210317194602113"></p>
+<h2 id="5-Analysis-Comparison"><a href="#5-Analysis-Comparison" class="headerlink" title="5. Analysis Comparison"></a>5. Analysis Comparison</h2><p><img src="/2021/05/03/static-program/image-20210317195618231.png" alt="image-20210317195618231"></p>
+<h1 id="0x04-Data-Flow-Analysis-Foundations"><a href="#0x04-Data-Flow-Analysis-Foundations" class="headerlink" title="0x04 Data-Flow-Analysis Foundations"></a>0x04 Data-Flow-Analysis Foundations</h1><h2 id="1-Iterative-Algorithm"><a href="#1-Iterative-Algorithm" class="headerlink" title="1. Iterative Algorithm"></a>1. Iterative Algorithm</h2><p><strong>why</strong></p>
+<p>This has a fixed point.</p>
+<p><img src="/2021/05/03/static-program/image-20210317202238222.png" alt="image-20210317202238222"></p>
+<h2 id="2-Partial-Order"><a href="#2-Partial-Order" class="headerlink" title="2. Partial Order"></a>2. Partial Order</h2><h2 id="3-Lattice"><a href="#3-Lattice" class="headerlink" title="3. Lattice"></a>3. Lattice</h2><h2 id="4-Data-Flow-Analysis-Framework-via-Lattice"><a href="#4-Data-Flow-Analysis-Framework-via-Lattice" class="headerlink" title="4. Data Flow Analysis Framework via Lattice"></a>4. Data Flow Analysis Framework via Lattice</h2><p><img src="/2021/05/03/static-program/image-20210317205624533.png" alt="image-20210317205624533"></p>
+<h2 id="5-Relate-Iterative-Algorithm-to-Fixed-Point-Theorem"><a href="#5-Relate-Iterative-Algorithm-to-Fixed-Point-Theorem" class="headerlink" title="5. Relate Iterative Algorithm to Fixed-Point Theorem"></a>5. Relate Iterative Algorithm to Fixed-Point Theorem</h2>
+    
+  </div>
+
+</article>
+
+
+   
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2021/05/03/Database-review/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2021/05/03/CVE-2021-3493%E5%A4%8D%E7%8E%B0/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">Close</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="ROUND_RECT"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              Blog
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="ROUND_RECT"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              Tag
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="ROUND_RECT"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              About
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/valine@latest/dist/Valine.min.js"></script>
+    <div id="comment" class="vcomment" ></div>
+    <script>
+        var notify = 'true' == true ? true : false;
+        var verify = 'true' == true ? true : false;
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+            return GUEST_INFO.indexOf(item) > -1
+        });
+        guest_info = guest_info.length == 0 ? GUEST_INFO :guest_info;
+        window.valine = new Valine({
+            el: '.vcomment',
+            notify: notify,
+            verify: verify,
+            appId: "KLWvKGPeSIyoEo4k6j3v37wy-gzGzoHsz",
+            appKey: "FL93w3BBbF9lxiR8X1HI58En",
+            avatar:'wavatar',
+            placeholder: "Just go go",
+            guest_info:guest_info,
+            pageSize:'6'
+        });
+    </script>
+  
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<!-- <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+</body>
+</html>

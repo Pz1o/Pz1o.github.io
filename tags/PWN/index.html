@@ -180,12 +180,12 @@ ga('send', 'pageview');
     
       <a class="tag-item" href="#CVE复现">
         <span class="tag-name">CVE复现</span>
-        <span class="tag-size">( 1 )</span>
+        <span class="tag-size">( 2 )</span>
       </a>
     
       <a class="tag-item" href="#Course">
         <span class="tag-name">Course</span>
-        <span class="tag-size">( 2 )</span>
+        <span class="tag-size">( 4 )</span>
       </a>
     
       <a class="tag-item" href="#PWN">
@@ -236,10 +236,18 @@ ga('send', 'pageview');
     <a href="" class="text-year">
    -->
     CVE复现
-    <span class="category-count">( 1 )</span>
+    <span class="category-count">( 2 )</span>
   <!--
   </a>
    -->
+</li>
+<li class="item-post item">
+  <span class="post-date">05-03</span>
+
+  
+  <a class="post-title" href="/2021/05/03/CVE-2021-3493%E5%A4%8D%E7%8E%B0/">CVE-2021-3493复现</a>
+
+
 </li>
 <li class="item-post item">
   <span class="post-date">04-13</span>
@@ -254,10 +262,26 @@ ga('send', 'pageview');
     <a href="" class="text-year">
    -->
     Course
-    <span class="category-count">( 2 )</span>
+    <span class="category-count">( 4 )</span>
   <!--
   </a>
    -->
+</li>
+<li class="item-post item">
+  <span class="post-date">05-03</span>
+
+  
+  <a class="post-title" href="/2021/05/03/static-program/">static program</a>
+
+
+</li>
+<li class="item-post item">
+  <span class="post-date">05-03</span>
+
+  
+  <a class="post-title" href="/2021/05/03/Database-review/">Database review</a>
+
+
 </li>
 <li class="item-post item">
   <span class="post-date">12-09</span>
@@ -297,7 +321,7 @@ ga('send', 'pageview');
   <span class="post-date">04-29</span>
 
   
-  <a class="post-title" href="/2021/04/29/arm-pwn/">arm-pwn</a>
+  <a class="post-title" href="/2021/04/29/arm-pwn/">ARM-pwn</a>
 
 
 </li>
@@ -795,5 +819,21 @@ ga('send', 'pageview');
   }
 </script>
 
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<!-- <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 </body>
 </html>

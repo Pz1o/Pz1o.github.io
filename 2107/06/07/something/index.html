@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+
+
+  <html class="dark page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>something | pz1o</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="CUMT.CUMTCTF,CTF,pz1o,PWN" />
+  
+
+  <meta name="description" content="正经人谁写这种东西">
+<meta property="og:type" content="article">
+<meta property="og:title" content="something">
+<meta property="og:url" content="https://pz1o.top/2107/06/07/something/index.html">
+<meta property="og:site_name" content="pz1o">
+<meta property="og:description" content="正经人谁写这种东西">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2107-06-06T16:00:00.000Z">
+<meta property="article:modified_time" content="2021-05-09T16:48:10.317Z">
+<meta property="article:author" content="pz1o">
+<meta property="article:tag" content="CTF">
+<meta name="twitter:card" content="summary">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbeddx" rel="stylesheet">
+
+
+  
+    
+<link rel="stylesheet" href="/css/personal-style.css">
+
+  
+
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-38189205-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?e90b4c8b8c36ca2b3e5798ef67088f84";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="pz1o" type="application/atom+xml">
+</head>
+
+<body>
+
+
+  
+
+  <div class="post-header">
+   
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">Posts List</strong>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#encrypt-message"><span class="toc-text">正经人谁写这种东西</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-something" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">something</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2107.06.07</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>pz1o</span>
+        </span>
+      
+
+      
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <script src="/crypto-js.js"></script><script src="/mcommon.js"></script><h3 id="encrypt-message">正经人谁写这种东西</h3><link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css"> <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap-theme.min.css"> <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script> <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script> <div id="security"> <div> <div class="input-group"> <input type="text" class="form-control" aria-label="Enter the password." id="pass"/> <div class="input-group-btn"> <button type="button" class="btn btn-default" onclick="decryptAES()">Decrypt</button> </div> </div> </div> </div> <div id="encrypt-blog" style="display:none"> U2FsdGVkX19shmb5L7i9V+AMzahuJq3vxImdgXyjINISSOnP9EJHtFFZCJWXCrJoJCrRIw2W+cRFs/FHA7q6+gBgy3O0nIIMpd1OzYsYEGsE8ahtAYRgMWje7JDJzqrlK9whvpnUdz1C6TaS2J4I/UIBO1BRwriWnXW45vwsEIlFEXHzwTpYbtT/6b2ilIiJ7p9zTZHCYirzpgoNBURjZNfhS7aeHMy6fA3SqafF0L55lpoqZu830a0c0de2EnVstHlfERLzo+vTtZRjPUJrgqvcnFa1vYebKQ6I0q8XropvY++lri+0sKspSqBVNsAZob+qt+Fh50WFAG8RdIM1KXTIsrRzgtErzqRq7PrWLFLC6kI8+4yaV2HHjdqvASef2iIOx0nqc9n9pajDbwvabBO6/jdxyEWlHZNmiTMNhkKMEx7qhwPd96f3GCAV9C28xkZivtCt4Wm048haR5JcdHaWh6Jn3wEDEI5O6uDaodnODpouncpZDiV8zy3HaQitOVIE82PrDQmSL8kgfrTRGmVuYIuD//MF6LUwoh13af0zQ+ShKb38TPc4Z/bQ+AGDcJayfU4rgveL8uo65GZk2d92ZEgUnt9Yf2BWdl5ujMdLLNuw4cYhxbRcYvJcvS/1qNnEu7f9Xbu62TzAj7sNoMvjMcVVkVHKjK4m7oUatjxt5FxUE8MitORx0zC2LJOUxyivzur//eNggs44XWL76X/RREkYC+GTSafVI+TLciSbA/KMkDx4Gb3DaojYR07lq1CIGiG4zXKYH/tCJyAfLa+K63PL/Xyp26kps6uFKnPSXQ+sc2kUy1020khcVMvbdegAKRHKxhex/PLQQW86bO1d6+8wlL09Wvw5c8ukjJ57G21jPiVAT4amQejarLWYavrWLLeSW2H+XJfKytY0mYLQ9isNcD9pfbJR0HzsdFmCnY9LNGBHmZ6BgLIpxdCnIRanP4u89Qr1+SczP6yJjVL9hm8yR0Wod3fCgGeZnmUR85j80M32gE4BelIYYBAP4eiPA/0f0nWsjUv8X1oiClfRURWwiHHUngyDEPRo/szeipsDNA1ZVLIMIuFAwmZYfgTvnPxRCbZiZQ3swW/mpF5D3Mc3HyE7zrjEJ4Ey0xRLEw8pJiToo7C1HsC1X+hDgCI9U0RrxzoXLkjiYMlhaQwWp5wBQ67x7ycMCJQi53R/qQKhvJXlwhJly3W4IQgqK8a5I0trcJc1h9Any8rTGc3yPSBvLfOyT30zfQu9TNLsat//NO0pRKmdK/G1uiGadtTfurFJzFFMN0coURM99GNS9WgzHDAcIXPjh2cJPf6PKQh+eVdxliW5msJL6Sd0YaJVra2uQWLlCrUsCn3+0q/lzvpEjSokkEWFDEi310YMW9NleJJEMoXOvmZT9aDrigYWrZIlARhVUeMiMN03jonrURO855u2iXXEpWPbO668FRxxcfRhO3CxtngbfL058KE0KfmT2KYXvzLfSUyengvRIuvDniGgFjFG7w3ymWtB3Rtx8Ovhft+1fWGU5ltm5N7A4I90KndC63f1cP50kSoZMs1Oef79QXOAHXA/whkZ2/lwbGodFazIDvSKuuovevz5ps/6HX8tlxpMWaGa72dRIZW54y9sq9Fg+FPJgpg4CJFv5dpAWOfi4zxrnVTaf9jyz3V0+KlNXKIiPGzpPYJYXoFmZIvIRYYUekEt9JNQpPNnntCmqzpjXgRfMlqMn7jGlSS/zKih0IIo/ZmIQfn8giycp0NnESnhjhJdkhtgLlxpRzH4ah4NUMZiVwMExUyGk+/4OQxETTxpYY1iC4k72crkS775uahqSSYy5qGV9JuCMBQZwVYsUsjZHnTtd6vhM88DM8pJQEhIEw/bkpQ6hA0q/farGselUiZtTAW7PejhxkTlDE8QOkDu9TqbHDiEmynXQFKq4eR03sksMjkkq1rMMhRyGD1pc3pyAuAt9R8Y2PhX7xG9smBnOUI8zbgSiR0QVt7yYKRulKJYUw68ESA20DCvYk78lH4mbSCKnnzj9SbB+zxMU/lX1rwuPbsDWZURk1bLkXGv8u1pMmO4syzCfHbS86KAzM09ZveqLfdRP1FeqxsmvVnx5jLu9S46mT3qAul84Gr1QNVGbl5YBAMq86EoGHgLRJf1Tr6J7XscPtSBzWVFioBTB70+lss9DBQUEG8JxSkjkv6Pj7EtIsIjh5Duqt0jewdc0v2uPNZDcTVHsyu6bNHnalM2NbvEjiAbYHl8qyDXt9WacvBM20G1JljiP3ho5pJzOHpkEHq/UJcjzgwlrZbLA7RmCv0pG+mC9w7qXRBab/UffKjkEYHzPjX4mwt7t+5BvJWgaf0/UlfVZVqMWqkWQPd+dXNp9+e759bmK3RSpuqa8CV+NamnXYkyx7XBHITBE9AXcvACwsd193QPmkCW1QB1CthCgbjF9W8kFj290KXwdfvr2mn1SMKMsIkieFBrchFbcxswaICw/M0spnqx0GeQgEGKSytmsO4QEEnxUf7JjuDuQp4ibbyIiQcCPcVNPBH+wLh0VlqSyF5v4G/oM/udbG4XlwKVy56FMXhHZgK0d2XKmQ2hZ1H4Fw8cogM48HOflv+eQGufG7JX0TdzCbAilVaIn2mATmTGra0g4Li9V53ZxupBfkbak8na64dVsA/34WPYqn0XsOCfhYJSAeG4 </div>
+    
+  </div>
+
+</article>
+
+
+   
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2099/09/27/Flag/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="hide pull-right" href="/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">Close</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="ROUND_RECT"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_blank"
+              >
+              Blog
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="ROUND_RECT"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              Tag
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="ROUND_RECT"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              About
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/valine@latest/dist/Valine.min.js"></script>
+    <div id="comment" class="vcomment" ></div>
+    <script>
+        var notify = 'true' == true ? true : false;
+        var verify = 'true' == true ? true : false;
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+            return GUEST_INFO.indexOf(item) > -1
+        });
+        guest_info = guest_info.length == 0 ? GUEST_INFO :guest_info;
+        window.valine = new Valine({
+            el: '.vcomment',
+            notify: notify,
+            verify: verify,
+            appId: "KLWvKGPeSIyoEo4k6j3v37wy-gzGzoHsz",
+            appKey: "FL93w3BBbF9lxiR8X1HI58En",
+            avatar:'wavatar',
+            placeholder: "Just go go",
+            guest_info:guest_info,
+            pageSize:'6'
+        });
+    </script>
+  
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<!-- <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+</body>
+</html>

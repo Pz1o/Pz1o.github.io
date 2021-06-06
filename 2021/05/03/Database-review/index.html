@@ -1,220 +1,133 @@
 <!DOCTYPE html>
+<html lang="en">
+  <head><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
 
-  <html class="dark page-post">
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
 
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
-<head>
-  <meta charset="utf-8">
-  
-  <title>Database review | pz1o</title>
+<meta name="description" content="Database review"/><meta name="keywords" content="CTF" /><link rel="alternate" href="/atom.xml" title="pz1o"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.11.0" />
+<link rel="canonical" href="https://pz1o.top/2021/05/03/Database-review/"/>
 
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<link rel="stylesheet" type="text/css" href="/lib/fancybox/jquery.fancybox.css" /><script type="text/x-mathjax-config">
+    MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] } });
+  </script>
+  <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=2.11.0" />
 
-  
-    <meta name="keywords" content="Course," />
-  
-
-  <meta name="description" content="复习 各章节需要掌握的内容    0x01 第一章 绪论1.1 数据库基本概念数据库（DB）：数据库是指在计算机的存储设备上合理存放、相关联、有结构的数据集合。 数据库管理系统（DBMS）：位于用户和操作系统之间的一层数据管理软件。 数据库系统（DBS）：引进数据库和数据库管理系统后的组成。 数据库应用系统（DBAS）：数据库系统及其应用程序的组成。  1.2 数据库系统特点数据库管理技术发展共有">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Database review">
-<meta property="og:url" content="https://pz1o.top/2021/05/03/Database-review/index.html">
-<meta property="og:site_name" content="pz1o">
-<meta property="og:description" content="复习 各章节需要掌握的内容    0x01 第一章 绪论1.1 数据库基本概念数据库（DB）：数据库是指在计算机的存储设备上合理存放、相关联、有结构的数据集合。 数据库管理系统（DBMS）：位于用户和操作系统之间的一层数据管理软件。 数据库系统（DBS）：引进数据库和数据库管理系统后的组成。 数据库应用系统（DBAS）：数据库系统及其应用程序的组成。  1.2 数据库系统特点数据库管理技术发展共有">
-<meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/Database-review/image-20210503155841659.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/Database-review/image-20210503160432223.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/Database-review/image-20210503160508449.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/Database-review/image-20210503165104565.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/Database-review/image-20210504211912646.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/Database-review/image-20210504212756830.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/Database-review/20190629192647367.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/Database-review/20190629192739586.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/Database-review/20190629192743765.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/Database-review/20190629192754689.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/Database-review/20190629192758641.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/Database-review/20190629192919637.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/Database-review/20190629192922956.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/Database-review/20190629192929734.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/Database-review/image-20210505142838842.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/Database-review/image-20210505152604468.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/Database-review/image-20210505152614300.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/Database-review/image-20210505152850683.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/Database-review/image-20210505153114367.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/Database-review/image-20210505154446428.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/Database-review/image-20210505161003549.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/Database-review/image-20210505170855019.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/Database-review/image-20210505172628228.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/Database-review/image-20210505184519452.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/Database-review/image-20210505184800139.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/Database-review/image-20210506211418905.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/Database-review/20190629193601651.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/Database-review/20190629193601806.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/Database-review/20190629193609721.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/Database-review/20190629193615156.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/Database-review/20190629193615144.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/Database-review/image-20210506215255533.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/Database-review/image-20210506215233325.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/Database-review/image-20210506215400654.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/Database-review/image-20210506215557064.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/Database-review/20190629193650963.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/Database-review/20190629193705542.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/Database-review/20190629193713265.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/Database-review/20190629193726860.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/Database-review/20190629193735197.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/Database-review/20190629193928110.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/Database-review/image-20210506230123348.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/Database-review/image-20210506230337823.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/Database-review/image-20210506230430664.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/Database-review/image-20210506233112332.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/Database-review/image-20210507153146293.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/Database-review/image-20210507154804795.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/Database-review/image-20210507155107652.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/Database-review/image-20210507155154422.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/Database-review/image-20210507155340685.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/Database-review/image-20210507155425864.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/Database-review/image-20210507160245915.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/Database-review/image-20210507160155053.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/Database-review/image-20210507161022110.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/Database-review/image-20210507161055600.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/Database-review/image-20210507161117962.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/Database-review/image-20210507172917369.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/Database-review/image-20210507212116352.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/Database-review/image-20210507212123809.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/Database-review/image-20210507212321618.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/Database-review/image-20210507212741288.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/Database-review/image-20210508123313748.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/Database-review/image-20210508143748136.png">
-<meta property="article:published_time" content="2021-05-03T08:12:11.000Z">
-<meta property="article:modified_time" content="2021-05-11T16:02:28.420Z">
-<meta property="article:author" content="pz1o">
-<meta property="article:tag" content="Course">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://pz1o.top/2021/05/03/Database-review/image-20210503155841659.png">
-
-  
-
-  
-    <link rel="icon" href="/favicon.ico">
-  
-
-  <link href="/css/styles.css?v=c114cbeddx" rel="stylesheet">
-
-
-  
-    
-<link rel="stylesheet" href="/css/personal-style.css">
-
-  
-
-  
-<!-- Google Analytics -->
-<script type="text/javascript">
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-ga('create', 'UA-38189205-1', 'auto');
-ga('send', 'pageview');
-
-</script>
-<!-- End Google Analytics -->
-
-
-  
-  <script type="text/javascript">
+<script id="baidu_analytics">
     var _hmt = _hmt || [];
     (function() {
       var hm = document.createElement("script");
-      hm.src = "//hm.baidu.com/hm.js?e90b4c8b8c36ca2b3e5798ef67088f84";
+      hm.src = "https://hm.baidu.com/hm.js?e90b4c8b8c36ca2b3e5798ef67088f84";
       var s = document.getElementsByTagName("script")[0];
       s.parentNode.insertBefore(hm, s);
     })();
-  </script>
+  </script><script id="baidu_push">
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+<script src="//cdn1.lncld.net/static/js/3.1.1/av-min.js"></script>
+  <script id="leancloud">
+    AV.init({
+      appId: "KLWvKGPeSIyoEo4k6j3v37wy-gzGzoHsz",
+      appKey: "FL93w3BBbF9lxiR8X1HI58En"
+    });
+  </script><script>
+  window.config = {"leancloud":{"app_id":"KLWvKGPeSIyoEo4k6j3v37wy-gzGzoHsz","app_key":"FL93w3BBbF9lxiR8X1HI58En"},"toc":true,"fancybox":true,"pjax":"","latex":true};
+</script>
 
-
-  
-  <script type="text/javascript">
-	(function(){
-	    var bp = document.createElement('script');
-	    var curProtocol = window.location.protocol.split(':')[0];
-	    if (curProtocol === 'https') {
-	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
-	    }
-	    else {
-	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
-	    }
-	    var s = document.getElementsByTagName("script")[0];
-	    s.parentNode.insertBefore(bp, s);
-	})();
-  </script>
-
-
-
-  
-    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
-  
-
-<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="pz1o" type="application/atom+xml">
+    <title>Database review - pz1o</title>
+  <meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="pz1o" type="application/atom+xml">
 </head>
 
-<body>
-
-
-  
-
-  <div class="post-header">
-   
-
+  <body><div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/." class="logo">pz1o</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
 </div>
 
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list"><a href="/archives/">
+        <li class="mobile-menu-item">Home
+          </li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags
+          </li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About
+          </li>
+      </a></ul>
+</nav>
+<div class="container" id="mobile-panel">
+      <header id="header" class="header"><div class="logo-wrapper">
+  <a href="/." class="logo">pz1o</a>
+</div>
 
-  <div id="toc" class="toc-article">
-    <strong class="toc-title">Posts List</strong>
-    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#0x01-第一章-绪论"><span class="toc-text">0x01 第一章 绪论</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1-数据库基本概念"><span class="toc-text">1.1 数据库基本概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2-数据库系统特点"><span class="toc-text">1.2 数据库系统特点</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#数据库管理技术发展共有三个阶段"><span class="toc-text">数据库管理技术发展共有三个阶段</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-3-数据模型"><span class="toc-text">1.3 数据模型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#数据模型概念"><span class="toc-text">数据模型概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数据模型的分类"><span class="toc-text">数据模型的分类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数据模型的组成要素"><span class="toc-text">数据模型的组成要素</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-4-实体联系数据模型"><span class="toc-text">1.4 实体联系数据模型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#实体"><span class="toc-text">实体</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#属性"><span class="toc-text">属性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#实体集之间的联系"><span class="toc-text">实体集之间的联系</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#E-R图"><span class="toc-text">E-R图</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-5-数据库系统体系结构"><span class="toc-text">1.5 数据库系统体系结构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#数据库系统的三级模式结构"><span class="toc-text">数据库系统的三级模式结构</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x02-第二章-关系模型"><span class="toc-text">0x02 第二章 关系模型</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-基本概念"><span class="toc-text">2.1 基本概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-关系操作和完整性约束"><span class="toc-text">2.2 关系操作和完整性约束</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-3-关系代数-传统集合"><span class="toc-text">2.3 关系代数 传统集合</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-4-关系代数运算"><span class="toc-text">2.4 关系代数运算</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#选择"><span class="toc-text">选择</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#投影"><span class="toc-text">投影</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#连接"><span class="toc-text">连接</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#除"><span class="toc-text">除</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-5-查询优化"><span class="toc-text">2.5 查询优化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#等价变换规则："><span class="toc-text">等价变换规则：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#查询优化策略"><span class="toc-text">查询优化策略</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#优化算法"><span class="toc-text">优化算法</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x03-第三章-关系数据库标准语言SQL"><span class="toc-text">0x03 第三章 关系数据库标准语言SQL</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-1-SQL概述"><span class="toc-text">3.1 SQL概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-2-数据定义"><span class="toc-text">3.2 数据定义</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#定义基本表"><span class="toc-text">定义基本表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#修改表结构"><span class="toc-text">修改表结构</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-3-索引"><span class="toc-text">3.3 索引</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-4-单表查询"><span class="toc-text">3.4 单表查询</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-5-多表查询"><span class="toc-text">3.5 多表查询</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-6-嵌套查询"><span class="toc-text">3.6 嵌套查询</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-7-集合和除运算"><span class="toc-text">3.7 集合和除运算</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-8-数据更新和控制"><span class="toc-text">3.8 数据更新和控制</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#更新"><span class="toc-text">更新</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#控制"><span class="toc-text">控制</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-9-视图"><span class="toc-text">3.9 视图</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#定义视图"><span class="toc-text">定义视图</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#删除视图"><span class="toc-text">删除视图</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x04-第四章-规范化理论"><span class="toc-text">0x04 第四章 规范化理论</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#4-1-规范化概述"><span class="toc-text">4.1 规范化概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-2-函数依赖"><span class="toc-text">4.2 函数依赖</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#完全函数依赖："><span class="toc-text">完全函数依赖：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#部分函数依赖："><span class="toc-text">部分函数依赖：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#传递函数依赖"><span class="toc-text">传递函数依赖</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#码的函数依赖定义"><span class="toc-text">码的函数依赖定义</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-3-范式"><span class="toc-text">4.3 范式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1NF"><span class="toc-text">1NF</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2NF"><span class="toc-text">2NF</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3NF"><span class="toc-text">3NF</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-4-BCNF-4NF"><span class="toc-text">4.4 BCNF 4NF</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#BCNF"><span class="toc-text">BCNF</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-5-Armstrong公理系统"><span class="toc-text">4.5 Armstrong公理系统</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#独立推理规则"><span class="toc-text">独立推理规则</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#传递律"><span class="toc-text">传递律</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#属性集的闭包"><span class="toc-text">属性集的闭包</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-6-最小函数依赖集"><span class="toc-text">4.6 最小函数依赖集</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#函数依赖集等价"><span class="toc-text">函数依赖集等价</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#最小函数依赖集"><span class="toc-text">最小函数依赖集</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#F的最小依赖集的算法"><span class="toc-text">F的最小依赖集的算法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-7-码值理论"><span class="toc-text">4.7 码值理论</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-8-模式分解"><span class="toc-text">4.8 模式分解</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-9-函数依赖保持性和模式分解算法"><span class="toc-text">4.9 函数依赖保持性和模式分解算法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#关系模式的分解算法"><span class="toc-text">关系模式的分解算法</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x05-数据库设计"><span class="toc-text">0x05 数据库设计</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#5-1-数据库设计概述"><span class="toc-text">5.1 数据库设计概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-2-需求分析"><span class="toc-text">5.2 需求分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-3-数据库概念结构设计"><span class="toc-text">5.3 数据库概念结构设计</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-4-数据库逻辑结构设计"><span class="toc-text">5.4 数据库逻辑结构设计</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#一对一"><span class="toc-text">一对一</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#一对多-多对一"><span class="toc-text">一对多&#x2F;多对一</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#多对多"><span class="toc-text">多对多</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x06-数据库保护"><span class="toc-text">0x06 数据库保护</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#6-1-数据库保护和事务"><span class="toc-text">6.1 数据库保护和事务</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#数据事务概念"><span class="toc-text">数据事务概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#事务执行过程的五种状态"><span class="toc-text">事务执行过程的五种状态</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#事务ACID特性"><span class="toc-text">事务ACID特性</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-2-数据库恢复技术"><span class="toc-text">6.2 数据库恢复技术</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#数据库故障"><span class="toc-text">数据库故障</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数据库恢复原理和技术"><span class="toc-text">数据库恢复原理和技术</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数据库故障恢复"><span class="toc-text">数据库故障恢复</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-3-数据库并发"><span class="toc-text">6.3 数据库并发</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#多事务并发执行冲突"><span class="toc-text">多事务并发执行冲突</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-4-并发调度和可串行化"><span class="toc-text">6.4 并发调度和可串行化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#事务简化"><span class="toc-text">事务简化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#调度的可串行化"><span class="toc-text">调度的可串行化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#冲突可串行化"><span class="toc-text">冲突可串行化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#前驱图（冲突可串行化的判定方法）："><span class="toc-text">前驱图（冲突可串行化的判定方法）：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#拓扑图（获得调度S的一个等价的串行调度）："><span class="toc-text">拓扑图（获得调度S的一个等价的串行调度）：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-5-事务的隔离性、封锁和并发控制"><span class="toc-text">6.5  事务的隔离性、封锁和并发控制</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#封锁"><span class="toc-text">封锁</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#排它锁（X锁）"><span class="toc-text">排它锁（X锁）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#共享锁（S锁）"><span class="toc-text">共享锁（S锁）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-6-数据库完全性与完整性"><span class="toc-text">6.6 数据库完全性与完整性</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#数据库完全性控制"><span class="toc-text">数据库完全性控制</span></a></li></ol></li></ol></li></ol>
-  </div>
+<nav class="site-navbar"><ul id="menu" class="menu"><li class="menu-item">
+          <a class="menu-item-link" href="/archives/">
+            Home
+            </a>
+        </li>
+      <li class="menu-item">
+          <a class="menu-item-link" href="/tags/">
+            Tags
+            </a>
+        </li>
+      <li class="menu-item">
+          <a class="menu-item-link" href="/about/">
+            About
+            </a>
+        </li>
+      </ul></nav>
+</header>
 
+      <main id="main" class="main">
+        <div class="content-wrapper">
+          <div id="content" class="content"><article class="post">
+    <header class="post-header">
+      <h1 class="post-title">Database review
+        </h1>
 
-
-<div class="content content-post CENTER">
-   <article id="post-Database-review" class="article article-type-post" itemprop="blogPost">
-  <header class="article-header">
-    <h1 class="post-title">Database review</h1>
-
-    <div class="article-meta">
-      <span>
-        <i class="icon-calendar"></i>
-        <span>2021.05.03</span>
-      </span>
-
-      
-        <span class="article-author">
-          <i class="icon-user"></i>
-          <span>pz1o</span>
+      <div class="post-meta">
+        <span class="post-time">
+          2021-05-03
+        </span><span class="post-visits"
+             data-url="/2021/05/03/Database-review/"
+             data-title="Database review">
+          Visits 0
         </span>
-      
+        </div>
+    </header>
 
-      
-
-
-      
-
-      
-      <i class="fa fa-eye"></i> 
-        <span id="busuanzi_container_page_pv">
-           &nbsp热度 <span id="busuanzi_value_page_pv">
-           <i class="fa fa-spinner fa-spin"></i></span>℃
-        </span>
-      
-      
+    <div class="post-toc" id="post-toc">
+    <h2 class="post-toc-title">Contents</h2>
+    <div class="post-toc-content">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#0x01-第一章-绪论"><span class="toc-text">0x01 第一章 绪论</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1-数据库基本概念"><span class="toc-text">1.1 数据库基本概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2-数据库系统特点"><span class="toc-text">1.2 数据库系统特点</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#数据库管理技术发展共有三个阶段"><span class="toc-text">数据库管理技术发展共有三个阶段</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-3-数据模型"><span class="toc-text">1.3 数据模型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#数据模型概念"><span class="toc-text">数据模型概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数据模型的分类"><span class="toc-text">数据模型的分类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数据模型的组成要素"><span class="toc-text">数据模型的组成要素</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-4-实体联系数据模型"><span class="toc-text">1.4 实体联系数据模型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#实体"><span class="toc-text">实体</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#属性"><span class="toc-text">属性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#实体集之间的联系"><span class="toc-text">实体集之间的联系</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#E-R图"><span class="toc-text">E-R图</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-5-数据库系统体系结构"><span class="toc-text">1.5 数据库系统体系结构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#数据库系统的三级模式结构"><span class="toc-text">数据库系统的三级模式结构</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x02-第二章-关系模型"><span class="toc-text">0x02 第二章 关系模型</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-基本概念"><span class="toc-text">2.1 基本概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-关系操作和完整性约束"><span class="toc-text">2.2 关系操作和完整性约束</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-3-关系代数-传统集合"><span class="toc-text">2.3 关系代数 传统集合</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-4-关系代数运算"><span class="toc-text">2.4 关系代数运算</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#选择"><span class="toc-text">选择</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#投影"><span class="toc-text">投影</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#连接"><span class="toc-text">连接</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#除"><span class="toc-text">除</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-5-查询优化"><span class="toc-text">2.5 查询优化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#等价变换规则："><span class="toc-text">等价变换规则：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#查询优化策略"><span class="toc-text">查询优化策略</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#优化算法"><span class="toc-text">优化算法</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x03-第三章-关系数据库标准语言SQL"><span class="toc-text">0x03 第三章 关系数据库标准语言SQL</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-1-SQL概述"><span class="toc-text">3.1 SQL概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-2-数据定义"><span class="toc-text">3.2 数据定义</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#定义基本表"><span class="toc-text">定义基本表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#修改表结构"><span class="toc-text">修改表结构</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-3-索引"><span class="toc-text">3.3 索引</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-4-单表查询"><span class="toc-text">3.4 单表查询</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-5-多表查询"><span class="toc-text">3.5 多表查询</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-6-嵌套查询"><span class="toc-text">3.6 嵌套查询</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-7-集合和除运算"><span class="toc-text">3.7 集合和除运算</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-8-数据更新和控制"><span class="toc-text">3.8 数据更新和控制</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#更新"><span class="toc-text">更新</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#控制"><span class="toc-text">控制</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-9-视图"><span class="toc-text">3.9 视图</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#定义视图"><span class="toc-text">定义视图</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#删除视图"><span class="toc-text">删除视图</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x04-第四章-规范化理论"><span class="toc-text">0x04 第四章 规范化理论</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#4-1-规范化概述"><span class="toc-text">4.1 规范化概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-2-函数依赖"><span class="toc-text">4.2 函数依赖</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#完全函数依赖："><span class="toc-text">完全函数依赖：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#部分函数依赖："><span class="toc-text">部分函数依赖：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#传递函数依赖"><span class="toc-text">传递函数依赖</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#码的函数依赖定义"><span class="toc-text">码的函数依赖定义</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-3-范式"><span class="toc-text">4.3 范式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1NF"><span class="toc-text">1NF</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2NF"><span class="toc-text">2NF</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3NF"><span class="toc-text">3NF</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-4-BCNF-4NF"><span class="toc-text">4.4 BCNF 4NF</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#BCNF"><span class="toc-text">BCNF</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-5-Armstrong公理系统"><span class="toc-text">4.5 Armstrong公理系统</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#独立推理规则"><span class="toc-text">独立推理规则</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#传递律"><span class="toc-text">传递律</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#属性集的闭包"><span class="toc-text">属性集的闭包</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-6-最小函数依赖集"><span class="toc-text">4.6 最小函数依赖集</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#函数依赖集等价"><span class="toc-text">函数依赖集等价</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#最小函数依赖集"><span class="toc-text">最小函数依赖集</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#F的最小依赖集的算法"><span class="toc-text">F的最小依赖集的算法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-7-码值理论"><span class="toc-text">4.7 码值理论</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-8-模式分解"><span class="toc-text">4.8 模式分解</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-9-函数依赖保持性和模式分解算法"><span class="toc-text">4.9 函数依赖保持性和模式分解算法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#关系模式的分解算法"><span class="toc-text">关系模式的分解算法</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x05-数据库设计"><span class="toc-text">0x05 数据库设计</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#5-1-数据库设计概述"><span class="toc-text">5.1 数据库设计概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-2-需求分析"><span class="toc-text">5.2 需求分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-3-数据库概念结构设计"><span class="toc-text">5.3 数据库概念结构设计</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-4-数据库逻辑结构设计"><span class="toc-text">5.4 数据库逻辑结构设计</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#一对一"><span class="toc-text">一对一</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#一对多-多对一"><span class="toc-text">一对多&#x2F;多对一</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#多对多"><span class="toc-text">多对多</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x06-数据库保护"><span class="toc-text">0x06 数据库保护</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#6-1-数据库保护和事务"><span class="toc-text">6.1 数据库保护和事务</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#数据事务概念"><span class="toc-text">数据事务概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#事务执行过程的五种状态"><span class="toc-text">事务执行过程的五种状态</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#事务ACID特性"><span class="toc-text">事务ACID特性</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-2-数据库恢复技术"><span class="toc-text">6.2 数据库恢复技术</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#数据库故障"><span class="toc-text">数据库故障</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数据库恢复原理和技术"><span class="toc-text">数据库恢复原理和技术</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数据库故障恢复"><span class="toc-text">数据库故障恢复</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-3-数据库并发"><span class="toc-text">6.3 数据库并发</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#多事务并发执行冲突"><span class="toc-text">多事务并发执行冲突</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-4-并发调度和可串行化"><span class="toc-text">6.4 并发调度和可串行化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#事务简化"><span class="toc-text">事务简化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#调度的可串行化"><span class="toc-text">调度的可串行化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#冲突可串行化"><span class="toc-text">冲突可串行化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#前驱图（冲突可串行化的判定方法）："><span class="toc-text">前驱图（冲突可串行化的判定方法）：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#拓扑图（获得调度S的一个等价的串行调度）："><span class="toc-text">拓扑图（获得调度S的一个等价的串行调度）：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-5-事务的隔离性、封锁和并发控制"><span class="toc-text">6.5  事务的隔离性、封锁和并发控制</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#封锁"><span class="toc-text">封锁</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#排它锁（X锁）"><span class="toc-text">排它锁（X锁）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#共享锁（S锁）"><span class="toc-text">共享锁（S锁）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-6-数据库完全性与完整性"><span class="toc-text">6.6 数据库完全性与完整性</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#数据库完全性控制"><span class="toc-text">数据库完全性控制</span></a></li></ol></li></ol></li></ol>
     </div>
-  </header>
-
-  <div class="article-content">
-    
-      <p>复习</p>
+  </div><div class="post-content"><p>复习</p>
 <p>各章节需要掌握的内容</p>
 <p><img src="/2021/05/03/Database-review/image-20210503155841659.png" alt></p>
 <p><img src="/2021/05/03/Database-review/image-20210503160432223.png" alt="image-20210503160432223"></p>
@@ -629,161 +542,74 @@ ga('send', 'pageview');
 <li>存取控制</li>
 </ol>
 
-    
+      </div>
+      <div class="post-copyright">
+    <p class="copyright-item">
+      <span>Author: </span>
+      <a href="https://pz1o.top">pz1o</a>
+    </p>
+    <p class="copyright-item">
+      <span>Link: </span>
+      <a href="https://pz1o.top/2021/05/03/Database-review/">https://pz1o.top/2021/05/03/Database-review/</a>
+    </p>
+    <p class="copyright-item">
+      <span>License: </span><a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>
+    </p>
   </div>
+      <footer class="post-footer">
+        <div class="post-tags">
+            <a href="/tags/Course/">Course</a>
+            </div>
+        
+        <nav class="post-nav"><a class="prev" href="/2021/05/03/static-program/">
+        <i class="iconfont icon-left"></i>
+        <span class="prev-text nav-default">static program</span>
+        <span class="prev-text nav-mobile">Prev</span>
+      </a>
+    <a class="next" href="/2021/04/30/makefile/">
+        <span class="next-text nav-default">makefile</span>
+        <span class="prev-text nav-mobile">Next</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    </nav></footer>
+    </article></div><div class="comments" id="comments"></div></div>
+      </main>
 
-</article>
+      <footer id="footer" class="footer"><div class="social-links"><a href="mailto:pz1olzy@aliyun.com" class="iconfont icon-email" title="email"></a>
+        <a href="https://github.com/pz1o" target="_blank" rel="noopener" class="iconfont icon-github" title="github"></a>
+        <a href="/atom.xml" class="iconfont icon-rss" title="rss"></a>
+    </div><div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/ahonn/hexo-theme-even" target="_blank" rel="noopener">Even</a>
+  </span>
 
-
-   
-
-   
-  <div class="box-prev-next clearfix">
-    <a class="show pull-left" href="/2021/04/30/makefile/">
-        <i class="icon icon-angle-left"></i>
-    </a>
-    <a class="show pull-right" href="/2021/05/03/static-program/">
-        <i class="icon icon-angle-right"></i>
-    </a>
-  </div>
-
-
-
-
+  <span class="copyright-year">&copy;2020 - 2021<span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">pz1o</span>
+  </span>
 </div>
+</footer>
 
-
-  <a id="backTop" class="back-top">
-    <i class="icon-angle-up"></i>
-  </a>
-
-
-
-
-  <div class="modal" id="modal">
-  <span id="cover" class="cover hide"></span>
-  <div id="modal-dialog" class="modal-dialog hide-dialog">
-    <div class="modal-header">
-      <span id="close" class="btn-close">Close</span>
-    </div>
-    <hr>
-    <div class="modal-body">
-      <ul class="list-toolbox">
-        
-          <li class="item-toolbox">
-            <a
-              class="ROUND_RECT"
-              href="/archives/"
-              rel="noopener noreferrer"
-              target="_blank"
-              >
-              Blog
-            </a>
-          </li>
-        
-          <li class="item-toolbox">
-            <a
-              class="ROUND_RECT"
-              href="/tag/"
-              rel="noopener noreferrer"
-              target="_self"
-              >
-              Tag
-            </a>
-          </li>
-        
-          <li class="item-toolbox">
-            <a
-              class="ROUND_RECT"
-              href="/about/"
-              rel="noopener noreferrer"
-              target="_self"
-              >
-              About
-            </a>
-          </li>
-        
-      </ul>
-
-    </div>
-  </div>
-</div>
-
-
-
-  
-      <div class="fexo-comments comments-post">
-    
-
-    
-
-    
-    
-
-    
-
-    
-    
-
-    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
-    <script src="//cdn.jsdelivr.net/npm/valine@latest/dist/Valine.min.js"></script>
-    <div id="comment" class="vcomment" ></div>
-    <script>
-        var notify = 'true' == true ? true : false;
-        var verify = 'true' == true ? true : false;
-        var GUEST_INFO = ['nick','mail','link'];
-        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
-            return GUEST_INFO.indexOf(item) > -1
-        });
-        guest_info = guest_info.length == 0 ? GUEST_INFO :guest_info;
-        window.valine = new Valine({
-            el: '.vcomment',
-            notify: notify,
-            verify: verify,
-            appId: "KLWvKGPeSIyoEo4k6j3v37wy-gzGzoHsz",
-            appKey: "FL93w3BBbF9lxiR8X1HI58En",
-            avatar:'wavatar',
-            placeholder: "Just go go",
-            guest_info:guest_info,
-            pageSize:'6'
-        });
-    </script>
-  
-    
-
-  </div>
-
-  
-
-  <script type="text/javascript">
-  function loadScript(url, callback) {
-    var script = document.createElement('script')
-    script.type = 'text/javascript';
-
-    if (script.readyState) { //IE
-      script.onreadystatechange = function() {
-        if (script.readyState == 'loaded' ||
-          script.readyState == 'complete') {
-          script.onreadystatechange = null;
-          callback();
-        }
-      };
-    } else { //Others
-      script.onload = function() {
-        callback();
-      };
-    }
-
-    script.src = url;
-    document.getElementsByTagName('head')[0].appendChild(script);
-  }
-
-  window.onload = function() {
-    loadScript('/js/bundle.js?235683', function() {
-      // load success
-    });
-  }
-</script>
-
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
+    </div><!-- SOHUCS Comments -->
+<div id="SOHUCS"></div>
+<script type="text/javascript">
+(function(){
+var appid = 'cyvuAqBH5';
+var conf = 'f4f164c77381c58d639d8e00e69da6e7';
+var width = window.innerWidth || document.documentElement.clientWidth;
+if (width < 960) {window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); } })();
+</script><script type="text/javascript" src="/lib/jquery/jquery.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout.js"></script>
+  <script type="text/javascript" src="/lib/fancybox/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/src/even.js?v=2.11.0"></script>
 </body>
 </html>

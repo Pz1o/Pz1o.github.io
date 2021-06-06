@@ -1,204 +1,133 @@
 <!DOCTYPE html>
+<html lang="en">
+  <head><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
 
-  <html class="dark page-post">
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
 
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
-<head>
-  <meta charset="utf-8">
-  
-  <title>static program | pz1o</title>
+<meta name="description" content="static program"/><meta name="keywords" content="CTF" /><link rel="alternate" href="/atom.xml" title="pz1o"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.11.0" />
+<link rel="canonical" href="https://pz1o.top/2021/05/03/static-program/"/>
 
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<link rel="stylesheet" type="text/css" href="/lib/fancybox/jquery.fancybox.css" /><script type="text/x-mathjax-config">
+    MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] } });
+  </script>
+  <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=2.11.0" />
 
-  
-    <meta name="keywords" content="Course," />
-  
-
-  <meta name="description" content="0x01 Static Program Analysis1.introduction 2.sound and complete  3.what is static analysisa view as this draw  4.abstraction and overapproximationfirst,abstraction  next,transfer function  it is simil">
-<meta property="og:type" content="article">
-<meta property="og:title" content="static program">
-<meta property="og:url" content="https://pz1o.top/2021/05/03/static-program/index.html">
-<meta property="og:site_name" content="pz1o">
-<meta property="og:description" content="0x01 Static Program Analysis1.introduction 2.sound and complete  3.what is static analysisa view as this draw  4.abstraction and overapproximationfirst,abstraction  next,transfer function  it is simil">
-<meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/static-program/image-20210315224533888.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/static-program/image-20210315231054502.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/static-program/image-20210315231536756.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/static-program/image-20210316000124963.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/static-program/image-20210316000642671.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/static-program/image-20210316001346346.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/static-program/image-20210316001430168.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/static-program/image-20210316001748641.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/static-program/image-20210316010120880.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/static-program/image-20210316010715717.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/static-program/image-20210316010948812.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/static-program/image-20210316012707595.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/static-program/image-20210316012632094.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/static-program/image-20210316013150012.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/static-program/image-20210316125222155.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/static-program/image-20210316124211598.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/static-program/image-20210316124243765.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/static-program/image-20210316125913305.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/static-program/image-20210316130354246.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/static-program/image-20210316130826596.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/static-program/image-20210316131723881.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/static-program/image-20210316132039750.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/static-program/image-20210316132843680.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/static-program/image-20210316133326936.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/static-program/image-20210316162556579.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/static-program/image-20210316163402058.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/static-program/image-20210316164525008.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/static-program/image-20210316165009528.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/static-program/image-20210316165640682.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/static-program/image-20210316171733031.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/static-program/image-20210316172331897.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/static-program/image-20210316172851109.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/static-program/image-20210316173536011.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/static-program/image-20210316223814163.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/static-program/image-20210316225904275.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/static-program/image-20210316230830828.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/static-program/image-20210316231409321.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/static-program/image-20210317170644795.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/static-program/image-20210317171158537.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/static-program/image-20210317173026174.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/static-program/image-20210317173623458.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/static-program/image-20210317174047841.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/static-program/image-20210317175430257.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/static-program/image-20210317194602113.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/static-program/image-20210317195618231.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/static-program/image-20210317202238222.png">
-<meta property="og:image" content="https://pz1o.top/2021/05/03/static-program/image-20210317205624533.png">
-<meta property="article:published_time" content="2021-05-03T08:16:11.000Z">
-<meta property="article:modified_time" content="2021-05-03T08:17:52.155Z">
-<meta property="article:author" content="pz1o">
-<meta property="article:tag" content="Course">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://pz1o.top/2021/05/03/static-program/image-20210315224533888.png">
-
-  
-
-  
-    <link rel="icon" href="/favicon.ico">
-  
-
-  <link href="/css/styles.css?v=c114cbeddx" rel="stylesheet">
-
-
-  
-    
-<link rel="stylesheet" href="/css/personal-style.css">
-
-  
-
-  
-<!-- Google Analytics -->
-<script type="text/javascript">
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-ga('create', 'UA-38189205-1', 'auto');
-ga('send', 'pageview');
-
-</script>
-<!-- End Google Analytics -->
-
-
-  
-  <script type="text/javascript">
+<script id="baidu_analytics">
     var _hmt = _hmt || [];
     (function() {
       var hm = document.createElement("script");
-      hm.src = "//hm.baidu.com/hm.js?e90b4c8b8c36ca2b3e5798ef67088f84";
+      hm.src = "https://hm.baidu.com/hm.js?e90b4c8b8c36ca2b3e5798ef67088f84";
       var s = document.getElementsByTagName("script")[0];
       s.parentNode.insertBefore(hm, s);
     })();
-  </script>
+  </script><script id="baidu_push">
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+<script src="//cdn1.lncld.net/static/js/3.1.1/av-min.js"></script>
+  <script id="leancloud">
+    AV.init({
+      appId: "KLWvKGPeSIyoEo4k6j3v37wy-gzGzoHsz",
+      appKey: "FL93w3BBbF9lxiR8X1HI58En"
+    });
+  </script><script>
+  window.config = {"leancloud":{"app_id":"KLWvKGPeSIyoEo4k6j3v37wy-gzGzoHsz","app_key":"FL93w3BBbF9lxiR8X1HI58En"},"toc":true,"fancybox":true,"pjax":"","latex":true};
+</script>
 
-
-  
-  <script type="text/javascript">
-	(function(){
-	    var bp = document.createElement('script');
-	    var curProtocol = window.location.protocol.split(':')[0];
-	    if (curProtocol === 'https') {
-	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
-	    }
-	    else {
-	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
-	    }
-	    var s = document.getElementsByTagName("script")[0];
-	    s.parentNode.insertBefore(bp, s);
-	})();
-  </script>
-
-
-
-  
-    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
-  
-
-<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="pz1o" type="application/atom+xml">
+    <title>static program - pz1o</title>
+  <meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="pz1o" type="application/atom+xml">
 </head>
 
-<body>
-
-
-  
-
-  <div class="post-header">
-   
-
+  <body><div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/." class="logo">pz1o</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
 </div>
 
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list"><a href="/archives/">
+        <li class="mobile-menu-item">Home
+          </li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags
+          </li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About
+          </li>
+      </a></ul>
+</nav>
+<div class="container" id="mobile-panel">
+      <header id="header" class="header"><div class="logo-wrapper">
+  <a href="/." class="logo">pz1o</a>
+</div>
 
-  <div id="toc" class="toc-article">
-    <strong class="toc-title">Posts List</strong>
-    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#0x01-Static-Program-Analysis"><span class="toc-text">0x01 Static Program Analysis</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-introduction"><span class="toc-text">1.introduction</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-sound-and-complete"><span class="toc-text">2.sound and complete</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-what-is-static-analysis"><span class="toc-text">3.what is static analysis</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-abstraction-and-overapproximation"><span class="toc-text">4.abstraction and overapproximation</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x02-Intermediate-Representation"><span class="toc-text">0x02 Intermediate Representation</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-Compiler"><span class="toc-text">1.Compiler</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-AST-vs-IR"><span class="toc-text">2.AST vs IR</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-3-Address-Code"><span class="toc-text">3.3-Address Code</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-Soot-‘s-‘Jimple"><span class="toc-text">4.Soot ‘s ‘Jimple</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#for"><span class="toc-text">for</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#do…while"><span class="toc-text">do…while</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#method-call"><span class="toc-text">method call</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#class"><span class="toc-text">class</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-SSA-Static-Single-Assignment"><span class="toc-text">5.SSA(Static Single Assignment)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-Control-Flow-Graph"><span class="toc-text">6.Control Flow Graph</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Basic-Block"><span class="toc-text">Basic Block</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Edge"><span class="toc-text">Edge</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Example"><span class="toc-text">Example</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x03Data-Flow-Analysis-Applications"><span class="toc-text">0x03Data Flow Analysis-Applications</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-Overview"><span class="toc-text">1.Overview</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Transfer-Function"><span class="toc-text">Transfer Function</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Control-Flow"><span class="toc-text">Control Flow</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-Reaching-Definitions-Analysis"><span class="toc-text">2. Reaching Definitions Analysis</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#definition"><span class="toc-text">definition</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#understanding"><span class="toc-text">understanding</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#algorithm"><span class="toc-text">algorithm</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-Live-Variables-Analysis"><span class="toc-text">3. Live Variables Analysis</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#definition-1"><span class="toc-text">definition</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#understanding-1"><span class="toc-text">understanding</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#algorithm-1"><span class="toc-text">algorithm</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-Available-Expressions-Analysis"><span class="toc-text">4. Available Expressions Analysis</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#definition-2"><span class="toc-text">definition</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#understanding-2"><span class="toc-text">understanding</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#algorithm-2"><span class="toc-text">algorithm</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-Analysis-Comparison"><span class="toc-text">5. Analysis Comparison</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x04-Data-Flow-Analysis-Foundations"><span class="toc-text">0x04 Data-Flow-Analysis Foundations</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-Iterative-Algorithm"><span class="toc-text">1. Iterative Algorithm</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-Partial-Order"><span class="toc-text">2. Partial Order</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-Lattice"><span class="toc-text">3. Lattice</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-Data-Flow-Analysis-Framework-via-Lattice"><span class="toc-text">4. Data Flow Analysis Framework via Lattice</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-Relate-Iterative-Algorithm-to-Fixed-Point-Theorem"><span class="toc-text">5. Relate Iterative Algorithm to Fixed-Point Theorem</span></a></li></ol></li></ol>
-  </div>
+<nav class="site-navbar"><ul id="menu" class="menu"><li class="menu-item">
+          <a class="menu-item-link" href="/archives/">
+            Home
+            </a>
+        </li>
+      <li class="menu-item">
+          <a class="menu-item-link" href="/tags/">
+            Tags
+            </a>
+        </li>
+      <li class="menu-item">
+          <a class="menu-item-link" href="/about/">
+            About
+            </a>
+        </li>
+      </ul></nav>
+</header>
 
+      <main id="main" class="main">
+        <div class="content-wrapper">
+          <div id="content" class="content"><article class="post">
+    <header class="post-header">
+      <h1 class="post-title">static program
+        </h1>
 
-
-<div class="content content-post CENTER">
-   <article id="post-static-program" class="article article-type-post" itemprop="blogPost">
-  <header class="article-header">
-    <h1 class="post-title">static program</h1>
-
-    <div class="article-meta">
-      <span>
-        <i class="icon-calendar"></i>
-        <span>2021.05.03</span>
-      </span>
-
-      
-        <span class="article-author">
-          <i class="icon-user"></i>
-          <span>pz1o</span>
+      <div class="post-meta">
+        <span class="post-time">
+          2021-05-03
+        </span><span class="post-visits"
+             data-url="/2021/05/03/static-program/"
+             data-title="static program">
+          Visits 0
         </span>
-      
+        </div>
+    </header>
 
-      
-
-
-      
-
-      
-      <i class="fa fa-eye"></i> 
-        <span id="busuanzi_container_page_pv">
-           &nbsp热度 <span id="busuanzi_value_page_pv">
-           <i class="fa fa-spinner fa-spin"></i></span>℃
-        </span>
-      
-      
+    <div class="post-toc" id="post-toc">
+    <h2 class="post-toc-title">Contents</h2>
+    <div class="post-toc-content">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#0x01-Static-Program-Analysis"><span class="toc-text">0x01 Static Program Analysis</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-introduction"><span class="toc-text">1.introduction</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-sound-and-complete"><span class="toc-text">2.sound and complete</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-what-is-static-analysis"><span class="toc-text">3.what is static analysis</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-abstraction-and-overapproximation"><span class="toc-text">4.abstraction and overapproximation</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x02-Intermediate-Representation"><span class="toc-text">0x02 Intermediate Representation</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-Compiler"><span class="toc-text">1.Compiler</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-AST-vs-IR"><span class="toc-text">2.AST vs IR</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-3-Address-Code"><span class="toc-text">3.3-Address Code</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-Soot-‘s-‘Jimple"><span class="toc-text">4.Soot ‘s ‘Jimple</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#for"><span class="toc-text">for</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#do…while"><span class="toc-text">do…while</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#method-call"><span class="toc-text">method call</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#class"><span class="toc-text">class</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-SSA-Static-Single-Assignment"><span class="toc-text">5.SSA(Static Single Assignment)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-Control-Flow-Graph"><span class="toc-text">6.Control Flow Graph</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Basic-Block"><span class="toc-text">Basic Block</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Edge"><span class="toc-text">Edge</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Example"><span class="toc-text">Example</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x03Data-Flow-Analysis-Applications"><span class="toc-text">0x03Data Flow Analysis-Applications</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-Overview"><span class="toc-text">1.Overview</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Transfer-Function"><span class="toc-text">Transfer Function</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Control-Flow"><span class="toc-text">Control Flow</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-Reaching-Definitions-Analysis"><span class="toc-text">2. Reaching Definitions Analysis</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#definition"><span class="toc-text">definition</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#understanding"><span class="toc-text">understanding</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#algorithm"><span class="toc-text">algorithm</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-Live-Variables-Analysis"><span class="toc-text">3. Live Variables Analysis</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#definition-1"><span class="toc-text">definition</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#understanding-1"><span class="toc-text">understanding</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#algorithm-1"><span class="toc-text">algorithm</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-Available-Expressions-Analysis"><span class="toc-text">4. Available Expressions Analysis</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#definition-2"><span class="toc-text">definition</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#understanding-2"><span class="toc-text">understanding</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#algorithm-2"><span class="toc-text">algorithm</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-Analysis-Comparison"><span class="toc-text">5. Analysis Comparison</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x04-Data-Flow-Analysis-Foundations"><span class="toc-text">0x04 Data-Flow-Analysis Foundations</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-Iterative-Algorithm"><span class="toc-text">1. Iterative Algorithm</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-Partial-Order"><span class="toc-text">2. Partial Order</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-Lattice"><span class="toc-text">3. Lattice</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-Data-Flow-Analysis-Framework-via-Lattice"><span class="toc-text">4. Data Flow Analysis Framework via Lattice</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-Relate-Iterative-Algorithm-to-Fixed-Point-Theorem"><span class="toc-text">5. Relate Iterative Algorithm to Fixed-Point Theorem</span></a></li></ol></li></ol>
     </div>
-  </header>
-
-  <div class="article-content">
-    
-      <h1 id="0x01-Static-Program-Analysis"><a href="#0x01-Static-Program-Analysis" class="headerlink" title="0x01 Static Program Analysis"></a>0x01 Static Program Analysis</h1><h2 id="1-introduction"><a href="#1-introduction" class="headerlink" title="1.introduction"></a>1.introduction</h2><p><img src="/2021/05/03/static-program/image-20210315224533888.png" alt="image-20210315224533888"></p>
+  </div><div class="post-content"><h1 id="0x01-Static-Program-Analysis"><a href="#0x01-Static-Program-Analysis" class="headerlink" title="0x01 Static Program Analysis"></a>0x01 Static Program Analysis</h1><h2 id="1-introduction"><a href="#1-introduction" class="headerlink" title="1.introduction"></a>1.introduction</h2><p><img src="/2021/05/03/static-program/image-20210315224533888.png" alt="image-20210315224533888"></p>
 <h2 id="2-sound-and-complete"><a href="#2-sound-and-complete" class="headerlink" title="2.sound and complete"></a>2.sound and complete</h2><p><img src="/2021/05/03/static-program/image-20210315231054502.png" alt="image-20210315231054502"></p>
 <p><img src="/2021/05/03/static-program/image-20210315231536756.png" alt="image-20210315231536756"></p>
 <h2 id="3-what-is-static-analysis"><a href="#3-what-is-static-analysis" class="headerlink" title="3.what is static analysis"></a>3.what is static analysis</h2><p>a view as this draw</p>
@@ -316,161 +245,74 @@ ga('send', 'pageview');
 <p><img src="/2021/05/03/static-program/image-20210317202238222.png" alt="image-20210317202238222"></p>
 <h2 id="2-Partial-Order"><a href="#2-Partial-Order" class="headerlink" title="2. Partial Order"></a>2. Partial Order</h2><h2 id="3-Lattice"><a href="#3-Lattice" class="headerlink" title="3. Lattice"></a>3. Lattice</h2><h2 id="4-Data-Flow-Analysis-Framework-via-Lattice"><a href="#4-Data-Flow-Analysis-Framework-via-Lattice" class="headerlink" title="4. Data Flow Analysis Framework via Lattice"></a>4. Data Flow Analysis Framework via Lattice</h2><p><img src="/2021/05/03/static-program/image-20210317205624533.png" alt="image-20210317205624533"></p>
 <h2 id="5-Relate-Iterative-Algorithm-to-Fixed-Point-Theorem"><a href="#5-Relate-Iterative-Algorithm-to-Fixed-Point-Theorem" class="headerlink" title="5. Relate Iterative Algorithm to Fixed-Point Theorem"></a>5. Relate Iterative Algorithm to Fixed-Point Theorem</h2>
-    
+      </div>
+      <div class="post-copyright">
+    <p class="copyright-item">
+      <span>Author: </span>
+      <a href="https://pz1o.top">pz1o</a>
+    </p>
+    <p class="copyright-item">
+      <span>Link: </span>
+      <a href="https://pz1o.top/2021/05/03/static-program/">https://pz1o.top/2021/05/03/static-program/</a>
+    </p>
+    <p class="copyright-item">
+      <span>License: </span><a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>
+    </p>
   </div>
+      <footer class="post-footer">
+        <div class="post-tags">
+            <a href="/tags/Course/">Course</a>
+            </div>
+        
+        <nav class="post-nav"><a class="prev" href="/2021/05/03/CVE-2021-3493%E5%A4%8D%E7%8E%B0/">
+        <i class="iconfont icon-left"></i>
+        <span class="prev-text nav-default">CVE-2021-3493复现</span>
+        <span class="prev-text nav-mobile">Prev</span>
+      </a>
+    <a class="next" href="/2021/05/03/Database-review/">
+        <span class="next-text nav-default">Database review</span>
+        <span class="prev-text nav-mobile">Next</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    </nav></footer>
+    </article></div><div class="comments" id="comments"></div></div>
+      </main>
 
-</article>
+      <footer id="footer" class="footer"><div class="social-links"><a href="mailto:pz1olzy@aliyun.com" class="iconfont icon-email" title="email"></a>
+        <a href="https://github.com/pz1o" target="_blank" rel="noopener" class="iconfont icon-github" title="github"></a>
+        <a href="/atom.xml" class="iconfont icon-rss" title="rss"></a>
+    </div><div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/ahonn/hexo-theme-even" target="_blank" rel="noopener">Even</a>
+  </span>
 
-
-   
-
-   
-  <div class="box-prev-next clearfix">
-    <a class="show pull-left" href="/2021/05/03/Database-review/">
-        <i class="icon icon-angle-left"></i>
-    </a>
-    <a class="show pull-right" href="/2021/05/03/CVE-2021-3493%E5%A4%8D%E7%8E%B0/">
-        <i class="icon icon-angle-right"></i>
-    </a>
-  </div>
-
-
-
-
+  <span class="copyright-year">&copy;2020 - 2021<span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">pz1o</span>
+  </span>
 </div>
+</footer>
 
-
-  <a id="backTop" class="back-top">
-    <i class="icon-angle-up"></i>
-  </a>
-
-
-
-
-  <div class="modal" id="modal">
-  <span id="cover" class="cover hide"></span>
-  <div id="modal-dialog" class="modal-dialog hide-dialog">
-    <div class="modal-header">
-      <span id="close" class="btn-close">Close</span>
-    </div>
-    <hr>
-    <div class="modal-body">
-      <ul class="list-toolbox">
-        
-          <li class="item-toolbox">
-            <a
-              class="ROUND_RECT"
-              href="/archives/"
-              rel="noopener noreferrer"
-              target="_blank"
-              >
-              Blog
-            </a>
-          </li>
-        
-          <li class="item-toolbox">
-            <a
-              class="ROUND_RECT"
-              href="/tag/"
-              rel="noopener noreferrer"
-              target="_self"
-              >
-              Tag
-            </a>
-          </li>
-        
-          <li class="item-toolbox">
-            <a
-              class="ROUND_RECT"
-              href="/about/"
-              rel="noopener noreferrer"
-              target="_self"
-              >
-              About
-            </a>
-          </li>
-        
-      </ul>
-
-    </div>
-  </div>
-</div>
-
-
-
-  
-      <div class="fexo-comments comments-post">
-    
-
-    
-
-    
-    
-
-    
-
-    
-    
-
-    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
-    <script src="//cdn.jsdelivr.net/npm/valine@latest/dist/Valine.min.js"></script>
-    <div id="comment" class="vcomment" ></div>
-    <script>
-        var notify = 'true' == true ? true : false;
-        var verify = 'true' == true ? true : false;
-        var GUEST_INFO = ['nick','mail','link'];
-        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
-            return GUEST_INFO.indexOf(item) > -1
-        });
-        guest_info = guest_info.length == 0 ? GUEST_INFO :guest_info;
-        window.valine = new Valine({
-            el: '.vcomment',
-            notify: notify,
-            verify: verify,
-            appId: "KLWvKGPeSIyoEo4k6j3v37wy-gzGzoHsz",
-            appKey: "FL93w3BBbF9lxiR8X1HI58En",
-            avatar:'wavatar',
-            placeholder: "Just go go",
-            guest_info:guest_info,
-            pageSize:'6'
-        });
-    </script>
-  
-    
-
-  </div>
-
-  
-
-  <script type="text/javascript">
-  function loadScript(url, callback) {
-    var script = document.createElement('script')
-    script.type = 'text/javascript';
-
-    if (script.readyState) { //IE
-      script.onreadystatechange = function() {
-        if (script.readyState == 'loaded' ||
-          script.readyState == 'complete') {
-          script.onreadystatechange = null;
-          callback();
-        }
-      };
-    } else { //Others
-      script.onload = function() {
-        callback();
-      };
-    }
-
-    script.src = url;
-    document.getElementsByTagName('head')[0].appendChild(script);
-  }
-
-  window.onload = function() {
-    loadScript('/js/bundle.js?235683', function() {
-      // load success
-    });
-  }
-</script>
-
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
+    </div><!-- SOHUCS Comments -->
+<div id="SOHUCS"></div>
+<script type="text/javascript">
+(function(){
+var appid = 'cyvuAqBH5';
+var conf = 'f4f164c77381c58d639d8e00e69da6e7';
+var width = window.innerWidth || document.documentElement.clientWidth;
+if (width < 960) {window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); } })();
+</script><script type="text/javascript" src="/lib/jquery/jquery.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout.js"></script>
+  <script type="text/javascript" src="/lib/fancybox/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/src/even.js?v=2.11.0"></script>
 </body>
 </html>

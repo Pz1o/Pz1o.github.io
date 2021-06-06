@@ -1,198 +1,136 @@
 <!DOCTYPE html>
+<html lang="en">
+  <head><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
 
-  <html class="dark page-post">
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
 
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
-<head>
-  <meta charset="utf-8">
-  
-  <title>逆向工程核心原理读书笔记Book | pz1o</title>
+<meta name="description" content="逆向工程核心原理读书笔记Book"/><meta name="keywords" content="CTF" /><link rel="alternate" href="/atom.xml" title="pz1o"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.11.0" />
+<link rel="canonical" href="https://pz1o.top/2020/10/27/逆向工程核心原理读书笔记/"/>
 
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<link rel="stylesheet" type="text/css" href="/lib/fancybox/jquery.fancybox.css" /><script type="text/x-mathjax-config">
+    MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] } });
+  </script>
+  <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=2.11.0" />
 
-  
-    <meta name="keywords" content="book," />
-  
-
-  <meta name="description" content="前言预估三个月，但说不定为了赶其他的ddl，也就读不完了，尽力去吧。只记些重要的 第二章 逆向分析定位方法  直接执行 字符串定位 内存映射  修改字符串  直接缓存区修改，不能修改过长 改变栈地址，到一块空白的字符串  第四章 寄存器寄存器  EAX：累加器（函数返回值） EBX：基址寄存器 ECX：计数器（字符串和循环操作） EDX：数据寄存器  段寄存器  CS：代码段 SS：栈段 DS：">
-<meta property="og:type" content="article">
-<meta property="og:title" content="逆向工程核心原理读书笔记Book">
-<meta property="og:url" content="https://pz1o.top/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/index.html">
-<meta property="og:site_name" content="pz1o">
-<meta property="og:description" content="前言预估三个月，但说不定为了赶其他的ddl，也就读不完了，尽力去吧。只记些重要的 第二章 逆向分析定位方法  直接执行 字符串定位 内存映射  修改字符串  直接缓存区修改，不能修改过长 改变栈地址，到一块空白的字符串  第四章 寄存器寄存器  EAX：累加器（函数返回值） EBX：基址寄存器 ECX：计数器（字符串和循环操作） EDX：数据寄存器  段寄存器  CS：代码段 SS：栈段 DS：">
-<meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://pz1o.top/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210309173427804.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210309175356181.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210310153153376.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210310153813415.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210310154744199.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210310160306566.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210310160550894.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210310161059662.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210310161449879.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210310161601066.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210310161746973.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210310161849517.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210310162003248.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210310162608891.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210310162827298.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210310163334695.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210310163616650.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210310164312289.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210310164618863.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210310164805130.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210310170851347.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210310170937074.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210310171432320.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210310211021165.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210310201607756.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210310201721746.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210310202126351.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210310202304928.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210310203430738.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210310204231228.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210310204430191.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210310204717043.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210310204835996.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210310205557622.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210310205918229.png">
-<meta property="og:image" content="https://pz1o.top/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210310210426731.png">
-<meta property="article:published_time" content="2020-10-27T08:09:08.000Z">
-<meta property="article:modified_time" content="2021-04-18T15:11:17.656Z">
-<meta property="article:author" content="pz1o">
-<meta property="article:tag" content="book">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://pz1o.top/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210309173427804.png">
-
-  
-
-  
-    <link rel="icon" href="/favicon.ico">
-  
-
-  <link href="/css/styles.css?v=c114cbeddx" rel="stylesheet">
-
-
-  
-    
-<link rel="stylesheet" href="/css/personal-style.css">
-
-  
-
-  
-<!-- Google Analytics -->
-<script type="text/javascript">
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-ga('create', 'UA-38189205-1', 'auto');
-ga('send', 'pageview');
-
-</script>
-<!-- End Google Analytics -->
-
-
-  
-  <script type="text/javascript">
+<script id="baidu_analytics">
     var _hmt = _hmt || [];
     (function() {
       var hm = document.createElement("script");
-      hm.src = "//hm.baidu.com/hm.js?e90b4c8b8c36ca2b3e5798ef67088f84";
+      hm.src = "https://hm.baidu.com/hm.js?e90b4c8b8c36ca2b3e5798ef67088f84";
       var s = document.getElementsByTagName("script")[0];
       s.parentNode.insertBefore(hm, s);
     })();
-  </script>
+  </script><script id="baidu_push">
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+<script src="//cdn1.lncld.net/static/js/3.1.1/av-min.js"></script>
+  <script id="leancloud">
+    AV.init({
+      appId: "KLWvKGPeSIyoEo4k6j3v37wy-gzGzoHsz",
+      appKey: "FL93w3BBbF9lxiR8X1HI58En"
+    });
+  </script><script>
+  window.config = {"leancloud":{"app_id":"KLWvKGPeSIyoEo4k6j3v37wy-gzGzoHsz","app_key":"FL93w3BBbF9lxiR8X1HI58En"},"toc":true,"fancybox":true,"pjax":"","latex":true};
+</script>
 
-
-  
-  <script type="text/javascript">
-	(function(){
-	    var bp = document.createElement('script');
-	    var curProtocol = window.location.protocol.split(':')[0];
-	    if (curProtocol === 'https') {
-	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
-	    }
-	    else {
-	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
-	    }
-	    var s = document.getElementsByTagName("script")[0];
-	    s.parentNode.insertBefore(bp, s);
-	})();
-  </script>
-
-
-
-  
-    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
-  
-
-<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="pz1o" type="application/atom+xml">
+    <title>逆向工程核心原理读书笔记Book - pz1o</title>
+  <meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="pz1o" type="application/atom+xml">
 </head>
 
-<body>
-
-
-  
-
-  <div class="post-header">
-   
-
+  <body><div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/." class="logo">pz1o</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
 </div>
 
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list"><a href="/archives/">
+        <li class="mobile-menu-item">Home
+          </li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags
+          </li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About
+          </li>
+      </a></ul>
+</nav>
+<div class="container" id="mobile-panel">
+      <header id="header" class="header"><div class="logo-wrapper">
+  <a href="/." class="logo">pz1o</a>
+</div>
 
-  <div id="toc" class="toc-article">
-    <strong class="toc-title">Posts List</strong>
-    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#前言"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#第二章-逆向分析"><span class="toc-text">第二章 逆向分析</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#第四章-寄存器"><span class="toc-text">第四章 寄存器</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#第八章-crackme-2"><span class="toc-text">第八章 crackme#2</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#解密算法分析"><span class="toc-text">解密算法分析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-查找函数开始的部分"><span class="toc-text">1.查找函数开始的部分</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-预测代码"><span class="toc-text">2.预测代码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-定位关键函数"><span class="toc-text">3.定位关键函数</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#第十章-函数调用约定"><span class="toc-text">第十章 函数调用约定</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#10-1-函数调用约定"><span class="toc-text">10.1 函数调用约定</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#cdecl"><span class="toc-text">cdecl</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#stdcall"><span class="toc-text">stdcall</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#fastcall"><span class="toc-text">fastcall</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#第十三章-PE文件格式"><span class="toc-text">第十三章 PE文件格式</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#13-1-介绍"><span class="toc-text">13.1 介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#13-2-PE文件格式"><span class="toc-text">13.2 PE文件格式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-基本结构"><span class="toc-text">1.基本结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-VA-amp-RVA"><span class="toc-text">2.VA&amp;RVA</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#13-3-PE头"><span class="toc-text">13.3 PE头</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-DOS头"><span class="toc-text">1.DOS头</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-DOS存根"><span class="toc-text">2.DOS存根</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-NT头"><span class="toc-text">3.NT头</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-NT头：文件头"><span class="toc-text">4.NT头：文件头</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-可选头"><span class="toc-text">5.可选头</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-节区头"><span class="toc-text">6.节区头</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#13-4-RVAtoRAW"><span class="toc-text">13.4 RVAtoRAW</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#13-5-IAT"><span class="toc-text">13.5 IAT</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-dll"><span class="toc-text">1.dll</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-IMAGE-IMPORT-DESCRIPTOR"><span class="toc-text">2.IMAGE_IMPORT_DESCRIPTOR</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-练习"><span class="toc-text">3.练习</span></a></li></ol></li></ol></li></ol>
-  </div>
+<nav class="site-navbar"><ul id="menu" class="menu"><li class="menu-item">
+          <a class="menu-item-link" href="/archives/">
+            Home
+            </a>
+        </li>
+      <li class="menu-item">
+          <a class="menu-item-link" href="/tags/">
+            Tags
+            </a>
+        </li>
+      <li class="menu-item">
+          <a class="menu-item-link" href="/about/">
+            About
+            </a>
+        </li>
+      </ul></nav>
+</header>
 
+      <main id="main" class="main">
+        <div class="content-wrapper">
+          <div id="content" class="content"><article class="post">
+    <header class="post-header">
+      <h1 class="post-title">逆向工程核心原理读书笔记Book
+        </h1>
 
-
-<div class="content content-post CENTER">
-   <article id="post-逆向工程核心原理读书笔记" class="article article-type-post" itemprop="blogPost">
-  <header class="article-header">
-    <h1 class="post-title">逆向工程核心原理读书笔记Book</h1>
-
-    <div class="article-meta">
-      <span>
-        <i class="icon-calendar"></i>
-        <span>2020.10.27</span>
-      </span>
-
-      
-        <span class="article-author">
-          <i class="icon-user"></i>
-          <span>pz1o</span>
+      <div class="post-meta">
+        <span class="post-time">
+          2020-10-27
+        </span><span class="post-category">
+            <a href="/categories/%E9%80%86%E5%90%91/">逆向</a>
+            </span>
+        <span class="post-visits"
+             data-url="/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"
+             data-title="逆向工程核心原理读书笔记Book">
+          Visits 0
         </span>
-      
+        </div>
+    </header>
 
-      
-  <span class="article-category">
-    <i class="icon-list"></i>
-    <a class="article-category-link" href="/categories/%E9%80%86%E5%90%91/">逆向</a>
-  </span>
-
-
-
-      
-
-      
-      <i class="fa fa-eye"></i> 
-        <span id="busuanzi_container_page_pv">
-           &nbsp热度 <span id="busuanzi_value_page_pv">
-           <i class="fa fa-spinner fa-spin"></i></span>℃
-        </span>
-      
-      
+    <div class="post-toc" id="post-toc">
+    <h2 class="post-toc-title">Contents</h2>
+    <div class="post-toc-content">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#前言"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#第二章-逆向分析"><span class="toc-text">第二章 逆向分析</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#第四章-寄存器"><span class="toc-text">第四章 寄存器</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#第八章-crackme-2"><span class="toc-text">第八章 crackme#2</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#解密算法分析"><span class="toc-text">解密算法分析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-查找函数开始的部分"><span class="toc-text">1.查找函数开始的部分</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-预测代码"><span class="toc-text">2.预测代码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-定位关键函数"><span class="toc-text">3.定位关键函数</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#第十章-函数调用约定"><span class="toc-text">第十章 函数调用约定</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#10-1-函数调用约定"><span class="toc-text">10.1 函数调用约定</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#cdecl"><span class="toc-text">cdecl</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#stdcall"><span class="toc-text">stdcall</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#fastcall"><span class="toc-text">fastcall</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#第十三章-PE文件格式"><span class="toc-text">第十三章 PE文件格式</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#13-1-介绍"><span class="toc-text">13.1 介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#13-2-PE文件格式"><span class="toc-text">13.2 PE文件格式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-基本结构"><span class="toc-text">1.基本结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-VA-amp-RVA"><span class="toc-text">2.VA&amp;RVA</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#13-3-PE头"><span class="toc-text">13.3 PE头</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-DOS头"><span class="toc-text">1.DOS头</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-DOS存根"><span class="toc-text">2.DOS存根</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-NT头"><span class="toc-text">3.NT头</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-NT头：文件头"><span class="toc-text">4.NT头：文件头</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-可选头"><span class="toc-text">5.可选头</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-节区头"><span class="toc-text">6.节区头</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#13-4-RVAtoRAW"><span class="toc-text">13.4 RVAtoRAW</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#13-5-IAT"><span class="toc-text">13.5 IAT</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-dll"><span class="toc-text">1.dll</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-IMAGE-IMPORT-DESCRIPTOR"><span class="toc-text">2.IMAGE_IMPORT_DESCRIPTOR</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-练习"><span class="toc-text">3.练习</span></a></li></ol></li></ol></li></ol>
     </div>
-  </header>
-
-  <div class="article-content">
-    
-      <a id="more"></a>
+  </div><div class="post-content"><a id="more"></a>
 <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>预估三个月，但说不定为了赶其他的ddl，也就读不完了，尽力去吧。只记些重要的</p>
 <h1 id="第二章-逆向分析"><a href="#第二章-逆向分析" class="headerlink" title="第二章 逆向分析"></a>第二章 逆向分析</h1><p><strong>定位方法</strong></p>
 <ol>
@@ -446,161 +384,74 @@ ga('send', 'pageview');
 <p>但由于该dll文件ImageBase就是10000000，所以76344906就是该函数的地址</p>
 <p><img src="/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/image-20210310210426731.png" alt="image-20210310210426731"></p>
 
-    
+      </div>
+      <div class="post-copyright">
+    <p class="copyright-item">
+      <span>Author: </span>
+      <a href="https://pz1o.top">pz1o</a>
+    </p>
+    <p class="copyright-item">
+      <span>Link: </span>
+      <a href="https://pz1o.top/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">https://pz1o.top/2020/10/27/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/</a>
+    </p>
+    <p class="copyright-item">
+      <span>License: </span><a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>
+    </p>
   </div>
+      <footer class="post-footer">
+        <div class="post-tags">
+            <a href="/tags/book/">book</a>
+            </div>
+        
+        <nav class="post-nav"><a class="prev" href="/2020/11/28/CUMT2020%E5%85%A5%E9%97%A8%E8%B5%9B/">
+        <i class="iconfont icon-left"></i>
+        <span class="prev-text nav-default">CUMT2020入门赛</span>
+        <span class="prev-text nav-mobile">Prev</span>
+      </a>
+    <a class="next" href="/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/">
+        <span class="next-text nav-default">PWN学习</span>
+        <span class="prev-text nav-mobile">Next</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    </nav></footer>
+    </article></div><div class="comments" id="comments"></div></div>
+      </main>
 
-</article>
+      <footer id="footer" class="footer"><div class="social-links"><a href="mailto:pz1olzy@aliyun.com" class="iconfont icon-email" title="email"></a>
+        <a href="https://github.com/pz1o" target="_blank" rel="noopener" class="iconfont icon-github" title="github"></a>
+        <a href="/atom.xml" class="iconfont icon-rss" title="rss"></a>
+    </div><div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/ahonn/hexo-theme-even" target="_blank" rel="noopener">Even</a>
+  </span>
 
-
-   
-
-   
-  <div class="box-prev-next clearfix">
-    <a class="show pull-left" href="/2020/10/24/PWN%E5%AD%A6%E4%B9%A0/">
-        <i class="icon icon-angle-left"></i>
-    </a>
-    <a class="show pull-right" href="/2020/11/28/CUMT2020%E5%85%A5%E9%97%A8%E8%B5%9B/">
-        <i class="icon icon-angle-right"></i>
-    </a>
-  </div>
-
-
-
-
+  <span class="copyright-year">&copy;2020 - 2021<span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">pz1o</span>
+  </span>
 </div>
+</footer>
 
-
-  <a id="backTop" class="back-top">
-    <i class="icon-angle-up"></i>
-  </a>
-
-
-
-
-  <div class="modal" id="modal">
-  <span id="cover" class="cover hide"></span>
-  <div id="modal-dialog" class="modal-dialog hide-dialog">
-    <div class="modal-header">
-      <span id="close" class="btn-close">Close</span>
-    </div>
-    <hr>
-    <div class="modal-body">
-      <ul class="list-toolbox">
-        
-          <li class="item-toolbox">
-            <a
-              class="ROUND_RECT"
-              href="/archives/"
-              rel="noopener noreferrer"
-              target="_blank"
-              >
-              Blog
-            </a>
-          </li>
-        
-          <li class="item-toolbox">
-            <a
-              class="ROUND_RECT"
-              href="/tag/"
-              rel="noopener noreferrer"
-              target="_self"
-              >
-              Tag
-            </a>
-          </li>
-        
-          <li class="item-toolbox">
-            <a
-              class="ROUND_RECT"
-              href="/about/"
-              rel="noopener noreferrer"
-              target="_self"
-              >
-              About
-            </a>
-          </li>
-        
-      </ul>
-
-    </div>
-  </div>
-</div>
-
-
-
-  
-      <div class="fexo-comments comments-post">
-    
-
-    
-
-    
-    
-
-    
-
-    
-    
-
-    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
-    <script src="//cdn.jsdelivr.net/npm/valine@latest/dist/Valine.min.js"></script>
-    <div id="comment" class="vcomment" ></div>
-    <script>
-        var notify = 'true' == true ? true : false;
-        var verify = 'true' == true ? true : false;
-        var GUEST_INFO = ['nick','mail','link'];
-        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
-            return GUEST_INFO.indexOf(item) > -1
-        });
-        guest_info = guest_info.length == 0 ? GUEST_INFO :guest_info;
-        window.valine = new Valine({
-            el: '.vcomment',
-            notify: notify,
-            verify: verify,
-            appId: "KLWvKGPeSIyoEo4k6j3v37wy-gzGzoHsz",
-            appKey: "FL93w3BBbF9lxiR8X1HI58En",
-            avatar:'wavatar',
-            placeholder: "Just go go",
-            guest_info:guest_info,
-            pageSize:'6'
-        });
-    </script>
-  
-    
-
-  </div>
-
-  
-
-  <script type="text/javascript">
-  function loadScript(url, callback) {
-    var script = document.createElement('script')
-    script.type = 'text/javascript';
-
-    if (script.readyState) { //IE
-      script.onreadystatechange = function() {
-        if (script.readyState == 'loaded' ||
-          script.readyState == 'complete') {
-          script.onreadystatechange = null;
-          callback();
-        }
-      };
-    } else { //Others
-      script.onload = function() {
-        callback();
-      };
-    }
-
-    script.src = url;
-    document.getElementsByTagName('head')[0].appendChild(script);
-  }
-
-  window.onload = function() {
-    loadScript('/js/bundle.js?235683', function() {
-      // load success
-    });
-  }
-</script>
-
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
+    </div><!-- SOHUCS Comments -->
+<div id="SOHUCS"></div>
+<script type="text/javascript">
+(function(){
+var appid = 'cyvuAqBH5';
+var conf = 'f4f164c77381c58d639d8e00e69da6e7';
+var width = window.innerWidth || document.documentElement.clientWidth;
+if (width < 960) {window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); } })();
+</script><script type="text/javascript" src="/lib/jquery/jquery.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout.js"></script>
+  <script type="text/javascript" src="/lib/fancybox/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/src/even.js?v=2.11.0"></script>
 </body>
 </html>

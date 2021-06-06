@@ -1,187 +1,136 @@
 <!DOCTYPE html>
+<html lang="en">
+  <head><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
 
-  <html class="dark page-post">
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
 
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
-<head>
-  <meta charset="utf-8">
-  
-  <title>堆漏洞及其利用 | pz1o</title>
+<meta name="description" content="堆漏洞及其利用"/><meta name="keywords" content="CTF" /><link rel="alternate" href="/atom.xml" title="pz1o"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.11.0" />
+<link rel="canonical" href="https://pz1o.top/2020/12/22/堆漏洞及其利用/"/>
 
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<link rel="stylesheet" type="text/css" href="/lib/fancybox/jquery.fancybox.css" /><script type="text/x-mathjax-config">
+    MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] } });
+  </script>
+  <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=2.11.0" />
 
-  
-    <meta name="keywords" content="PWN," />
-  
-
-  <meta name="description" content="堆基础和堆漏洞还是分开比较好 这样看着也比较整齐 堆漏洞0x01 Off By One1.概念off-by-one 是指单字节缓冲区溢出，这种漏洞的产生往往与边界验证不严和字符串操作有关，当然也不排除写入的 size 正好就只多了一个字节的情况。 2.利用思路(1) 溢出字节为可控制任意字节：通过修改大小造成块结构之间出现重叠，从而泄露其他块数据，或是覆盖其他块数据。 (2) 溢出字节为 NULL">
-<meta property="og:type" content="article">
-<meta property="og:title" content="堆漏洞及其利用">
-<meta property="og:url" content="https://pz1o.top/2020/12/22/%E5%A0%86%E6%BC%8F%E6%B4%9E%E5%8F%8A%E5%85%B6%E5%88%A9%E7%94%A8/index.html">
-<meta property="og:site_name" content="pz1o">
-<meta property="og:description" content="堆基础和堆漏洞还是分开比较好 这样看着也比较整齐 堆漏洞0x01 Off By One1.概念off-by-one 是指单字节缓冲区溢出，这种漏洞的产生往往与边界验证不严和字符串操作有关，当然也不排除写入的 size 正好就只多了一个字节的情况。 2.利用思路(1) 溢出字节为可控制任意字节：通过修改大小造成块结构之间出现重叠，从而泄露其他块数据，或是覆盖其他块数据。 (2) 溢出字节为 NULL">
-<meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://pz1o.top/2020/12/22/%E5%A0%86%E6%BC%8F%E6%B4%9E%E5%8F%8A%E5%85%B6%E5%88%A9%E7%94%A8/image-20201219141904042.png">
-<meta property="og:image" content="https://pz1o.top/2020/12/22/%E5%A0%86%E6%BC%8F%E6%B4%9E%E5%8F%8A%E5%85%B6%E5%88%A9%E7%94%A8/image-20201219142302977.png">
-<meta property="og:image" content="https://pz1o.top/2020/12/22/%E5%A0%86%E6%BC%8F%E6%B4%9E%E5%8F%8A%E5%85%B6%E5%88%A9%E7%94%A8/image-20201219145625345.png">
-<meta property="og:image" content="https://pz1o.top/2020/12/22/%E5%A0%86%E6%BC%8F%E6%B4%9E%E5%8F%8A%E5%85%B6%E5%88%A9%E7%94%A8/image-20201219160532780.png">
-<meta property="og:image" content="https://pz1o.top/2020/12/22/%E5%A0%86%E6%BC%8F%E6%B4%9E%E5%8F%8A%E5%85%B6%E5%88%A9%E7%94%A8/image-20201219160630662.png">
-<meta property="og:image" content="https://pz1o.top/2020/12/22/%E5%A0%86%E6%BC%8F%E6%B4%9E%E5%8F%8A%E5%85%B6%E5%88%A9%E7%94%A8/image-20201219214608484.png">
-<meta property="og:image" content="https://pz1o.top/2020/12/22/%E5%A0%86%E6%BC%8F%E6%B4%9E%E5%8F%8A%E5%85%B6%E5%88%A9%E7%94%A8/image-20201219214801301.png">
-<meta property="og:image" content="https://pz1o.top/2020/12/22/%E5%A0%86%E6%BC%8F%E6%B4%9E%E5%8F%8A%E5%85%B6%E5%88%A9%E7%94%A8/image-20201219214832357.png">
-<meta property="og:image" content="https://pz1o.top/2020/12/22/%E5%A0%86%E6%BC%8F%E6%B4%9E%E5%8F%8A%E5%85%B6%E5%88%A9%E7%94%A8/image-20201219215247031.png">
-<meta property="og:image" content="https://pz1o.top/2020/12/22/%E5%A0%86%E6%BC%8F%E6%B4%9E%E5%8F%8A%E5%85%B6%E5%88%A9%E7%94%A8/image-20201219215357168.png">
-<meta property="og:image" content="https://pz1o.top/2020/12/22/%E5%A0%86%E6%BC%8F%E6%B4%9E%E5%8F%8A%E5%85%B6%E5%88%A9%E7%94%A8/image-20201219215517292.png">
-<meta property="og:image" content="https://pz1o.top/2020/12/22/%E5%A0%86%E6%BC%8F%E6%B4%9E%E5%8F%8A%E5%85%B6%E5%88%A9%E7%94%A8/image-20201219220938551.png">
-<meta property="og:image" content="https://pz1o.top/2020/12/22/%E5%A0%86%E6%BC%8F%E6%B4%9E%E5%8F%8A%E5%85%B6%E5%88%A9%E7%94%A8/image-20201219221233429.png">
-<meta property="og:image" content="https://pz1o.top/2020/12/22/%E5%A0%86%E6%BC%8F%E6%B4%9E%E5%8F%8A%E5%85%B6%E5%88%A9%E7%94%A8/image-20201219221322641.png">
-<meta property="og:image" content="https://pz1o.top/2020/12/22/%E5%A0%86%E6%BC%8F%E6%B4%9E%E5%8F%8A%E5%85%B6%E5%88%A9%E7%94%A8/image-20201219221445409.png">
-<meta property="og:image" content="https://pz1o.top/2020/12/22/%E5%A0%86%E6%BC%8F%E6%B4%9E%E5%8F%8A%E5%85%B6%E5%88%A9%E7%94%A8/unlink_smallbin_intro.png">
-<meta property="og:image" content="https://pz1o.top/2020/12/22/%E5%A0%86%E6%BC%8F%E6%B4%9E%E5%8F%8A%E5%85%B6%E5%88%A9%E7%94%A8/JgR9imeK6YMQ2rZ.png">
-<meta property="og:image" content="https://pz1o.top/2020/12/22/%E5%A0%86%E6%BC%8F%E6%B4%9E%E5%8F%8A%E5%85%B6%E5%88%A9%E7%94%A8/old_unlink_vul.png">
-<meta property="og:image" content="https://pz1o.top/2020/12/22/%E5%A0%86%E6%BC%8F%E6%B4%9E%E5%8F%8A%E5%85%B6%E5%88%A9%E7%94%A8/BTQOKLG2XSyHqge.png">
-<meta property="og:image" content="https://pz1o.top/2020/12/22/%E5%A0%86%E6%BC%8F%E6%B4%9E%E5%8F%8A%E5%85%B6%E5%88%A9%E7%94%A8/image-20201222212418753.png">
-<meta property="og:image" content="https://pz1o.top/2020/12/22/%E5%A0%86%E6%BC%8F%E6%B4%9E%E5%8F%8A%E5%85%B6%E5%88%A9%E7%94%A8/image-20201222212555394.png">
-<meta property="og:image" content="https://pz1o.top/2020/12/22/%E5%A0%86%E6%BC%8F%E6%B4%9E%E5%8F%8A%E5%85%B6%E5%88%A9%E7%94%A8/image-20201222213058942.png">
-<meta property="og:image" content="https://pz1o.top/2020/12/22/%E5%A0%86%E6%BC%8F%E6%B4%9E%E5%8F%8A%E5%85%B6%E5%88%A9%E7%94%A8/image-20201222213335526.png">
-<meta property="og:image" content="https://pz1o.top/2020/12/22/%E5%A0%86%E6%BC%8F%E6%B4%9E%E5%8F%8A%E5%85%B6%E5%88%A9%E7%94%A8/image-20201222164945226.png">
-<meta property="og:image" content="https://pz1o.top/2020/12/22/%E5%A0%86%E6%BC%8F%E6%B4%9E%E5%8F%8A%E5%85%B6%E5%88%A9%E7%94%A8/unsorted_bin_attack_order.png">
-<meta property="article:published_time" content="2020-12-22T13:17:06.000Z">
-<meta property="article:modified_time" content="2021-04-18T15:10:04.034Z">
-<meta property="article:author" content="pz1o">
-<meta property="article:tag" content="PWN">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://pz1o.top/2020/12/22/%E5%A0%86%E6%BC%8F%E6%B4%9E%E5%8F%8A%E5%85%B6%E5%88%A9%E7%94%A8/image-20201219141904042.png">
-
-  
-
-  
-    <link rel="icon" href="/favicon.ico">
-  
-
-  <link href="/css/styles.css?v=c114cbeddx" rel="stylesheet">
-
-
-  
-    
-<link rel="stylesheet" href="/css/personal-style.css">
-
-  
-
-  
-<!-- Google Analytics -->
-<script type="text/javascript">
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-ga('create', 'UA-38189205-1', 'auto');
-ga('send', 'pageview');
-
-</script>
-<!-- End Google Analytics -->
-
-
-  
-  <script type="text/javascript">
+<script id="baidu_analytics">
     var _hmt = _hmt || [];
     (function() {
       var hm = document.createElement("script");
-      hm.src = "//hm.baidu.com/hm.js?e90b4c8b8c36ca2b3e5798ef67088f84";
+      hm.src = "https://hm.baidu.com/hm.js?e90b4c8b8c36ca2b3e5798ef67088f84";
       var s = document.getElementsByTagName("script")[0];
       s.parentNode.insertBefore(hm, s);
     })();
-  </script>
+  </script><script id="baidu_push">
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+<script src="//cdn1.lncld.net/static/js/3.1.1/av-min.js"></script>
+  <script id="leancloud">
+    AV.init({
+      appId: "KLWvKGPeSIyoEo4k6j3v37wy-gzGzoHsz",
+      appKey: "FL93w3BBbF9lxiR8X1HI58En"
+    });
+  </script><script>
+  window.config = {"leancloud":{"app_id":"KLWvKGPeSIyoEo4k6j3v37wy-gzGzoHsz","app_key":"FL93w3BBbF9lxiR8X1HI58En"},"toc":true,"fancybox":true,"pjax":"","latex":true};
+</script>
 
-
-  
-  <script type="text/javascript">
-	(function(){
-	    var bp = document.createElement('script');
-	    var curProtocol = window.location.protocol.split(':')[0];
-	    if (curProtocol === 'https') {
-	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
-	    }
-	    else {
-	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
-	    }
-	    var s = document.getElementsByTagName("script")[0];
-	    s.parentNode.insertBefore(bp, s);
-	})();
-  </script>
-
-
-
-  
-    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
-  
-
-<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="pz1o" type="application/atom+xml">
+    <title>堆漏洞及其利用 - pz1o</title>
+  <meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="pz1o" type="application/atom+xml">
 </head>
 
-<body>
-
-
-  
-
-  <div class="post-header">
-   
-
+  <body><div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/." class="logo">pz1o</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
 </div>
 
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list"><a href="/archives/">
+        <li class="mobile-menu-item">Home
+          </li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags
+          </li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About
+          </li>
+      </a></ul>
+</nav>
+<div class="container" id="mobile-panel">
+      <header id="header" class="header"><div class="logo-wrapper">
+  <a href="/." class="logo">pz1o</a>
+</div>
 
-  <div id="toc" class="toc-article">
-    <strong class="toc-title">Posts List</strong>
-    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#堆漏洞"><span class="toc-text">堆漏洞</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01-Off-By-One"><span class="toc-text">0x01 Off By One</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-概念"><span class="toc-text">1.概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-利用思路"><span class="toc-text">2.利用思路</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-演示"><span class="toc-text">3.演示</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x02-Use-After-Free"><span class="toc-text">0x02 Use After Free</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-概念-1"><span class="toc-text">1.概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-利用条件"><span class="toc-text">2.利用条件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-演示-1"><span class="toc-text">3.演示</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x03-Double-Free"><span class="toc-text">0x03 Double Free</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-概念-2"><span class="toc-text">1.概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-演示"><span class="toc-text">2.演示</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x04-overlap"><span class="toc-text">0x04 overlap</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-概念-3"><span class="toc-text">1.概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-利用条件-1"><span class="toc-text">2.利用条件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-演示1（fastbin）"><span class="toc-text">3.演示1（fastbin）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-演示2（smallbin）"><span class="toc-text">4.演示2（smallbin）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-演示3（向前overlap）"><span class="toc-text">5.演示3（向前overlap）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x05-unlink"><span class="toc-text">0x05 unlink</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-概念-4"><span class="toc-text">1.概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-发生场景"><span class="toc-text">2.发生场景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-古老的unlink"><span class="toc-text">3.古老的unlink</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-新的unlink"><span class="toc-text">4.新的unlink</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-利用条件"><span class="toc-text">5.利用条件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-效果"><span class="toc-text">6.效果</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x06-house-of-force"><span class="toc-text">0x06 house of force</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-原理"><span class="toc-text">1.原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-利用条件-2"><span class="toc-text">2.利用条件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x07-fastbin-attack"><span class="toc-text">0x07 fastbin attack</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x08-unsorted-bin-attack"><span class="toc-text">0x08 unsorted bin attack</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-概念-5"><span class="toc-text">1.概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-使用情况"><span class="toc-text">2.使用情况</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-原理解释"><span class="toc-text">3.原理解释</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-演示"><span class="toc-text">4.演示</span></a></li></ol></li></ol></li></ol>
-  </div>
+<nav class="site-navbar"><ul id="menu" class="menu"><li class="menu-item">
+          <a class="menu-item-link" href="/archives/">
+            Home
+            </a>
+        </li>
+      <li class="menu-item">
+          <a class="menu-item-link" href="/tags/">
+            Tags
+            </a>
+        </li>
+      <li class="menu-item">
+          <a class="menu-item-link" href="/about/">
+            About
+            </a>
+        </li>
+      </ul></nav>
+</header>
 
+      <main id="main" class="main">
+        <div class="content-wrapper">
+          <div id="content" class="content"><article class="post">
+    <header class="post-header">
+      <h1 class="post-title">堆漏洞及其利用
+        </h1>
 
-
-<div class="content content-post CENTER">
-   <article id="post-堆漏洞及其利用" class="article article-type-post" itemprop="blogPost">
-  <header class="article-header">
-    <h1 class="post-title">堆漏洞及其利用</h1>
-
-    <div class="article-meta">
-      <span>
-        <i class="icon-calendar"></i>
-        <span>2020.12.22</span>
-      </span>
-
-      
-        <span class="article-author">
-          <i class="icon-user"></i>
-          <span>pz1o</span>
+      <div class="post-meta">
+        <span class="post-time">
+          2020-12-22
+        </span><span class="post-category">
+            <a href="/categories/PWN/">PWN</a>
+            </span>
+        <span class="post-visits"
+             data-url="/2020/12/22/%E5%A0%86%E6%BC%8F%E6%B4%9E%E5%8F%8A%E5%85%B6%E5%88%A9%E7%94%A8/"
+             data-title="堆漏洞及其利用">
+          Visits 0
         </span>
-      
+        </div>
+    </header>
 
-      
-  <span class="article-category">
-    <i class="icon-list"></i>
-    <a class="article-category-link" href="/categories/PWN/">PWN</a>
-  </span>
-
-
-
-      
-
-      
-      <i class="fa fa-eye"></i> 
-        <span id="busuanzi_container_page_pv">
-           &nbsp热度 <span id="busuanzi_value_page_pv">
-           <i class="fa fa-spinner fa-spin"></i></span>℃
-        </span>
-      
-      
+    <div class="post-toc" id="post-toc">
+    <h2 class="post-toc-title">Contents</h2>
+    <div class="post-toc-content">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#堆漏洞"><span class="toc-text">堆漏洞</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01-Off-By-One"><span class="toc-text">0x01 Off By One</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-概念"><span class="toc-text">1.概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-利用思路"><span class="toc-text">2.利用思路</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-演示"><span class="toc-text">3.演示</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x02-Use-After-Free"><span class="toc-text">0x02 Use After Free</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-概念-1"><span class="toc-text">1.概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-利用条件"><span class="toc-text">2.利用条件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-演示-1"><span class="toc-text">3.演示</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x03-Double-Free"><span class="toc-text">0x03 Double Free</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-概念-2"><span class="toc-text">1.概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-演示"><span class="toc-text">2.演示</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x04-overlap"><span class="toc-text">0x04 overlap</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-概念-3"><span class="toc-text">1.概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-利用条件-1"><span class="toc-text">2.利用条件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-演示1（fastbin）"><span class="toc-text">3.演示1（fastbin）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-演示2（smallbin）"><span class="toc-text">4.演示2（smallbin）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-演示3（向前overlap）"><span class="toc-text">5.演示3（向前overlap）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x05-unlink"><span class="toc-text">0x05 unlink</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-概念-4"><span class="toc-text">1.概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-发生场景"><span class="toc-text">2.发生场景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-古老的unlink"><span class="toc-text">3.古老的unlink</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-新的unlink"><span class="toc-text">4.新的unlink</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-利用条件"><span class="toc-text">5.利用条件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-效果"><span class="toc-text">6.效果</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x06-house-of-force"><span class="toc-text">0x06 house of force</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-原理"><span class="toc-text">1.原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-利用条件-2"><span class="toc-text">2.利用条件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x07-fastbin-attack"><span class="toc-text">0x07 fastbin attack</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x08-unsorted-bin-attack"><span class="toc-text">0x08 unsorted bin attack</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-概念-5"><span class="toc-text">1.概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-使用情况"><span class="toc-text">2.使用情况</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-原理解释"><span class="toc-text">3.原理解释</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-演示"><span class="toc-text">4.演示</span></a></li></ol></li></ol></li></ol>
     </div>
-  </header>
-
-  <div class="article-content">
-    
-      <p>堆基础和堆漏洞还是分开比较好</p>
+  </div><div class="post-content"><p>堆基础和堆漏洞还是分开比较好</p>
 <p>这样看着也比较整齐</p>
 <h1 id="堆漏洞"><a href="#堆漏洞" class="headerlink" title="堆漏洞"></a>堆漏洞</h1><h2 id="0x01-Off-By-One"><a href="#0x01-Off-By-One" class="headerlink" title="0x01 Off By One"></a>0x01 Off By One</h2><h3 id="1-概念"><a href="#1-概念" class="headerlink" title="1.概念"></a>1.概念</h3><p>off-by-one 是指单字节缓冲区溢出，这种漏洞的产生往往与边界验证不严和字符串操作有关，当然也不排除写入的 size 正好就只多了一个字节的情况。</p>
 <h3 id="2-利用思路"><a href="#2-利用思路" class="headerlink" title="2.利用思路"></a>2.利用思路</h3><p>(1) 溢出字节为可控制任意字节：通过修改大小造成块结构之间出现重叠，从而泄露其他块数据，或是覆盖其他块数据。</p>
@@ -365,161 +314,74 @@ ga('send', 'pageview');
 <p>修改 target 处的值为 unsorted bin 的链表头部 0x7f1c705ffb78，也就是之前输出的信息。我们可以看到 unsorted bin attack 确实可以修改任意地址的值，但是所修改成的值却不受我们控制，唯一可以知道的是，这个值比较大。</p>
 </blockquote>
 
-    
+      </div>
+      <div class="post-copyright">
+    <p class="copyright-item">
+      <span>Author: </span>
+      <a href="https://pz1o.top">pz1o</a>
+    </p>
+    <p class="copyright-item">
+      <span>Link: </span>
+      <a href="https://pz1o.top/2020/12/22/%E5%A0%86%E6%BC%8F%E6%B4%9E%E5%8F%8A%E5%85%B6%E5%88%A9%E7%94%A8/">https://pz1o.top/2020/12/22/%E5%A0%86%E6%BC%8F%E6%B4%9E%E5%8F%8A%E5%85%B6%E5%88%A9%E7%94%A8/</a>
+    </p>
+    <p class="copyright-item">
+      <span>License: </span><a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>
+    </p>
   </div>
+      <footer class="post-footer">
+        <div class="post-tags">
+            <a href="/tags/PWN/">PWN</a>
+            </div>
+        
+        <nav class="post-nav"><a class="prev" href="/2020/12/26/CUMTCTF2020%E5%B2%81%E6%9C%AB%E8%B5%9B/">
+        <i class="iconfont icon-left"></i>
+        <span class="prev-text nav-default">CUMTCTF2020岁末赛</span>
+        <span class="prev-text nav-mobile">Prev</span>
+      </a>
+    <a class="next" href="/2020/12/16/plt%E8%A1%A8%E5%92%8Cgot%E8%A1%A8/">
+        <span class="next-text nav-default">plt表和got表</span>
+        <span class="prev-text nav-mobile">Next</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    </nav></footer>
+    </article></div><div class="comments" id="comments"></div></div>
+      </main>
 
-</article>
+      <footer id="footer" class="footer"><div class="social-links"><a href="mailto:pz1olzy@aliyun.com" class="iconfont icon-email" title="email"></a>
+        <a href="https://github.com/pz1o" target="_blank" rel="noopener" class="iconfont icon-github" title="github"></a>
+        <a href="/atom.xml" class="iconfont icon-rss" title="rss"></a>
+    </div><div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/ahonn/hexo-theme-even" target="_blank" rel="noopener">Even</a>
+  </span>
 
-
-   
-
-   
-  <div class="box-prev-next clearfix">
-    <a class="show pull-left" href="/2020/12/16/plt%E8%A1%A8%E5%92%8Cgot%E8%A1%A8/">
-        <i class="icon icon-angle-left"></i>
-    </a>
-    <a class="show pull-right" href="/2020/12/26/CUMTCTF2020%E5%B2%81%E6%9C%AB%E8%B5%9B/">
-        <i class="icon icon-angle-right"></i>
-    </a>
-  </div>
-
-
-
-
+  <span class="copyright-year">&copy;2020 - 2021<span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">pz1o</span>
+  </span>
 </div>
+</footer>
 
-
-  <a id="backTop" class="back-top">
-    <i class="icon-angle-up"></i>
-  </a>
-
-
-
-
-  <div class="modal" id="modal">
-  <span id="cover" class="cover hide"></span>
-  <div id="modal-dialog" class="modal-dialog hide-dialog">
-    <div class="modal-header">
-      <span id="close" class="btn-close">Close</span>
-    </div>
-    <hr>
-    <div class="modal-body">
-      <ul class="list-toolbox">
-        
-          <li class="item-toolbox">
-            <a
-              class="ROUND_RECT"
-              href="/archives/"
-              rel="noopener noreferrer"
-              target="_blank"
-              >
-              Blog
-            </a>
-          </li>
-        
-          <li class="item-toolbox">
-            <a
-              class="ROUND_RECT"
-              href="/tag/"
-              rel="noopener noreferrer"
-              target="_self"
-              >
-              Tag
-            </a>
-          </li>
-        
-          <li class="item-toolbox">
-            <a
-              class="ROUND_RECT"
-              href="/about/"
-              rel="noopener noreferrer"
-              target="_self"
-              >
-              About
-            </a>
-          </li>
-        
-      </ul>
-
-    </div>
-  </div>
-</div>
-
-
-
-  
-      <div class="fexo-comments comments-post">
-    
-
-    
-
-    
-    
-
-    
-
-    
-    
-
-    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
-    <script src="//cdn.jsdelivr.net/npm/valine@latest/dist/Valine.min.js"></script>
-    <div id="comment" class="vcomment" ></div>
-    <script>
-        var notify = 'true' == true ? true : false;
-        var verify = 'true' == true ? true : false;
-        var GUEST_INFO = ['nick','mail','link'];
-        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
-            return GUEST_INFO.indexOf(item) > -1
-        });
-        guest_info = guest_info.length == 0 ? GUEST_INFO :guest_info;
-        window.valine = new Valine({
-            el: '.vcomment',
-            notify: notify,
-            verify: verify,
-            appId: "KLWvKGPeSIyoEo4k6j3v37wy-gzGzoHsz",
-            appKey: "FL93w3BBbF9lxiR8X1HI58En",
-            avatar:'wavatar',
-            placeholder: "Just go go",
-            guest_info:guest_info,
-            pageSize:'6'
-        });
-    </script>
-  
-    
-
-  </div>
-
-  
-
-  <script type="text/javascript">
-  function loadScript(url, callback) {
-    var script = document.createElement('script')
-    script.type = 'text/javascript';
-
-    if (script.readyState) { //IE
-      script.onreadystatechange = function() {
-        if (script.readyState == 'loaded' ||
-          script.readyState == 'complete') {
-          script.onreadystatechange = null;
-          callback();
-        }
-      };
-    } else { //Others
-      script.onload = function() {
-        callback();
-      };
-    }
-
-    script.src = url;
-    document.getElementsByTagName('head')[0].appendChild(script);
-  }
-
-  window.onload = function() {
-    loadScript('/js/bundle.js?235683', function() {
-      // load success
-    });
-  }
-</script>
-
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
+    </div><!-- SOHUCS Comments -->
+<div id="SOHUCS"></div>
+<script type="text/javascript">
+(function(){
+var appid = 'cyvuAqBH5';
+var conf = 'f4f164c77381c58d639d8e00e69da6e7';
+var width = window.innerWidth || document.documentElement.clientWidth;
+if (width < 960) {window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); } })();
+</script><script type="text/javascript" src="/lib/jquery/jquery.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout.js"></script>
+  <script type="text/javascript" src="/lib/fancybox/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/src/even.js?v=2.11.0"></script>
 </body>
 </html>

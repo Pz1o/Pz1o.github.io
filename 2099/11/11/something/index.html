@@ -1,311 +1,193 @@
 <!DOCTYPE html>
+<html lang="en">
+  <head><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
 
-  <html class="dark page-post">
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
 
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
-<head>
-  <meta charset="utf-8">
-  
-  <title>something | pz1o</title>
+<meta name="description" content="something"/><meta name="keywords" content="CTF" /><link rel="alternate" href="/atom.xml" title="pz1o"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.11.0" />
+<link rel="canonical" href="https://pz1o.top/2099/11/11/something/"/>
 
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<link rel="stylesheet" type="text/css" href="/lib/fancybox/jquery.fancybox.css" /><script type="text/x-mathjax-config">
+    MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] } });
+  </script>
+  <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=2.11.0" />
 
-  
-    <meta name="keywords" content="CUMT.CUMTCTF,CTF,pz1o,PWN" />
-  
-
-  <meta name="description" content="正经人谁写这种东西">
-<meta property="og:type" content="article">
-<meta property="og:title" content="something">
-<meta property="og:url" content="https://pz1o.top/2099/11/11/something/index.html">
-<meta property="og:site_name" content="pz1o">
-<meta property="og:description" content="正经人谁写这种东西">
-<meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2099-11-10T16:00:00.000Z">
-<meta property="article:modified_time" content="2021-05-09T16:51:05.154Z">
-<meta property="article:author" content="pz1o">
-<meta property="article:tag" content="CTF">
-<meta name="twitter:card" content="summary">
-
-  
-
-  
-    <link rel="icon" href="/favicon.ico">
-  
-
-  <link href="/css/styles.css?v=c114cbeddx" rel="stylesheet">
-
-
-  
-    
-<link rel="stylesheet" href="/css/personal-style.css">
-
-  
-
-  
-<!-- Google Analytics -->
-<script type="text/javascript">
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-ga('create', 'UA-38189205-1', 'auto');
-ga('send', 'pageview');
-
-</script>
-<!-- End Google Analytics -->
-
-
-  
-  <script type="text/javascript">
+<script id="baidu_analytics">
     var _hmt = _hmt || [];
     (function() {
       var hm = document.createElement("script");
-      hm.src = "//hm.baidu.com/hm.js?e90b4c8b8c36ca2b3e5798ef67088f84";
+      hm.src = "https://hm.baidu.com/hm.js?e90b4c8b8c36ca2b3e5798ef67088f84";
       var s = document.getElementsByTagName("script")[0];
       s.parentNode.insertBefore(hm, s);
     })();
-  </script>
-
-
-  
-  <script type="text/javascript">
-	(function(){
-	    var bp = document.createElement('script');
-	    var curProtocol = window.location.protocol.split(':')[0];
-	    if (curProtocol === 'https') {
-	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
-	    }
-	    else {
-	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
-	    }
-	    var s = document.getElementsByTagName("script")[0];
-	    s.parentNode.insertBefore(bp, s);
-	})();
-  </script>
-
-
-
-  
-    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
-  
-
-<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="pz1o" type="application/atom+xml">
-</head>
-
-<body>
-
-
-  
-
-  <div class="post-header">
-   
-
-</div>
-
-
-  <div id="toc" class="toc-article">
-    <strong class="toc-title">Posts List</strong>
-    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#encrypt-message"><span class="toc-text">正经人谁写这种东西</span></a></li></ol>
-  </div>
-
-
-
-<div class="content content-post CENTER">
-   <article id="post-something" class="article article-type-post" itemprop="blogPost">
-  <header class="article-header">
-    <h1 class="post-title">something</h1>
-
-    <div class="article-meta">
-      <span>
-        <i class="icon-calendar"></i>
-        <span>2099.11.11</span>
-      </span>
-
-      
-        <span class="article-author">
-          <i class="icon-user"></i>
-          <span>pz1o</span>
-        </span>
-      
-
-      
-
-
-      
-
-      
-      <i class="fa fa-eye"></i> 
-        <span id="busuanzi_container_page_pv">
-           &nbsp热度 <span id="busuanzi_value_page_pv">
-           <i class="fa fa-spinner fa-spin"></i></span>℃
-        </span>
-      
-      
-    </div>
-  </header>
-
-  <div class="article-content">
-    
-      <script src="/crypto-js.js"></script><script src="/mcommon.js"></script><h3 id="encrypt-message">正经人谁写这种东西</h3><link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css"> <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap-theme.min.css"> <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script> <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script> <div id="security"> <div> <div class="input-group"> <input type="text" class="form-control" aria-label="Enter the password." id="pass"> <div class="input-group-btn"> <button type="button" class="btn btn-default" onclick="decryptAES()">Decrypt</button> </div> </div> </div> </div> <div id="encrypt-blog" style="display:none"> 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 </div>
-    
-  </div>
-
-</article>
-
-
-   
-
-   
-  <div class="box-prev-next clearfix">
-    <a class="show pull-left" href="/2099/09/27/Flag/">
-        <i class="icon icon-angle-left"></i>
-    </a>
-    <a class="hide pull-right" href="/">
-        <i class="icon icon-angle-right"></i>
-    </a>
-  </div>
-
-
-
-
-</div>
-
-
-  <a id="backTop" class="back-top">
-    <i class="icon-angle-up"></i>
-  </a>
-
-
-
-
-  <div class="modal" id="modal">
-  <span id="cover" class="cover hide"></span>
-  <div id="modal-dialog" class="modal-dialog hide-dialog">
-    <div class="modal-header">
-      <span id="close" class="btn-close">Close</span>
-    </div>
-    <hr>
-    <div class="modal-body">
-      <ul class="list-toolbox">
-        
-          <li class="item-toolbox">
-            <a
-              class="ROUND_RECT"
-              href="/archives/"
-              rel="noopener noreferrer"
-              target="_blank"
-              >
-              Blog
-            </a>
-          </li>
-        
-          <li class="item-toolbox">
-            <a
-              class="ROUND_RECT"
-              href="/tag/"
-              rel="noopener noreferrer"
-              target="_self"
-              >
-              Tag
-            </a>
-          </li>
-        
-          <li class="item-toolbox">
-            <a
-              class="ROUND_RECT"
-              href="/about/"
-              rel="noopener noreferrer"
-              target="_self"
-              >
-              About
-            </a>
-          </li>
-        
-      </ul>
-
-    </div>
-  </div>
-</div>
-
-
-
-  
-      <div class="fexo-comments comments-post">
-    
-
-    
-
-    
-    
-
-    
-
-    
-    
-
-    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
-    <script src="//cdn.jsdelivr.net/npm/valine@latest/dist/Valine.min.js"></script>
-    <div id="comment" class="vcomment" ></div>
-    <script>
-        var notify = 'true' == true ? true : false;
-        var verify = 'true' == true ? true : false;
-        var GUEST_INFO = ['nick','mail','link'];
-        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
-            return GUEST_INFO.indexOf(item) > -1
-        });
-        guest_info = guest_info.length == 0 ? GUEST_INFO :guest_info;
-        window.valine = new Valine({
-            el: '.vcomment',
-            notify: notify,
-            verify: verify,
-            appId: "KLWvKGPeSIyoEo4k6j3v37wy-gzGzoHsz",
-            appKey: "FL93w3BBbF9lxiR8X1HI58En",
-            avatar:'wavatar',
-            placeholder: "Just go go",
-            guest_info:guest_info,
-            pageSize:'6'
-        });
-    </script>
-  
-    
-
-  </div>
-
-  
-
-  <script type="text/javascript">
-  function loadScript(url, callback) {
-    var script = document.createElement('script')
-    script.type = 'text/javascript';
-
-    if (script.readyState) { //IE
-      script.onreadystatechange = function() {
-        if (script.readyState == 'loaded' ||
-          script.readyState == 'complete') {
-          script.onreadystatechange = null;
-          callback();
-        }
-      };
-    } else { //Others
-      script.onload = function() {
-        callback();
-      };
+  </script><script id="baidu_push">
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
     }
-
-    script.src = url;
-    document.getElementsByTagName('head')[0].appendChild(script);
-  }
-
-  window.onload = function() {
-    loadScript('/js/bundle.js?235683', function() {
-      // load success
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+<script src="//cdn1.lncld.net/static/js/3.1.1/av-min.js"></script>
+  <script id="leancloud">
+    AV.init({
+      appId: "KLWvKGPeSIyoEo4k6j3v37wy-gzGzoHsz",
+      appKey: "FL93w3BBbF9lxiR8X1HI58En"
     });
-  }
+  </script><script>
+  window.config = {"leancloud":{"app_id":"KLWvKGPeSIyoEo4k6j3v37wy-gzGzoHsz","app_key":"FL93w3BBbF9lxiR8X1HI58En"},"toc":true,"fancybox":true,"pjax":"","latex":true};
 </script>
 
+    <title>something - pz1o</title>
+  <meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="pz1o" type="application/atom+xml">
+</head>
+
+  <body><div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/." class="logo">pz1o</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list"><a href="/archives/">
+        <li class="mobile-menu-item">Home
+          </li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags
+          </li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About
+          </li>
+      </a></ul>
+</nav>
+<div class="container" id="mobile-panel">
+      <header id="header" class="header"><div class="logo-wrapper">
+  <a href="/." class="logo">pz1o</a>
+</div>
+
+<nav class="site-navbar"><ul id="menu" class="menu"><li class="menu-item">
+          <a class="menu-item-link" href="/archives/">
+            Home
+            </a>
+        </li>
+      <li class="menu-item">
+          <a class="menu-item-link" href="/tags/">
+            Tags
+            </a>
+        </li>
+      <li class="menu-item">
+          <a class="menu-item-link" href="/about/">
+            About
+            </a>
+        </li>
+      </ul></nav>
+</header>
+
+      <main id="main" class="main">
+        <div class="content-wrapper">
+          <div id="content" class="content"><article class="post">
+    <header class="post-header">
+      <h1 class="post-title">something
+        </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2099-11-11
+        </span><span class="post-visits"
+             data-url="/2099/11/11/something/"
+             data-title="something">
+          Visits 0
+        </span>
+        </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+    <h2 class="post-toc-title">Contents</h2>
+    <div class="post-toc-content">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#encrypt-message"><span class="toc-text">正经人谁写这种东西</span></a></li></ol>
+    </div>
+  </div><div class="post-content"><script src="/crypto-js.js"></script><script src="/mcommon.js"></script><h3 id="encrypt-message">正经人谁写这种东西</h3><link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css"> <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap-theme.min.css"> <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script> <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script> <div id="security"> <div> <div class="input-group"> <input type="text" class="form-control" aria-label="Enter the password." id="pass"> <div class="input-group-btn"> <button type="button" class="btn btn-default" onclick="decryptAES()">Decrypt</button> </div> </div> </div> </div> <div id="encrypt-blog" style="display:none"> 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 </div>
+      </div>
+      <div class="post-copyright">
+    <p class="copyright-item">
+      <span>Author: </span>
+      <a href="https://pz1o.top">pz1o</a>
+    </p>
+    <p class="copyright-item">
+      <span>Link: </span>
+      <a href="https://pz1o.top/2099/11/11/something/">https://pz1o.top/2099/11/11/something/</a>
+    </p>
+    <p class="copyright-item">
+      <span>License: </span><a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>
+    </p>
+  </div>
+      <footer class="post-footer">
+        
+        <nav class="post-nav"><a class="next" href="/2099/09/27/Flag/">
+        <span class="next-text nav-default">Flag</span>
+        <span class="prev-text nav-mobile">Next</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    </nav></footer>
+    </article></div><div class="comments" id="comments"></div></div>
+      </main>
+
+      <footer id="footer" class="footer"><div class="social-links"><a href="mailto:pz1olzy@aliyun.com" class="iconfont icon-email" title="email"></a>
+        <a href="https://github.com/pz1o" target="_blank" rel="noopener" class="iconfont icon-github" title="github"></a>
+        <a href="/atom.xml" class="iconfont icon-rss" title="rss"></a>
+    </div><div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/ahonn/hexo-theme-even" target="_blank" rel="noopener">Even</a>
+  </span>
+
+  <span class="copyright-year">&copy;2020 - 2021<span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">pz1o</span>
+  </span>
+</div>
+</footer>
+
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
+    </div><!-- SOHUCS Comments -->
+<div id="SOHUCS"></div>
+<script type="text/javascript">
+(function(){
+var appid = 'cyvuAqBH5';
+var conf = 'f4f164c77381c58d639d8e00e69da6e7';
+var width = window.innerWidth || document.documentElement.clientWidth;
+if (width < 960) {window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); } })();
+</script><script type="text/javascript" src="/lib/jquery/jquery.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout.js"></script>
+  <script type="text/javascript" src="/lib/fancybox/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/src/even.js?v=2.11.0"></script>
 </body>
 </html>

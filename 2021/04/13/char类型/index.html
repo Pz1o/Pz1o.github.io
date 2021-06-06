@@ -1,156 +1,133 @@
 <!DOCTYPE html>
+<html lang="en">
+  <head><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
 
-  <html class="dark page-post">
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
 
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
-<head>
-  <meta charset="utf-8">
-  
-  <title>char类型 | pz1o</title>
+<meta name="description" content="char类型"/><meta name="keywords" content="CTF" /><link rel="alternate" href="/atom.xml" title="pz1o"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.11.0" />
+<link rel="canonical" href="https://pz1o.top/2021/04/13/char类型/"/>
 
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<link rel="stylesheet" type="text/css" href="/lib/fancybox/jquery.fancybox.css" /><script type="text/x-mathjax-config">
+    MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] } });
+  </script>
+  <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=2.11.0" />
 
-  
-    <meta name="keywords" content="c," />
-  
-
-  <meta name="description" content="我是fw char[],char*,char的区别 0x01 代码编译gcc version 5.4.0 20160609 (Ubuntu 5.4.0-6ubuntu1~16.04.12) 12345678910111213141516#include&lt;stdio.h&gt;#include&lt;string.h&gt;int main()&amp;#123;    char a[10]&#x3D;&amp;#12">
-<meta property="og:type" content="article">
-<meta property="og:title" content="char类型">
-<meta property="og:url" content="https://pz1o.top/2021/04/13/char%E7%B1%BB%E5%9E%8B/index.html">
-<meta property="og:site_name" content="pz1o">
-<meta property="og:description" content="我是fw char[],char*,char的区别 0x01 代码编译gcc version 5.4.0 20160609 (Ubuntu 5.4.0-6ubuntu1~16.04.12) 12345678910111213141516#include&lt;stdio.h&gt;#include&lt;string.h&gt;int main()&amp;#123;    char a[10]&#x3D;&amp;#12">
-<meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2021-04-13T05:04:42.000Z">
-<meta property="article:modified_time" content="2021-04-18T08:35:21.218Z">
-<meta property="article:author" content="pz1o">
-<meta property="article:tag" content="c">
-<meta name="twitter:card" content="summary">
-
-  
-
-  
-    <link rel="icon" href="/favicon.ico">
-  
-
-  <link href="/css/styles.css?v=c114cbeddx" rel="stylesheet">
-
-
-  
-    
-<link rel="stylesheet" href="/css/personal-style.css">
-
-  
-
-  
-<!-- Google Analytics -->
-<script type="text/javascript">
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-ga('create', 'UA-38189205-1', 'auto');
-ga('send', 'pageview');
-
-</script>
-<!-- End Google Analytics -->
-
-
-  
-  <script type="text/javascript">
+<script id="baidu_analytics">
     var _hmt = _hmt || [];
     (function() {
       var hm = document.createElement("script");
-      hm.src = "//hm.baidu.com/hm.js?e90b4c8b8c36ca2b3e5798ef67088f84";
+      hm.src = "https://hm.baidu.com/hm.js?e90b4c8b8c36ca2b3e5798ef67088f84";
       var s = document.getElementsByTagName("script")[0];
       s.parentNode.insertBefore(hm, s);
     })();
-  </script>
+  </script><script id="baidu_push">
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+<script src="//cdn1.lncld.net/static/js/3.1.1/av-min.js"></script>
+  <script id="leancloud">
+    AV.init({
+      appId: "KLWvKGPeSIyoEo4k6j3v37wy-gzGzoHsz",
+      appKey: "FL93w3BBbF9lxiR8X1HI58En"
+    });
+  </script><script>
+  window.config = {"leancloud":{"app_id":"KLWvKGPeSIyoEo4k6j3v37wy-gzGzoHsz","app_key":"FL93w3BBbF9lxiR8X1HI58En"},"toc":true,"fancybox":true,"pjax":"","latex":true};
+</script>
 
-
-  
-  <script type="text/javascript">
-	(function(){
-	    var bp = document.createElement('script');
-	    var curProtocol = window.location.protocol.split(':')[0];
-	    if (curProtocol === 'https') {
-	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
-	    }
-	    else {
-	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
-	    }
-	    var s = document.getElementsByTagName("script")[0];
-	    s.parentNode.insertBefore(bp, s);
-	})();
-  </script>
-
-
-
-  
-    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
-  
-
-<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="pz1o" type="application/atom+xml">
+    <title>char类型 - pz1o</title>
+  <meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="pz1o" type="application/atom+xml">
 </head>
 
-<body>
-
-
-  
-
-  <div class="post-header">
-   
-
+  <body><div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/." class="logo">pz1o</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
 </div>
 
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list"><a href="/archives/">
+        <li class="mobile-menu-item">Home
+          </li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags
+          </li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About
+          </li>
+      </a></ul>
+</nav>
+<div class="container" id="mobile-panel">
+      <header id="header" class="header"><div class="logo-wrapper">
+  <a href="/." class="logo">pz1o</a>
+</div>
 
-  <div id="toc" class="toc-article">
-    <strong class="toc-title">Posts List</strong>
-    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#0x01-代码编译"><span class="toc-text">0x01 代码编译</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x02-代码调试"><span class="toc-text">0x02 代码调试</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x03-IDA分析"><span class="toc-text">0x03 IDA分析</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x04-总结"><span class="toc-text">0x04 总结</span></a></li></ol>
-  </div>
+<nav class="site-navbar"><ul id="menu" class="menu"><li class="menu-item">
+          <a class="menu-item-link" href="/archives/">
+            Home
+            </a>
+        </li>
+      <li class="menu-item">
+          <a class="menu-item-link" href="/tags/">
+            Tags
+            </a>
+        </li>
+      <li class="menu-item">
+          <a class="menu-item-link" href="/about/">
+            About
+            </a>
+        </li>
+      </ul></nav>
+</header>
 
+      <main id="main" class="main">
+        <div class="content-wrapper">
+          <div id="content" class="content"><article class="post">
+    <header class="post-header">
+      <h1 class="post-title">char类型
+        </h1>
 
-
-<div class="content content-post CENTER">
-   <article id="post-char类型" class="article article-type-post" itemprop="blogPost">
-  <header class="article-header">
-    <h1 class="post-title">char类型</h1>
-
-    <div class="article-meta">
-      <span>
-        <i class="icon-calendar"></i>
-        <span>2021.04.13</span>
-      </span>
-
-      
-        <span class="article-author">
-          <i class="icon-user"></i>
-          <span>pz1o</span>
+      <div class="post-meta">
+        <span class="post-time">
+          2021-04-13
+        </span><span class="post-visits"
+             data-url="/2021/04/13/char%E7%B1%BB%E5%9E%8B/"
+             data-title="char类型">
+          Visits 0
         </span>
-      
+        </div>
+    </header>
 
-      
-
-
-      
-
-      
-      <i class="fa fa-eye"></i> 
-        <span id="busuanzi_container_page_pv">
-           &nbsp热度 <span id="busuanzi_value_page_pv">
-           <i class="fa fa-spinner fa-spin"></i></span>℃
-        </span>
-      
-      
+    <div class="post-toc" id="post-toc">
+    <h2 class="post-toc-title">Contents</h2>
+    <div class="post-toc-content">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#0x01-代码编译"><span class="toc-text">0x01 代码编译</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x02-代码调试"><span class="toc-text">0x02 代码调试</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x03-IDA分析"><span class="toc-text">0x03 IDA分析</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x04-总结"><span class="toc-text">0x04 总结</span></a></li></ol>
     </div>
-  </header>
-
-  <div class="article-content">
-    
-      <p>我是fw</p>
+  </div><div class="post-content"><p>我是fw</p>
 <p>char[],char*,char的区别</p>
 <h1 id="0x01-代码编译"><a href="#0x01-代码编译" class="headerlink" title="0x01 代码编译"></a>0x01 代码编译</h1><p><code>gcc version 5.4.0 20160609 (Ubuntu 5.4.0-6ubuntu1~16.04.12)</code></p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">char</span> a[<span class="number">10</span>]=&#123;<span class="string">'a'</span>,<span class="string">'a'</span>,<span class="string">'a'</span>,<span class="string">'a'</span>,<span class="string">'a'</span>,<span class="string">'a'</span>,<span class="string">'a'</span>&#125;;</span><br><span class="line">    <span class="keyword">char</span> m[]=&#123;<span class="string">'a'</span>,<span class="string">"b"</span>,<span class="string">'c'</span>,<span class="string">'d'</span>&#125;;</span><br><span class="line">    <span class="keyword">char</span> n[]=&#123;<span class="string">'m'</span>,<span class="string">"nnnn"</span>,<span class="string">'o'</span>,<span class="string">'d'</span>,<span class="string">'p'</span>,<span class="string">"q"</span>&#125;;</span><br><span class="line">    <span class="keyword">char</span>* b=<span class="string">"bbbbbbb"</span>;</span><br><span class="line">    <span class="keyword">char</span> c[<span class="number">10</span>]=<span class="string">"ccccccc"</span>;</span><br><span class="line">    <span class="keyword">char</span>* d[<span class="number">10</span>]=&#123;<span class="string">'a'</span>,<span class="string">'b'</span>,<span class="string">'c'</span>,<span class="string">'d'</span>,<span class="string">'e'</span>,<span class="string">'f'</span>,<span class="string">'g'</span>&#125;;</span><br><span class="line">    <span class="keyword">char</span>* e[<span class="number">10</span>]=&#123;<span class="string">"a"</span>,<span class="string">"b"</span>,<span class="string">"c"</span>,<span class="string">"d"</span>,<span class="string">"e"</span>,<span class="string">"f"</span>,<span class="string">"g"</span>&#125;;</span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">char</span> f[<span class="number">10</span>]=&#123;<span class="string">"fffffff"</span>&#125;;</span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">char</span>* g=<span class="string">"ggggggg"</span>;</span><br><span class="line">    <span class="keyword">char</span>* <span class="keyword">const</span> h=<span class="string">"hhhhhhh"</span>;</span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">char</span>* <span class="keyword">const</span> i = <span class="string">"iiiiiii"</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -160,186 +137,98 @@ ga('send', 'pageview');
 <h1 id="0x03-IDA分析"><a href="#0x03-IDA分析" class="headerlink" title="0x03 IDA分析"></a>0x03 IDA分析</h1><p>拿IDA来看一下</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br></pre></td><td class="code"><pre><span class="line">.<span class="built_in">text</span>:<span class="number">0000000000400546</span> ; __unwind &#123;</span><br><span class="line">.<span class="built_in">text</span>:<span class="number">0000000000400546</span>                 push    rbp</span><br><span class="line">.<span class="built_in">text</span>:<span class="number">0000000000400547</span>                 mov     rbp, rsp</span><br><span class="line">.<span class="built_in">text</span>:<span class="number">000000000040054</span>A                 sub     rsp, <span class="number">120</span>h</span><br><span class="line">.<span class="built_in">text</span>:<span class="number">0000000000400551</span>                 mov     rax, fs:<span class="number">28</span>h</span><br><span class="line">.<span class="built_in">text</span>:<span class="number">000000000040055</span>A                 mov     [rbp<span class="number">-8</span>], rax</span><br><span class="line">.<span class="built_in">text</span>:<span class="number">000000000040055</span>E                 <span class="keyword">xor</span>     eax, eax</span><br><span class="line">	<span class="comment">//初始canary和预留栈</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">//初始a为0，也就是说char a[10]会将10个字节都置为0</span></span><br><span class="line">.<span class="built_in">text</span>:<span class="number">0000000000400560</span>                 mov     qword ptr [rbp<span class="number">-40</span>h], <span class="number">0</span></span><br><span class="line">.<span class="built_in">text</span>:<span class="number">0000000000400568</span>                 mov     <span class="keyword">word</span> ptr [rbp<span class="number">-38</span>h], <span class="number">0</span></span><br><span class="line">.<span class="built_in">text</span>:<span class="number">000000000040056</span>E                 mov     <span class="keyword">byte</span> ptr [rbp<span class="number">-40</span>h], <span class="number">61</span>h</span><br><span class="line">.<span class="built_in">text</span>:<span class="number">0000000000400572</span>                 mov     <span class="keyword">byte</span> ptr [rbp<span class="number">-3F</span>h], <span class="number">61</span>h</span><br><span class="line">.<span class="built_in">text</span>:<span class="number">0000000000400576</span>                 mov     <span class="keyword">byte</span> ptr [rbp<span class="number">-3</span>Eh], <span class="number">61</span>h</span><br><span class="line">.<span class="built_in">text</span>:<span class="number">000000000040057</span>A                 mov     <span class="keyword">byte</span> ptr [rbp<span class="number">-3</span>Dh], <span class="number">61</span>h</span><br><span class="line">.<span class="built_in">text</span>:<span class="number">000000000040057</span>E                 mov     <span class="keyword">byte</span> ptr [rbp<span class="number">-3</span>Ch], <span class="number">61</span>h</span><br><span class="line">.<span class="built_in">text</span>:<span class="number">0000000000400582</span>                 mov     <span class="keyword">byte</span> ptr [rbp<span class="number">-3B</span>h], <span class="number">61</span>h</span><br><span class="line">.<span class="built_in">text</span>:<span class="number">0000000000400586</span>                 mov     <span class="keyword">byte</span> ptr [rbp<span class="number">-3</span>Ah], <span class="number">61</span>h</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//赋值给char m[]</span></span><br><span class="line">.<span class="built_in">text</span>:<span class="number">000000000040058</span>A                 mov     <span class="keyword">byte</span> ptr [rbp<span class="number">-60</span>h], <span class="number">61</span>h</span><br><span class="line">    <span class="comment">//将只读字符串b赋值给al</span></span><br><span class="line">.<span class="built_in">text</span>:<span class="number">000000000040058</span>E                 mov     eax, offset unk_400784</span><br><span class="line">.<span class="built_in">text</span>:<span class="number">0000000000400593</span>                 mov     [rbp<span class="number">-5F</span>h], al</span><br><span class="line">    <span class="comment">//这里出现了问题，将寄存器低位(0x84)赋值给b中</span></span><br><span class="line">.<span class="built_in">text</span>:<span class="number">0000000000400596</span>                 mov     <span class="keyword">byte</span> ptr [rbp<span class="number">-5</span>Eh], <span class="number">63</span>h</span><br><span class="line">.<span class="built_in">text</span>:<span class="number">000000000040059</span>A                 mov     <span class="keyword">byte</span> ptr [rbp<span class="number">-5</span>Dh], <span class="number">64</span>h</span><br><span class="line">    <span class="comment">//我们也就理解了为什么上面" "赋值给char[]时会出现错误</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">//赋值给char n[]</span></span><br><span class="line">.<span class="built_in">text</span>:<span class="number">000000000040059</span>E                 mov     <span class="keyword">byte</span> ptr [rbp<span class="number">-50</span>h], <span class="number">6</span>Dh</span><br><span class="line">.<span class="built_in">text</span>:<span class="number">00000000004005</span>A2                 mov     eax, offset aNnnn ; <span class="string">"nnnn"</span></span><br><span class="line">.<span class="built_in">text</span>:<span class="number">00000000004005</span>A7                 mov     [rbp<span class="number">-4F</span>h], al</span><br><span class="line">    <span class="comment">//和上面类似</span></span><br><span class="line">.<span class="built_in">text</span>:<span class="number">00000000004005</span>AA                 mov     <span class="keyword">byte</span> ptr [rbp<span class="number">-4</span>Eh], <span class="number">6F</span>h</span><br><span class="line">.<span class="built_in">text</span>:<span class="number">00000000004005</span>AE                 mov     <span class="keyword">byte</span> ptr [rbp<span class="number">-4</span>Dh], <span class="number">64</span>h</span><br><span class="line">.<span class="built_in">text</span>:<span class="number">00000000004005B</span>2                 mov     <span class="keyword">byte</span> ptr [rbp<span class="number">-4</span>Ch], <span class="number">70</span>h</span><br><span class="line">.<span class="built_in">text</span>:<span class="number">00000000004005B</span>6                 mov     eax, offset aQ  ; <span class="string">"q"</span></span><br><span class="line">.<span class="built_in">text</span>:<span class="number">00000000004005B</span>B                 mov     [rbp<span class="number">-4B</span>h], al</span><br><span class="line">    <span class="comment">//和上面类似</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">//赋值给char* b 此时栈上的地址只是指向b字符串的地址</span></span><br><span class="line">.<span class="built_in">text</span>:<span class="number">00000000004005B</span>E                 mov     qword ptr [rbp<span class="number">-120</span>h], offset aBbbbbbb ; <span class="string">"bbbbbbb"</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">//赋值给char c[10]</span></span><br><span class="line">.<span class="built_in">text</span>:<span class="number">00000000004005</span>C9                 mov     rax, <span class="number">63636363636363</span>h</span><br><span class="line">.<span class="built_in">text</span>:<span class="number">00000000004005</span>D3                 mov     [rbp<span class="number">-30</span>h], rax</span><br><span class="line">.<span class="built_in">text</span>:<span class="number">00000000004005</span>D7                 mov     <span class="keyword">word</span> ptr [rbp<span class="number">-28</span>h], <span class="number">0</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">//赋值给char* d[10]</span></span><br><span class="line">.<span class="built_in">text</span>:<span class="number">00000000004005</span>DD                 lea     rdx, [rbp<span class="number">-100</span>h]</span><br><span class="line">.<span class="built_in">text</span>:<span class="number">00000000004005E4</span>                 mov     eax, <span class="number">0</span></span><br><span class="line">.<span class="built_in">text</span>:<span class="number">00000000004005E9</span>                 mov     ecx, <span class="number">0</span>Ah</span><br><span class="line">.<span class="built_in">text</span>:<span class="number">00000000004005</span>EE                 mov     rdi, rdx</span><br><span class="line">.<span class="built_in">text</span>:<span class="number">00000000004005F</span>1                 rep stosq <span class="comment">//将eax中的值复制到[rdi]处，且循环次数为ecx次</span></span><br><span class="line">    <span class="comment">//赋值是8字节</span></span><br><span class="line">.<span class="built_in">text</span>:<span class="number">00000000004005F</span>4                 mov     qword ptr [rbp<span class="number">-100</span>h], <span class="number">61</span>h</span><br><span class="line">.<span class="built_in">text</span>:<span class="number">00000000004005F</span>F                 mov     qword ptr [rbp<span class="number">-0F</span>8h], <span class="number">62</span>h</span><br><span class="line">.<span class="built_in">text</span>:<span class="number">000000000040060</span>A                 mov     qword ptr [rbp<span class="number">-0F</span>0h], <span class="number">63</span>h</span><br><span class="line">.<span class="built_in">text</span>:<span class="number">0000000000400615</span>                 mov     qword ptr [rbp<span class="number">-0E8</span>h], <span class="number">64</span>h</span><br><span class="line">.<span class="built_in">text</span>:<span class="number">0000000000400620</span>                 mov     qword ptr [rbp<span class="number">-0E0</span>h], <span class="number">65</span>h</span><br><span class="line">.<span class="built_in">text</span>:<span class="number">000000000040062B</span>                 mov     qword ptr [rbp<span class="number">-0</span>D8h], <span class="number">66</span>h</span><br><span class="line">.<span class="built_in">text</span>:<span class="number">0000000000400636</span>                 mov     qword ptr [rbp<span class="number">-0</span>D0h], <span class="number">67</span>h</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//赋值给char* e[10]</span></span><br><span class="line">.<span class="built_in">text</span>:<span class="number">0000000000400641</span>                 lea     rdx, [rbp+var_B0]</span><br><span class="line">.<span class="built_in">text</span>:<span class="number">0000000000400648</span>                 mov     eax, <span class="number">0</span></span><br><span class="line">.<span class="built_in">text</span>:<span class="number">000000000040064</span>D                 mov     ecx, <span class="number">0</span>Ah</span><br><span class="line">.<span class="built_in">text</span>:<span class="number">0000000000400652</span>                 mov     rdi, rdx</span><br><span class="line">.<span class="built_in">text</span>:<span class="number">0000000000400655</span>                 rep stosq</span><br><span class="line">    <span class="comment">//赋值同样是8字节，但不同的是只读字符串,不是直接赋ascii值</span></span><br><span class="line">.<span class="built_in">text</span>:<span class="number">0000000000400658</span>                 mov     qword ptr [rbp<span class="number">-0B</span>0h], offset aA ; <span class="string">"a"</span></span><br><span class="line">.<span class="built_in">text</span>:<span class="number">0000000000400663</span>                 mov     qword ptr [rbp<span class="number">-0</span>A8h], offset unk_400784</span><br><span class="line">.<span class="built_in">text</span>:<span class="number">000000000040066</span>E                 mov     qword ptr [rbp<span class="number">-0</span>A0h], offset aC ; <span class="string">"c"</span></span><br><span class="line">.<span class="built_in">text</span>:<span class="number">0000000000400679</span>                 mov     qword ptr [rbp<span class="number">-98</span>h], offset aD ; <span class="string">"d"</span></span><br><span class="line">.<span class="built_in">text</span>:<span class="number">0000000000400684</span>                 mov     qword ptr [rbp<span class="number">-90</span>h], offset aE ; <span class="string">"e"</span></span><br><span class="line">.<span class="built_in">text</span>:<span class="number">000000000040068F</span>                 mov     qword ptr [rbp<span class="number">-88</span>h], offset asc_40079D ; <span class="string">"f"</span></span><br><span class="line">.<span class="built_in">text</span>:<span class="number">000000000040069</span>A                 mov     qword ptr [rbp<span class="number">-80</span>h], offset aG ; <span class="string">"g"</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">//赋值给const char f[10]</span></span><br><span class="line">.<span class="built_in">text</span>:<span class="number">00000000004006</span>A2                 mov     rax, <span class="number">66666666666666</span>h</span><br><span class="line">.<span class="built_in">text</span>:<span class="number">00000000004006</span>AC                 mov     [rbp<span class="number">-20</span>h], rax</span><br><span class="line">.<span class="built_in">text</span>:<span class="number">00000000004006B</span>0                 mov     <span class="keyword">word</span> ptr [rbp<span class="number">-18</span>h], <span class="number">0</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">//赋值给const char* g</span></span><br><span class="line">.<span class="built_in">text</span>:<span class="number">00000000004006B</span>6                 mov     qword ptr [rbp<span class="number">-118</span>h], offset aGgggggg ; <span class="string">"ggggggg"</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">//赋值给char* const h</span></span><br><span class="line">.<span class="built_in">text</span>:<span class="number">00000000004006</span>C1                 mov     qword ptr [rbp<span class="number">-110</span>h], offset aHhhhhhh ; <span class="string">"hhhhhhh"</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">//赋值给const char* const i</span></span><br><span class="line">.<span class="built_in">text</span>:<span class="number">00000000004006</span>CC                 mov     qword ptr [rbp<span class="number">-108</span>h], offset aIiiiiii ; <span class="string">"iiiiiii"</span></span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">.<span class="built_in">text</span>:<span class="number">00000000004006</span>D7                 mov     eax, <span class="number">0</span></span><br><span class="line">.<span class="built_in">text</span>:<span class="number">00000000004006</span>DC                 mov     rsi, [rbp<span class="number">-8</span>]</span><br><span class="line">.<span class="built_in">text</span>:<span class="number">00000000004006E0</span>                 <span class="keyword">xor</span>     rsi, fs:<span class="number">28</span>h</span><br><span class="line">.<span class="built_in">text</span>:<span class="number">00000000004006E9</span>                 jz      short locret_4006F0</span><br><span class="line">.<span class="built_in">text</span>:<span class="number">00000000004006</span>EB                 call    ___stack_chk_fail</span><br><span class="line">.<span class="built_in">text</span>:<span class="number">00000000004006F</span>0 ; ---------------------------------------------------------------------------</span><br><span class="line">.<span class="built_in">text</span>:<span class="number">00000000004006F</span>0</span><br><span class="line">.<span class="built_in">text</span>:<span class="number">00000000004006F</span>0 locret_4006F0:                          ; CODE XREF: main+<span class="number">1</span>A3↑j</span><br><span class="line">.<span class="built_in">text</span>:<span class="number">00000000004006F</span>0                 leave</span><br><span class="line">.<span class="built_in">text</span>:<span class="number">00000000004006F</span>1                 retn</span><br><span class="line">.<span class="built_in">text</span>:<span class="number">00000000004006F</span>1 ; &#125; <span class="comment">// starts at 400546</span></span><br><span class="line">.<span class="built_in">text</span>:<span class="number">00000000004006F</span>1 main            endp</span><br></pre></td></tr></table></figure>
 <h1 id="0x04-总结"><a href="#0x04-总结" class="headerlink" title="0x04 总结"></a>0x04 总结</h1><p>一个一个来说</p>
-<ol>
-<li><pre><code>char a[10]={&#39;a&#39;,&#39;a&#39;,&#39;a&#39;,&#39;a&#39;,&#39;a&#39;,&#39;a&#39;,&#39;a&#39;};
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">    这个首先会把10个位置都置为0，然后直接向栈上赋值ascii值</span><br><span class="line"></span><br><span class="line">2.</span><br></pre></td></tr></table></figure>
-char m[]={&#39;a&#39;,&quot;b&quot;,&#39;c&#39;,&#39;d&#39;};
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">    这个很明显是有问题的，其中赋值字符串，由于莫名奇妙的错误，导致只赋值了寄存器低位</span><br><span class="line"></span><br><span class="line">3.</span><br></pre></td></tr></table></figure>
-char n[]={&#39;m&#39;,&quot;nnnn&quot;,&#39;o&#39;,&#39;d&#39;,&#39;p&#39;,&quot;q&quot;};
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">    有问题+1,同样是赋值字符串，和上面是一样的错误</span><br><span class="line"></span><br><span class="line">4.</span><br></pre></td></tr></table></figure>
-char* b=&quot;bbbbbbb&quot;;
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">    常用的方法，直接往栈上赋值给字符串(只读数据)所在的地址</span><br><span class="line"></span><br><span class="line">    &gt;注：存放于栈的指针b可以被修改，但是指向的数据’bbbbbbb&#39;无法更改，</span><br><span class="line"></span><br><span class="line">5.</span><br></pre></td></tr></table></figure>
-char c[10]=&quot;ccccccc&quot;;
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">    看似和上一个一样，实则是往栈上赋值ascii值</span><br><span class="line"></span><br><span class="line">6.</span><br></pre></td></tr></table></figure>
-char* d[10]={&#39;a&#39;,&#39;b&#39;,&#39;c&#39;,&#39;d&#39;,&#39;e&#39;,&#39;f&#39;,&#39;g&#39;};
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">    这个其实是最神奇的，每个字符都占8个字节，由于栈上是ascii值，导致寻址时出现了错误</span><br><span class="line"></span><br><span class="line">7.</span><br></pre></td></tr></table></figure>
-char* e[10]={&quot;a&quot;,&quot;b&quot;,&quot;c&quot;,&quot;d&quot;,&quot;e&quot;,&quot;f&quot;,&quot;g&quot;};
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">    字符串的地址直接赋值到栈上，然后寻址即可</span><br><span class="line"></span><br><span class="line">8.</span><br></pre></td></tr></table></figure>
-const char f[10]={&quot;fffffff&quot;};
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">    直接往栈上赋ascii值,**虽然声明了是const，但栈上的值是可更改的**</span><br><span class="line"></span><br><span class="line">9.</span><br></pre></td></tr></table></figure>
-const char* g=&quot;ggggggg&quot;;
-char* const h=&quot;hhhhhhh&quot;;
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">    这两个看起来是无差别的，都是栈上赋值给字符串的地址</span><br><span class="line"></span><br><span class="line">10.</span><br></pre></td></tr></table></figure>
- const char* const i = &quot;iiiiiii&quot;;
-</code></pre><p> 和9类似</p>
-</li>
-</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">char a[10]&#x3D;&#123;&#39;a&#39;,&#39;a&#39;,&#39;a&#39;,&#39;a&#39;,&#39;a&#39;,&#39;a&#39;,&#39;a&#39;&#125;;</span><br></pre></td></tr></table></figure>
+<p>这个首先会把10个位置都置为0，然后直接向栈上赋值ascii值</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">char m[]&#x3D;&#123;&#39;a&#39;,&quot;b&quot;,&#39;c&#39;,&#39;d&#39;&#125;;</span><br></pre></td></tr></table></figure>
+<p>这个很明显是有问题的，其中赋值字符串，由于莫名奇妙的错误，导致只赋值了寄存器低位</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">char n[]&#x3D;&#123;&#39;m&#39;,&quot;nnnn&quot;,&#39;o&#39;,&#39;d&#39;,&#39;p&#39;,&quot;q&quot;&#125;;</span><br></pre></td></tr></table></figure>
+<p>有问题+1,同样是赋值字符串，和上面是一样的错误</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">char* b&#x3D;&quot;bbbbbbb&quot;;</span><br></pre></td></tr></table></figure>
+<p>常用的方法，直接往栈上赋值给字符串(只读数据)所在的地址</p>
+<blockquote>
+<p>注：存放于栈的指针b可以被修改，但是指向的数据’bbbbbbb’无法更改，</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">char c[10]&#x3D;&quot;ccccccc&quot;;</span><br></pre></td></tr></table></figure>
+<p>看似和上一个一样，实则是往栈上赋值ascii值</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">char* d[10]&#x3D;&#123;&#39;a&#39;,&#39;b&#39;,&#39;c&#39;,&#39;d&#39;,&#39;e&#39;,&#39;f&#39;,&#39;g&#39;&#125;;</span><br></pre></td></tr></table></figure>
+<p>这个其实是最神奇的，每个字符都占8个字节，由于栈上是ascii值，导致寻址时出现了错误</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">char* e[10]&#x3D;&#123;&quot;a&quot;,&quot;b&quot;,&quot;c&quot;,&quot;d&quot;,&quot;e&quot;,&quot;f&quot;,&quot;g&quot;&#125;;</span><br></pre></td></tr></table></figure>
+<p>字符串的地址直接赋值到栈上，然后寻址即可</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">const char f[10]&#x3D;&#123;&quot;fffffff&quot;&#125;;</span><br></pre></td></tr></table></figure>
+<p>直接往栈上赋ascii值,<strong>虽然声明了是const，但栈上的值是可更改的</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">const char* g&#x3D;&quot;ggggggg&quot;;</span><br><span class="line">char* const h&#x3D;&quot;hhhhhhh&quot;;</span><br></pre></td></tr></table></figure>
+<p>这两个看起来是无差别的，都是栈上赋值给字符串的地址</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">const char* const i &#x3D; &quot;iiiiiii&quot;;</span><br></pre></td></tr></table></figure>
+<p>和9类似</p>
 
-    
+      </div>
+      <div class="post-copyright">
+    <p class="copyright-item">
+      <span>Author: </span>
+      <a href="https://pz1o.top">pz1o</a>
+    </p>
+    <p class="copyright-item">
+      <span>Link: </span>
+      <a href="https://pz1o.top/2021/04/13/char%E7%B1%BB%E5%9E%8B/">https://pz1o.top/2021/04/13/char%E7%B1%BB%E5%9E%8B/</a>
+    </p>
+    <p class="copyright-item">
+      <span>License: </span><a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>
+    </p>
   </div>
+      <footer class="post-footer">
+        <div class="post-tags">
+            <a href="/tags/c/">c</a>
+            </div>
+        
+        <nav class="post-nav"><a class="prev" href="/2021/04/17/%E7%90%86%E8%A7%A3sbrk%E5%92%8Cbrk/">
+        <i class="iconfont icon-left"></i>
+        <span class="prev-text nav-default">理解sbrk和brk</span>
+        <span class="prev-text nav-mobile">Prev</span>
+      </a>
+    <a class="next" href="/2021/04/13/CVE-2021-3156%E5%A4%8D%E7%8E%B0/">
+        <span class="next-text nav-default">CVE-2021-3156复现</span>
+        <span class="prev-text nav-mobile">Next</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    </nav></footer>
+    </article></div><div class="comments" id="comments"></div></div>
+      </main>
 
-</article>
+      <footer id="footer" class="footer"><div class="social-links"><a href="mailto:pz1olzy@aliyun.com" class="iconfont icon-email" title="email"></a>
+        <a href="https://github.com/pz1o" target="_blank" rel="noopener" class="iconfont icon-github" title="github"></a>
+        <a href="/atom.xml" class="iconfont icon-rss" title="rss"></a>
+    </div><div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/ahonn/hexo-theme-even" target="_blank" rel="noopener">Even</a>
+  </span>
 
-
-   
-
-   
-  <div class="box-prev-next clearfix">
-    <a class="show pull-left" href="/2021/04/13/CVE-2021-3156%E5%A4%8D%E7%8E%B0/">
-        <i class="icon icon-angle-left"></i>
-    </a>
-    <a class="show pull-right" href="/2021/04/17/%E7%90%86%E8%A7%A3sbrk%E5%92%8Cbrk/">
-        <i class="icon icon-angle-right"></i>
-    </a>
-  </div>
-
-
-
-
+  <span class="copyright-year">&copy;2020 - 2021<span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">pz1o</span>
+  </span>
 </div>
+</footer>
 
-
-  <a id="backTop" class="back-top">
-    <i class="icon-angle-up"></i>
-  </a>
-
-
-
-
-  <div class="modal" id="modal">
-  <span id="cover" class="cover hide"></span>
-  <div id="modal-dialog" class="modal-dialog hide-dialog">
-    <div class="modal-header">
-      <span id="close" class="btn-close">Close</span>
-    </div>
-    <hr>
-    <div class="modal-body">
-      <ul class="list-toolbox">
-        
-          <li class="item-toolbox">
-            <a
-              class="ROUND_RECT"
-              href="/archives/"
-              rel="noopener noreferrer"
-              target="_blank"
-              >
-              Blog
-            </a>
-          </li>
-        
-          <li class="item-toolbox">
-            <a
-              class="ROUND_RECT"
-              href="/tag/"
-              rel="noopener noreferrer"
-              target="_self"
-              >
-              Tag
-            </a>
-          </li>
-        
-          <li class="item-toolbox">
-            <a
-              class="ROUND_RECT"
-              href="/about/"
-              rel="noopener noreferrer"
-              target="_self"
-              >
-              About
-            </a>
-          </li>
-        
-      </ul>
-
-    </div>
-  </div>
-</div>
-
-
-
-  
-      <div class="fexo-comments comments-post">
-    
-
-    
-
-    
-    
-
-    
-
-    
-    
-
-    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
-    <script src="//cdn.jsdelivr.net/npm/valine@latest/dist/Valine.min.js"></script>
-    <div id="comment" class="vcomment" ></div>
-    <script>
-        var notify = 'true' == true ? true : false;
-        var verify = 'true' == true ? true : false;
-        var GUEST_INFO = ['nick','mail','link'];
-        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
-            return GUEST_INFO.indexOf(item) > -1
-        });
-        guest_info = guest_info.length == 0 ? GUEST_INFO :guest_info;
-        window.valine = new Valine({
-            el: '.vcomment',
-            notify: notify,
-            verify: verify,
-            appId: "KLWvKGPeSIyoEo4k6j3v37wy-gzGzoHsz",
-            appKey: "FL93w3BBbF9lxiR8X1HI58En",
-            avatar:'wavatar',
-            placeholder: "Just go go",
-            guest_info:guest_info,
-            pageSize:'6'
-        });
-    </script>
-  
-    
-
-  </div>
-
-  
-
-  <script type="text/javascript">
-  function loadScript(url, callback) {
-    var script = document.createElement('script')
-    script.type = 'text/javascript';
-
-    if (script.readyState) { //IE
-      script.onreadystatechange = function() {
-        if (script.readyState == 'loaded' ||
-          script.readyState == 'complete') {
-          script.onreadystatechange = null;
-          callback();
-        }
-      };
-    } else { //Others
-      script.onload = function() {
-        callback();
-      };
-    }
-
-    script.src = url;
-    document.getElementsByTagName('head')[0].appendChild(script);
-  }
-
-  window.onload = function() {
-    loadScript('/js/bundle.js?235683', function() {
-      // load success
-    });
-  }
-</script>
-
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
+    </div><!-- SOHUCS Comments -->
+<div id="SOHUCS"></div>
+<script type="text/javascript">
+(function(){
+var appid = 'cyvuAqBH5';
+var conf = 'f4f164c77381c58d639d8e00e69da6e7';
+var width = window.innerWidth || document.documentElement.clientWidth;
+if (width < 960) {window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); } })();
+</script><script type="text/javascript" src="/lib/jquery/jquery.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout.js"></script>
+  <script type="text/javascript" src="/lib/fancybox/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/src/even.js?v=2.11.0"></script>
 </body>
 </html>

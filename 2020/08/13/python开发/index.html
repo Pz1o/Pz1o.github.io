@@ -1,163 +1,136 @@
 <!DOCTYPE html>
+<html lang="en">
+  <head><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
 
-  <html class="dark page-post">
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
 
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
-<head>
-  <meta charset="utf-8">
-  
-  <title>python开发 | pz1o</title>
+<meta name="description" content="python开发"/><meta name="keywords" content="CTF" /><link rel="alternate" href="/atom.xml" title="pz1o"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.11.0" />
+<link rel="canonical" href="https://pz1o.top/2020/08/13/python开发/"/>
 
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<link rel="stylesheet" type="text/css" href="/lib/fancybox/jquery.fancybox.css" /><script type="text/x-mathjax-config">
+    MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] } });
+  </script>
+  <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=2.11.0" />
 
-  
-    <meta name="keywords" content="python," />
-  
-
-  <meta name="description" content="前言顺便复习一下python，主要是掌握一下python的主流框架（Flask和Django ） FlaskURL和视图123456789101112131415161718192021222324252627# 从flask这个框架中导入Flask这个类from flask import Flask# 初始化一个Flask对象# Flask()# 需要传递一个参数__name__# 1. 方便">
-<meta property="og:type" content="article">
-<meta property="og:title" content="python开发">
-<meta property="og:url" content="https://pz1o.top/2020/08/13/python%E5%BC%80%E5%8F%91/index.html">
-<meta property="og:site_name" content="pz1o">
-<meta property="og:description" content="前言顺便复习一下python，主要是掌握一下python的主流框架（Flask和Django ） FlaskURL和视图123456789101112131415161718192021222324252627# 从flask这个框架中导入Flask这个类from flask import Flask# 初始化一个Flask对象# Flask()# 需要传递一个参数__name__# 1. 方便">
-<meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://pz1o.top/2020/08/13/python%E5%BC%80%E5%8F%91/image-20200814161938542.png">
-<meta property="article:published_time" content="2020-08-13T11:20:57.000Z">
-<meta property="article:modified_time" content="2021-03-03T07:24:49.916Z">
-<meta property="article:author" content="pz1o">
-<meta property="article:tag" content="python">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://pz1o.top/2020/08/13/python%E5%BC%80%E5%8F%91/image-20200814161938542.png">
-
-  
-
-  
-    <link rel="icon" href="/favicon.ico">
-  
-
-  <link href="/css/styles.css?v=c114cbeddx" rel="stylesheet">
-
-
-  
-    
-<link rel="stylesheet" href="/css/personal-style.css">
-
-  
-
-  
-<!-- Google Analytics -->
-<script type="text/javascript">
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-ga('create', 'UA-38189205-1', 'auto');
-ga('send', 'pageview');
-
-</script>
-<!-- End Google Analytics -->
-
-
-  
-  <script type="text/javascript">
+<script id="baidu_analytics">
     var _hmt = _hmt || [];
     (function() {
       var hm = document.createElement("script");
-      hm.src = "//hm.baidu.com/hm.js?e90b4c8b8c36ca2b3e5798ef67088f84";
+      hm.src = "https://hm.baidu.com/hm.js?e90b4c8b8c36ca2b3e5798ef67088f84";
       var s = document.getElementsByTagName("script")[0];
       s.parentNode.insertBefore(hm, s);
     })();
-  </script>
+  </script><script id="baidu_push">
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+<script src="//cdn1.lncld.net/static/js/3.1.1/av-min.js"></script>
+  <script id="leancloud">
+    AV.init({
+      appId: "KLWvKGPeSIyoEo4k6j3v37wy-gzGzoHsz",
+      appKey: "FL93w3BBbF9lxiR8X1HI58En"
+    });
+  </script><script>
+  window.config = {"leancloud":{"app_id":"KLWvKGPeSIyoEo4k6j3v37wy-gzGzoHsz","app_key":"FL93w3BBbF9lxiR8X1HI58En"},"toc":true,"fancybox":true,"pjax":"","latex":true};
+</script>
 
-
-  
-  <script type="text/javascript">
-	(function(){
-	    var bp = document.createElement('script');
-	    var curProtocol = window.location.protocol.split(':')[0];
-	    if (curProtocol === 'https') {
-	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
-	    }
-	    else {
-	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
-	    }
-	    var s = document.getElementsByTagName("script")[0];
-	    s.parentNode.insertBefore(bp, s);
-	})();
-  </script>
-
-
-
-  
-    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
-  
-
-<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="pz1o" type="application/atom+xml">
+    <title>python开发 - pz1o</title>
+  <meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="pz1o" type="application/atom+xml">
 </head>
 
-<body>
-
-
-  
-
-  <div class="post-header">
-   
-
+  <body><div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/." class="logo">pz1o</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
 </div>
 
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list"><a href="/archives/">
+        <li class="mobile-menu-item">Home
+          </li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags
+          </li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About
+          </li>
+      </a></ul>
+</nav>
+<div class="container" id="mobile-panel">
+      <header id="header" class="header"><div class="logo-wrapper">
+  <a href="/." class="logo">pz1o</a>
+</div>
 
-  <div id="toc" class="toc-article">
-    <strong class="toc-title">Posts List</strong>
-    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#前言"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Flask"><span class="toc-text">Flask</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#URL和视图"><span class="toc-text">URL和视图</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#设置debug模式"><span class="toc-text">设置debug模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用配置文件"><span class="toc-text">使用配置文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#URL传参到视图"><span class="toc-text">URL传参到视图</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#反转URL"><span class="toc-text">反转URL</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#jinja2模板"><span class="toc-text">jinja2模板</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#模板渲染和参数"><span class="toc-text">模板渲染和参数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#if和for"><span class="toc-text">if和for</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#过滤器"><span class="toc-text">过滤器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#继承和block"><span class="toc-text">继承和block</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#python开发"><span class="toc-text">python开发</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#基础"><span class="toc-text">基础</span></a></li></ol></li></ol>
-  </div>
+<nav class="site-navbar"><ul id="menu" class="menu"><li class="menu-item">
+          <a class="menu-item-link" href="/archives/">
+            Home
+            </a>
+        </li>
+      <li class="menu-item">
+          <a class="menu-item-link" href="/tags/">
+            Tags
+            </a>
+        </li>
+      <li class="menu-item">
+          <a class="menu-item-link" href="/about/">
+            About
+            </a>
+        </li>
+      </ul></nav>
+</header>
 
+      <main id="main" class="main">
+        <div class="content-wrapper">
+          <div id="content" class="content"><article class="post">
+    <header class="post-header">
+      <h1 class="post-title">python开发
+        </h1>
 
-
-<div class="content content-post CENTER">
-   <article id="post-python开发" class="article article-type-post" itemprop="blogPost">
-  <header class="article-header">
-    <h1 class="post-title">python开发</h1>
-
-    <div class="article-meta">
-      <span>
-        <i class="icon-calendar"></i>
-        <span>2020.08.13</span>
-      </span>
-
-      
-        <span class="article-author">
-          <i class="icon-user"></i>
-          <span>pz1o</span>
+      <div class="post-meta">
+        <span class="post-time">
+          2020-08-13
+        </span><span class="post-category">
+            <a href="/categories/%E5%BC%80%E5%8F%91/">开发</a>
+            </span>
+        <span class="post-visits"
+             data-url="/2020/08/13/python%E5%BC%80%E5%8F%91/"
+             data-title="python开发">
+          Visits 0
         </span>
-      
+        </div>
+    </header>
 
-      
-  <span class="article-category">
-    <i class="icon-list"></i>
-    <a class="article-category-link" href="/categories/%E5%BC%80%E5%8F%91/">开发</a>
-  </span>
-
-
-
-      
-
-      
-      <i class="fa fa-eye"></i> 
-        <span id="busuanzi_container_page_pv">
-           &nbsp热度 <span id="busuanzi_value_page_pv">
-           <i class="fa fa-spinner fa-spin"></i></span>℃
-        </span>
-      
-      
+    <div class="post-toc" id="post-toc">
+    <h2 class="post-toc-title">Contents</h2>
+    <div class="post-toc-content">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#前言"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Flask"><span class="toc-text">Flask</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#URL和视图"><span class="toc-text">URL和视图</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#设置debug模式"><span class="toc-text">设置debug模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用配置文件"><span class="toc-text">使用配置文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#URL传参到视图"><span class="toc-text">URL传参到视图</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#反转URL"><span class="toc-text">反转URL</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#jinja2模板"><span class="toc-text">jinja2模板</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#模板渲染和参数"><span class="toc-text">模板渲染和参数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#if和for"><span class="toc-text">if和for</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#过滤器"><span class="toc-text">过滤器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#继承和block"><span class="toc-text">继承和block</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#python开发"><span class="toc-text">python开发</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#基础"><span class="toc-text">基础</span></a></li></ol></li></ol>
     </div>
-  </header>
-
-  <div class="article-content">
-    
-      <a id="more"></a>
+  </div><div class="post-content"><a id="more"></a>
 <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>顺便复习一下python，主要是掌握一下python的主流框架（Flask和Django ）</p>
 <h1 id="Flask"><a href="#Flask" class="headerlink" title="Flask"></a>Flask</h1><h2 id="URL和视图"><a href="#URL和视图" class="headerlink" title="URL和视图"></a>URL和视图</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 从flask这个框架中导入Flask这个类</span></span><br><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Flask</span><br><span class="line"></span><br><span class="line"><span class="comment"># 初始化一个Flask对象</span></span><br><span class="line"><span class="comment"># Flask()</span></span><br><span class="line"><span class="comment"># 需要传递一个参数__name__</span></span><br><span class="line"><span class="comment"># 1. 方便flask框架去寻找资源</span></span><br><span class="line"><span class="comment"># 2. 方便flask插件比如Flask-Sqlalchemy出现错误的时候，好去寻找问题所在的位置</span></span><br><span class="line">app = Flask(__name__)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># @app.route是一个装饰器</span></span><br><span class="line"><span class="comment"># @开头，并且在函数的上面，说明是装饰器</span></span><br><span class="line"><span class="comment"># 这个装饰器的作用，是做一个url与视图函数的映射</span></span><br><span class="line"><span class="comment"># 127.0.0.1:5000/   -&gt;  去请求hello_world这个函数，然后将结果返回给浏览器</span></span><br><span class="line"><span class="meta">@app.route('/')</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">hello_world</span><span class="params">()</span>:</span></span><br><span class="line">        <span class="keyword">return</span> <span class="string">'我是第一个flask程序'</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 如果当前这个文件是作为入口程序运行，那么就执行app.run()</span></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">        <span class="comment"># app.run()</span></span><br><span class="line">        <span class="comment"># 启动一个应用服务器，来接受用户的请求</span></span><br><span class="line">        <span class="comment"># while True:</span></span><br><span class="line">        <span class="comment">#  listen()</span></span><br><span class="line">    app.run()</span><br></pre></td></tr></table></figure>
 <h3 id="设置debug模式"><a href="#设置debug模式" class="headerlink" title="设置debug模式"></a><strong>设置debug模式</strong></h3><ol>
@@ -237,161 +210,74 @@ ga('send', 'pageview');
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;% block main %&#125;</span><br><span class="line">    &lt;h1&gt;这是首页&lt;&#x2F;h1&gt;</span><br><span class="line">&#123;% endblock %&#125;</span><br></pre></td></tr></table></figure>
 <h1 id="python开发"><a href="#python开发" class="headerlink" title="python开发"></a>python开发</h1><h2 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python</span></span><br><span class="line">print(<span class="string">'hello pz1o'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#linux下执行</span></span><br><span class="line">chmod <span class="number">777</span> python</span><br><span class="line">./a.py</span><br><span class="line"></span><br><span class="line"><span class="comment">#优化生成pyo</span></span><br><span class="line">python -O -m py_compile a.py</span><br><span class="line">python a.pyo</span><br><span class="line"></span><br><span class="line"><span class="comment">#eval</span></span><br><span class="line">a = <span class="string">'[1,2,3]'</span></span><br><span class="line">b = eval(a)</span><br><span class="line">print(b)</span><br><span class="line"></span><br><span class="line"><span class="comment">#%格式化字符串</span></span><br><span class="line"><span class="comment">#%c:ascii</span></span><br><span class="line">a = <span class="number">97</span></span><br><span class="line">print(<span class="string">'i am %c'</span>%a)</span><br><span class="line"><span class="comment">#%x:16进制</span></span><br><span class="line">print(<span class="string">'i am %x'</span>%a)</span><br><span class="line"><span class="comment">#%o:8进制</span></span><br><span class="line">print(<span class="string">'i am %o'</span>%a)</span><br><span class="line"></span><br><span class="line"><span class="comment">#日期</span></span><br><span class="line">time = time.time()</span><br><span class="line">time.sleep(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#args处理多余参数 args处理列表和元组 kwargs处理字典</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">sub</span><span class="params">(num1,num2,*args,**kwargs)</span>:</span></span><br><span class="line">  print(num1-num2)</span><br><span class="line">  print(args)</span><br><span class="line">  print(kwargs)</span><br><span class="line">a = [<span class="number">5</span>,<span class="number">3</span>,<span class="number">2</span>]</span><br><span class="line">sub(*a)</span><br><span class="line"><span class="number">2</span>  (<span class="number">2</span>,)  &#123;&#125;</span><br><span class="line">sub(<span class="number">5</span>,<span class="number">3</span>,x=<span class="number">2</span>)</span><br><span class="line"><span class="number">2</span>  ()  &#123;<span class="string">'x'</span>: <span class="number">2</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">#文件操作</span></span><br><span class="line"><span class="comment">#r只读  </span></span><br><span class="line"><span class="comment">#w写入  删除原文件，重新写入，无则创建</span></span><br><span class="line"><span class="comment">#a写入 文件末尾追加新的内容，无则创建</span></span><br><span class="line"><span class="comment">#a+读写  文件末尾追加新的内容，无则创建</span></span><br><span class="line"><span class="comment">#b 打开二进制文件</span></span><br><span class="line"><span class="keyword">with</span> open(<span class="string">'yyds.txt'</span>,<span class="string">'r'</span>) <span class="keyword">as</span> f:</span><br><span class="line">    print(f.read())</span><br><span class="line">CUMTCTF&#123;<span class="number">1</span>b8947a6f2b048c284515d8bd209c83f&#125;</span><br><span class="line">		f.seek(<span class="number">7</span>,<span class="number">0</span>)</span><br><span class="line">  	print(f.read())</span><br><span class="line">&#123;<span class="number">1</span>b8947a6f2b048c284515d8bd209c83f&#125;</span><br><span class="line"><span class="comment">#f.seek('偏移量','选项')</span></span><br><span class="line"><span class="comment">#选项为0时，从文件头部向后偏移</span></span><br><span class="line"><span class="comment">#选项为1时，从当前位置偏移</span></span><br><span class="line"><span class="comment">#选项为2时，从文件末向前偏移</span></span><br><span class="line">  </span><br><span class="line"><span class="comment">#os模块</span></span><br><span class="line">os.mkdir(<span class="string">'./yyds'</span>)</span><br><span class="line">os.rmdir(<span class="string">'./yyds'</span>)</span><br><span class="line">os.listdir(<span class="string">'./'</span>)</span><br><span class="line">os.getcwd()</span><br><span class="line">os.chdir(<span class="string">'../'</span>)  <span class="comment">#改变当前工作目录</span></span><br><span class="line">os.system(<span class="string">'dir'</span>)  <span class="comment">#返回状态,0为成功,1为失败</span></span><br><span class="line">res = os.popen(<span class="string">'dir'</span>)  <span class="comment">#返回一个对象</span></span><br><span class="line">print(res.read())</span><br><span class="line"></span><br><span class="line"><span class="comment">#捕捉异常</span></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">  正常代码</span><br><span class="line"><span class="keyword">except</span> 错误:</span><br><span class="line">  如果出现错误，执行这段代码</span><br><span class="line"><span class="keyword">finally</span>:</span><br><span class="line">  最终执行这段代码</span><br><span class="line">  </span><br><span class="line"><span class="comment">#网络编程</span></span><br><span class="line"><span class="comment">#非常简易的扫描器</span></span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">import</span> socket</span><br><span class="line"></span><br><span class="line">port = [<span class="number">21</span>,<span class="number">22</span>,<span class="number">23</span>,<span class="number">80</span>,<span class="number">135</span>,<span class="number">139</span>,<span class="number">443</span>,<span class="number">1433</span>,<span class="number">3306</span>,<span class="number">3389</span>]</span><br><span class="line">allports = [<span class="number">0</span>,<span class="number">65535</span>]</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">scan</span><span class="params">(ip,port,*args,**kwargs)</span>:</span></span><br><span class="line">    s = socket.socket()</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        s.connect((ip, port))</span><br><span class="line">        print(<span class="string">"[+]The %s port %s is open"</span>%(ip,port))</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        print(<span class="string">"[+]The %s port %s is closed"</span>%(ip,port))</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">ports</span><span class="params">(ip,port)</span>:</span><span class="comment">#search some incoming specific parameters</span></span><br><span class="line">    <span class="keyword">for</span> p <span class="keyword">in</span> port:</span><br><span class="line">        scan(ip,p)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">convert</span><span class="params">(array)</span>:</span></span><br><span class="line">    a = []</span><br><span class="line">    <span class="keyword">for</span> x <span class="keyword">in</span> array:</span><br><span class="line">        a.append(int(x))</span><br><span class="line">    <span class="keyword">return</span> a</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">portsplus</span><span class="params">(ip,port)</span>:</span><span class="comment">#search the parameters of an interval passed in</span></span><br><span class="line">    <span class="keyword">for</span> p <span class="keyword">in</span> range(port[<span class="number">0</span>],port[<span class="number">1</span>]+<span class="number">1</span>):</span><br><span class="line">        scan(ip,p)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="keyword">if</span> len(sys.argv) &lt; <span class="number">2</span>:</span><br><span class="line">            print(<span class="string">'''</span></span><br><span class="line"><span class="string">[+]You can read the following rules to use this tool.</span></span><br><span class="line"><span class="string">[+]python scanport.py host ports</span></span><br><span class="line"><span class="string">[+]The Default scanports are 21,22,23,80,135,139,443,1433,3306,3389</span></span><br><span class="line"><span class="string">[+]python scanport.py 127.0.0.1 80,90,3306,3389</span></span><br><span class="line"><span class="string">[+]python scanport.py 127.0.0.1 80-90</span></span><br><span class="line"><span class="string">[+]python scanport.py 127.0.0.1 all</span></span><br><span class="line"><span class="string">            '''</span>)</span><br><span class="line">        <span class="keyword">elif</span> len(sys.argv) == <span class="number">2</span>:</span><br><span class="line">            ports(sys.argv[<span class="number">1</span>],port)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            ip = sys.argv[<span class="number">1</span>]</span><br><span class="line">            <span class="keyword">if</span> <span class="string">','</span> <span class="keyword">in</span> sys.argv[<span class="number">2</span>]:</span><br><span class="line">                p = sys.argv[<span class="number">2</span>]</span><br><span class="line">                p = p.split(<span class="string">','</span>)</span><br><span class="line">                ports(ip,convert(p))</span><br><span class="line">            <span class="keyword">elif</span> <span class="string">'-'</span> <span class="keyword">in</span> sys.argv[<span class="number">2</span>]:</span><br><span class="line">                p = sys.argv[<span class="number">2</span>]</span><br><span class="line">                p = p.split(<span class="string">'-'</span>)</span><br><span class="line">                portsplus(ip,convert(p))</span><br><span class="line">            <span class="keyword">elif</span> sys.argv[<span class="number">2</span>] == <span class="string">'all'</span>:</span><br><span class="line">                portsplus(ip,allports)</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                port = int(sys.argv[<span class="number">2</span>])</span><br><span class="line">                scan(ip,port)</span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        print(<span class="string">'''</span></span><br><span class="line"><span class="string">[+]There is something wrong!!!</span></span><br><span class="line"><span class="string">        '''</span>)</span><br><span class="line">    <span class="keyword">finally</span>:</span><br><span class="line">        print(<span class="string">'''</span></span><br><span class="line"><span class="string">[+]The task has been completed!!!</span></span><br><span class="line"><span class="string">        '''</span>)</span><br><span class="line">        </span><br><span class="line"><span class="comment">#类和对象</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span>:</span></span><br><span class="line">    __age = <span class="number">18</span> <span class="comment">#私有属性</span></span><br><span class="line">    name = <span class="string">'name'</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,name)</span>:</span></span><br><span class="line">        self.name = name;</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">introduce</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">"my name is %s,and my age is %d"</span>%((self.name),(self.__age)))</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__hello</span><span class="params">(self)</span>:</span><span class="comment">#私有方法</span></span><br><span class="line">        print(<span class="string">"Hello!! My name is %s"</span>%(self.name))</span><br><span class="line"></span><br><span class="line">pz1o = Person(<span class="string">'pz1o'</span>)</span><br><span class="line">pz1o.introduce()<span class="comment">#公有方法调用</span></span><br><span class="line">print(pz1o._Person__age)<span class="comment">#私有属性调用</span></span><br><span class="line">pz1o._Person__hello()<span class="comment">#私有方法调用</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#tamper编写</span></span><br><span class="line">--tamper scan.py</span><br><span class="line"><span class="comment">#绕空格</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">tamper</span><span class="params">(payload,**kwargs)</span>:</span></span><br><span class="line">    retVal = payload</span><br><span class="line">    <span class="keyword">if</span> payload:</span><br><span class="line">        retVal = <span class="string">""</span></span><br><span class="line">        <span class="keyword">for</span> x <span class="keyword">in</span> payload:</span><br><span class="line">            <span class="keyword">if</span> x.isspace():</span><br><span class="line">                retVal += <span class="string">"/**/"</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                retVal += x</span><br><span class="line">    <span class="keyword">return</span> retVal</span><br><span class="line"></span><br><span class="line">print(tamper(<span class="string">"1' and 1=1#"</span>))</span><br><span class="line"><span class="comment">#不过滤引号里的内容</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">tamper</span><span class="params">(payload,**kwargs)</span>:</span></span><br><span class="line">    retVal = payload</span><br><span class="line">    <span class="keyword">if</span> payload:</span><br><span class="line">        retVal = <span class="string">""</span></span><br><span class="line">        flag = <span class="literal">False</span></span><br><span class="line">        <span class="keyword">for</span> x <span class="keyword">in</span> payload:</span><br><span class="line">            <span class="keyword">if</span> x == <span class="string">"'"</span> <span class="keyword">or</span> x == <span class="string">'"'</span>:</span><br><span class="line">                flag = <span class="keyword">not</span> flag</span><br><span class="line">                retVal += <span class="string">"'"</span></span><br><span class="line">            <span class="keyword">elif</span> x.isspace() <span class="keyword">and</span> <span class="keyword">not</span> flag:</span><br><span class="line">                retVal += <span class="string">"/**/"</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                retVal += x</span><br><span class="line">    <span class="keyword">return</span> retVal</span><br><span class="line"></span><br><span class="line">print(tamper(<span class="string">"1' my name is pz1o' and 1=1#"</span>))</span><br></pre></td></tr></table></figure>
 
-    
+      </div>
+      <div class="post-copyright">
+    <p class="copyright-item">
+      <span>Author: </span>
+      <a href="https://pz1o.top">pz1o</a>
+    </p>
+    <p class="copyright-item">
+      <span>Link: </span>
+      <a href="https://pz1o.top/2020/08/13/python%E5%BC%80%E5%8F%91/">https://pz1o.top/2020/08/13/python%E5%BC%80%E5%8F%91/</a>
+    </p>
+    <p class="copyright-item">
+      <span>License: </span><a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>
+    </p>
   </div>
+      <footer class="post-footer">
+        <div class="post-tags">
+            <a href="/tags/python/">python</a>
+            </div>
+        
+        <nav class="post-nav"><a class="prev" href="/2020/09/25/CUMTCTF2020/">
+        <i class="iconfont icon-left"></i>
+        <span class="prev-text nav-default">CUMTCTF2020</span>
+        <span class="prev-text nav-mobile">Prev</span>
+      </a>
+    <a class="next" href="/2020/08/07/Docker%E5%AD%A6%E4%B9%A0/">
+        <span class="next-text nav-default">Docker学习</span>
+        <span class="prev-text nav-mobile">Next</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    </nav></footer>
+    </article></div><div class="comments" id="comments"></div></div>
+      </main>
 
-</article>
+      <footer id="footer" class="footer"><div class="social-links"><a href="mailto:pz1olzy@aliyun.com" class="iconfont icon-email" title="email"></a>
+        <a href="https://github.com/pz1o" target="_blank" rel="noopener" class="iconfont icon-github" title="github"></a>
+        <a href="/atom.xml" class="iconfont icon-rss" title="rss"></a>
+    </div><div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/ahonn/hexo-theme-even" target="_blank" rel="noopener">Even</a>
+  </span>
 
-
-   
-
-   
-  <div class="box-prev-next clearfix">
-    <a class="show pull-left" href="/2020/08/07/Docker%E5%AD%A6%E4%B9%A0/">
-        <i class="icon icon-angle-left"></i>
-    </a>
-    <a class="show pull-right" href="/2020/09/25/CUMTCTF2020/">
-        <i class="icon icon-angle-right"></i>
-    </a>
-  </div>
-
-
-
-
+  <span class="copyright-year">&copy;2020 - 2021<span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">pz1o</span>
+  </span>
 </div>
+</footer>
 
-
-  <a id="backTop" class="back-top">
-    <i class="icon-angle-up"></i>
-  </a>
-
-
-
-
-  <div class="modal" id="modal">
-  <span id="cover" class="cover hide"></span>
-  <div id="modal-dialog" class="modal-dialog hide-dialog">
-    <div class="modal-header">
-      <span id="close" class="btn-close">Close</span>
-    </div>
-    <hr>
-    <div class="modal-body">
-      <ul class="list-toolbox">
-        
-          <li class="item-toolbox">
-            <a
-              class="ROUND_RECT"
-              href="/archives/"
-              rel="noopener noreferrer"
-              target="_blank"
-              >
-              Blog
-            </a>
-          </li>
-        
-          <li class="item-toolbox">
-            <a
-              class="ROUND_RECT"
-              href="/tag/"
-              rel="noopener noreferrer"
-              target="_self"
-              >
-              Tag
-            </a>
-          </li>
-        
-          <li class="item-toolbox">
-            <a
-              class="ROUND_RECT"
-              href="/about/"
-              rel="noopener noreferrer"
-              target="_self"
-              >
-              About
-            </a>
-          </li>
-        
-      </ul>
-
-    </div>
-  </div>
-</div>
-
-
-
-  
-      <div class="fexo-comments comments-post">
-    
-
-    
-
-    
-    
-
-    
-
-    
-    
-
-    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
-    <script src="//cdn.jsdelivr.net/npm/valine@latest/dist/Valine.min.js"></script>
-    <div id="comment" class="vcomment" ></div>
-    <script>
-        var notify = 'true' == true ? true : false;
-        var verify = 'true' == true ? true : false;
-        var GUEST_INFO = ['nick','mail','link'];
-        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
-            return GUEST_INFO.indexOf(item) > -1
-        });
-        guest_info = guest_info.length == 0 ? GUEST_INFO :guest_info;
-        window.valine = new Valine({
-            el: '.vcomment',
-            notify: notify,
-            verify: verify,
-            appId: "KLWvKGPeSIyoEo4k6j3v37wy-gzGzoHsz",
-            appKey: "FL93w3BBbF9lxiR8X1HI58En",
-            avatar:'wavatar',
-            placeholder: "Just go go",
-            guest_info:guest_info,
-            pageSize:'6'
-        });
-    </script>
-  
-    
-
-  </div>
-
-  
-
-  <script type="text/javascript">
-  function loadScript(url, callback) {
-    var script = document.createElement('script')
-    script.type = 'text/javascript';
-
-    if (script.readyState) { //IE
-      script.onreadystatechange = function() {
-        if (script.readyState == 'loaded' ||
-          script.readyState == 'complete') {
-          script.onreadystatechange = null;
-          callback();
-        }
-      };
-    } else { //Others
-      script.onload = function() {
-        callback();
-      };
-    }
-
-    script.src = url;
-    document.getElementsByTagName('head')[0].appendChild(script);
-  }
-
-  window.onload = function() {
-    loadScript('/js/bundle.js?235683', function() {
-      // load success
-    });
-  }
-</script>
-
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
+    </div><!-- SOHUCS Comments -->
+<div id="SOHUCS"></div>
+<script type="text/javascript">
+(function(){
+var appid = 'cyvuAqBH5';
+var conf = 'f4f164c77381c58d639d8e00e69da6e7';
+var width = window.innerWidth || document.documentElement.clientWidth;
+if (width < 960) {window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); } })();
+</script><script type="text/javascript" src="/lib/jquery/jquery.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout.js"></script>
+  <script type="text/javascript" src="/lib/fancybox/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/src/even.js?v=2.11.0"></script>
 </body>
 </html>

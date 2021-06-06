@@ -1,316 +1,370 @@
 <!DOCTYPE html>
+<html lang="en">
+  <head><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
 
-  <html class="dark page-post">
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
 
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
-<head>
-  <meta charset="utf-8">
-  
-  <title>Linux x86 Program | pz1o</title>
+<meta name="description" content="Linux x86 Program"/><meta name="keywords" content="CTF" /><link rel="alternate" href="/atom.xml" title="pz1o"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.11.0" />
+<link rel="canonical" href="https://pz1o.top/2021/06/02/Linux-x86-Program/"/>
 
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<link rel="stylesheet" type="text/css" href="/lib/fancybox/jquery.fancybox.css" /><script type="text/x-mathjax-config">
+    MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] } });
+  </script>
+  <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=2.11.0" />
 
-  
-    <meta name="keywords" content="Linux," />
-  
-
-  <meta name="description" content="Linux x86 Program Start Up我们只关注x86的程序  how did we get to main?参考Linux x86 Program Start Up (dbp-consulting.com)">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Linux x86 Program">
-<meta property="og:url" content="https://pz1o.top/2021/06/02/Linux-x86-Program/index.html">
-<meta property="og:site_name" content="pz1o">
-<meta property="og:description" content="Linux x86 Program Start Up我们只关注x86的程序  how did we get to main?参考Linux x86 Program Start Up (dbp-consulting.com)">
-<meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://pz1o.top/2021/06/02/Linux-x86-Program/callgraph.png">
-<meta property="article:published_time" content="2021-06-02T12:19:10.000Z">
-<meta property="article:modified_time" content="2021-06-02T14:03:49.900Z">
-<meta property="article:author" content="pz1o">
-<meta property="article:tag" content="Linux">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://pz1o.top/2021/06/02/Linux-x86-Program/callgraph.png">
-
-  
-
-  
-    <link rel="icon" href="/favicon.ico">
-  
-
-  <link href="/css/styles.css?v=c114cbeddx" rel="stylesheet">
-
-
-  
-    
-<link rel="stylesheet" href="/css/personal-style.css">
-
-  
-
-  
-<!-- Google Analytics -->
-<script type="text/javascript">
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-ga('create', 'UA-38189205-1', 'auto');
-ga('send', 'pageview');
-
-</script>
-<!-- End Google Analytics -->
-
-
-  
-  <script type="text/javascript">
+<script id="baidu_analytics">
     var _hmt = _hmt || [];
     (function() {
       var hm = document.createElement("script");
-      hm.src = "//hm.baidu.com/hm.js?e90b4c8b8c36ca2b3e5798ef67088f84";
+      hm.src = "https://hm.baidu.com/hm.js?e90b4c8b8c36ca2b3e5798ef67088f84";
       var s = document.getElementsByTagName("script")[0];
       s.parentNode.insertBefore(hm, s);
     })();
-  </script>
-
-
-  
-  <script type="text/javascript">
-	(function(){
-	    var bp = document.createElement('script');
-	    var curProtocol = window.location.protocol.split(':')[0];
-	    if (curProtocol === 'https') {
-	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
-	    }
-	    else {
-	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
-	    }
-	    var s = document.getElementsByTagName("script")[0];
-	    s.parentNode.insertBefore(bp, s);
-	})();
-  </script>
-
-
-
-  
-    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
-  
-
-<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="pz1o" type="application/atom+xml">
-</head>
-
-<body>
-
-
-  
-
-  <div class="post-header">
-   
-
-</div>
-
-
-  <div id="toc" class="toc-article">
-    <strong class="toc-title">Posts List</strong>
-    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Linux-x86-Program-Start-Up"><span class="toc-text">Linux x86 Program Start Up</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#how-did-we-get-to-main"><span class="toc-text">how did we get to main?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考"><span class="toc-text">参考</span></a></li></ol></li></ol>
-  </div>
-
-
-
-<div class="content content-post CENTER">
-   <article id="post-Linux-x86-Program" class="article article-type-post" itemprop="blogPost">
-  <header class="article-header">
-    <h1 class="post-title">Linux x86 Program</h1>
-
-    <div class="article-meta">
-      <span>
-        <i class="icon-calendar"></i>
-        <span>2021.06.02</span>
-      </span>
-
-      
-        <span class="article-author">
-          <i class="icon-user"></i>
-          <span>pz1o</span>
-        </span>
-      
-
-      
-
-
-      
-
-      
-      <i class="fa fa-eye"></i> 
-        <span id="busuanzi_container_page_pv">
-           &nbsp热度 <span id="busuanzi_value_page_pv">
-           <i class="fa fa-spinner fa-spin"></i></span>℃
-        </span>
-      
-      
-    </div>
-  </header>
-
-  <div class="article-content">
-    
-      <h1 id="Linux-x86-Program-Start-Up"><a href="#Linux-x86-Program-Start-Up" class="headerlink" title="Linux x86 Program Start Up"></a>Linux x86 Program Start Up</h1><p>我们只关注x86的程序</p>
-<p><img src="/2021/06/02/Linux-x86-Program/callgraph.png" alt="image of the callgraph for all the routines involved in program startup on linux"></p>
-<h2 id="how-did-we-get-to-main"><a href="#how-did-we-get-to-main" class="headerlink" title="how did we get to main?"></a>how did we get to main?</h2><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="http://dbp-consulting.com/tutorials/debugging/linuxProgramStartup.html" target="_blank" rel="noopener">Linux x86 Program Start Up (dbp-consulting.com)</a></p>
-
-    
-  </div>
-
-</article>
-
-
-   
-
-   
-  <div class="box-prev-next clearfix">
-    <a class="show pull-left" href="/2021/06/02/%E9%9D%A2%E8%AF%95/">
-        <i class="icon icon-angle-left"></i>
-    </a>
-    <a class="show pull-right" href="/2021/06/03/file-system/">
-        <i class="icon icon-angle-right"></i>
-    </a>
-  </div>
-
-
-
-
-</div>
-
-
-  <a id="backTop" class="back-top">
-    <i class="icon-angle-up"></i>
-  </a>
-
-
-
-
-  <div class="modal" id="modal">
-  <span id="cover" class="cover hide"></span>
-  <div id="modal-dialog" class="modal-dialog hide-dialog">
-    <div class="modal-header">
-      <span id="close" class="btn-close">Close</span>
-    </div>
-    <hr>
-    <div class="modal-body">
-      <ul class="list-toolbox">
-        
-          <li class="item-toolbox">
-            <a
-              class="ROUND_RECT"
-              href="/archives/"
-              rel="noopener noreferrer"
-              target="_blank"
-              >
-              Blog
-            </a>
-          </li>
-        
-          <li class="item-toolbox">
-            <a
-              class="ROUND_RECT"
-              href="/tag/"
-              rel="noopener noreferrer"
-              target="_self"
-              >
-              Tag
-            </a>
-          </li>
-        
-          <li class="item-toolbox">
-            <a
-              class="ROUND_RECT"
-              href="/about/"
-              rel="noopener noreferrer"
-              target="_self"
-              >
-              About
-            </a>
-          </li>
-        
-      </ul>
-
-    </div>
-  </div>
-</div>
-
-
-
-  
-      <div class="fexo-comments comments-post">
-    
-
-    
-
-    
-    
-
-    
-
-    
-    
-
-    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
-    <script src="//cdn.jsdelivr.net/npm/valine@latest/dist/Valine.min.js"></script>
-    <div id="comment" class="vcomment" ></div>
-    <script>
-        var notify = 'true' == true ? true : false;
-        var verify = 'true' == true ? true : false;
-        var GUEST_INFO = ['nick','mail','link'];
-        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
-            return GUEST_INFO.indexOf(item) > -1
-        });
-        guest_info = guest_info.length == 0 ? GUEST_INFO :guest_info;
-        window.valine = new Valine({
-            el: '.vcomment',
-            notify: notify,
-            verify: verify,
-            appId: "KLWvKGPeSIyoEo4k6j3v37wy-gzGzoHsz",
-            appKey: "FL93w3BBbF9lxiR8X1HI58En",
-            avatar:'wavatar',
-            placeholder: "Just go go",
-            guest_info:guest_info,
-            pageSize:'6'
-        });
-    </script>
-  
-    
-
-  </div>
-
-  
-
-  <script type="text/javascript">
-  function loadScript(url, callback) {
-    var script = document.createElement('script')
-    script.type = 'text/javascript';
-
-    if (script.readyState) { //IE
-      script.onreadystatechange = function() {
-        if (script.readyState == 'loaded' ||
-          script.readyState == 'complete') {
-          script.onreadystatechange = null;
-          callback();
-        }
-      };
-    } else { //Others
-      script.onload = function() {
-        callback();
-      };
+  </script><script id="baidu_push">
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
     }
-
-    script.src = url;
-    document.getElementsByTagName('head')[0].appendChild(script);
-  }
-
-  window.onload = function() {
-    loadScript('/js/bundle.js?235683', function() {
-      // load success
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+<script src="//cdn1.lncld.net/static/js/3.1.1/av-min.js"></script>
+  <script id="leancloud">
+    AV.init({
+      appId: "KLWvKGPeSIyoEo4k6j3v37wy-gzGzoHsz",
+      appKey: "FL93w3BBbF9lxiR8X1HI58En"
     });
-  }
+  </script><script>
+  window.config = {"leancloud":{"app_id":"KLWvKGPeSIyoEo4k6j3v37wy-gzGzoHsz","app_key":"FL93w3BBbF9lxiR8X1HI58En"},"toc":true,"fancybox":true,"pjax":"","latex":true};
 </script>
 
+    <title>Linux x86 Program - pz1o</title>
+  <meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="pz1o" type="application/atom+xml">
+</head>
+
+  <body><div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/." class="logo">pz1o</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list"><a href="/archives/">
+        <li class="mobile-menu-item">Home
+          </li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags
+          </li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About
+          </li>
+      </a></ul>
+</nav>
+<div class="container" id="mobile-panel">
+      <header id="header" class="header"><div class="logo-wrapper">
+  <a href="/." class="logo">pz1o</a>
+</div>
+
+<nav class="site-navbar"><ul id="menu" class="menu"><li class="menu-item">
+          <a class="menu-item-link" href="/archives/">
+            Home
+            </a>
+        </li>
+      <li class="menu-item">
+          <a class="menu-item-link" href="/tags/">
+            Tags
+            </a>
+        </li>
+      <li class="menu-item">
+          <a class="menu-item-link" href="/about/">
+            About
+            </a>
+        </li>
+      </ul></nav>
+</header>
+
+      <main id="main" class="main">
+        <div class="content-wrapper">
+          <div id="content" class="content"><article class="post">
+    <header class="post-header">
+      <h1 class="post-title">Linux x86 Program
+        </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2021-06-02
+        </span><span class="post-visits"
+             data-url="/2021/06/02/Linux-x86-Program/"
+             data-title="Linux x86 Program">
+          Visits 0
+        </span>
+        </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+    <h2 class="post-toc-title">Contents</h2>
+    <div class="post-toc-content">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Linux-x86-Program-Start-Up"><span class="toc-text">Linux x86 Program Start Up</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01-how-did-we-get-to-main"><span class="toc-text">0x01 how did we get to main?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x02-But-first-how-do-we-get-to-start"><span class="toc-text">0x02 But first, how do we get to _start?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x03-Now-set-up-for-calling-libc-start-main"><span class="toc-text">0x03 Now set up for calling __libc_start_main</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x04-Hey-Where’s-the-environment-variables"><span class="toc-text">0x04 Hey! Where’s the environment variables?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x05-libc-start-main-in-general"><span class="toc-text">0x05 __libc_start_main in general</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x06-libc-csu-init-introduction"><span class="toc-text">0x06 __libc_csu_init introduction</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x07-init-gets-the-call"><span class="toc-text">0x07 _init gets the call</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-It-starts-with-the-regular-C-calling-convention"><span class="toc-text">1. It starts with the regular C calling convention</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-what-is-gmon-start"><span class="toc-text">2. what is __gmon__start?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-what-is-frame-dummy"><span class="toc-text">3. what is frame_dummy?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-what-is-do-global-ctors-aux"><span class="toc-text">4. what is__do_global_ctors_aux?</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x08-Back-up-to-libc-csu-init"><span class="toc-text">0x08 Back up to __libc_csu_init__</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x09-At-the-end"><span class="toc-text">0x09 At the end</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x10-Summary"><span class="toc-text">0x10 Summary</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#参考"><span class="toc-text">参考</span></a></li></ol>
+    </div>
+  </div><div class="post-content"><h1 id="Linux-x86-Program-Start-Up"><a href="#Linux-x86-Program-Start-Up" class="headerlink" title="Linux x86 Program Start Up"></a>Linux x86 Program Start Up</h1><p>我们只关注x86的程序</p>
+<p><img src="/2021/06/02/Linux-x86-Program/callgraph.png" alt="image of the callgraph for all the routines involved in program startup on linux"></p>
+<h2 id="0x01-how-did-we-get-to-main"><a href="#0x01-how-did-we-get-to-main" class="headerlink" title="0x01 how did we get to main?"></a>0x01 how did we get to main?</h2><p>我们可以先写一个空主函数，看一下其中的汇编。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">gcc -g main.c -m32 -o main</span><br><span class="line">objdump -d main -M intel &gt; main.dump</span><br></pre></td></tr></table></figure>
+<h2 id="0x02-But-first-how-do-we-get-to-start"><a href="#0x02-But-first-how-do-we-get-to-start" class="headerlink" title="0x02 But first, how do we get to _start?"></a>0x02 But first, how do we get to _start?</h2><p>当执行一个程序时，shell会调用linux下的系统函数exceve()。系统将会设置一个栈，将<code>argc</code> <code>argv</code> <code>envp</code>压入栈中。之后加载器重定位，预初始化函数。</p>
+<p>当一切任务完毕后，通过调用<code>_start()</code>将控制权交给你的程序。</p>
+<p>这里有<code>_start()</code>反汇编</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">080482e0 &lt;_start&gt;:</span><br><span class="line"> 80482e0:	31 ed                	xor    ebp,ebp</span><br><span class="line"> 80482e2:	5e                   	pop    esi</span><br><span class="line"> 80482e3:	89 e1                	mov    ecx,esp</span><br><span class="line"> 80482e5:	83 e4 f0             	and    esp,0xfffffff0</span><br><span class="line"> 80482e8:	50                   	push   eax</span><br><span class="line"> 80482e9:	54                   	push   esp</span><br><span class="line"> 80482ea:	52                   	push   edx</span><br><span class="line"> 80482eb:	68 50 84 04 08       	push   0x8048450</span><br><span class="line"> 80482f0:	68 f0 83 04 08       	push   0x80483f0</span><br><span class="line"> 80482f5:	51                   	push   ecx</span><br><span class="line"> 80482f6:	56                   	push   esi</span><br><span class="line"> 80482f7:	68 db 83 04 08       	push   0x80483db</span><br><span class="line"> 80482fc:	e8 bf ff ff ff       	call   80482c0 &lt;__libc_start_main@plt&gt;</span><br><span class="line"> 8048301:	f4                   	hlt    ;stop</span><br><span class="line"> 8048302:	66 90                	xchg   ax,ax</span><br><span class="line"> 8048304:	66 90                	xchg   ax,ax</span><br><span class="line"> 8048306:	66 90                	xchg   ax,ax</span><br><span class="line"> 8048308:	66 90                	xchg   ax,ax</span><br><span class="line"> 804830a:	66 90                	xchg   ax,ax</span><br><span class="line"> 804830c:	66 90                	xchg   ax,ax</span><br><span class="line"> 804830e:	66 90                	xchg   ax,ax</span><br></pre></td></tr></table></figure>
+<p>xor就是将ebp置为0。接下来，从栈中弹出栈顶的值到esi中。最开始时，我们把<code>argc</code> <code>argv</code> <code>envp</code>放入了栈里，所以现在就把<code>argc</code>放到<code>esi</code>中。因为弹出了参数，所以现在esp指向<code>argv</code>。</p>
+<p>之后将esp的值放入ecx中，并且让esp进行<code>and</code>操作，清除后四位。</p>
+<blockquote>
+<p>为什么要这么做？</p>
+<p>这么做，可以让esp下降0-15个字节，保证栈指针时16字节偶数对齐。对齐是为了保证栈上的所有变量能被内存和cache的快速访问。这里提到了SSE，就是指令都能在单精度浮点数组上工作的那个（扩展指令集）。</p>
+<p>举个栗子：</p>
+<p>比如<code>_start</code>的入口是0xbffff770,当我们将<code>argc</code>弹出栈时，esp就变成了0xbffff774。它变到了高地址。当进行完and操作后，就又变成了原来的值，指向了0xbffff770。</p>
+</blockquote>
+<h2 id="0x03-Now-set-up-for-calling-libc-start-main"><a href="#0x03-Now-set-up-for-calling-libc-start-main" class="headerlink" title="0x03 Now set up for calling __libc_start_main"></a>0x03 Now set up for calling __libc_start_main</h2><p>现在我们将把<code>__libc_start_main</code>的参数压入栈中。第一个eax，其实是一个垃圾参数，我们这样做的目的是使16字节对齐。除此之外没有其他用处。</p>
+<p><code>__libc_start_main</code>原函数：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> __libc_start_main(  <span class="keyword">int</span> (*main) (<span class="keyword">int</span>, <span class="keyword">char</span> * *, <span class="keyword">char</span> * *),</span><br><span class="line">			    <span class="keyword">int</span> argc, <span class="keyword">char</span> * * ubp_av,</span><br><span class="line">			    <span class="keyword">void</span> (*init) (<span class="keyword">void</span>),</span><br><span class="line">			    <span class="keyword">void</span> (*fini) (<span class="keyword">void</span>),</span><br><span class="line">			    <span class="keyword">void</span> (*rtld_fini) (<span class="keyword">void</span>),</span><br><span class="line">			    <span class="keyword">void</span> (* stack_end));</span><br></pre></td></tr></table></figure>
+<p>我们让<code>_start</code>函数把<code>__libc_start_main</code>的参数逆序压入栈中。</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>值</th>
+<th>参数</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>eax</td>
+<td>无</td>
+<td>无</td>
+</tr>
+<tr>
+<td>esp</td>
+<td>void (* stack_end)</td>
+<td>已被对齐的栈指针</td>
+</tr>
+<tr>
+<td>edx</td>
+<td>void (*rtld_fini) (void)</td>
+<td>加载器传到edx中的动态链接器的析构函数。<br>被<strong>libc_start_main函数通过</strong>cxat_exit()注册，<br>为我们已经加载的动态库调用FINI section</td>
+</tr>
+<tr>
+<td>0x8048450</td>
+<td>void (*fini) (void)</td>
+<td><strong>libc_csu_fini——程序的析构函数。<br>被</strong>libc_start_main 通过 __cxat_exit()注册</td>
+</tr>
+<tr>
+<td>0x80483f0</td>
+<td>void (*init) (void)</td>
+<td><strong>libc_csu_init——程序的构造函数。<br>于main函数之前被</strong>libc_start_main函数调用</td>
+</tr>
+<tr>
+<td>ecx</td>
+<td>char <em> </em> ubp_av</td>
+<td>argv相对栈的偏移值</td>
+</tr>
+<tr>
+<td>esi</td>
+<td>int argc</td>
+<td>argc相对栈的偏移值</td>
+</tr>
+<tr>
+<td>0x80483db</td>
+<td>int (<em>main) (int, char </em> <em>, char </em> *)</td>
+<td>我们程序的main函数，被__libc_start_main函数调用<br>main函数的返回值被传递给exit()函数，用于终结我们的程序</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><code>__libc_csu_init</code>接下来我们会看</p>
+<h2 id="0x04-Hey-Where’s-the-environment-variables"><a href="#0x04-Hey-Where’s-the-environment-variables" class="headerlink" title="0x04 Hey! Where’s the environment variables?"></a>0x04 Hey! Where’s the environment variables?</h2><p>分析到这，我们发现一个问题，我们的envp去哪里了，它不是<code>__libc_start_main</code>中的一个参数。但是在main函数里面调用了envp<code>int main(int argc, char** argv, char** envp)</code></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> __libc_init_first(<span class="keyword">int</span> argc, <span class="keyword">char</span> *arg0, ...)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">char</span> **argv = &amp;arg0, **envp = &amp;argv[argc + <span class="number">1</span>];</span><br><span class="line">    __environ = envp;</span><br><span class="line">    __libc_init (argc, argv, envp);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>事实上，<code>__libc_start_main</code>调用了<code>__libc_init_first</code>，这个函数会用内部信息找到环境变量，（事实上，环境变量就在argv的终止字符NULL的后面）。然后设置一个全局变量<code>__environ</code>，这个全局变量可以被<code>__libc_start_main</code>函数内部任何地方调用，包括调用main函数。</strong></p>
+<p>当<code>envp</code>建立了之后，<code>__libc_start_main</code>函数会使用相同的小技巧，越过<code>envp</code>数组之后的<code>NULL</code>字符，获取另一个向量——ELF辅助向量（加载器使用它给进程传递一些信息）。通过一个简单的方法可以查看里面的内容：运行程序前，设置环境变量LD_SHOW_AUXV=1。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">❯ LD_SHOW_AUXV&#x3D;1 .&#x2F;main</span><br><span class="line">AT_SYSINFO:      0xf7f93fd0</span><br><span class="line">AT_SYSINFO_EHDR: 0xf7f93000</span><br><span class="line">AT_HWCAP:    fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss</span><br><span class="line">AT_PAGESZ:       4096</span><br><span class="line">AT_CLKTCK:       100</span><br><span class="line">AT_PHDR:         0x8048034</span><br><span class="line">AT_PHENT:        32</span><br><span class="line">AT_PHNUM:        9</span><br><span class="line">AT_BASE:         0xf7f95000</span><br><span class="line">AT_FLAGS:        0x0</span><br><span class="line">AT_ENTRY:        0x80482e0</span><br><span class="line">AT_UID:          1000</span><br><span class="line">AT_EUID:         1000</span><br><span class="line">AT_GID:          0</span><br><span class="line">AT_EGID:         0</span><br><span class="line">AT_SECURE:       0</span><br><span class="line">AT_RANDOM:       0xff828c2b</span><br><span class="line">AT_HWCAP2:       0x0</span><br><span class="line">AT_EXECFN:       .&#x2F;main</span><br><span class="line">AT_PLATFORM:     i686</span><br></pre></td></tr></table></figure>
+<ul>
+<li>AT_ENTRY：<code>_start</code>的地址</li>
+<li>AT_UID/AT_EUID/AT_GID/AT_EGID：uid和euid gid和egid</li>
+<li>AT_PHDR：ELF program 头的地址0x8048034</li>
+<li>AT_PHENT：header entry的字节数</li>
+</ul>
+<h2 id="0x05-libc-start-main-in-general"><a href="#0x05-libc-start-main-in-general" class="headerlink" title="0x05 __libc_start_main in general"></a>0x05 __libc_start_main in general</h2><p>我们来了解一下<code>__libc_start_main</code>的细节，主要功能有以下：</p>
+<ol>
+<li>关注setuid和setgid的安全问题</li>
+<li>启动线程</li>
+<li>把<code>fini</code>函数和<code>rtld_fini</code>函数作为参数传递给<code>at_exit</code>调用，使它们在<code>at_exit</code>里被调用，从而完成用户程序和加载器的调用结束之后的清理工作</li>
+<li>调用<code>init</code>的参数</li>
+<li>将<code>argc</code>和<code>argv</code>参数传递给<code>main</code>，并调用<code>main</code>。当然我们也要把全局变量<code>__environ</code>传递</li>
+<li>调用<code>exit</code>并且带有主函数的返回值</li>
+</ol>
+<p><strong>Calling the init argument</strong></p>
+<p><code>__libc_start_main</code>的<code>init</code>的参数，是被设置为<code>__libc_csu_init</code>。</p>
+<p>具体在源码csu/elf-init，定义如下</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span></span><br><span class="line">__libc_csu_init (<span class="keyword">int</span> argc, <span class="keyword">char</span> **argv, <span class="keyword">char</span> **envp)</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">  _init ();</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> <span class="keyword">size_t</span> <span class="built_in">size</span> = __init_array_end - __init_array_start;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">size_t</span> i = <span class="number">0</span>; i &lt; <span class="built_in">size</span>; i++)</span><br><span class="line">      (*__init_array_start [i]) (argc, argv, envp);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="0x06-libc-csu-init-introduction"><a href="#0x06-libc-csu-init-introduction" class="headerlink" title="0x06 __libc_csu_init introduction"></a>0x06 __libc_csu_init introduction</h2><p><code>__libc_csu_init</code>是非常重要的函数，它是我们可执行程序的构造函数。</p>
+<p>我们可能会有疑问对于构造和析构，说这是c++的东西。但是构造和析构的概念并不是c++的。</p>
+<p>对于任意可执行程序都有一个构造函数<code>__libc_csu_init</code>和析构函数<code>__libc_csu_fini</code>。</p>
+<p><strong>在构造函数的内部，可执行程序将会寻找全局C构造函数，并且调用他们。</strong></p>
+<p>可能很难理解这个点，我们来看一下<code>__libc_csu_init</code>的反汇编</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">080483f0 &lt;__libc_csu_init&gt;:</span><br><span class="line"> 80483f0:	55                   	push   ebp</span><br><span class="line"> 80483f1:	57                   	push   edi</span><br><span class="line"> 80483f2:	56                   	push   esi</span><br><span class="line"> 80483f3:	53                   	push   ebx</span><br><span class="line"> 80483f4:	e8 17 ff ff ff       	call   8048310 &lt;__x86.get_pc_thunk.bx&gt;</span><br><span class="line"> 80483f9:	81 c3 07 1c 00 00    	add    ebx,0x1c07</span><br><span class="line"> 80483ff:	83 ec 0c             	sub    esp,0xc</span><br><span class="line"> 8048402:	8b 6c 24 20          	mov    ebp,DWORD PTR [esp+0x20]</span><br><span class="line"> 8048406:	8d b3 0c ff ff ff    	lea    esi,[ebx-0xf4]</span><br><span class="line"> 804840c:	e8 7b fe ff ff       	call   804828c &lt;_init&gt;</span><br><span class="line"> 8048411:	8d 83 08 ff ff ff    	lea    eax,[ebx-0xf8]</span><br><span class="line"> 8048417:	29 c6                	sub    esi,eax</span><br><span class="line"> 8048419:	c1 fe 02             	sar    esi,0x2</span><br><span class="line"> 804841c:	85 f6                	test   esi,esi</span><br><span class="line"> 804841e:	74 25                	je     8048445 &lt;__libc_csu_init+0x55&gt;</span><br><span class="line"> 8048420:	31 ff                	xor    edi,edi</span><br><span class="line"> 8048422:	8d b6 00 00 00 00    	lea    esi,[esi+0x0]</span><br><span class="line"> 8048428:	83 ec 04             	sub    esp,0x4</span><br><span class="line"> 804842b:	ff 74 24 2c          	push   DWORD PTR [esp+0x2c]</span><br><span class="line"> 804842f:	ff 74 24 2c          	push   DWORD PTR [esp+0x2c]</span><br><span class="line"> 8048433:	55                   	push   ebp</span><br><span class="line"> 8048434:	ff 94 bb 08 ff ff ff 	call   DWORD PTR [ebx+edi*4-0xf8]</span><br><span class="line"> 804843b:	83 c7 01             	add    edi,0x1</span><br><span class="line"> 804843e:	83 c4 10             	add    esp,0x10</span><br><span class="line"> 8048441:	39 f7                	cmp    edi,esi</span><br><span class="line"> 8048443:	75 e3                	jne    8048428 &lt;__libc_csu_init+0x38&gt;</span><br><span class="line"> 8048445:	83 c4 0c             	add    esp,0xc</span><br><span class="line"> 8048448:	5b                   	pop    ebx</span><br><span class="line"> 8048449:	5e                   	pop    esi</span><br><span class="line"> 804844a:	5f                   	pop    edi</span><br><span class="line"> 804844b:	5d                   	pop    ebp</span><br><span class="line"> 804844c:	c3                   	ret    </span><br><span class="line"> 804844d:	8d 76 00             	lea    esi,[esi+0x0]</span><br></pre></td></tr></table></figure>
+<p><strong>What the heck is a thunk?</strong></p>
+<p><code>get_pc_thunk</code>是给位置无关码使用的。通过它，我们可以使位置无关代码正常工作。</p>
+<p>为了让他们工作，基址寄存器（ebp）需要知道<code>GLOBAL_OFFSET_TABLE</code></p>
+<p>其中代码如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">08048310 &lt;__x86.get_pc_thunk.bx&gt;:</span><br><span class="line"> 8048310:	8b 1c 24             	mov    ebx,DWORD PTR [esp]</span><br><span class="line"> 8048313:	c3                   	ret</span><br><span class="line"></span><br><span class="line"> 80483f3:	53                   	push   ebx</span><br><span class="line"> 80483f4:	e8 17 ff ff ff       	call   8048310 &lt;__x86.get_pc_thunk.bx&gt;</span><br><span class="line"> 80483f9:	81 c3 07 1c 00 00    	add    ebx,0x1c07;add  $_GLOBAL_OFFSET_TABLE_,%ebx</span><br></pre></td></tr></table></figure>
+<p>我们可以看到，在调用<code>__get_pc_thunk_dx</code>后，将下一条指令压入了栈中。</p>
+<p>在<code>__get_pc_thunk_dx</code>中，我们将返回地址从栈中赋值到ebx中，之后又就<code>_GLOBAL_OFFSET_TABLE_</code>加到<code>ebx</code>上去。<strong>其中<code>_GLOBAL_OFFSET_TABLE_</code>代表了当前地址和位置无关码使用的<code>GOT(global offset table)</code>的差值。</strong></p>
+<blockquote>
+<p>这里有-pic可以让编辑器直接给我们完成位置无关自动化。</p>
+</blockquote>
+<h2 id="0x07-init-gets-the-call"><a href="#0x07-init-gets-the-call" class="headerlink" title="0x07 _init gets the call"></a>0x07 _init gets the call</h2><p>我们来理一下流程，首先加载器将控制交给了<code>_start</code>，之后调用了<code>__libc_start_main</code>，然后又调用了<code>__libc_csu_init</code>，最后调用了<code>_init</code></p>
+<p>来看一下<code>_init</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">;这里我和原文的不太一样，看原文的把</span><br><span class="line">;0804828c &lt;_init&gt;:</span><br><span class="line">; 804828c:	53                   	push   ebx</span><br><span class="line">; 804828d:	83 ec 08             	sub    esp,0x8</span><br><span class="line">; 8048290:	e8 7b 00 00 00       	call   8048310 &lt;__x86.get_pc_thunk.bx&gt;</span><br><span class="line">; 8048295:	81 c3 6b 1d 00 00    	add    ebx,0x1d6b</span><br><span class="line">; 804829b:	8b 83 fc ff ff ff    	mov    eax,DWORD PTR [ebx-0x4]</span><br><span class="line">; 80482a1:	85 c0                	test   eax,eax</span><br><span class="line">; 80482a3:	74 05                	je     80482aa &lt;_init+0x1e&gt;</span><br><span class="line">; 80482a5:	e8 26 00 00 00       	call   80482d0 &lt;__libc_start_main@plt+0x10&gt;</span><br><span class="line">; 80482aa:	83 c4 08             	add    esp,0x8</span><br><span class="line">; 80482ad:	5b                   	pop    ebx</span><br><span class="line">; 80482ae:	c3                   	ret</span><br><span class="line">08048274 &lt;_init&gt;:</span><br><span class="line"> 8048274:       55                      push   %ebp</span><br><span class="line"> 8048275:       89 e5                   mov    %esp,%ebp</span><br><span class="line"> 8048277:       53                      push   %ebx</span><br><span class="line"> 8048278:       83 ec 04                sub    $0x4,%esp</span><br><span class="line"> 804827b:       e8 00 00 00 00          call   8048280 &lt;_init+0xc&gt;</span><br><span class="line"> 8048280:       5b                      pop    %ebx</span><br><span class="line"> 8048281:       81 c3 74 1d 00 00       add    $0x1d74,%ebx        (.got.plt)</span><br><span class="line"> 8048287:       8b 93 fc ff ff ff       mov    -0x4(%ebx),%edx</span><br><span class="line"> 804828d:       85 d2                   test   %edx,%edx</span><br><span class="line"> 804828f:       74 05                   je     8048296 &lt;_init+0x22&gt;</span><br><span class="line"> 8048291:       e8 1e 00 00 00          call   80482b4 &lt;__gmon_start__@plt&gt;</span><br><span class="line"> 8048296:       e8 d5 00 00 00          call   8048370 &lt;frame_dummy&gt;</span><br><span class="line"> 804829b:       e8 70 01 00 00          call   8048410 &lt;__do_global_ctors_aux&gt;</span><br><span class="line"> 80482a0:       58                      pop    %eax</span><br><span class="line"> 80482a1:       5b                      pop    %ebx</span><br><span class="line"> 80482a2:       c9                      leave</span><br><span class="line"> 80482a3:       c3                      ret</span><br></pre></td></tr></table></figure>
+<h3 id="1-It-starts-with-the-regular-C-calling-convention"><a href="#1-It-starts-with-the-regular-C-calling-convention" class="headerlink" title="1. It starts with the regular C calling convention"></a>1. It starts with the regular C calling convention</h3><p>和常规c函数调用一样，压栈，调ebp，之后就是和我们上面看见的一样。</p>
+<p>call下一条指令，但同时也把下一条指令压入了栈中。这么做好像和我们顺序执行是一样的，但由于下一条指令的地址存到了ebx中。</p>
+<p>之后，我们就可以通过ebx来访问全局访问表了。</p>
+<h3 id="2-what-is-gmon-start"><a href="#2-what-is-gmon-start" class="headerlink" title="2. what is __gmon__start?"></a>2. what is __gmon__start?</h3><p>如果<code>__gmon_start</code>是空的，我们将跳过它，否则就用它来设置profiling。</p>
+<p>该函数调用开始profiling，并且调用<code>at_exit</code>去调用另一个程序运行，并且在运行结束的时候生成gmon.out</p>
+<h3 id="3-what-is-frame-dummy"><a href="#3-what-is-frame-dummy" class="headerlink" title="3. what is frame_dummy?"></a>3. what is frame_dummy?</h3><p>接下来我们将调用<code>frame_dummy</code>。这样做主要是为了调用<code>__register_fram_info</code>，但是这个被调用主要是为了设置参数。</p>
+<p>这样设置的目的主要是为了在出错时设置unwinding stack frames。</p>
+<h3 id="4-what-is-do-global-ctors-aux"><a href="#4-what-is-do-global-ctors-aux" class="headerlink" title="4. what is__do_global_ctors_aux?"></a>4. what is__do_global_ctors_aux?</h3><p>我们终于看到了__do_global_ctors_aux函数。如果在main函数开始前就发生了错误，我们就得看这个函数了。</p>
+<p>当然，这里面有全局C++对象的构造函数。</p>
+<p><strong>举个例子</strong></p>
+<p>写个prog。<code>__attribute__((constructor))</code>告诉gcc，链接器应该在<code>__do_global_ctors_aux</code>使用的表里创建一个指针指向这里。</p>
+<blockquote>
+<p><code>__attribute__((constructor))</code>就是先在主函数执行前，执行构造函数。</p>
+<p><code>__FUNCTION__</code>是函数的名字。</p>
+</blockquote>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//prog.c</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> __attribute__ ((constructor)) a_constructor() &#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%s\n"</span>, __FUNCTION__);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span></span><br><span class="line">main()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%s\n"</span>,__FUNCTION__);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>执行结果如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">~&#x2F;Desktop&#x2F;main                                                                 </span><br><span class="line">▶ .&#x2F;prog</span><br><span class="line">a_constructor</span><br><span class="line">main</span><br></pre></td></tr></table></figure>
+<p>反汇编一下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">08048290 &lt;_init&gt;:</span><br><span class="line"> 8048290:       55                      push   %ebp</span><br><span class="line"> 8048291:       89 e5                   mov    %esp,%ebp</span><br><span class="line"> 8048293:       53                      push   %ebx</span><br><span class="line"> 8048294:       83 ec 04                sub    $0x4,%esp</span><br><span class="line"> 8048297:       e8 00 00 00 00          call   804829c &lt;_init+0xc&gt;</span><br><span class="line"> 804829c:       5b                      pop    %ebx</span><br><span class="line"> 804829d:       81 c3 58 1d 00 00       add    $0x1d58,%ebx</span><br><span class="line"> 80482a3:       8b 93 fc ff ff ff       mov    -0x4(%ebx),%edx</span><br><span class="line"> 80482a9:       85 d2                   test   %edx,%edx</span><br><span class="line"> 80482ab:       74 05                   je     80482b2 &lt;_init+0x22&gt;</span><br><span class="line"> 80482ad:       e8 1e 00 00 00          call   80482d0 &lt;__gmon_start__@plt&gt;</span><br><span class="line"> 80482b2:       e8 d9 00 00 00          call   8048390 &lt;frame_dummy&gt;</span><br><span class="line"> 80482b7:       e8 94 01 00 00          call   8048450 &lt;__do_global_ctors_aux&gt;</span><br><span class="line"> 80482bc:       58                      pop    %eax</span><br><span class="line"> 80482bd:       5b                      pop    %ebx</span><br><span class="line"> 80482be:       c9                      leave</span><br><span class="line"> 80482bf:       c3                      ret</span><br></pre></td></tr></table></figure>
+<p><strong>函数调用的源代码</strong></p>
+<p>它位于GCC源码中的gcc/crtstuff.c里</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">__do_global_ctors_aux (<span class="keyword">void</span>)</span><br><span class="line">&#123;</span><br><span class="line">  func_ptr *p;</span><br><span class="line">  <span class="keyword">for</span> (p = __CTOR_END__ - <span class="number">1</span>; *p != (func_ptr) <span class="number">-1</span>; p--)</span><br><span class="line">    (*p) ();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>分析一下这个函数</p>
+<p>先初始化了一个指针，p的值被初始化成<code>__CTOR_END__</code>-1。也就是指针向上移动一个指针或4个字节。</p>
+<p>直到指针的值不等于-1，否则就每次调用这个函数，并使指针上移。</p>
+<p>很明显，我们可以看到指针数组里面起始应该是[-1,xxx,xxx,xxx,…]xxx为函数指针</p>
+<p><strong>汇编</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">08048450 &lt;__do_global_ctors_aux&gt;:</span><br><span class="line"> 8048450:       55                      push   %ebp</span><br><span class="line"> 8048451:       89 e5                   mov    %esp,%ebp</span><br><span class="line"> 8048453:       53                      push   %ebx</span><br><span class="line"> 8048454:       83 ec 04                sub    $0x4,%esp</span><br><span class="line"> 8048457:       a1 14 9f 04 08          mov    0x8049f14,%eax</span><br><span class="line"> 804845c:       83 f8 ff                cmp    $0xffffffff,%eax</span><br><span class="line"> 804845f:       74 13                   je     8048474 &lt;__do_global_ctors_aux+0x24&gt;</span><br><span class="line"> 8048461:       bb 14 9f 04 08          mov    $0x8049f14,%ebx</span><br><span class="line"> 8048466:       66 90                   xchg   %ax,%ax</span><br><span class="line"> 8048468:       83 eb 04                sub    $0x4,%ebx</span><br><span class="line"> 804846b:       ff d0                   call   *%eax</span><br><span class="line"> 804846d:       8b 03                   mov    (%ebx),%eax</span><br><span class="line"> 804846f:       83 f8 ff                cmp    $0xffffffff,%eax</span><br><span class="line"> 8048472:       75 f4                   jne    8048468 &lt;__do_global_ctors_aux+0x18&gt;</span><br><span class="line"> 8048474:       83 c4 04                add    $0x4,%esp</span><br><span class="line"> 8048477:       5b                      pop    %ebx</span><br><span class="line"> 8048478:       5d                      pop    %ebp</span><br><span class="line"> 8048479:       c3                      ret</span><br></pre></td></tr></table></figure>
+<p>分析一下</p>
+<ol>
+<li>先初始化栈，然后压入ebx。虽然我们可以看到在栈上开辟了变量空间，但我们并未使用过它。我们将p保存到了ebx中，*p保存到了eax中。</li>
+<li>之后按照我们理解就是给p赋值，但这里编译器做了一些优化。编译器直接将<em>(__CTOR_END__-1)赋值给了eax,也就是0x8049f14。<em>*这里还要注意一下$后面跟数字才是立即数，而不带$，直接写数字意思是这个地址指向的内容</em></em>。</li>
+<li>上面那段话其实就是间接寻址。就是将那个地址里面的内容放入eax中，然后和-比较，相等就跳转，否则进入循环。</li>
+<li>接下来，我们将立即数0x8049f14放入了ebx中，然后执行了<code>xchg   %ax,%ax</code>，这句话就是一个空指令，相当于是NOP。好处：在这种情况下，使循环开始于<code>8048468</code>，而不是<code>8048466</code>。这么做的好处是使循环开始的地方以4字节对齐，这样整个循环将会极大可能的被保存到一个cache line里，而不会被分成两段，从而起到加速执行的作用。</li>
+<li>然后就是进行循环了，ebx减4，调用eax里保存的地址的函数，然后和-1进行比较，继续循环。</li>
+<li>最后就是执行完毕，返回<code>_init</code>，最后返回到<code>__libc_csu_init</code>中</li>
+</ol>
+<h2 id="0x08-Back-up-to-libc-csu-init"><a href="#0x08-Back-up-to-libc-csu-init" class="headerlink" title="0x08 Back up to __libc_csu_init__"></a>0x08 Back up to <strong>__libc_csu_init__</strong></h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span></span><br><span class="line">__libc_csu_init (<span class="keyword">int</span> argc, <span class="keyword">char</span> **argv, <span class="keyword">char</span> **envp)</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">  _init ();</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> <span class="keyword">size_t</span> <span class="built_in">size</span> = __init_array_end - __init_array_start;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">size_t</span> i = <span class="number">0</span>; i &lt; <span class="built_in">size</span>; i++)</span><br><span class="line">      (*__init_array_start [i]) (argc, argv, envp);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>刚刚我们已经看到了__init里面的内容，但下面这个数组是干什么的呢？</p>
+<p>这里借用别人翻译的：</p>
+<p>这时刚刚从运行我们自定义的构造函数的<code>_init</code>函数返回，这意味着，在这个数组里面的内容将会在构造函数完成之后运行。你能通过某种方式告诉编译器你想在这个阶段运行某个你自定义的函数。这个函数也会收到和main函数相同的参数。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">init</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> **argv, <span class="keyword">char</span> **envp)</span> </span>&#123;</span><br><span class="line"> <span class="built_in">printf</span>(<span class="string">"%s\n"</span>, __FUNCTION__);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">__attribute__((section(<span class="string">".init_array"</span>))) typeof(init) *__init = init;</span><br></pre></td></tr></table></figure>
+<h2 id="0x09-At-the-end"><a href="#0x09-At-the-end" class="headerlink" title="0x09 At the end"></a>0x09 At the end</h2><p>当<code>__libc_csu_init</code>函数运行结束后，就返回了<code>__libc_start_main</code>。</p>
+<p>这个函数调用了我们的main函数，然后将main函数的返回值传递给了exit函数。</p>
+<p>最后exit函数运行按照注册顺序依次运行了在at_exit()中注册的函数。</p>
+<p>然后会运行另外一个循环，这次的循环是在<code>__fini_</code>数组中定义的。在运行完这些函数之后，就会调用析构函数。</p>
+<h2 id="0x10-Summary"><a href="#0x10-Summary" class="headerlink" title="0x10 Summary"></a>0x10 Summary</h2><p>作者给了一个很好的例子</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//hook.c</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">preinit</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> **argv, <span class="keyword">char</span> **envp)</span> </span>&#123;</span><br><span class="line"> <span class="built_in">printf</span>(<span class="string">"%s\n"</span>, __FUNCTION__);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">init</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> **argv, <span class="keyword">char</span> **envp)</span> </span>&#123;</span><br><span class="line"> <span class="built_in">printf</span>(<span class="string">"%s\n"</span>, __FUNCTION__);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">fini</span><span class="params">()</span> </span>&#123;</span><br><span class="line"> <span class="built_in">printf</span>(<span class="string">"%s\n"</span>, __FUNCTION__);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">__attribute__((section(<span class="string">".init_array"</span>))) typeof(init) *__init = init;</span><br><span class="line">__attribute__((section(<span class="string">".preinit_array"</span>))) typeof(preinit) *__preinit = preinit;</span><br><span class="line">__attribute__((section(<span class="string">".fini_array"</span>))) typeof(fini) *__fini = fini;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span>  __attribute__ ((constructor)) constructor() &#123;</span><br><span class="line"> <span class="built_in">printf</span>(<span class="string">"%s\n"</span>, __FUNCTION__);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> __attribute__ ((destructor)) destructor() &#123;</span><br><span class="line"> <span class="built_in">printf</span>(<span class="string">"%s\n"</span>, __FUNCTION__);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">my_atexit</span><span class="params">()</span> </span>&#123;</span><br><span class="line"> <span class="built_in">printf</span>(<span class="string">"%s\n"</span>, __FUNCTION__);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">my_atexit2</span><span class="params">()</span> </span>&#123;</span><br><span class="line"> <span class="built_in">printf</span>(<span class="string">"%s\n"</span>, __FUNCTION__);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line"> atexit(my_atexit);</span><br><span class="line"> atexit(my_atexit2);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">▶ ./hook </span></span><br><span class="line"><span class="comment">preinit</span></span><br><span class="line"><span class="comment">init</span></span><br><span class="line"><span class="comment">constructor</span></span><br><span class="line"><span class="comment">my_atexit2</span></span><br><span class="line"><span class="comment">my_atexit</span></span><br><span class="line"><span class="comment">destructor</span></span><br><span class="line"><span class="comment">fini</span></span><br><span class="line"><span class="comment">**/</span></span><br></pre></td></tr></table></figure>
+<p>上面这个执行顺序也让我们理清了思路</p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="http://dbp-consulting.com/tutorials/debugging/linuxProgramStartup.html" target="_blank" rel="noopener">Linux x86 Program Start Up (dbp-consulting.com)</a></p>
+<p><a href="https://blog.csdn.net/luomuxiaoxiao98/article/details/84955700" target="_blank" rel="noopener">Linux X86 程序启动 – main函数是如何被执行的？_luomuxiaoxiao98的专栏-CSDN博客</a></p>
+
+      </div>
+      <div class="post-copyright">
+    <p class="copyright-item">
+      <span>Author: </span>
+      <a href="https://pz1o.top">pz1o</a>
+    </p>
+    <p class="copyright-item">
+      <span>Link: </span>
+      <a href="https://pz1o.top/2021/06/02/Linux-x86-Program/">https://pz1o.top/2021/06/02/Linux-x86-Program/</a>
+    </p>
+    <p class="copyright-item">
+      <span>License: </span><a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>
+    </p>
+  </div>
+      <footer class="post-footer">
+        <div class="post-tags">
+            <a href="/tags/Linux/">Linux</a>
+            </div>
+        
+        <nav class="post-nav"><a class="prev" href="/2021/06/03/file-system/">
+        <i class="iconfont icon-left"></i>
+        <span class="prev-text nav-default">file system</span>
+        <span class="prev-text nav-mobile">Prev</span>
+      </a>
+    <a class="next" href="/2021/06/02/%E9%9D%A2%E8%AF%95/">
+        <span class="next-text nav-default">面试</span>
+        <span class="prev-text nav-mobile">Next</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    </nav></footer>
+    </article></div><div class="comments" id="comments"></div></div>
+      </main>
+
+      <footer id="footer" class="footer"><div class="social-links"><a href="mailto:pz1olzy@aliyun.com" class="iconfont icon-email" title="email"></a>
+        <a href="https://github.com/pz1o" target="_blank" rel="noopener" class="iconfont icon-github" title="github"></a>
+        <a href="/atom.xml" class="iconfont icon-rss" title="rss"></a>
+    </div><div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/ahonn/hexo-theme-even" target="_blank" rel="noopener">Even</a>
+  </span>
+
+  <span class="copyright-year">&copy;2020 - 2021<span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">pz1o</span>
+  </span>
+</div>
+</footer>
+
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
+    </div><!-- SOHUCS Comments -->
+<div id="SOHUCS"></div>
+<script type="text/javascript">
+(function(){
+var appid = 'cyvuAqBH5';
+var conf = 'f4f164c77381c58d639d8e00e69da6e7';
+var width = window.innerWidth || document.documentElement.clientWidth;
+if (width < 960) {window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); } })();
+</script><script type="text/javascript" src="/lib/jquery/jquery.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout.js"></script>
+  <script type="text/javascript" src="/lib/fancybox/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/src/even.js?v=2.11.0"></script>
 </body>
 </html>

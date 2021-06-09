@@ -70,8 +70,11 @@
 </div>
 
 <nav id="mobile-menu" class="mobile-menu slideout-menu">
-  <ul class="mobile-menu-list"><a href="/archives/">
+  <ul class="mobile-menu-list"><a href="/">
         <li class="mobile-menu-item">Home
+          </li>
+      </a><a href="/archives/">
+        <li class="mobile-menu-item">Archives
           </li>
       </a><a href="/tags/">
         <li class="mobile-menu-item">Tags
@@ -87,8 +90,13 @@
 </div>
 
 <nav class="site-navbar"><ul id="menu" class="menu"><li class="menu-item">
-          <a class="menu-item-link" href="/archives/">
+          <a class="menu-item-link" href="/">
             Home
+            </a>
+        </li>
+      <li class="menu-item">
+          <a class="menu-item-link" href="/archives/">
+            Archives
             </a>
         </li>
       <li class="menu-item">
@@ -128,6 +136,7 @@
       <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#0x01-glibc内存管理"><span class="toc-text">0x01 glibc内存管理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-ptmalloc内存管理"><span class="toc-text">1. ptmalloc内存管理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#概述"><span class="toc-text">概述</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x02-first-fit"><span class="toc-text">0x02 first-fit</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x03-fastbin-dup"><span class="toc-text">0x03 fastbin_dup</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x04-fastbin-dup-consolidate"><span class="toc-text">0x04 fastbin_dup_consolidate</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x05-fastbin-dup-into-stack"><span class="toc-text">0x05 fastbin_dup_into_stack</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x06-unsafe-unlink"><span class="toc-text">0x06 unsafe_unlink</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x07-overlapping-chunk"><span class="toc-text">0x07 overlapping_chunk</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x08-overlapping-chunks-2"><span class="toc-text">0x08 overlapping_chunks_2</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x09-unsorted-bin-attack"><span class="toc-text">0x09 unsorted bin attack</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x10-unsorted-bin-into-stack"><span class="toc-text">0x10 unsorted bin into stack</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x11-poison-null-bytes"><span class="toc-text">0x11 poison null bytes</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x12-house-of-einherjar"><span class="toc-text">0x12 house of einherjar</span></a></li></ol>
     </div>
   </div><div class="post-content"><p>回档到堆</p>
+<a id="more"></a>
 <p><a href="https://lorexxar.cn/2021/05/19/lifesuibi/#写在最后" target="_blank" rel="noopener">创宇四年 · LoRexxar’s Blog</a></p>
 <h1 id="0x01-glibc内存管理"><a href="#0x01-glibc内存管理" class="headerlink" title="0x01 glibc内存管理"></a>0x01 glibc内存管理</h1><h2 id="1-ptmalloc内存管理"><a href="#1-ptmalloc内存管理" class="headerlink" title="1. ptmalloc内存管理"></a>1. ptmalloc内存管理</h2><h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><p>每个进程只有一个主分配区，但可能存在多个非主分配区</p>
 <h1 id="0x02-first-fit"><a href="#0x02-first-fit" class="headerlink" title="0x02 first-fit"></a>0x02 first-fit</h1><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">char</span>* a = <span class="built_in">malloc</span>(<span class="number">0x512</span>);</span><br><span class="line">	<span class="keyword">char</span>* b = <span class="built_in">malloc</span>(<span class="number">0x256</span>);</span><br><span class="line">	<span class="keyword">char</span>* c;</span><br><span class="line">	<span class="built_in">free</span>(a);</span><br><span class="line">	c = <span class="built_in">malloc</span>(<span class="number">0x500</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>

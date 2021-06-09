@@ -70,8 +70,11 @@
 </div>
 
 <nav id="mobile-menu" class="mobile-menu slideout-menu">
-  <ul class="mobile-menu-list"><a href="/archives/">
+  <ul class="mobile-menu-list"><a href="/">
         <li class="mobile-menu-item">Home
+          </li>
+      </a><a href="/archives/">
+        <li class="mobile-menu-item">Archives
           </li>
       </a><a href="/tags/">
         <li class="mobile-menu-item">Tags
@@ -87,8 +90,13 @@
 </div>
 
 <nav class="site-navbar"><ul id="menu" class="menu"><li class="menu-item">
-          <a class="menu-item-link" href="/archives/">
+          <a class="menu-item-link" href="/">
             Home
+            </a>
+        </li>
+      <li class="menu-item">
+          <a class="menu-item-link" href="/archives/">
+            Archives
             </a>
         </li>
       <li class="menu-item">
@@ -128,6 +136,7 @@
       <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#0x01-ARM环境搭建"><span class="toc-text">0x01 ARM环境搭建</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x02-ARM基础知识"><span class="toc-text">0x02 ARM基础知识</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-寄存器"><span class="toc-text">1. 寄存器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-堆栈"><span class="toc-text">2. 堆栈</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-传参"><span class="toc-text">3. 传参</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-返回值"><span class="toc-text">4. 返回值</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-访址"><span class="toc-text">5. 访址</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-汇编基础知识"><span class="toc-text">6. 汇编基础知识</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#跳转指令"><span class="toc-text">跳转指令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数据传送指令"><span class="toc-text">数据传送指令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#程序状态寄存器处理指令"><span class="toc-text">程序状态寄存器处理指令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#加载存储指令"><span class="toc-text">加载存储指令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#协处理器指令"><span class="toc-text">协处理器指令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#异常产生指令"><span class="toc-text">异常产生指令</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-AArch64架构"><span class="toc-text">7. AArch64架构</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x03-例题"><span class="toc-text">0x03 例题</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Jarvis-Typo"><span class="toc-text">Jarvis-Typo</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2018上海市baby-arm"><span class="toc-text">2018上海市baby_arm</span></a></li></ol></li></ol>
     </div>
   </div><div class="post-content"><h1 id="0x01-ARM环境搭建"><a href="#0x01-ARM环境搭建" class="headerlink" title="0x01 ARM环境搭建"></a>0x01 ARM环境搭建</h1><p>安装qemu和arm的一些包</p>
+<a id="more"></a>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install qemu-user</span><br><span class="line">sudo apt-get install qemu-system qemu-user-static binfmt-support</span><br><span class="line"></span><br><span class="line">sudo apt-get install -y gcc-arm-linux-gnueabi</span><br><span class="line">sudo apt-get install qemu libncurses5-dev gcc-arm-linux-gnueabi build-essential gdb-arm-none-eabi synaptic gcc-aarch64-linux-gnu eclipse-cdt git</span><br><span class="line">sudo apt-get install libc6-arm64-cross libc6-armel-cross libc6-armhf-cross libc6-mips-cross libc6-mips32-mips64-cross libc6-mips32-mips64el-cross libc6-mips64-cross libc6-mips64-mips-cross libc6-mips64-mipsel-cross libc6-mips64el-cross libc6-mipsel-cross libc6-mipsn32-mips-cross libc6-mipsn32-mips64-cross libc6-mipsn32-mips64el-cross libc6-mipsn32-mipsel-cross</span><br><span class="line"></span><br><span class="line">apt search binutils | grep [arch]</span><br></pre></td></tr></table></figure>
 <p>寻找相关的链接库</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt search &quot;libc6-&quot; | grep &quot;arm&quot;</span><br></pre></td></tr></table></figure>

@@ -70,8 +70,11 @@
 </div>
 
 <nav id="mobile-menu" class="mobile-menu slideout-menu">
-  <ul class="mobile-menu-list"><a href="/archives/">
+  <ul class="mobile-menu-list"><a href="/">
         <li class="mobile-menu-item">Home
+          </li>
+      </a><a href="/archives/">
+        <li class="mobile-menu-item">Archives
           </li>
       </a><a href="/tags/">
         <li class="mobile-menu-item">Tags
@@ -87,8 +90,13 @@
 </div>
 
 <nav class="site-navbar"><ul id="menu" class="menu"><li class="menu-item">
-          <a class="menu-item-link" href="/archives/">
+          <a class="menu-item-link" href="/">
             Home
+            </a>
+        </li>
+      <li class="menu-item">
+          <a class="menu-item-link" href="/archives/">
+            Archives
             </a>
         </li>
       <li class="menu-item">
@@ -128,6 +136,7 @@
       <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#0x01-变量"><span class="toc-text">0x01 变量</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-变量类型"><span class="toc-text">1. 变量类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-字符串"><span class="toc-text">2. 字符串</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-数组"><span class="toc-text">3. 数组</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x02-传递参数"><span class="toc-text">0x02 传递参数</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x03-运算符"><span class="toc-text">0x03 运算符</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-关系运算符"><span class="toc-text">1. 关系运算符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-布尔运算符"><span class="toc-text">2. 布尔运算符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-字符串运算符"><span class="toc-text">3. 字符串运算符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-文件测试运算符"><span class="toc-text">4. 文件测试运算符</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x04-echo"><span class="toc-text">0x04 echo</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x05-printf"><span class="toc-text">0x05 printf</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x06-流程控制"><span class="toc-text">0x06 流程控制</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x07-函数"><span class="toc-text">0x07 函数</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x08-文件包含"><span class="toc-text">0x08 文件包含</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x09-A-demo"><span class="toc-text">0x09 A demo</span></a></li></ol>
     </div>
   </div><div class="post-content"><p>shell是个好东西</p>
+<a id="more"></a>
 <p>多学多用</p>
 <h1 id="0x01-变量"><a href="#0x01-变量" class="headerlink" title="0x01 变量"></a>0x01 变量</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/sh</span></span><br><span class="line"><span class="comment">#变量命名</span></span><br><span class="line">your_name=pz1o</span><br><span class="line"><span class="comment">#使用变量</span></span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$&#123;your_name&#125;</span></span><br><span class="line"><span class="comment">#只读变量</span></span><br><span class="line"><span class="built_in">readonly</span> your_name</span><br><span class="line"><span class="comment">#删除变量</span></span><br><span class="line"><span class="built_in">unset</span> your_name</span><br></pre></td></tr></table></figure>
 <h2 id="1-变量类型"><a href="#1-变量类型" class="headerlink" title="1. 变量类型"></a>1. 变量类型</h2><ul>

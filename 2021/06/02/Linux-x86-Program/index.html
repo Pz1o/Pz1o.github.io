@@ -70,8 +70,11 @@
 </div>
 
 <nav id="mobile-menu" class="mobile-menu slideout-menu">
-  <ul class="mobile-menu-list"><a href="/archives/">
+  <ul class="mobile-menu-list"><a href="/">
         <li class="mobile-menu-item">Home
+          </li>
+      </a><a href="/archives/">
+        <li class="mobile-menu-item">Archives
           </li>
       </a><a href="/tags/">
         <li class="mobile-menu-item">Tags
@@ -87,8 +90,13 @@
 </div>
 
 <nav class="site-navbar"><ul id="menu" class="menu"><li class="menu-item">
-          <a class="menu-item-link" href="/archives/">
+          <a class="menu-item-link" href="/">
             Home
+            </a>
+        </li>
+      <li class="menu-item">
+          <a class="menu-item-link" href="/archives/">
+            Archives
             </a>
         </li>
       <li class="menu-item">
@@ -128,6 +136,7 @@
       <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Linux-x86-Program-Start-Up"><span class="toc-text">Linux x86 Program Start Up</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01-how-did-we-get-to-main"><span class="toc-text">0x01 how did we get to main?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x02-But-first-how-do-we-get-to-start"><span class="toc-text">0x02 But first, how do we get to _start?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x03-Now-set-up-for-calling-libc-start-main"><span class="toc-text">0x03 Now set up for calling __libc_start_main</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x04-Hey-Where’s-the-environment-variables"><span class="toc-text">0x04 Hey! Where’s the environment variables?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x05-libc-start-main-in-general"><span class="toc-text">0x05 __libc_start_main in general</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x06-libc-csu-init-introduction"><span class="toc-text">0x06 __libc_csu_init introduction</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x07-init-gets-the-call"><span class="toc-text">0x07 _init gets the call</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-It-starts-with-the-regular-C-calling-convention"><span class="toc-text">1. It starts with the regular C calling convention</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-what-is-gmon-start"><span class="toc-text">2. what is __gmon__start?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-what-is-frame-dummy"><span class="toc-text">3. what is frame_dummy?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-what-is-do-global-ctors-aux"><span class="toc-text">4. what is__do_global_ctors_aux?</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x08-Back-up-to-libc-csu-init"><span class="toc-text">0x08 Back up to __libc_csu_init__</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x09-At-the-end"><span class="toc-text">0x09 At the end</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x10-Summary"><span class="toc-text">0x10 Summary</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#参考"><span class="toc-text">参考</span></a></li></ol>
     </div>
   </div><div class="post-content"><h1 id="Linux-x86-Program-Start-Up"><a href="#Linux-x86-Program-Start-Up" class="headerlink" title="Linux x86 Program Start Up"></a>Linux x86 Program Start Up</h1><p>我们只关注x86的程序</p>
+<a id="more"></a>
 <p><img src="/2021/06/02/Linux-x86-Program/callgraph.png" alt="image of the callgraph for all the routines involved in program startup on linux"></p>
 <h2 id="0x01-how-did-we-get-to-main"><a href="#0x01-how-did-we-get-to-main" class="headerlink" title="0x01 how did we get to main?"></a>0x01 how did we get to main?</h2><p>我们可以先写一个空主函数，看一下其中的汇编。</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">gcc -g main.c -m32 -o main</span><br><span class="line">objdump -d main -M intel &gt; main.dump</span><br></pre></td></tr></table></figure>

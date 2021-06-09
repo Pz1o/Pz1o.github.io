@@ -135,7 +135,8 @@
     <div class="post-toc-content">
       <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#0x01-sbrk和brk函数原型"><span class="toc-text">0x01 sbrk和brk函数原型</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x02-演示"><span class="toc-text">0x02 演示</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x03-堆管理"><span class="toc-text">0x03 堆管理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-malloc小于128k"><span class="toc-text">1. malloc小于128k</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-malloc大于128k"><span class="toc-text">2. malloc大于128k</span></a></li></ol></li></ol>
     </div>
-  </div><div class="post-content"><h1 id="0x01-sbrk和brk函数原型"><a href="#0x01-sbrk和brk函数原型" class="headerlink" title="0x01 sbrk和brk函数原型"></a>0x01 sbrk和brk函数原型</h1><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">brk</span><span class="params">(<span class="keyword">void</span> *addr)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> *<span class="title">sbrk</span><span class="params">(<span class="keyword">intptr_t</span> increment)</span></span>;</span><br></pre></td></tr></table></figure>
+  </div><div class="post-content"><h1 id="0x01-sbrk和brk函数原型"><a href="#0x01-sbrk和brk函数原型" class="headerlink" title="0x01 sbrk和brk函数原型"></a>0x01 sbrk和brk函数原型</h1><a id="more"></a>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">brk</span><span class="params">(<span class="keyword">void</span> *addr)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> *<span class="title">sbrk</span><span class="params">(<span class="keyword">intptr_t</span> increment)</span></span>;</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>description:        </p>
 <p>brk() and sbrk() change the location of the program break, which defines the end of the process’s data segment (i.e., the program break is the first location after the end of the uninitialized data segment).  Increasing the program break has the effect of allocating memory to the process; decreasing the break deallocates memory.</p>
@@ -214,7 +215,12 @@
       </main>
 
       <footer id="footer" class="footer"><div class="social-links"><a href="mailto:pz1olzy@aliyun.com" class="iconfont icon-email" title="email"></a>
+        <a href="https://stackoverflow.com" target="_blank" rel="noopener" class="iconfont icon-stack-overflow" title="stack-overflow"></a>
+        <a href="https://twitter.com" target="_blank" rel="noopener" class="iconfont icon-twitter" title="twitter"></a>
+        <a href="https://google.com" target="_blank" rel="noopener" class="iconfont icon-google" title="google"></a>
         <a href="https://github.com/pz1o" target="_blank" rel="noopener" class="iconfont icon-github" title="github"></a>
+        <a href="https://zhihu.com" target="_blank" rel="noopener" class="iconfont icon-zhihu" title="zhihu"></a>
+        <a href="https://douban.com" target="_blank" rel="noopener" class="iconfont icon-douban" title="douban"></a>
         <a href="/atom.xml" class="iconfont icon-rss" title="rss"></a>
     </div><div class="copyright">
   <span class="power-by">

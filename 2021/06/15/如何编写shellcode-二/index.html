@@ -14,7 +14,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 <meta name="description" content="如何编写shellcode(二)"/><meta name="keywords" content="CTF" /><link rel="alternate" href="/atom.xml" title="M1key"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.11.0" />
-<link rel="canonical" href="https://pz1o.top/2021/06/15/如何编写shellcode-二/"/>
+<link rel="canonical" href="https://m1key.xyz/2021/06/15/如何编写shellcode-二/"/>
 
 <link rel="stylesheet" type="text/css" href="/lib/fancybox/jquery.fancybox.css" /><script type="text/x-mathjax-config">
     MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] } });
@@ -133,22 +133,18 @@
     <div class="post-toc" id="post-toc">
     <h2 class="post-toc-title">Contents</h2>
     <div class="post-toc-content">
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#如何编写shellcode"><span class="toc-text">如何编写shellcode</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#参考"><span class="toc-text">参考</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#encrypt-message"><span class="toc-text">Please enter the password to read the blog.</span></a></li></ol>
     </div>
-  </div><div class="post-content"><h1 id="如何编写shellcode"><a href="#如何编写shellcode" class="headerlink" title="如何编写shellcode"></a>如何编写shellcode</h1><p>上一篇感觉讲的太浅了，这回找几个大型比赛例题来讲。</p>
-<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="https://xz.aliyun.com/t/2052" target="_blank" rel="noopener">Linux下shellcode的编写 - 先知社区 (aliyun.com)</a></p>
-<p><a href="https://xz.aliyun.com/t/5662" target="_blank" rel="noopener">生成可打印的shellcode - 先知社区 (aliyun.com)</a></p>
-<p><a href="https://xz.aliyun.com/t/6645" target="_blank" rel="noopener">shellcode 的艺术 - 先知社区 (aliyun.com)</a></p>
-
+  </div><div class="post-content"><script src="/crypto-js.js"></script><script src="/mcommon.js"></script><h3 id="encrypt-message">Please enter the password to read the blog.</h3><link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css"> <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap-theme.min.css"> <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script> <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script> <div id="security"> <div> <div class="input-group"> <input type="text" class="form-control" aria-label="Enter the password." id="pass"/> <div class="input-group-btn"> <button type="button" class="btn btn-default" onclick="decryptAES()">Decrypt</button> </div> </div> </div> </div> <div id="encrypt-blog" style="display:none"> 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 </div>
       </div>
       <div class="post-copyright">
     <p class="copyright-item">
       <span>Author: </span>
-      <a href="https://pz1o.top">M1key</a>
+      <a href="https://m1key.xyz">M1key</a>
     </p>
     <p class="copyright-item">
       <span>Link: </span>
-      <a href="https://pz1o.top/2021/06/15/%E5%A6%82%E4%BD%95%E7%BC%96%E5%86%99shellcode-%E4%BA%8C/">https://pz1o.top/2021/06/15/%E5%A6%82%E4%BD%95%E7%BC%96%E5%86%99shellcode-%E4%BA%8C/</a>
+      <a href="https://m1key.xyz/2021/06/15/%E5%A6%82%E4%BD%95%E7%BC%96%E5%86%99shellcode-%E4%BA%8C/">https://m1key.xyz/2021/06/15/%E5%A6%82%E4%BD%95%E7%BC%96%E5%86%99shellcode-%E4%BA%8C/</a>
     </p>
     <p class="copyright-item">
       <span>License: </span><a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>
